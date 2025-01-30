@@ -20,7 +20,7 @@ import {
   ActivitySquare,
   Stethoscope,
   Bot,
-  Handshake ,
+  Handshake,
   ChevronRight,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -38,36 +38,36 @@ const specializations = [
 ];
 
 const doctors = [
-{
-  id: 1,
-  name: "Dr. Vipasha",
-  specialization: "Gynecology",
-  rating: 4.8,
-  reviewCount: 124,
-  availableDate: "2024-02-15",
-  price: 150,
-  image: "/public/images/women.jpeg",
-},
-{
-  id: 2,
-  name: "Dr. Chhavi ",
-  specialization: "Obstetrics",
-  rating: 4.9,
-  reviewCount: 98,
-  availableDate: "2025-02-16",
-  price: 180,
-  image: "/public/images/women.jpeg",
-},
-{
-  id: 3,
-  name: "Dr. Nandini",
-  specialization: "Reproductive Endocrinology",
-  rating: 4.7,
-  reviewCount: 86,
-  availableDate: "2025-02-17",
-  price: 200,
-  image: "/public/images/women.jpeg",
-},
+  {
+    id: 1,
+    name: "Dr. Vipasha",
+    specialization: "Gynecology",
+    rating: 4.8,
+    reviewCount: 124,
+    availableDate: "2024-02-15",
+    price: 150,
+    image: "/public/images/women.jpeg",
+  },
+  {
+    id: 2,
+    name: "Dr. Chhavi ",
+    specialization: "Obstetrics",
+    rating: 4.9,
+    reviewCount: 98,
+    availableDate: "2025-02-16",
+    price: 180,
+    image: "/public/images/women.jpeg",
+  },
+  {
+    id: 3,
+    name: "Dr. Nandini",
+    specialization: "Reproductive Endocrinology",
+    rating: 4.7,
+    reviewCount: 86,
+    availableDate: "2025-02-17",
+    price: 200,
+    image: "/public/images/women.jpeg",
+  },
   {
     id: 4,
     name: "Dr. Anjali Mehta",
@@ -158,7 +158,6 @@ const doctors = [
     price: 180,
     image: "/public/images/women.jpeg",
   },
-    
 ];
 
 export function Consultations() {
@@ -252,12 +251,17 @@ export function Consultations() {
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
-            onClick={() => navigate("/")}
+            onClick={() => window.open("https://padforward.us/", "_blank")}
           />
           <SidebarLink
-            icon={<Handshake  size={20} />}
+            icon={<Handshake size={20} />}
             label="NGO's"
-            onClick={() => navigate("/")}
+            onClick={() =>
+              window.open(
+                "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
+                "_blank"
+              )
+            }
           />
         </div>
       </aside>

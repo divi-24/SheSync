@@ -11,7 +11,7 @@ import {
   Coffee,
   Zap,
   Moon,
-  Handshake ,
+  Handshake,
   ChevronDown,
   ChevronUp,
   Heart,
@@ -44,7 +44,14 @@ import { Quiz } from "./Quiz";
 const blogPosts = [
   {
     id: 1,
-    title: "Understanding Your Menstrual Cycle",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/7HlHGLr1hTA?si=mP2SIqz85Emga8od"
+      >
+        "Understanding Your Menstrual Cycle"
+      </a>
+    ),
     excerpt:
       "Learn about the phases of your menstrual cycle and how they affect your body.",
     author: "Dr. Janvi Gupta",
@@ -57,7 +64,14 @@ const blogPosts = [
   },
   {
     id: 2,
-    title: "How long does the menstrual cycle and period last?",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/kQyByK9XaQg?si=fz0az0Hz4fizD3_B"
+      >
+        "How long does the menstrual cycle and period last?"
+      </a>
+    ),
     excerpt:
       "Discover the best foods to eat during your menstrual cycle for optimal health.",
     author: "Nutritionist Sachin Rai",
@@ -70,7 +84,14 @@ const blogPosts = [
   },
   {
     id: 3,
-    title: "What are the signs that my period is coming?",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/kQyByK9XaQg?si=fz0az0Hz4fizD3_B"
+      >
+        "What are the signs that my period is coming?"
+      </a>
+    ),
     excerpt:
       "Explore natural remedies and lifestyle changes to alleviate PMS symptoms.",
     author: "Holistic Health Coach Namita Arora",
@@ -80,10 +101,18 @@ const blogPosts = [
     category: "Wellness",
     content:
       "If you’ve never had a period before, there are some signs which might indicate your period is coming and they’re all natural parts of growing up. If you’ve noticed your boobs are beginning to develop, and you’ve started to grow pubic hair, then you could expect to get your period about two years later. A more immediate sign for some people is if you notice discharge in your pants. Discharge is a white or yellowish fluid which usually shows up a few months before your first period. There are lots of other signs your period is coming and these can be both physical and emotional. We call these signs PMS (premenstrual syndrome). Not everyone gets PMS and we all experience it differently. It usually happens just before and during your period, and it’s basically the reason you might find yourself wanting to eat your body weight in chocolate or burst into tears at the smallest of things…lost sock, bad hair day, burnt toast…trust me, we all have those days! PMS brings with it all kinds of symptoms such as headaches, bloating, cramps, mood swings, feeling tired and having trouble concentrating. We’ve got a great blog all about PMS with top tips on how to help with these symptoms and many more, so go and take a look. It will finally explain some of those weird and wonderful feelings that you never knew were thanks to your bloody brilliant period!",
+    className: "blog-post-3",
   },
   {
     id: 4,
-    title: "Why does the colour vary so much?",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/NM2fnDJf_RA?si=1bfSJA_GNW8LCktL"
+      >
+        "Why does the colour vary so much?"
+      </a>
+    ),
     excerpt:
       "A journey through time exploring the evolution of menstrual products.",
     author: "Historian Dr. Ayesha Khan",
@@ -96,7 +125,14 @@ const blogPosts = [
   },
   {
     id: 5,
-    title: "Pain and WHAT IS NORMAL?",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtube.com/watch?v=5u6Y6ZP2_Wg&t=0&feature=shared"
+      >
+        "Pain and WHAT IS NORMAL?"
+      </a>
+    ),
     excerpt:
       "Learn how to optimize your workouts based on your menstrual cycle phases.",
     author: "Fitness Expert Vaibhavi Jain",
@@ -109,7 +145,14 @@ const blogPosts = [
   },
   {
     id: 6,
-    title: "Hormones and Mental Health",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtube.com/watch?v=5u6Y6ZP2_Wg&feature=shared"
+      >
+        "Hormones and Mental Health"
+      </a>
+    ),
     excerpt:
       "Understand the connection between hormonal changes and mental well-being.",
     author: "Psychologist Dr. Richa Malhotra",
@@ -122,7 +165,14 @@ const blogPosts = [
   },
   {
     id: 7,
-    title: "Menstrual Hygiene Best Practices",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/GVRDGQhoEYQ?si=lCe3rA71seWpGjd_"
+      >
+        "Menstrual Hygiene Best Practices"
+      </a>
+    ),
     excerpt:
       "Essential tips for maintaining proper menstrual hygiene and preventing infections.",
     author: "Gynecologist Dr. Siya Choudhary",
@@ -135,7 +185,14 @@ const blogPosts = [
   },
   {
     id: 8,
-    title: "Hormonal Birth Control Options",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/UBhiwkM8MIY?si=GsACG7mZKkQ2VPYP"
+      >
+        "Hormonal Birth Control Options"
+      </a>
+    ),
     excerpt:
       "An overview of different hormonal contraceptive methods and their effects on your cycle.",
     author: " Dr. Manisha Agarwal ",
@@ -148,7 +205,14 @@ const blogPosts = [
   },
   {
     id: 9,
-    title: "Menstrual Disorders: When to Seek Help",
+    title: (
+      <a
+        className="text-pink-600"
+        href="https://youtu.be/C3ttfI5YxvE?si=1wF58Pj_cmgLXf-7"
+      >
+        "Menstrual Disorders: When to Seek Help"
+      </a>
+    ),
     excerpt:
       "Learn about common menstrual disorders and signs that indicate you should consult a doctor.",
     author: "Obstetrician Dr. Hazel ",
@@ -160,7 +224,6 @@ const blogPosts = [
       "While some variation in menstrual cycles is normal, certain symptoms may indicate a disorder. Heavy bleeding, severe pain, irregular cycles, or bleeding between periods could be signs of conditions like endometriosis, PCOS, or fibroids. If you experience these symptoms, or if your period significantly impacts your daily life, it's important to consult with a healthcare provider for proper diagnosis and treatment.",
   },
 ];
-
 const womenHealthTopics = [
   {
     id: 1,
@@ -349,7 +412,7 @@ export function Blogs() {
             active
           />
           <SidebarLink
-            icon={<Handshake  size={20} />}
+            icon={<Handshake size={20} />}
             label="NGO's"
             onClick={() => navigate("/")}
           />

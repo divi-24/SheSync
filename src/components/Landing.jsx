@@ -121,12 +121,17 @@ export function Landing() {
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
-            onClick={() => navigate("/")}
+            onClick={() => window.open("https://padforward.us/", "_blank")}
           />
           <SidebarLink
-            icon={<Handshake  size={20} />}
+            icon={<Handshake size={20} />}
             label="NGO's"
-            onClick={() => navigate("/")}
+            onClick={() =>
+              window.open(
+                "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
+                "_blank"
+              )
+            }
           />
         </div>
       </aside>
@@ -204,181 +209,166 @@ export function Landing() {
           </Card>
           {/* Features Overview */}
           <Card>
-  <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
-    Comprehensive Health Management
-  </h3>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <LayoutDashboard className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/dashboard")}
-      >
-        Personalized Child Dashboard
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        A space for children to manage their cycles, log symptoms, and access
-        resources designed for their journey.
-      </p>
-    </div>
+            <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
+              Comprehensive Health Management
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <LayoutDashboard className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/dashboard")}
+                >
+                  Personalized Child Dashboard
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  A space for children to manage their cycles, log symptoms, and
+                  access resources designed for their journey.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <GraduationCap className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/blogs")}
-      >
-        Education Hub
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        Learn menstrual health through interactive blogs, modules, and rewards—
-        stigma-free and fun!
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <GraduationCap className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/blogs")}
+                >
+                  Education Hub
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Learn menstrual health through interactive blogs, modules, and
+                  rewards— stigma-free and fun!
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800  rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <ShoppingBag className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/Ecom")}
-      >
-        Curated Shop
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        Discover eco-friendly products and redeem learning points for sustainable
-        choices.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800  rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <ShoppingBag className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/Ecom")}
+                >
+                  Curated Shop
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Discover eco-friendly products and redeem learning points for
+                  sustainable choices.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <ActivitySquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/tracker")}
-      >
-        Health Tracker
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        Log cycles, symptoms, and moods to understand patterns and gain
-        actionable health insights.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <ActivitySquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/tracker")}
+                >
+                  Health Tracker
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Log cycles, symptoms, and moods to understand patterns and
+                  gain actionable health insights.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <Stethoscope className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/consultations")}
-      >
-        Expert Consultations
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        Access trusted health professionals for personalized advice and timely
-        support.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <Stethoscope className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/consultations")}
+                >
+                  Expert Consultations
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Access trusted health professionals for personalized advice
+                  and timely support.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <Bot className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/ChatBot")}
-      >
-        Eve
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        Get AI personalized insights, symptom analysis, and timely reminders
-        tailored to your unique menstrual health needs.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <Bot className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/ChatBot")}
+                >
+                  Eve
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Get AI personalized insights, symptom analysis, and timely
+                  reminders tailored to your unique menstrual health needs.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg  "
-    >
-      <UsersRound className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/")}
-      >
-        Parent Dashboard
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 ">
-        Stay informed with cycle updates, mood tracking, and AI alerts—
-        supporting your child without compromising their privacy.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg  ">
+                <UsersRound className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/")}
+                >
+                  Parent Dashboard
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 ">
+                  Stay informed with cycle updates, mood tracking, and AI
+                  alerts— supporting your child without compromising their
+                  privacy.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <HeartPulse className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/symptomsanalyzer")}
-      >
-        Health Lens
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        An AI-powered tool to analyze symptoms, offer community insights, and
-        provide actionable health advice.
-      </p>
-    </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <HeartPulse className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/symptomsanalyzer")}
+                >
+                  Health Lens
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  An AI-powered tool to analyze symptoms, offer community
+                  insights, and provide actionable health advice.
+                </p>
+              </div>
 
-    <div
-      className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <MessageSquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/forums")}
-      >
-        Forums
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-        A safe, anonymous space for peer support, discussions, and expert Q&A on
-        menstrual health and related topics.
-      </p>
-    </div>
-    <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <Handshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/forums")}
-      >
-        NGO's
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-      Discover and connect with NGOs dedicated to women’s health, empowerment, and well-being. Together, we can build a supportive community for women everywhere.
-      </p>
-    </div> 
-    <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-    >
-      <HeartHandshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
-      <h4
-        className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-        onClick={() => (window.location.href = "/forums")}
-      >
-      ShareJoy
-      </h4>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
-      Make a difference by donating sanitary pads through our curated platform, ensuring access to menstrual hygiene for those in need. Sharing joy starts here!
-      </p>
-    </div>
-  </div>
-</Card>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <MessageSquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/forums")}
+                >
+                  Forums
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  A safe, anonymous space for peer support, discussions, and
+                  expert Q&A on menstrual health and related topics.
+                </p>
+              </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <Handshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/forums")}
+                >
+                  NGO's
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Discover and connect with NGOs dedicated to women’s health,
+                  empowerment, and well-being. Together, we can build a
+                  supportive community for women everywhere.
+                </p>
+              </div>
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <HeartHandshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
+                <h4
+                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
+                  onClick={() => (window.location.href = "/forums")}
+                >
+                  ShareJoy
+                </h4>
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                  Make a difference by donating sanitary pads through our
+                  curated platform, ensuring access to menstrual hygiene for
+                  those in need. Sharing joy starts here!
+                </p>
+              </div>
+            </div>
+          </Card>
           {/* Key Benefits Section */}
           <Card className=" hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500 ">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">

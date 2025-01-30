@@ -15,7 +15,7 @@ import {
   ChevronDown,
   ChevronUp,
   Heart,
-  Handshake ,
+  Handshake,
   Sun,
   LayoutDashboard,
   Home,
@@ -422,13 +422,18 @@ export function PeriodTracker() {
             <SidebarLink
               icon={<HeartHandshake size={20} />}
               label="ShareJoy"
-              onClick={() => navigate("/")}
+              onClick={() => window.open("https://padforward.us/", "_blank")}
             />
             <SidebarLink
-                      icon={<Handshake  size={20} />}
-                      label="NGO's"
-                      onClick={() => navigate("/")}
-                      />
+              icon={<Handshake size={20} />}
+              label="NGO's"
+              onClick={() =>
+                window.open(
+                  "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
+                  "_blank"
+                )
+              }
+            />
           </div>
         </nav>
       </aside>

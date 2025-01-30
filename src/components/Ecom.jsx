@@ -39,7 +39,7 @@ import {
   Calendar,
   Coffee,
   Pill,
-  Handshake ,
+  Handshake,
   Bath,
   Wind,
   ThermometerSun,
@@ -254,7 +254,7 @@ const specialOffers = [
 export function Ecom() {
   // const router = useRouter()
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cartItems, setCartItems] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -384,7 +384,7 @@ export function Ecom() {
 
   return (
     <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-      <aside className="bg-white dark:bg-gray-800 w-64 min-h-screen p-4">
+      <aside className="bg-pink-100 dark:bg-gray-800 w-64 min-h-screen p-4">
         <nav className="mt-8 space-y-4">
           <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 mb-8">
             SheSync
@@ -438,12 +438,17 @@ export function Ecom() {
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
-            onClick={() => navigate("/")}
+            onClick={() => window.open("https://padforward.us/", "_blank")}
           />
           <SidebarLink
-            icon={<Handshake  size={20} />}
+            icon={<Handshake size={20} />}
             label="NGO's"
-            onClick={() => navigate("/")}
+            onClick={() =>
+              window.open(
+                "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
+                "_blank"
+              )
+            }
           />
         </nav>
       </aside>
