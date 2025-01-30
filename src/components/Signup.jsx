@@ -61,7 +61,7 @@ export function Signup() {
 
     try {
       try {
-        const response = await axios.post(`${server_url}signup`, userData);
+        const response = await axios.post(`${server_url}api/user/signup`, userData);
         console.log("Signup successful:", response.data);
         alert("You have signed up successfully");
         navigate("/login");
