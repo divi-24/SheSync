@@ -193,7 +193,7 @@ export function PeriodTracker() {
     try {
       try {
         const response = await axios.post(
-          `${server_url}trackerdata`,
+          `${server_url}api/period/trackerdata`,
           submissionData
         );
         console.log("Data submitted successfully:", response.data);

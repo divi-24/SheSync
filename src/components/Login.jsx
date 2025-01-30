@@ -45,7 +45,7 @@ export function Login() {
 
   async function tryUrl(url, data) {
     try {
-      const response = await axios.post(`${url}login`, data, { timeout: 5000 });
+      const response = await axios.post(`${url}api/user/login`, data, { timeout: 5000 });
       return response;
     } catch (error) {
       if (error.code === "ECONNABORTED" || !error.response) {

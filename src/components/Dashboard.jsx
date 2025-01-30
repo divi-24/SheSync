@@ -102,7 +102,7 @@ export function Dashboard() {
         const controller = new AbortController();
         const id = setTimeout(() => controller.abort(), timeout);
         try {
-          const response = await axios.get(`${url}periodtracking/${userId}`, {
+          const response = await axios.get(`${url}api/period/periodtracking/${userId}`, {
             signal: controller.signal,
           });
           clearTimeout(id);
