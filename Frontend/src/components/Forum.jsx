@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useHref, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   HeartPulse,
@@ -20,6 +20,7 @@ import {
   Filter,
   TrendingUp,
   HeartHandshake,
+  Gamepad2,
   Handshake,
 } from "lucide-react";
 
@@ -58,11 +59,12 @@ export function Forum() {
   };
 
   const forums = [
-    { id: 1, name: "Women's Health", members: 1200, posts: 5600 },
-    { id: 2, name: "Fitness & Nutrition", members: 980, posts: 4200 },
-    { id: 3, name: "Mental Wellness", members: 850, posts: 3800 },
-    { id: 4, name: "Reproductive Health", members: 720, posts: 3100 },
+    { id: 1, name: (<a href="https://samawomenshealth.in/">Women's Health</a>), members: 1200, posts: 5600,},
+    { id: 2, name: (<a href="https://theskillcollective.com/womens-health">Fitness & Nutrition</a>), members: 980, posts: 4200,},
+    { id: 3, name: (<a href="https://www.betterhealth.vic.gov.au/campaigns/womens-sexual-and-reproductive-health">Mental Wellness</a>), members: 850, posts: 3800,},
+    { id: 4, name: (<a href="https://www.meetup.com/find/?source=GROUPS&keywords=Women%27s%20Fitness">Reproductive Health</a>), members: 720, posts: 3100,},
   ];
+
 
   const recentPosts = [
     {
@@ -89,11 +91,11 @@ export function Forum() {
   ];
 
   const trendingTopics = [
-    "Menstrual Cup Usage",
-    "Hormone Balancing Foods",
-    "Endometriosis Awareness",
-    "Fertility Tracking Apps",
-    "Menopause Symptoms",
+    (<a href="https://www.healthline.com/health/womens-health/menstrual-cup">Menstrual Cup Usage</a>),
+    (<a href="https://www.healthline.com/nutrition/balance-hormones">Hormone Balancing Foods</a>),
+    (<a href="https://www.fda.gov/consumers/knowledge-and-news-women-owh-blog/understanding-endometriosis-symptoms-treatment">Endometriosis Awareness</a>),
+    (<a href="https://hormonehealth.co.uk/top-10-fertility-apps">Fertility Tracking Apps</a>),
+    (<a href="https://my.clevelandclinic.org/health/diseases/21841-menopause">Menopause Symptoms</a>),
   ];
 
   return (
@@ -159,8 +161,18 @@ export function Forum() {
             <SidebarLink
               icon={<HeartHandshake size={20} />}
               label="ShareJoy"
-              onClick={() => window.open("https://padforward.us/", "_blank")}
+              onClick={() => window.open("https://thepadproject.org/donate/", "_blank")}
             />
+            <SidebarLink
+                        icon={<Gamepad2 size={20} />}
+                        label="Bliss"
+                        onClick={() =>
+                          window.open(
+                            "https://she-syncgame.vercel.app/",
+                            "_blank"
+                          )
+                        }
+                      />
             <SidebarLink
               icon={<Handshake size={20} />}
               label="NGO's"
@@ -177,14 +189,14 @@ export function Forum() {
 
       <button
         onClick={toggleSidebar}
-        className="fixed left-0 top-4 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+        className="fixed left-0 top-0 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
         style={{
           transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
         }}
         aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
       >
         <ChevronRight
-          size={24}
+          size={14}
           className={`transition-transform duration-300 ${
             sidebarVisible ? "rotate-180" : "rotate-0"
           }`}
@@ -199,7 +211,8 @@ export function Forum() {
       >
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center"
+          style={{ display: "flex", justifyContent: "centre", alignItems: "center",height:"40px" }}>
             <h2 className="text-3xl font-bold text-pink-600 dark:text-pink-400">
               Community Forums
             </h2>
