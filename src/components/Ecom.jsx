@@ -566,16 +566,23 @@ export function Ecom() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="text-white w-full px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+                placeholder="Search Products"
+                 className="text-white w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
+              hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400 "
               />
-              <Search className="text-white absolute right-3 top-2.5 h-5 w-5 text-gray-400" />
+              
+              <Search className=" max-w-[300px] text-gray-400 dark:text-gray-300 hover:scale-110 transition-transform duration-200 ease-in-out
+             absolute  right-3 top-2.5 h-5 w-5"
+             />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
-            >
+               className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
+            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+          >
+            
+         <option disabled value="">Select Category</option>
               {categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -585,12 +592,15 @@ export function Ecom() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
-            >
-              <option value="featured">Filter</option>
-              <option value="priceLowToHigh">Price: Low to High</option>
-              <option value="priceHighToLow">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
+              className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
+            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+           >
+              
+        <option disabled value="">Sort By</option>
+        <option value="featured">Featured</option>
+        <option value="priceLowToHigh">Lowest First</option>
+        <option value="priceHighToLow">Highest First</option>
+       <option value="rating">Top Rated</option>
             </select>
             
           </motion.div>
