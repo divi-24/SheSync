@@ -33,6 +33,9 @@ import {
   CalendarHeart,
   Church,
   Package,
+  Twitter,
+  Facebook,
+  Instagram,
 } from "lucide-react";
 
 export function Landing() {
@@ -918,32 +921,26 @@ export function Landing() {
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   Connect
                 </h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Twitter
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Instagram
-                    </a>
-                  </li>
-                </ul>
+                <div className="flex space-x-4">
+                  <a
+                    href="#"
+                    className="text-gray-700 dark:text-gray-700 hover:text-[#E1306C] dark:hover:text-[#1DA1F2]"
+                  >
+                    <Twitter size={24} />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-gray-700 dark:text-gray-700 hover:text-[#E1306C] dark:hover:text-[#4267B2]"
+                  >
+                    <Facebook size={24} />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-gray-700 dark:text-gray-700 hover:text-[#E1306C] dark:hover:text-[#E1306C]"
+                  >
+                    <Instagram size={24} />
+                  </a>
+                </div>
               </div>
             </div>
             <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
