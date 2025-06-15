@@ -266,7 +266,7 @@ export function Ecom() {
   const [favorites, setFavorites] = useState([]);
   const [sortBy, setSortBy] = useState("featured");
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [email, setEmail] = useState("");
  const [sidebarVisible, setSidebarVisible] = useState(true);
  const toggleSidebar = () => {
@@ -371,11 +371,13 @@ export function Ecom() {
 
   const filteredProducts = products
     .filter(
-      (product) =>
-        (selectedCategory === "All" || product.category === selectedCategory) &&
-        (searchQuery === "" ||
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.brand.toLowerCase().includes(searchQuery.toLowerCase()))
+      (product) =>{
+        console.log('Product:', product.name, 'Search:', searchQuery); // Add this line
+        return (selectedCategory === "All" || product.category === selectedCategory) &&
+               (searchQuery === "" ||
+                String(product.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+                String(product.brand || '').toLowerCase().includes(searchQuery.toLowerCase()));
+      }
     )
     .sort((a, b) => {
       if (sortBy === "priceLowToHigh") return a.price - b.price;
@@ -614,7 +616,7 @@ export function Ecom() {
               transition={{ staggerChildren: 0.1 }}
               className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
             >
-              {featuredProducts.map((product) => (
+              {filteredProducts.map((product) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 20 }}
