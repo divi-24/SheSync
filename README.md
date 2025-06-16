@@ -1,3 +1,5 @@
+<img src="ssoc.png" alt="ssoc" width="400"/>
+
 # SheSync
 
 SheSync is a comprehensive women's health and wellness platform built with modern web technologies. The platform aims to provide a supportive environment for women to access health resources, connect with healthcare professionals, and engage with a community of like-minded individuals.
