@@ -1,4 +1,4 @@
-<img src="ssoc.png" alt="ssoc" width="400"/>
+<img src="ssoc.png" alt="ssoc" width="800"/>
 
 # SheSync
 
