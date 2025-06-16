@@ -1447,7 +1447,7 @@ export  function ParentDashboard() {
               duration: 0.6,
               ease: [0.645, 0.045, 0.355, 1]
             }}
-            className="flex space-x-1 p-1 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg border border-pink-100/20 dark:border-pink-900/20"
+            className="flex flex-wrap space-x-1 p-1 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg border border-pink-100/20 dark:border-pink-900/20"
           >
             {[
               'overview',
