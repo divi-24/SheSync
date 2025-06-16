@@ -69,6 +69,21 @@ export function Landing() {
 
   const { width } = useScreenSize();
 
+  useEffect(() => {
+    // Handle initial sidebar state
+    const handleResize = () => {
+      if (window.innerWidth < 768) { // 768px is typical mobile breakpoint
+        setSidebarVisible(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
       
@@ -94,8 +109,8 @@ export function Landing() {
       {/* Main Content */}
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" :  'ml-0'
-        }`}
+    sidebarVisible ? "md:ml-[240px]" : "ml-0"
+  }`}
       >
         <div className="fixed bottom-4 right-4 z-50">
           <img
