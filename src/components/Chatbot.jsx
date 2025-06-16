@@ -1,193 +1,173 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
- ClipboardList,
- Send,
- Moon,
- Sun,
- Home,
- Trash2,
- LayoutDashboard,
- AppWindowMac,
- ActivitySquare,
- Gamepad2,
- Loader,
- GraduationCap,
- Bot,
- MessageSquare,
- HeartPulse,
- Paperclip,
- Smile,
- Volume2,
- VolumeX,
- HelpCircle,
- BookOpen,
- ShoppingBag,
- Activity,
- Stethoscope,
- MessageCircle,
- HeartHandshake,
- Handshake,
- ChevronRight,
- X
+  ClipboardList,
+  Send,
+  Moon,
+  Sun,
+  Home,
+  Trash2,
+  LayoutDashboard,
+  AppWindowMac,
+  ActivitySquare,
+  Gamepad2,
+  Loader,
+  GraduationCap,
+  Bot,
+  MessageSquare,
+  HeartPulse,
+  Paperclip,
+  Smile,
+  Volume2,
+  VolumeX,
+  HelpCircle,
+  BookOpen,
+  ShoppingBag,
+  Activity,
+  Stethoscope,
+  MessageCircle,
+  HeartHandshake,
+  Handshake,
+  ChevronRight,
+  X,
 } from "lucide-react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
-
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
 
 const genAI = new GoogleGenerativeAI("AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-
 const popularEmojis = [
- "😊",
- "😂",
- "❤️",
- "😍",
- "🥰",
- "😭",
- "😘",
- "🥺",
- "✨",
- "😅",
- "🙏",
- "🔥",
- "😊",
- "💕",
- "😌",
- "💜",
- "😩",
- "😤",
- "🥳",
- "💪",
+  "😊",
+  "😂",
+  "❤️",
+  "😍",
+  "🥰",
+  "😭",
+  "😘",
+  "🥺",
+  "✨",
+  "😅",
+  "🙏",
+  "🔥",
+  "😊",
+  "💕",
+  "😌",
+  "💜",
+  "😩",
+  "😤",
+  "🥳",
+  "💪",
 ];
 
-
 export function Chatbot() {
- const [sidebarVisible, setSidebarVisible] = useState(true);
- const navigate = useNavigate();
- const [messages, setMessages] = useState([]);
- const [input, setInput] = useState("");
- const [isTyping, setIsTyping] = useState(false);
- const [showEmojiPicker, setShowEmojiPicker] = useState(false);
- const [isSpeaking, setIsSpeaking] = useState(false);
- const inputRef = useRef(null);
- const messagesEndRef = useRef(null);
- const [isDarkMode, setIsDarkMode] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const inputRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
 
- const toggleDarkMode = () => {
-   setIsDarkMode((prevMode) => !prevMode);
- };
+    setMessages((prev) => [...prev, { role: "user", content: input }]);
+    setInput("");
+    setIsTyping(true);
 
+    try {
+      const result = await model.generateContent(input);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: result.response.text() },
+      ]);
+    } catch (error) {
+      console.error("Error generating response:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I couldn't generate a response. Please try again.",
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   if (!input.trim()) return;
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+  const formatMessage = (text) => {
+    return text.split("**").map((part, index) => {
+      return index % 2 === 1 ? (
+        <strong key={index} className="text-pink-600 dark:text-pink-400">
+          {part}
+        </strong>
+      ) : (
+        part
+      );
+    });
+  };
+  const clearChat = () => {
+    setMessages([]);
+  };
 
+  const speakMessage = (text) => {
+    if ("speechSynthesis" in window) {
+      setIsSpeaking(true);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.onend = () => setIsSpeaking(false);
+      speechSynthesis.speak(utterance);
+    }
+  };
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+  const stopSpeaking = () => {
+    if ("speechSynthesis" in window) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
 
-   setMessages((prev) => [...prev, { role: "user", content: input }]);
-   setInput("");
-   setIsTyping(true);
+  const toggleEmojiPicker = () => {
+    setShowEmojiPicker((prev) => !prev);
+  };
 
+  const addEmoji = (emoji) => {
+    setInput((prev) => prev + emoji);
+    setShowEmojiPicker(false);
+    inputRef.current?.focus();
+  };
 
-   try {
-     const result = await model.generateContent(input);
-     setMessages((prev) => [
-       ...prev,
-       { role: "assistant", content: result.response.text() },
-     ]);
-   } catch (error) {
-     console.error("Error generating response:", error);
-     setMessages((prev) => [
-       ...prev,
-       {
-         role: "assistant",
-         content: "Sorry, I couldn't generate a response. Please try again.",
-       },
-     ]);
-   } finally {
-     setIsTyping(false);
-   }
- };
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", content: `Uploaded file: ${file.name}` },
+      ]);
+    }
+  };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
- const handleKeyPress = (e) => {
-   if (e.key === "Enter" && !e.shiftKey) {
-     e.preventDefault();
-     handleSubmit(e);
-   }
- };
- const formatMessage = (text) => {
-   return text.split('**').map((part, index) => {
-     return index % 2 === 1 ? (
-       <strong key={index} className="text-pink-600 dark:text-pink-400">
-         {part}
-       </strong>
-     ) : (
-       part
-     );
-   });
- };
- const clearChat = () => {
-   setMessages([]);
- };
-
-
- const speakMessage = (text) => {
-   if ("speechSynthesis" in window) {
-     setIsSpeaking(true);
-     const utterance = new SpeechSynthesisUtterance(text);
-     utterance.onend = () => setIsSpeaking(false);
-     speechSynthesis.speak(utterance);
-   }
- };
- const toggleSidebar = () => {
-   setSidebarVisible(!sidebarVisible);
- };
- const stopSpeaking = () => {
-   if ("speechSynthesis" in window) {
-     speechSynthesis.cancel();
-     setIsSpeaking(false);
-   }
- };
-
-
- const toggleEmojiPicker = () => {
-   setShowEmojiPicker((prev) => !prev);
- };
-
-
- const addEmoji = (emoji) => {
-   setInput((prev) => prev + emoji);
-   setShowEmojiPicker(false);
-   inputRef.current?.focus();
- };
-
-
- const handleFileUpload = (e) => {
-   const file = e.target.files[0];
-   if (file) {
-     setMessages((prev) => [
-       ...prev,
-       { role: "user", content: `Uploaded file: ${file.name}` },
-     ]);
-   }
- };
-
-
- useEffect(() => {
-   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
- }, [messages]);
-
-
- useEffect(() => {
-   const style = document.createElement("style");
-   style.textContent = `
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `
      @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap');
     
      .SheSync-chatbot {
@@ -310,212 +290,212 @@ export function Chatbot() {
    --fc-text-secondary: #A0AEC0;
  }
    `;
-   document.head.appendChild(style);
-   return () => document.head.removeChild(style);
- }, []);
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
 
+  const SidebarLink = ({ icon, label, onClick, active = false }) => {
+    return (
+      <button
+        onClick={onClick}
+        className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
+          active
+            ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
+            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100"
+        }`}
+      >
+        {icon}
+        <span>{label}</span>
+      </button>
+    );
+  };
 
- const SidebarLink = ({ icon, label, onClick, active = false }) => {
-   return (
-     <button
-       onClick={onClick}
-       className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
-         active
-           ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-           : "text-gray-900 dark:text-gray-300 hover:bg-pink-100"
-       }`}
-     >
-       {icon}
-       <span>{label}</span>
-     </button>
-   );
- };
+  const { width } = useScreenSize();
 
- const { width } = useScreenSize();
+  return (
+    <div className="flex h-screen">
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={7}
+      />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
- return (
-   <div className="flex h-screen"><SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={7}/>
-           {width > 816 && (
-             <button
-             onClick={toggleSidebar}
-             className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-             style={{
-               transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-             }}
-             aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-           >
-             <ChevronRight
-               size={14}
-               className={`transition-transform duration-300 block m-auto ${
-                 sidebarVisible ? "rotate-180" : "rotate-0"
-               }`}
-             />  
-           </button>
-           )}
+      {/* Main Content */}
 
+      <div
+        className={`flex-1 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
+          sidebarVisible ? "ml-64" : "ml-0"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 px-10 bg-pink-100 dark:bg-pink-800 shadow-md">
+          <h2
+            className="text-2xl font-bold text-pink-600 dark:text-pink-400"
+            style={{ fontFamily: "sans-serif" }}
+          >
+            SheSync Chatbot
+          </h2>
+          <div className="flex space-x-3">
+            <button
+              onClick={clearChat}
+              className="p-2 text-black dark:text-white"
+              aria-label="Clear chat"
+            >
+              <Trash2 size={20} />
+            </button>
+            <button
+              onClick={() =>
+                alert(
+                  "Help: This is an Eve designed to provide support and information for young girls aged 13-20."
+                )
+              }
+              className="p-2 text-black dark:text-white"
+              aria-label="Help"
+            >
+              <HelpCircle size={20} />
+            </button>
+          </div>
+        </div>
 
-     {/* Main Content */}
-    
-     <div className="flex-1 flex flex-col bg-[var(--fc-bg-primary)] transition-colors duration-200">
-       <div className="flex items-center justify-between p-4 bg-[var(--fc-accent)] shadow-md">
-         <h2
-           style={{ fontFamily: "sans-serif" }}
-           className="text-2xl font-bold text-pink-600"
-         >
-           SheSync Chatbot
-         </h2>
-         <div className="flex space-x-3">
-           <button
-             onClick={toggleDarkMode}
-             className="p-2 text-black"
-             aria-label={
-               isDarkMode ? "Switch to light mode" : "Switch to dark mode"
-             }
-           >
-             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-           </button>
-           <button
-             onClick={clearChat}
-             className="p-2 text-black"
-             aria-label="Clear chat"
-           >
-             <Trash2 size={20} />
-           </button>
-           <button
-             onClick={() =>
-               alert(
-                 "Help: This is an Eve designed to provide support and information for young girls aged 13-20."
-               )
-             }
-             className="p-2 text-black"
-             aria-label="Help"
-           >
-             <HelpCircle size={20} />
-           </button>
-         </div>
-       </div>
-       <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--fc-accent)] scrollbar-track-[var(--fc-bg-secondary)]">
-         {messages.map((message, index) => (
-           <div
-             key={index}
-             className={`flex ${
-               message.role === "user" ? "justify-end" : "justify-start"
-             } message-appear`}
-           >
-             {message.role === "assistant" && (
-               <div className="shrink-0 w-10 h-10 rounded-full bg-[var(--fc-accent)] flex items-center justify-center text-black mr-2 text-lg font-medium">
-                 AI
-               </div>
-             )}
-             <div className="flex flex-col max-w-[70%]">
-               {/* <div
-                 className={`message-bubble inline-block whitespace-pre-line text-base ${
-                   message.role === "user"
-                     ? "bg-[var(--fc-accent)] text-black"
-                     : "bg-[var(--fc-bg-secondary)] text-[var(--fc-text-primary)] border border-[var(--fc-accent)]"
-                 }`}
-               >
-                 {message.content}
-               </div> */}
-               <div
- className={`message-bubble ${
-   message.role === "user" ? "user" : "assistant"
- } message-appear`}
->
- {formatMessage(message.content)}
-</div>
-               {message.role === "assistant" && (
-                 <div className="flex mt-2 space-x-2">
-                   <button
-                     onClick={() =>
-                       isSpeaking
-                         ? stopSpeaking()
-                         : speakMessage(message.content)
-                     }
-                     className="flex items-center space-x-1 px-3 py-1 rounded-full bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] transition-colors duration-200 text-black"
-                   >
-                     {isSpeaking ? (
-                       <VolumeX size={16} />
-                     ) : (
-                       <Volume2 size={16} />
-                     )}
-                     <span>{isSpeaking ? "Stop" : "Read"}</span>
-                   </button>
-                 </div>
-               )}
-             </div>
-             {message.role === "user" && (
-               <div className="shrink-0 w-10 h-10 rounded-full bg-[var(--fc-accent-dark)] flex items-center justify-center text-black ml-2 text-lg font-medium">
-                 U
-               </div>
-             )}
-           </div>
-         ))}
-         {isTyping && (
-           <div className="flex items-center text-[var(--fc-text-secondary)] message-appear">
-             <Loader className="animate-spin mr-2" size={16} />
-             <span>SheSync AI is typing...</span>
-           </div>
-         )}
-         <div ref={messagesEndRef} />
-       </div>
-       <div className="p-4 bg-[var(--fc-bg-secondary)] border-t border-[var(--fc-accent)] shadow-md">
-         <form onSubmit={handleSubmit} className="flex space-x-2">
-           <input
-             type="text"
-             ref={inputRef}
-             value={input}
-             onChange={(e) => setInput(e.target.value)}
-             onKeyPress={handleKeyPress}
-             placeholder="Type your message..."
-             className="flex-grow p-3 rounded-lg bg-[var(--fc-input-bg)] text-[var(--fc-input-text)] placeholder-[var(--fc-text-secondary)] border border-[var(--fc-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--fc-accent-dark)]"
-           />
-           <input
-             type="file"
-             id="file-upload"
-             className="hidden"
-             onChange={handleFileUpload}
-           />
-           <label
-             htmlFor="file-upload"
-             className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-black transition-colors duration-200 cursor-pointer"
-           >
-             <Paperclip size={20} />
-           </label>
-           <button
-             type="button"
-             onClick={toggleEmojiPicker}
-             className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-black transition-colors duration-200"
-             aria-label="Add emoji"
-           >
-             <Smile size={20} />
-           </button>
-           <button
-             type="submit"
-             className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-black transition-colors duration-200"
-             aria-label="Send message"
-           >
-             <Send size={20} />
-           </button>
-         </form>
-         {showEmojiPicker && (
-           <div className="mt-2 p-2 bg-[var(--fc-bg-secondary)] border border-[var(--fc-accent)] rounded-lg">
-             <div className="emoji-grid">
-               {popularEmojis.map((emoji, index) => (
-                 <button
-                   key={index}
-                   onClick={() => addEmoji(emoji)}
-                   className="emoji-button"
-                 >
-                   {emoji}
-                 </button>
-               ))}
-             </div>
-           </div>
-         )}
-       </div>
-     </div>
-   </div>
- );
+        {/* Messages */}
+        <div className="flex-1 h-[78%] overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-pink-300 dark:scrollbar-thumb-pink-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
+          {messages.map((message, index) => (
+            <div
+              key={index}
+              className={`flex ${
+                message.role === "user" ? "justify-end" : "justify-start"
+              } message-appear`}
+            >
+              {message.role === "assistant" && (
+                <div className="shrink-0 w-10 h-10 rounded-full bg-pink-300 dark:bg-pink-700 flex items-center justify-center text-black dark:text-white mr-2 text-lg font-medium">
+                  AI
+                </div>
+              )}
+
+              <div className="flex flex-col max-w-[70%]">
+                <div
+                  className={`message-bubble ${
+                    message.role === "user"
+                      ? "bg-pink-300 dark:bg-pink-600 text-black dark:text-white"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border border-pink-300 dark:border-pink-600"
+                  } message-appear rounded-lg px-4 py-2 whitespace-pre-line text-base`}
+                >
+                  {formatMessage(message.content)}
+                </div>
+
+                {message.role === "assistant" && (
+                  <div className="flex mt-2 space-x-2">
+                    <button
+                      onClick={() =>
+                        isSpeaking
+                          ? stopSpeaking()
+                          : speakMessage(message.content)
+                      }
+                      className="flex items-center space-x-1 px-3 py-1 rounded-full bg-pink-300 dark:bg-pink-600 hover:bg-pink-400 dark:hover:bg-pink-700 text-black dark:text-white transition-colors duration-200"
+                    >
+                      {isSpeaking ? (
+                        <VolumeX size={16} />
+                      ) : (
+                        <Volume2 size={16} />
+                      )}
+                      <span>{isSpeaking ? "Stop" : "Read"}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {message.role === "user" && (
+                <div className="shrink-0 w-10 h-10 rounded-full bg-pink-500 dark:bg-pink-800 flex items-center justify-center text-black dark:text-white ml-2 text-lg font-medium">
+                  U
+                </div>
+              )}
+            </div>
+          ))}
+
+          {isTyping && (
+            <div className="flex items-center text-gray-500 dark:text-gray-300 message-appear">
+              <Loader className="animate-spin mr-2" size={16} />
+              <span>SheSync AI is typing...</span>
+            </div>
+          )}
+
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 bg-gray-100 dark:bg-gray-800 border-t border-pink-300 dark:border-pink-600 shadow-md">
+          <form onSubmit={handleSubmit} className="flex space-x-2">
+            <input
+              type="text"
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message..."
+              className="flex-grow p-3 rounded-lg bg-white dark:bg-gray-700 text-white placeholder-gray-500 dark:placeholder-gray-400 border border-pink-300 dark:border-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-700"
+            />
+            <input
+              type="file"
+              id="file-upload"
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+            <label
+              htmlFor="file-upload"
+              className="p-3 rounded-lg bg-pink-300 hover:bg-pink-400 dark:bg-pink-600 dark:hover:bg-pink-700 text-black dark:text-white transition-colors duration-200 cursor-pointer"
+            >
+              <Paperclip size={20} />
+            </label>
+            <button
+              type="button"
+              onClick={toggleEmojiPicker}
+              className="relative p-3 rounded-lg bg-pink-300 hover:bg-pink-400 dark:bg-pink-600 dark:hover:bg-pink-700 text-black dark:text-white transition-colors duration-200"
+              aria-label="Add emoji"
+            >
+              <Smile size={20} />
+              {showEmojiPicker && (
+                <div className="absolute bottom-[100%] right-[100%] mt-2 p-2 bg-gray-100 dark:bg-gray-700 border border-pink-300 dark:border-pink-600 rounded-lg">
+                  <div className="emoji-grid">
+                    {popularEmojis.map((emoji, index) => (
+                      <button
+                        key={index}
+                        onClick={() => addEmoji(emoji)}
+                        className="emoji-button"
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </button>
+            <button
+              type="submit"
+              className="p-3 rounded-lg bg-pink-300 hover:bg-pink-400 dark:bg-pink-600 dark:hover:bg-pink-700 text-black dark:text-white transition-colors duration-200"
+              aria-label="Send message"
+            >
+              <Send size={20} />
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
-
