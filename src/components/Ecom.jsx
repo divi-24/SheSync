@@ -41,9 +41,15 @@ import {
   ArrowRight,
   Send,
   Calendar,
-  Bath,
-  HandHeart,
+  Coffee,
+  Pill,
   Handshake,
+  Bath,
+  Wind,
+  ThermometerSun,
+  HandHeart,
+  GlassWater,
+  CircleDot,
 } from "lucide-react";
 import { element } from "prop-types";
 import { Dashboard } from "./Dashboard";
@@ -57,7 +63,7 @@ const products = [
     brand: "EcoFlow",
     price: 8.99,
     oldPrice: 10.99,
-    icon: <img src="/images/products/organic-pads.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Package className="h-12 w-12 text-pink-500" />,
     rating: 4.5,
     category: "Pads",
     isNew: true,
@@ -69,7 +75,7 @@ const products = [
     brand: "LunaCup",
     price: 29.99,
     oldPrice: 34.99,
-    icon: <img src="/images/products/mes_cup.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Droplet className="h-12 w-12 text-blue-500" />,
     rating: 4.8,
     category: "Menstrual Cups",
     featured: true,
@@ -80,7 +86,7 @@ const products = [
     brand: "ComfortEase",
     price: 15.99,
     oldPrice: 19.99,
-    icon:  <img src="/images/products/relief_patches.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Zap className="h-12 w-12 text-yellow-500" />,
     rating: 4.2,
     category: "Pain Relief",
     isNew: true,
@@ -91,7 +97,7 @@ const products = [
     brand: "GreenCycle",
     price: 24.99,
     oldPrice: 29.99,
-    icon:   <img src="/images/products/sponge_8707445.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Leaf className="h-12 w-12 text-green-500" />,
     rating: 4.6,
     category: "Pads",
   },
@@ -101,7 +107,7 @@ const products = [
     brand: "PureFlow",
     price: 7.99,
     oldPrice: 9.99,
-    icon: <img src="/images/products/tampon.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Package className="h-12 w-12 text-purple-500" />,
     rating: 4.4,
     category: "Tampons",
     featured: true,
@@ -112,7 +118,7 @@ const products = [
     brand: "CycleSync",
     price: 49.99,
     oldPrice: 59.99,
-    icon: <img src="/images/products/smart-band.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Activity className="h-12 w-12 text-indigo-500" />,
     rating: 4.1,
     category: "Accessories",
     isNew: true,
@@ -123,7 +129,7 @@ const products = [
     brand: "MoonBloom",
     price: 19.99,
     oldPrice: 24.99,
-    icon: <img src="/images/products/herbal_tea.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Coffee className="h-12 w-12 text-amber-500" />,
     rating: 4.7,
     category: "Wellness",
     isNew: true,
@@ -134,7 +140,7 @@ const products = [
     brand: "HerbalEase",
     price: 22.99,
     oldPrice: 27.99,
-    icon: <img src="/images/products/herbs.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Pill className="h-12 w-12 text-red-500" />,
     rating: 4.3,
     category: "Pain Relief",
   },
@@ -155,7 +161,7 @@ const products = [
     brand: "CalmScents",
     price: 39.99,
     oldPrice: 49.99,
-    icon:<img src="/images/products/therapy.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <Wind className="h-12 w-12 text-cyan-500" />,
     rating: 4.6,
     category: "Wellness",
     isNew: true,
@@ -166,7 +172,7 @@ const products = [
     brand: "SheFort",
     price: 10.99,
     oldPrice: 12.99,
-    icon: <img src="/images/products/hot-water-bag.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <ThermometerSun className="h-12 w-12 text-red-500" />,
     rating: 4.5,
     category: "Pain Relief",
     isNew: true,
@@ -188,7 +194,7 @@ const products = [
     brand: "Nirvana",
     price: 12.99,
     oldPrice: 15.0,
-    icon: <img src="/images/products/disc.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <CircleDot className="h-12 w-12 text-teal-500" />,
     rating: 4.0,
     category: "Menstrual Cups",
     isNew: true,
@@ -199,7 +205,7 @@ const products = [
     brand: "Comfy",
     price: 20.99,
     oldPrice: 25.99,
-    icon:  <img src="/images/products/thermo.png" alt="Organic Pads" className="h-12 w-12 object-contain" />,
+    icon: <GlassWater className="h-12 w-12 text-cyan-500" />,
     rating: 4.9,
     category: "Accessories",
   },
@@ -255,7 +261,9 @@ const specialOffers = [
 export function Ecom() {
   // const router = useRouter()
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+      () => localStorage.getItem("darkMode") === "true"
+    );
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cartItems, setCartItems] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -267,8 +275,7 @@ export function Ecom() {
  const toggleSidebar = () => {
   setSidebarVisible(!sidebarVisible);
 };
-
-  useEffect(() => {
+useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -277,9 +284,12 @@ export function Ecom() {
   }, [darkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", newMode.toString());
+      return newMode;
+    });
   };
-
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === product.id);
