@@ -92,6 +92,45 @@ const symptomOptions = [
   "Lab Abnormalities",
 ];
 
+const categorizedSymptoms = {
+  "Menstrual Symptoms": [
+    "Irregular menstruation (Oligomenorrhea)",
+    "Heavy menstrual bleeding (Menorrhagia)",
+    "Skipped or absence of menstruation (Amenorrhea)"
+  ],
+  "Physical Appearance": [
+    "Excessive Hair growth (face, body - including on back, belly, and chest)",
+    "Acne (face, chest, and upper back)",
+    "Skin darkening (Neck, in the groin, and under the breasts)",
+    "Hair loss (hair on the scalp gets thinner and fall out)",
+    "Skin Tags (Acrochordons)",
+    "Oily Skin or Scalp"
+  ],
+  "Metabolic Signs": [
+    "Weight gain",
+    "Fatigue",
+    "Appetite Changes or Cravings",
+    "Reduced Libido",
+    "Associated Metabolic and Long-Term Risks",
+    "Insulin Resistance",
+    "Dyslipidemia",
+    "Cardiovascular Risks",
+    "Endometrial Hyperplasia",
+    "Ovarian Morphology",
+    "Lab Abnormalities"
+  ],
+  "Mental Health": [
+    "Mood Disorders",
+    "Sleep Disturbances",
+    "Infertility",
+    "Headaches",
+    "Bladder Issues",
+    "Hoarseness or Voice Changes"
+  ],
+  "Other Clues": [
+    "Diagnostic Clues (Not Symptoms, but Relevant)"
+  ]
+};
 const symptomSeverityOptions = ["None", "Mild", "Moderate", "Severe"];
 
 const sleepQualityOptions = ["Poor", "Fair", "Good", "Excellent"];
@@ -223,6 +262,7 @@ const SymptomChart = ({ symptoms, severities }) => {
     </div>
   );
 };
+
 
 const MoodTrendChart = ({ moodTypes, moodDate }) => {
   const moodValues = {
@@ -1080,7 +1120,7 @@ Risk Level: [Low/Moderate/High]
 
           <div className="bg-pink-50 dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
             <div className="text-center mb-8">
-              <p className="text-black dark:text-gray-300">Diagnos</p>
+              <p className="text-black dark:text-gray-300">Diagnosis</p>
             </div>
 
             {renderSection(
@@ -1090,63 +1130,86 @@ Risk Level: [Low/Moderate/High]
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Select Symptoms
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {symptomOptions.map((symptom) => (
-                      <label key={symptom} className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={symptoms.includes(symptom)}
-                          onChange={() => handleSymptomChange(symptom)}
-                          className="form-checkbox text-pink-500"
-                        />
-                        <span className="ml-2 text-gray-700 dark:text-gray-300">
-                          {symptom}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
 
-                {symptoms.map((symptom) => (
-                  <div key={symptom} className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {symptom} Severity
-                    </label>
-                    <select
-                      value={symptomSeverities[symptom] || ""}
-                      onChange={(e) =>
-                        handleSymptomSeverityChange(symptom, e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700  text-white dark:text-white"
-                    >
-                      <option value="">Select Severity</option>
-                      {symptomSeverityOptions.map((severity) => (
-                        <option key={severity} value={severity}>
-                          {severity}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
+                    {Object.entries(categorizedSymptoms).map(([category, symptomsList]) => (
+                      <div
+              key={category}
+              className={`bg-white dark:bg-gray-700 rounded-lg shadow p-4 border-l-4 ${
+                category === "Menstrual Symptoms"
+                  ? "border-pink-500"
+                  : category === "Physical Appearance"
+                  ? "border-pink-500"
+                  : category === "Metabolic Signs"
+                  ? "border-pink-500"
+                  : category === "Mental Health"
+                  ? "border-pink-500"
+                  : "border-pink-500"
+              }`}
+>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Date of Symptoms
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="symptomDate"
-                      value={symptomDate}
-                      onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
-                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                  </div>
-                </div>
-              </div>,
-              "symptomTracking"
-            )}
+            <h3 className="text-lg font-semibold text-pink-600 dark:text-pink-300 mb-2">
+              {category}
+            </h3>
+            <div className="space-y-2">
+              {symptomsList.map((symptom) => (
+                <label key={symptom} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={symptoms.includes(symptom)}
+                    onChange={() => handleSymptomChange(symptom)}
+                    className="form-checkbox text-pink-500"
+                  />
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    {symptom}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {symptoms.map((symptom) => (
+      <div key={symptom} className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          {symptom} Severity
+        </label>
+        <select
+          value={symptomSeverities[symptom] || ""}
+          onChange={(e) => handleSymptomSeverityChange(symptom, e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 text-white"
+        >
+          <option value="">Select Severity</option>
+          {symptomSeverityOptions.map((severity) => (
+            <option key={severity} value={severity}>
+              {severity}
+            </option>
+          ))}
+        </select>
+      </div>
+    ))}
+
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
+        Date of Symptoms
+      </label>
+      <div className="relative">
+        <input
+          type="date"
+          name="symptomDate"
+          value={symptomDate}
+          onChange={handleInputChange}
+          className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+        />
+        <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+      </div>
+    </div>
+  </div>,
+  "symptomTracking"
+)}
+
 
             {isLoading ? (
               <div className="text-center py-4">
