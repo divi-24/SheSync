@@ -179,6 +179,18 @@ export function Dashboard() {
     return () => clearInterval(notificationInterval);
   }, []);
 
+  useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setSidebarVisible(false);
+    }
+  };
+
+  handleResize();
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
   const handleWaterIntake = () => {
     const userId = localStorage.getItem("userId");
     if (waterIntake < 8) {
@@ -372,10 +384,10 @@ export function Dashboard() {
         }
       `}</style>
       <aside
-        className={`w-[240px] bg-pink-100 dark:bg-gray-800  flex flex-col transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
-        }`}
-        style={{ zIndex: 40 }}
+        className={`w-[240px] bg-pink-100 dark:bg-gray-800 flex flex-col transition-all duration-300 ease-in-out fixed h-full ${
+    sidebarVisible ? "translate-x-0" : "-translate-x-full"
+  } md:translate-x-0 ${window.innerWidth >= 768 ? "md:relative" : ""}`}
+  style={{ zIndex: 40 }}
       >
         <div className="px-4 py-4 flex flex-col space-y-2">
           <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 mt-4 ml-4">
@@ -483,7 +495,9 @@ export function Dashboard() {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-auto bg-[rgb(var(--background))] transition-all duration-300 ease-in-out ">
+      <main className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
+    sidebarVisible ? "md:ml-[240px]" : "ml-0"
+  }`}>
         <div className="max-w-6xl mx-auto space-y-6">
           {error && (
             <div
