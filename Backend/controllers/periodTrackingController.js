@@ -2,20 +2,12 @@ import { PeriodTracking } from "../models/periodTrackingModel.js";
 import { User } from "../models/userModel.js";
 
 export const trackerDataController = async (req, res) => {
-  const { userId, ...trackerData } = req.body;
-
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required" });
-  }
+  const { ...trackerData } = req.body;
+  const userId = req.user.clerkId || req.user._id; 
 
   try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
     const newPeriodTracking = new PeriodTracking({
-      user: user._id,
+      user: userId,
       ...trackerData,
     });
 
@@ -35,24 +27,33 @@ export const trackerDataController = async (req, res) => {
 
 export const periodTrackingController = async (req, res) => {
   const { userId } = req.params;
-
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required" });
+  const authenticatedUserId = req.user.clerkId || req.user._id; 
+  
+  const userIdToQuery = userId === 'me' ? authenticatedUserId : userId;
+  
+  
+  if (userIdToQuery !== authenticatedUserId) {
+    return res.status(403).json({ message: "You can only access your own data" });
   }
 
   try {
     const periodTrackingData = await PeriodTracking.findOne({
-      user: userId,
+      user: userIdToQuery,
     }).sort({ date: -1 });
+    
     if (!periodTrackingData) {
       return res
         .status(404)
         .json({ message: "No period tracking data found for this user" });
     }
-    const user = await User.findById(userId).select("name");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    
+    
+    const user = {
+      _id: authenticatedUserId,
+      name: req.user.name,
+      email: req.user.email
+    };
+    
     res.status(200).json({ periodTrackingData, user });
   } catch (error) {
     console.error("Error fetching period tracking data:", error);
@@ -64,21 +65,23 @@ export const periodTrackingController = async (req, res) => {
 };
 export const waterUpdateController = async (req, res) => {
   const { userId } = req.params;
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required" });
+  const authenticatedUserId = req.user.clerkId || req.user._id; 
+  
+  const userIdToQuery = userId === 'me' ? authenticatedUserId : userId;
+  
+  
+  if (userIdToQuery !== authenticatedUserId) {
+    return res.status(403).json({ message: "You can only update your own data" });
   }
+  
   try {
-    const checkUser = await User.findById(userId);
-    if (!checkUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
     const today = new Date().toISOString().slice(0, 10);
 
-    let tracking = await PeriodTracking.findOne({ user: userId });
+    let tracking = await PeriodTracking.findOne({ user: userIdToQuery });
 
     if (!tracking) {
       tracking = await PeriodTracking.create({
-        user: userId,
+        user: userIdToQuery,
         waterIntakeCount: 1,
         lastWaterLogDate: today,
       });

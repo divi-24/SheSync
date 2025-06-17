@@ -4,7 +4,9 @@ import {
   RouterProvider,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import { Landing } from "./components/Landing";
 import { Forum } from "./components/Forum";
 import { Blogs } from "./components/Blogs";
@@ -20,6 +22,26 @@ import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 
+// Create a wrapper component for protected routes
+function ProtectedRouteWrapper({ Component }) {
+  const { isLoaded, isSignedIn } = useAuth();
+  
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isSignedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <Component />;
+}
+
+// Higher-order function to create protected route elements
+const ProtectedRoute = (Component) => {
+  return () => <ProtectedRouteWrapper Component={Component} />;
+};
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +49,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forums",
-    element: <Forum />,
+    element: <ProtectedRouteWrapper Component={Forum} />,
   },
   {
     path: "/blogs",
@@ -35,15 +57,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/consultations",
-    element: <Consultations />,
+    element: <ProtectedRouteWrapper Component={Consultations} />,
   },
   {
     path: "/tracker",
-    element: <PeriodTracker />,
+    element: <ProtectedRouteWrapper Component={PeriodTracker} />,
   },
   {
     path: "/Ecom",
-    element: <Ecom />,
+    element: <ProtectedRouteWrapper Component={Ecom} />,
   },
   {
     path: "/Signup",
@@ -55,11 +77,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/ChatBot",
-    element: <Chatbot />,
+    element: <ProtectedRouteWrapper Component={Chatbot} />,
   },
   {
     path: "/Dashboard",
-    element: <Dashboard />,
+    element: <ProtectedRouteWrapper Component={Dashboard} />,
   },
   {
     path: "/team",
@@ -67,15 +89,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/symptomsanalyzer",
-    element: <SymptomAnalysis />,
+    element: <ProtectedRouteWrapper Component={SymptomAnalysis} />,
   },
   {
     path: "/parents",
-    element: <ParentDashboard />,
+    element: <ProtectedRouteWrapper Component={ParentDashboard} />,
   },
   {
     path: "/partner",
-    element: <Diagnosis />,
+    element: <ProtectedRouteWrapper Component={Diagnosis} />,
   },
 ]);
 

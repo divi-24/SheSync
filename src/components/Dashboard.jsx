@@ -39,15 +39,32 @@ import {
   Unlock,
   AlertTriangle,
   AppWindowMac,
+  RefreshCw,
+  Clock,
 } from "lucide-react";
 import axios from "axios";
 import { PrivacyForm } from "./PrivacyForm";
+import { useAuth, useUser } from '@clerk/clerk-react';
 
-const server_url = import.meta.env.VITE_SERVER_URL;
-const local_url = "http://localhost:3000/api/period/";
+
+// Try multiple server URLs in case one is down
+const render_url = "https://shesync.onrender.com/";
+const server_url = import.meta.env.VITE_SERVER_URL || render_url;
+const local_url = "http://localhost:3000/";
 
 export function Dashboard() {
+
   const navigate = useNavigate();
+  
+  const { isSignedIn } = useAuth();
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      navigate("/login");
+    }
+  }, [isSignedIn, navigate]);
+
   const [darkMode, setDarkMode] = useState(false);
   const [waterIntake, setWaterIntake] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
@@ -91,77 +108,130 @@ export function Dashboard() {
     currentPhase: "Luteal",
   };
 
-  useEffect(() => {
-    const fetchPeriodData = async () => {
-      setLoading(true);
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        setError("User ID not found. Please log in.");
-        setLoading(false);
-        return;
-      }
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("token not found. Please log in.");
-        setLoading(false);
-        return;
-      }
 
-      const fetchWithTimeout = async (url, timeout) => {
-        const controller = new AbortController();
-        const id = setTimeout(() => controller.abort(), timeout);
-        try {
-          const response = await axios.get(
-            `${url}api/period/periodtracking/${userId}`,
-            {
-              signal: controller.signal,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `${localStorage.getItem("token") || ""}`, // Ensure token exists
-              },
-            }
-          );
-          clearTimeout(id);
-          return response.data;
-        } catch (error) {
-          if (error.name === "AbortError") {
-            throw new Error("Request timed out");
-          }
-          if (error.code === "ERR_BAD_REQUEST") {
-            navigate("/tracker");
-            console.log(error.code);
-            throw new Error("Period Data not found");
-          }
-          console.log(error.code);
-          throw error;
-        }
-      };
+  const fetchPeriodData = async () => {
+    if (!isSignedIn || !user) {
+      setError("You must be signed in to view this page.");
+      setLoading(false);
+      return;
+    }
 
+    setLoading(true);
+    const userId = user.id;
+
+    const fetchWithTimeout = async (url, timeout) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
       try {
-        // Try server URL first
-        const data = await fetchWithTimeout(server_url, 5000); // 5 second timeout
-        setPeriodData(data.periodTrackingData);
-        setWaterIntake(data.periodTrackingData.waterIntakeCount);
-        setError(null);
-      } catch (serverError) {
-        console.error("Error fetching from server:", serverError);
-        try {
-          // Fallback to local URL
-          const data = await fetchWithTimeout(local_url, 5000); // 5 second timeout
-          setPeriodData(data.periodTrackingData);
-          setError("Using local data due to server unavailability.");
-        } catch (localError) {
-          console.error("Error fetching from local:", localError);
-          setPeriodData(fallbackData);
-          setError("Failed to fetch data. Using sample data.");
+        const token = await user.getToken();
+        console.log("Using auth token for request to", url);
+        console.log(`Timeout set to ${timeout}ms`);
+        
+        const response = await axios.get(
+          `${url}api/period/periodtracking/${userId}`,
+          {
+            signal: controller.signal,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, 
+            },
+            timeout: timeout,
+          }
+        );
+        clearTimeout(id);
+        console.log(`Request to ${url} completed successfully in less than ${timeout}ms`);
+        return response.data;
+      } catch (error) {
+        clearTimeout(id); 
+        
+        if (error.name === "AbortError" || error.code === "ECONNABORTED") {
+          console.error(`Request to ${url} timed out after ${timeout}ms`);
+          throw new Error(`Request to ${url} timed out after ${timeout}ms`);
         }
-      } finally {
-        setLoading(false);
+        
+        if (error.response && error.response.status === 401) {
+          console.log(`Authentication error - 401 Unauthorized for ${url}`);
+          throw new Error("Authentication failed. Please sign in again.");
+        }
+        
+        if (error.code === "ERR_BAD_REQUEST") {
+          console.log(`Bad request error for ${url}`, error.response?.status);
+          navigate("/tracker");
+          throw new Error("Period Data not found");
+        }
+        
+        if (error.code === "ERR_NETWORK") {
+          console.error(`Network error connecting to ${url}: ${error.message}`);
+          throw new Error(`Network error connecting to ${url}. Please check your internet connection.`);
+        }
+        
+        console.error(`Request error for ${url}:`, error.code, error.message, error.response?.status);
+        throw error;
       }
     };
 
+    try {
+      console.log("Attempting to fetch data from server URL:", server_url);
+      const data = await fetchWithTimeout(server_url, 8000);
+      console.log("Server data received:", data);
+      setPeriodData(data.periodTrackingData);
+      setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
+      setError(null);
+    } catch (serverError) {
+      console.error("Error fetching from server:", serverError);
+      console.log("Server error details:", serverError.message, serverError.code);
+      
+      if (server_url !== render_url) {
+        try {
+        console.log("Attempting to fetch data from render URL:", render_url);
+        const data = await fetchWithTimeout(render_url, 30000); 
+        console.log("Render data received:", data);
+        setPeriodData(data.periodTrackingData);
+        setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
+        setError(null);
+        return;
+        } catch (renderError) {
+          console.error("Error fetching from render:", renderError);
+          console.log("Render error details:", renderError.message, renderError.code);
+        }
+      }
+      
+      try {
+        console.log("Attempting to fetch data from local URL:", local_url);
+        const data = await fetchWithTimeout(local_url, 5000); 
+        console.log("Local data received:", data);
+        setPeriodData(data.periodTrackingData);
+        setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
+        setError("Using local data due to server unavailability.");
+      } catch (localError) {
+        console.error("Error fetching from local:", localError);
+        console.log("Local error details:", localError.message, localError.code);
+        console.log("Using fallback data");
+        setPeriodData(fallbackData);
+        
+        if (serverError.message.includes("Authentication failed") || 
+            (renderError && renderError.message.includes("Authentication failed")) || 
+            localError.message.includes("Authentication failed")) {
+          setError("Authentication failed. Please sign in again.");
+        } else if (serverError.message.includes("timeout") || 
+                  (renderError && renderError.message.includes("timeout")) || 
+                  localError.message.includes("timeout")) {
+          setError(`Unable to connect to the server (${server_url}, ${render_url} or ${local_url}). Connection timed out. Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
+        } else {
+          setError(`Unable to connect to the server (${server_url}, ${render_url} or ${local_url}). Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
+        }
+        setWaterIntake(0);
+        
+        setError(`Unable to connect to the server (${server_url} or ${local_url}). Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchPeriodData();
-  }, [server_url, local_url]);
+  }, [isSignedIn, user, server_url, local_url, navigate]);
 
   useEffect(() => {
     if (darkMode) {
@@ -179,14 +249,27 @@ export function Dashboard() {
     return () => clearInterval(notificationInterval);
   }, []);
 
-  const handleWaterIntake = () => {
-    const userId = localStorage.getItem("userId");
+  const handleWaterIntake = async () => {
+    if (!isSignedIn || !user) return;
+    
     if (waterIntake < 8) {
       setWaterIntake((prev) => Math.min(prev + 1, 8));
-      const response = axios.get(
-        `${server_url}api/period/waterupdate/${userId}`
-      );
-      console.log("Water intake logged:", response);
+      try {
+        const token = await user.getToken();
+        const response = await axios.get(
+          `${server_url}api/period/waterupdate/${user.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            timeout: 5000, 
+          }
+        );
+        console.log("Water intake logged:", response);
+      } catch (error) {
+        console.error("Error updating water intake:", error);
+      }
     }
   };
 
@@ -203,7 +286,7 @@ export function Dashboard() {
 
   const handleSavePrivacySettings = (settings) => {
     console.log("Privacy settings saved:", settings);
-    // Here you would typically send these settings to your backend
+    
     setShowPrivacyForm(false);
   };
 
@@ -217,7 +300,7 @@ export function Dashboard() {
     const emailBody = {
       subject: "SOS Alert",
       message:
-        "This is an SOS alert generated by SARAH KHAN from the SheSync app.",
+        `This is an SOS alert generated by ${user?.fullName || 'a user'} from the SheSync app.`,
     };
 
     try {
@@ -271,8 +354,12 @@ export function Dashboard() {
     return <div>Fetching your Data...</div>;
   }
 
+  if (!isSignedIn) {
+    return <div>Sign in Required</div>;
+  }
+
   if (!periodData) {
-    return <div>Sign/Sign in Required</div>;
+    return <div>No period data found. Please complete your profile.</div>;
   }
 
   const cycleDay =
@@ -470,7 +557,7 @@ export function Dashboard() {
               ☮️
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium">SheSync🎗️</p>
+              <p className="text-sm font-medium">{user?.fullName || 'User'}</p>
               <p className="text-xs text-[rgba(var(--foreground),0.6)]">
                 Premium Member
               </p>
@@ -487,11 +574,87 @@ export function Dashboard() {
         <div className="max-w-6xl mx-auto space-y-6">
           {error && (
             <div
-              className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4"
+              className={`border-l-4 p-4 mb-4 rounded shadow-md ${
+                error.includes("Authentication failed") 
+                  ? "bg-red-100 border-red-500 text-red-700" 
+                  : error.includes("local data") 
+                    ? "bg-blue-100 border-blue-500 text-blue-700"
+                    : error.includes("timed out")
+                      ? "bg-orange-100 border-orange-500 text-orange-700"
+                      : "bg-yellow-100 border-yellow-500 text-yellow-700"
+              }`}
               role="alert"
             >
-              <p className="font-bold">Note</p>
-              <p>{error}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  {error.includes("Authentication failed") ? (
+                    <>
+                      <Lock className="h-5 w-5 mr-2" />
+                      <p className="font-bold">Authentication Issue</p>
+                    </>
+                  ) : error.includes("local data") ? (
+                    <>
+                      <AlertCircle className="h-5 w-5 mr-2" />
+                      <p className="font-bold">Using Local Data</p>
+                    </>
+                  ) : error.includes("timed out") ? (
+                    <>
+                      <Clock className="h-5 w-5 mr-2" />
+                      <p className="font-bold">Connection Timeout</p>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="h-5 w-5 mr-2" />
+                      <p className="font-bold">Connection Status</p>
+                    </>
+                  )}
+                </div>
+                <button 
+                  onClick={() => {
+                    setLoading(true);
+                    setError(null);
+                    fetchPeriodData();
+                  }}
+                  className="px-3 py-1 bg-pink-500 text-white rounded hover:bg-pink-600 transition-colors flex items-center"
+                >
+                  <RefreshCw size={16} className="mr-1" /> Retry Connection
+                </button>
+              </div>
+              <p className="mt-2">{error}</p>
+              {error.includes("Authentication failed") && (
+                <div className="mt-2 text-sm">
+                  <p className="font-semibold">Suggested actions:</p>
+                  <ul className="list-disc pl-5 mt-1">
+                    <li>Sign out and sign in again</li>
+                    <li>Clear your browser cache</li>
+                    <li>Contact support if the issue persists</li>
+                  </ul>
+                </div>
+              )}
+              {error.includes("timed out") && (
+                <div className="mt-2 text-sm">
+                  <p className="font-semibold">Timeout Troubleshooting:</p>
+                  <ul className="list-disc pl-5 mt-1">
+                    <li>The server may be experiencing high load or a slow start</li>
+                    <li>Render.com free tier services can take 50+ seconds to wake up from sleep</li>
+                    <li>Try waiting a minute and clicking Retry Connection</li>
+                    <li>Check if the Render deployment status is online at <a href="https://dashboard.render.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Render Dashboard</a></li>
+                    <li>Data shown is for demonstration purposes only</li>
+                  </ul>
+                </div>
+              )}
+              {error.includes("Unable to connect") && !error.includes("timed out") && (
+                <div className="mt-2 text-sm">
+                  <p className="font-semibold">Troubleshooting tips:</p>
+                  <ul className="list-disc pl-5 mt-1">
+                    <li>Check your internet connection</li>
+                    <li>Try both the Render deployment (shesync.onrender.com) and local server (localhost:3000)</li>
+                    <li>The Render free tier may be hibernating - first request can take up to a minute</li>
+                    <li>Try refreshing the page</li>
+                    <li>Data shown is for demonstration purposes only</li>
+                  </ul>
+                </div>
+              )}
             </div>
           )}
           <div className="flex items-center justify-between p-4 bg-[var(--fc-accent)] shadow-md">
@@ -795,7 +958,7 @@ export function Dashboard() {
 
       {showNotification && (
         <div className="fixed top-0 left-1/2 transform -translate-x-1/2 bg-[rgb(var(--primary))] text-white p-4 rounded-b-lg shadow-lg animate-slideIn">
-          don’t forget to log your symptoms today!
+          don't forget to log your symptoms today!
         </div>
       )}
 
@@ -943,5 +1106,3 @@ const DataToggle = ({ label, isSelected, onToggle }) => {
     </div>
   );
 };
-
-// export default Dashboard;

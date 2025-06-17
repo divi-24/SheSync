@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "../hooks/useScreenSize";
 import { useEffect } from "react";
+import { SignedIn, SignedOut, SignInButton, UserButton , SignUpButton} from "@clerk/clerk-react";
 
 export default function SideBar({sidebarVisible , setSidebarVisible , activeLink}) {
     const navigate = useNavigate();
@@ -54,7 +55,7 @@ export default function SideBar({sidebarVisible , setSidebarVisible , activeLink
 
     return (   
         (!sidebarVisible && width < 816 ) ?
-        <div className="fixed top-0 left-0 w-fit   p-2 my-6 mx-2 transition-all duration-300 ease-in-out bg-pink-100 rounded-3xl z-50">
+        <div className="fixed top-0 left-0 w-fit p-2 my-6 mx-2 transition-all duration-300 ease-in-out bg-pink-100 rounded-3xl z-50">
             <Menu size={24} className="text-black" onClick={() => setSidebarVisible(true)} />
         </div>  :  
     <aside
@@ -65,9 +66,25 @@ export default function SideBar({sidebarVisible , setSidebarVisible , activeLink
       >
         <div className="px-4 py-4 flex flex-col space-y-2">
             {width < 816 && (<Menu size={24} className="text-black dark:text-white" onClick={() => setSidebarVisible(false)} />)}
-          <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 ">
-            SheSync
-          </h1>
+          
+          <div className="flex items-start">
+            <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 ">
+              SheSync
+            </h1>
+            <div className="block ml-auto">
+            <SignedIn>
+              <UserButton/>
+            </SignedIn>
+            </div>
+          </div>
+
+           <SignedOut>
+            <div className="flex my-4">
+              <SignInButton className={`text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]`} mode="modal"/>
+              <SignUpButton className={`text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]`} mode="modal"/>
+            </div>
+          </SignedOut>
+
           <SidebarLink
             icon={<LayoutDashboard size={20} />}
             label="Dashboard"
