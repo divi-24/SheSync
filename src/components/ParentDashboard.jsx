@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import { Activity, Bell, Brain, Calendar, ChevronRight, FileText, Heart, Mail, MessageCircle, Moon, Phone, Pill, Play, Plus, Sun, User, Sparkles, TrendingUp, Target, Gamepad2, Clock, Award, BarChart2, X, CheckCircle, RefreshCw, Apple, GraduationCap } from 'lucide-react'
+import SideBar from "./SideBar";
+import useScreenSize from "../hooks/useScreenSize";
 
 // Animation variants defined inline
 const pageTransition = {
@@ -623,6 +625,7 @@ const EducationProgressModal = ({ child, onClose }) => {
 }
 
 export  function ParentDashboard() {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedChild, setSelectedChild] = useState(null)
@@ -632,6 +635,9 @@ export  function ParentDashboard() {
   const [showEducationModal, setShowEducationModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [showNutritionModal, setShowNutritionModal] = useState(false)
+  const toggleSidebar = () => {
+  setSidebarVisible(!sidebarVisible);
+};
 
   useEffect(() => {
     const root = window.document.documentElement
@@ -1381,7 +1387,7 @@ export  function ParentDashboard() {
   )
 
   const renderHeader = () => (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/90 dark:bg-gray-900/80 border-b border-pink-100/30">
+    <header className="sticky top-0 z-10 backdrop-blur-xl bg-white/90 dark:bg-gray-900/80 border-b border-pink-100/30">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <motion.div
@@ -1435,86 +1441,117 @@ export  function ParentDashboard() {
     </header>
   )
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
-      {renderHeader()}
-      <main className="container mx-auto px-4 py-8">
-        <div className="space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.6,
-              ease: [0.645, 0.045, 0.355, 1]
-            }}
-            className="flex flex-wrap space-x-1 p-1 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg border border-pink-100/20 dark:border-pink-900/20"
-          >
-            {[
-              'overview',
-              'health',
-              'cycle',
-              'medications',
-              'activities',
-              'goals',
-              'education',
-              'emergency'
-            ].map((tab) => (
-              <motion.button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                  activeTab === tab
-                    ? "bg-gradient-to-r from-pink-300 to-pink-400 text-white shadow-lg"
-                    : "text-gray-600 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20"
-                }`}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </motion.button>
-            ))}
-          </motion.div>
+  const {width} = useScreenSize();
 
-          <AnimatePresence mode="wait">
+  return (
+    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
+        <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={9}/>
+          {width > 816 && (
+            <button
+            onClick={toggleSidebar}
+            className="fixed left-0 top-0 w-10 z-50 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+            style={{
+              transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+            }}
+            aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+          >
+            <ChevronRight
+              size={14}
+              className={`transition-transform duration-300 block m-auto ${
+                sidebarVisible ? "rotate-180" : "rotate-0"
+              }`}
+            />  
+          </button>
+          )}
+
+
+      <main
+        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
+          sidebarVisible ? "ml-64" : "ml-0"
+        }`}
+      >
+        <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+        {renderHeader()}
+        <main className="container mx-auto px-4 py-8">
+
+          <div className="space-y-8">
             <motion.div
-              key={activeTab}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={pageTransition}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.6,
+                ease: [0.645, 0.045, 0.355, 1]
+              }}
+              className="flex flex-wrap space-x-1 p-1 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-lg border border-pink-100/20 dark:border-pink-900/20"
             >
-              {activeTab === 'overview' && renderOverviewCards()}
-              {activeTab === 'health' && renderHealthCards()}
-              {activeTab === 'cycle' && renderCycleTracking()}
-              {activeTab === 'medications' && renderMedications()}
-              {activeTab === 'activities' && renderActivities()}
-              {activeTab === 'goals' && renderGoals()}
-              {activeTab === 'education' && renderEducationResources()}
-              {activeTab === 'emergency' && renderEmergencyContacts()}
+              {[
+                'overview',
+                'health',
+                'cycle',
+                'medications',
+                'activities',
+                'goals',
+                'education',
+                'emergency'
+              ].map((tab) => (
+                <motion.button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                    activeTab === tab
+                      ? "bg-gradient-to-r from-pink-300 to-pink-400 text-white shadow-lg"
+                      : "text-gray-600 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </motion.button>
+              ))}
             </motion.div>
-          </AnimatePresence>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageTransition}
+              >
+                {activeTab === 'overview' && renderOverviewCards()}
+                {activeTab === 'health' && renderHealthCards()}
+                {activeTab === 'cycle' && renderCycleTracking()}
+                {activeTab === 'medications' && renderMedications()}
+                {activeTab === 'activities' && renderActivities()}
+                {activeTab === 'goals' && renderGoals()}
+                {activeTab === 'education' && renderEducationResources()}
+                {activeTab === 'emergency' && renderEmergencyContacts()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </main>
+        <AnimatePresence>
+          {showMentalHealthModal && selectedChild && (
+            <MentalHealthModal
+              child={selectedChild}
+              onClose={() => setShowMentalHealthModal(false)}
+            />
+          )}
+          {showNutritionModal && selectedChild && (
+            <NutritionModal
+              child={selectedChild}
+              onClose={() => setShowNutritionModal(false)}
+            />
+          )}
+          {showEducationModal && selectedChild && (
+            <EducationProgressModal
+              child={selectedChild}
+              onClose={() => setShowEducationModal(false)}
+            />
+          )}
+        </AnimatePresence>
         </div>
       </main>
-      <AnimatePresence>
-        {showMentalHealthModal && selectedChild && (
-          <MentalHealthModal
-            child={selectedChild}
-            onClose={() => setShowMentalHealthModal(false)}
-          />
-        )}
-        {showNutritionModal && selectedChild && (
-          <NutritionModal
-            child={selectedChild}
-            onClose={() => setShowNutritionModal(false)}
-          />
-        )}
-        {showEducationModal && selectedChild && (
-          <EducationProgressModal
-            child={selectedChild}
-            onClose={() => setShowEducationModal(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   )
 }
