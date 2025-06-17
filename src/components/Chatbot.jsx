@@ -36,32 +36,10 @@ import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
 const genAI = new GoogleGenerativeAI("AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const popularEmojis = [
-  "😊",
-  "😂",
-  "❤️",
-  "😍",
-  "🥰",
-  "😭",
-  "😘",
-  "🥺",
-  "✨",
-  "😅",
-  "🙏",
-  "🔥",
-  "😊",
-  "💕",
-  "😌",
-  "💜",
-  "😩",
-  "😤",
-  "🥳",
-  "💪",
-];
+const popularEmojis = ["😊", "😂", "❤️", "😍", "🥰", "😭", "😘", "🥺", "✨", "😅", "🙏", "🔥", "😊", "💕", "😌", "💜", "😩", "😤", "🥳", "💪"];
 
 export function Chatbot() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -73,11 +51,9 @@ export function Chatbot() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
-   const [darkMode, setDarkMode] = useState(
-        () => localStorage.getItem("darkMode") === "true"
-      );
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
+  const { width } = useScreenSize();
 
-  // Apply dark mode class to body when mode changes
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -86,13 +62,16 @@ export function Chatbot() {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("darkMode", newMode.toString());
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -153,10 +132,6 @@ export function Chatbot() {
     }
   };
 
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
-
   const stopSpeaking = () => {
     if ("speechSynthesis" in window) {
       speechSynthesis.cancel();
@@ -184,9 +159,9 @@ export function Chatbot() {
     }
   };
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -207,237 +182,261 @@ export function Chatbot() {
       .dark {
         --fc-bg-primary: #1A1B26;
         --fc-bg-secondary: #24283B;
-        --fc-text-primary: #FFFFFF;
+        --fc-text-primary: #E2E8F0;
         --fc-text-secondary: #A0AEC0;
         --fc-input-bg: #2D3748;
-        --fc-input-text: #FFFFFF;
+        --fc-input-text: #E2E8F0;
       }
 
-      .SheSync-chatbot {
-        font-family: 'Poppins', sans-serif;
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
       }
 
-      .header-button {
-        padding: 0.5rem;
-        color: var(--fc-text-primary);
-        background-color: transparent;
+      .main-container {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Fixed sidebar with no gap */
+      .sidebar-container {
+        width: 280px;
+        height: 100vh;
+        flex-shrink: 0;
+        background: var(--fc-bg-secondary);
+        border-right: 1px solid var(--fc-accent);
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 10;
+      }
+
+      /* Chat content with perfect spacing */
+      .chat-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 280px;
+        width: calc(100vw - 280px);
+        height: 100vh;
+        transition: margin-left 0.3s ease;
+      }
+
+      /* Mobile responsive styles */
+      @media (max-width: 816px) {
+        .sidebar-container {
+          transform: translateX(${sidebarVisible ? '0' : '-100%'});
+          transition: transform 0.3s ease;
+        }
+        
+        .chat-content {
+          margin-left: 0;
+          width: 100vw;
+        }
+      }
+
+      /* Message styling */
+      .messages-container {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+        background: var(--fc-bg-primary);
+      }
+
+      .message-wrapper {
+        display: flex;
+        margin-bottom: 1rem;
+      }
+
+      .message-wrapper.user {
+        justify-content: flex-end;
+      }
+
+      .message-wrapper.assistant {
+        justify-content: flex-start;
       }
 
       .message-bubble {
-        padding: 1.2rem 1.5rem;
-        border-radius: 1.5rem;
-        line-height: 1.6;
-        font-size: 0.95rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        transition: all 0.2s ease;
         max-width: 85%;
+        padding: 0.75rem 1.25rem;
+        border-radius: 1.25rem;
+        line-height: 1.5;
       }
 
-      .message-bubble:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      }
-
-      .message-appear {
-        animation: appearAnimation 0.3s ease-out;
-      }
-       
       .message-bubble.user {
         background: linear-gradient(135deg, #F687B3 0%, #FEC5D9 100%);
-        color: #FFFFFF;
-        border-radius: 1.5rem 1.5rem 0.5rem 1.5rem;
+        color: white;
+        border-bottom-right-radius: 0.25rem;
       }
 
       .message-bubble.assistant {
         background: var(--fc-bg-secondary);
         color: var(--fc-text-primary);
-        border: 1px solid #FEC5D9;
-        border-radius: 1.5rem 1.5rem 1.5rem 0.5rem;
+        border: 1px solid var(--fc-accent);
+        border-bottom-left-radius: 0.25rem;
       }
 
-      .emoji-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.5rem;
-        padding: 0.5rem;
-      }
-
-      .emoji-button {
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        transition: all 0.2s;
-        font-size: 1.25rem;
-      }
-
-      .emoji-button:hover {
-        background-color: var(--fc-accent);
-        transform: scale(1.1);
-      }
-
-      @keyframes appearAnimation {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      /* Scrollbar Styles */
-      .scrollbar-thin::-webkit-scrollbar {
-        width: 6px;
-      }
-      .scrollbar-thin::-webkit-scrollbar-track {
+      /* Input area */
+      .input-container {
+        padding: 1rem;
         background: var(--fc-bg-secondary);
+        border-top: 1px solid var(--fc-accent);
       }
-      .scrollbar-thin::-webkit-scrollbar-thumb {
-        background-color: var(--fc-accent);
-        border-radius: 3px;
+
+      /* Header */
+      .chat-header {
+        padding: 1rem;
+        background: var(--fc-accent);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      /* Typing indicator */
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        color: var(--fc-text-secondary);
+      }
+
+      /* Sidebar toggle button */
+      .sidebar-toggle {
+        position: fixed;
+        left: ${sidebarVisible ? '280px' : '0'};
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 20;
+        background: var(--fc-accent);
+        color: white;
+        border: none;
+        border-radius: 0 0.5rem 0.5rem 0;
+        padding: 0.75rem 0.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-menu-button {
+        display: none;
+      }
+
+      @media (max-width: 816px) {
+        .mobile-menu-button {
+          display: block;
+        }
       }
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
-  }, []);
-
-  const SidebarLink = ({ icon, label, onClick, active = false }) => {
-    return (
-      <button
-        onClick={onClick}
-        className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
-          active
-            ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-pink-800"
-        }`}
-      >
-        {icon}
-        <span>{label}</span>
-      </button>
-    );
-  };
-
-  const { width } = useScreenSize();
+  }, [sidebarVisible]);
 
   return (
-    <div className={`flex h-screen ${darkMode ? 'dark' : ''}`}>
-      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={7} darkMode={darkMode}/>
-      
-      {width > 816 && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-          style={{
-            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-          }}
-          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-        >
-          <ChevronRight
-            size={14}
-            className={`transition-transform duration-300 block m-auto ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
-          />  
-        </button>
-      )}
+    <div className={`main-container ${darkMode ? 'dark' : ''}`}>
+      {/* Sidebar */}
+      <div className="sidebar-container">
+        <SideBar 
+          sidebarVisible={sidebarVisible} 
+          setSidebarVisible={setSidebarVisible} 
+          activeLink={7} 
+          darkMode={darkMode}
+        />
+      </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col bg-[var(--fc-bg-primary)] text-[var(--fc-text-primary)] transition-colors duration-200">
-        <div className="flex items-center justify-between p-4 bg-[var(--fc-accent)] shadow-md">
-          <h2
-            style={{ fontFamily: "sans-serif" }}
-            className="text-2xl font-bold text-white"
-          >
-            SheSync Chatbot
-          </h2>
-          <div className="flex space-x-3">
+      {/* Sidebar Toggle Button */}
+      <button
+        onClick={toggleSidebar}
+        className="sidebar-toggle"
+        aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+      >
+        <ChevronRight
+          size={16}
+          className={`transition-transform duration-300 ${
+            sidebarVisible ? "rotate-180" : "rotate-0"
+          }`}
+        />
+      </button>
+
+       
+      {/* Main Chat Content */}
+      <div className="chat-content">
+        <div className="chat-header">
+          <div className="flex items-center">
+            {width <= 816 && (
+              <button
+                onClick={toggleSidebar}
+                className="mobile-menu-button mr-4 p-2"
+              >
+                <LayoutDashboard size={20} />
+              </button>
+            )}
+            <h2 className="text-2xl font-bold">SheSync Chatbot</h2>
+          </div>
+          <div className="flex space-x-2">
             <button
               onClick={toggleDarkMode}
-              className="p-2 text-white"
-              aria-label={
-                darkMode ? "Switch to light mode" : "Switch to dark mode"
-              }
+              className="p-2"
+              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <button
               onClick={clearChat}
-              className="p-2 text-white"
+              className="p-2"
               aria-label="Clear chat"
             >
               <Trash2 size={20} />
             </button>
             <button
-              onClick={() =>
-                alert(
-                  "Help: This is an Eve designed to provide support and information for young girls aged 13-20."
-                )
-              }
-              className="p-2 text-white"
+              onClick={() => alert("This chatbot provides support and information for young women aged 13-20.")}
+              className="p-2"
               aria-label="Help"
             >
               <HelpCircle size={20} />
             </button>
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-[var(--fc-accent)] scrollbar-track-[var(--fc-bg-secondary)]">
+
+        <div className="messages-container">
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              } message-appear`}
+              className={`message-wrapper ${message.role}`}
             >
-              {message.role === "assistant" && (
-                <div className="shrink-0 w-10 h-10 rounded-full bg-[var(--fc-accent)] flex items-center justify-center text-white mr-2 text-lg font-medium">
-                  AI
-                </div>
-              )}
-              <div className="flex flex-col max-w-[70%]">
-                <div
-                  className={`message-bubble ${
-                    message.role === "user" ? "user" : "assistant"
-                  } message-appear`}
-                >
-                  {formatMessage(message.content)}
-                </div>
+              <div className={`message-bubble ${message.role}`}>
+                {formatMessage(message.content)}
                 {message.role === "assistant" && (
-                  <div className="flex mt-2 space-x-2">
+                  <div className="mt-2 flex justify-end">
                     <button
-                      onClick={() =>
-                        isSpeaking
-                          ? stopSpeaking()
-                          : speakMessage(message.content)
-                      }
-                      className="flex items-center space-x-1 px-3 py-1 rounded-full bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] transition-colors duration-200 text-white"
+                      onClick={() => isSpeaking ? stopSpeaking() : speakMessage(message.content)}
+                      className="text-xs flex items-center space-x-1 bg-pink-500 hover:bg-pink-600 text-white px-2 py-1 rounded-full"
                     >
                       {isSpeaking ? (
-                        <VolumeX size={16} />
+                        <VolumeX size={14} />
                       ) : (
-                        <Volume2 size={16} />
+                        <Volume2 size={14} />
                       )}
                       <span>{isSpeaking ? "Stop" : "Read"}</span>
                     </button>
                   </div>
                 )}
               </div>
-              {message.role === "user" && (
-                <div className="shrink-0 w-10 h-10 rounded-full bg-[var(--fc-accent-dark)] flex items-center justify-center text-white ml-2 text-lg font-medium">
-                  U
-                </div>
-              )}
             </div>
           ))}
           {isTyping && (
-            <div className="flex items-center text-[var(--fc-text-secondary)] message-appear">
+            <div className="typing-indicator">
               <Loader className="animate-spin mr-2" size={16} />
               <span>SheSync AI is typing...</span>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
-        <div className="p-4 bg-[var(--fc-bg-secondary)] border-t border-[var(--fc-accent)] shadow-md">
-          <form onSubmit={handleSubmit} className="flex space-x-2">
+
+        <div className="input-container">
+          <form onSubmit={handleSubmit} className="flex gap-2">
             <input
               type="text"
               ref={inputRef}
@@ -445,7 +444,7 @@ export function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="flex-grow p-3 rounded-lg bg-[var(--fc-input-bg)] text-[var(--fc-input-text)] placeholder-[var(--fc-text-secondary)] border border-[var(--fc-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--fc-accent-dark)]"
+              className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
             />
             <input
               type="file"
@@ -455,34 +454,35 @@ export function Chatbot() {
             />
             <label
               htmlFor="file-upload"
-              className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-white transition-colors duration-200 cursor-pointer"
+              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white cursor-pointer"
             >
               <Paperclip size={20} />
             </label>
             <button
               type="button"
               onClick={toggleEmojiPicker}
-              className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-white transition-colors duration-200"
+              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
               aria-label="Add emoji"
             >
               <Smile size={20} />
             </button>
             <button
               type="submit"
-              className="p-3 rounded-lg bg-[var(--fc-accent)] hover:bg-[var(--fc-accent-dark)] text-white transition-colors duration-200"
+              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
               aria-label="Send message"
             >
               <Send size={20} />
             </button>
           </form>
+          
           {showEmojiPicker && (
-            <div className="mt-2 p-2 bg-[var(--fc-bg-secondary)] border border-[var(--fc-accent)] rounded-lg">
-              <div className="emoji-grid">
+            <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
+              <div className="grid grid-cols-5 gap-2">
                 {popularEmojis.map((emoji, index) => (
                   <button
                     key={index}
                     onClick={() => addEmoji(emoji)}
-                    className="emoji-button hover:bg-[var(--fc-accent)] hover:text-white"
+                    className="text-xl hover:bg-pink-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
                   >
                     {emoji}
                   </button>
