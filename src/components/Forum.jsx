@@ -897,35 +897,38 @@ export function Forum() {
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setActiveTab("forums")}
-                className={`px-4 py-2 rounded-full ${
+                className={`px-6 py-2 rounded-md ${
                   activeTab === "forums"
                     ? "bg-pink-600 text-white"
-                    : "bg-gray-200 text-gray-700"
-                } dark:bg-gray-800 dark:text-gray-100`}
+                    : "bg-gray-200 text-gray-800"
+                } dark:bg-gray-800 dark:text-gray-100  border border-pink-200
+                 hover:bg-pink-500 `}
               >
                 Forums
               </button>
               <button
                 onClick={() => setActiveTab("posts")}
-                className={`px-4 py-2 rounded-full ${
+                className={`px-4 py-2 rounded-md ${
                   activeTab === "posts"
                     ? "bg-pink-600 text-white"
                     : "bg-gray-200 text-gray-700"
-                } dark:bg-gray-800 dark:text-gray-100`}
-              >
+                } dark:bg-gray-800 dark:text-gray-100 border border-pink-300
+                hover:bg-gray-300`}>
                 Recent Posts
               </button>
               <div className="relative">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center px-4 py-2 rounded-full bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                >
+                  className="flex items-center px-4 py-2 rounded-md bg-gray-200 
+                   text-gray-800 dark:bg-gray-800 dark:text-gray-100 
+                    hover:bg-gray-300 border border-pink-300
+">
                   <Filter className="mr-2 h-4 w-4" />
                   Filters
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </button>
                 {showFilters && (
-                  <div className="absolute z-10 mt-2 w-48 bg-gray-200 dark:bg-gray-600 rounded-md shadow-lg p-2">
+                  <div className=" border border-pink-300 pl-10 pr-4 py-2 w-64 border absolute z-10 mt-2 w-48 bg-gray-200 dark:bg-gray-600 rounded-md shadow-lg p-2  hover:bg-gray-300">
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
@@ -947,11 +950,12 @@ export function Forum() {
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-2">
+              <div className=" flex items-center space-x-2">
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="bg-gray-200 dark:bg-gray-800  text-gray-700 dark:text-gray-100 px-1 py-2 rounded-full"
+                  className=" border border-pink-300
+                 bg-gray-200 dark:bg-gray-800  hover:bg-gray-300 text-gray-700 dark:text-gray-100 px-1 py-2 rounded-md"
                 >
                   <option value="all">All Categories</option>
                   {forumCategories.map((category) => (
@@ -962,16 +966,16 @@ export function Forum() {
                 </select>
               </div>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 pl-10">
               <div className="relative">
                 <Search
                   size={20}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 "
                 />
                 <input
                   type="text"
-                  placeholder="Search forums..."
-                  className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-600 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                  placeholder="Search Forums"
+                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-600 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   value={searchTerm}
                   onChange={handleSearch}
                 />

@@ -1,5 +1,4 @@
-"use client";
-
+"use-client"
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { useRouter } from "next/navigation"
@@ -41,15 +40,22 @@ import {
   ArrowRight,
   Send,
   Calendar,
-  Bath,
-  HandHeart,
+  Coffee,
+  Pill,
   Handshake,
+  Bath,
+  Wind,
+  ThermometerSun,
+  HandHeart,
+  GlassWater,
+  CircleDot,
 } from "lucide-react";
 import { element } from "prop-types";
 import { Dashboard } from "./Dashboard";
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "../hooks/useScreenSize";
 import SideBar from "./SideBar";
+
 const products = [
   {
     id: 1,
@@ -336,6 +342,7 @@ export function Ecom() {
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
@@ -454,7 +461,6 @@ export function Ecom() {
   );
 
   const { width } = useScreenSize();
-
   return (
     <div className={`flex h-screen`}>
       <SideBar

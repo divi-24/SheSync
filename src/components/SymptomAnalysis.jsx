@@ -125,7 +125,15 @@ export function SymptomAnalysis() {
   const [analysis, setAnalysis] = useState(null);
   const [symptomHistory, setSymptomHistory] = useState([]);
   const [showEmergencyAlert, setShowEmergencyAlert] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const toggleCategory = (category) => {
+  setSelectedCategories((prev) =>
+    prev.includes(category)
+      ? prev.filter((c) => c !== category)
+      : [...prev, category]
+  );
+};
+
   const [symptomPatterns, setSymptomPatterns] = useState({});
   const [showSeverityGuide, setShowSeverityGuide] = useState(false);
   const [currentSymptomGuide, setCurrentSymptomGuide] = useState(null);
@@ -235,22 +243,16 @@ export function SymptomAnalysis() {
                 {Object.keys(symptomCategories).map((category) => (
                   <motion.button
                     key={category}
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => toggleCategory(category)}
                     className={`p-4 rounded-lg text-base transition-colors ${
-                      selectedCategory === category
+                      selectedCategories.includes(category)
                         ? "bg-pink-200 text-pink-700 font-medium shadow-sm"
                         : "bg-pink-50 text-gray-700 hover:bg-pink-100 border border-pink-100"
                     }`}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <span
-                      className={
-                        selectedCategory === category
-                          ? "text-pink-700"
-                          : "text-gray-700"
-                      }
-                    >
+                    <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700"}>
                       {category}
                     </span>
                   </motion.button>
@@ -258,14 +260,12 @@ export function SymptomAnalysis() {
               </div>
             </div>
 
+
             {/* Symptom Selection */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Symptoms</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                {(selectedCategory
-                  ? symptomCategories[selectedCategory]
-                  : commonSymptoms
-                ).map((symptom) => (
+                {(selectedCategories.length > 0? selectedCategories.flatMap((cat) => symptomCategories[cat]): commonSymptoms).map((symptom) => (
                   <motion.button
                     key={symptom}
                     onClick={() => {
