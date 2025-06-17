@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   ClipboardList,
   Send,
@@ -400,36 +401,129 @@ export function Chatbot() {
           </div>
         </div>
 
-        <div className="messages-container">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`message-wrapper ${message.role}`}
-            >
-              <div className={`message-bubble ${message.role}`}>
-                {formatMessage(message.content)}
-                {message.role === "assistant" && (
-                  <div className="mt-2 flex justify-end">
-                    <button
-                      onClick={() => isSpeaking ? stopSpeaking() : speakMessage(message.content)}
-                      className="text-xs flex items-center space-x-1 bg-pink-500 hover:bg-pink-600 text-white px-2 py-1 rounded-full"
-                    >
-                      {isSpeaking ? (
-                        <VolumeX size={14} />
-                      ) : (
-                        <Volume2 size={14} />
-                      )}
-                      <span>{isSpeaking ? "Stop" : "Read"}</span>
-                    </button>
-                  </div>
-                )}
-              </div>
+        
+<div className="messages-container">
+          {messages.length === 0 ? (
+              <div className="empty-state w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center flex-col justify-center min-h-screen py-12">
+
+      <div className="empty-state-icon mb-8 relative">
+        <div className="absolute inset-0 bg-pink-400/30 rounded-full blur-xl animate-pulse"></div>
+        <Bot 
+          size={90} 
+          className="relative text-pink-400 hover:text-pink-500 dark:text-pink-300 hover:scale-110 transition-all duration-300 drop-shadow-2xl" 
+        />
+      </div>
+      
+
+      <div className="text-center mb-12">
+        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100 bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
+          Hey there! 👋
+        </h3>
+        <p className="text-gray-700 dark:text-gray-300 max-w-md sm:max-w-lg lg:max-w-xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed">
+          I'm your SheSync AI companion, here to chat about anything on your mind. 
+          Whether it's school, relationships, health, or just life in general - let's talk!
+        </p>
+      </div>
+      
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full max-w-4xl">
+    
+        <div className="group p-6 bg-gradient-to-br from-pink-300 to-pink-400 dark:from-gray-800/90 dark:to-gray-700/90 backdrop-blur-sm rounded-2xl border border-pink-200/50 dark:border-gray-600/50 hover:bg-gradient-to-br hover:from-pink-100 hover:to-pink-200 dark:hover:from-gray-700/95 dark:hover:to-gray-600/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/25 shadow-lg relative overflow-hidden ">
+          <div className="absolute inset-0 bg-gradient-to-br from-pink-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="mb-4 p-2 bg-pink-200/50 dark:bg-pink-900/30 rounded-xl w-fit">
+              <HeartPulse className="text-pink-500 hover:text-pink-600 transition-colors duration-300" size={28} />
             </div>
-          ))}
+            <p className=" font-semibold text-black dark:text-gray-200 group-hover:text-pink-700 dark:group-hover:text-pink-300 transition-colors duration-300">
+              Health & Wellness
+            </p>
+            <p className="text-sm text-black dark:text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Physical and mental wellbeing support
+            </p>
+          </div>
+        </div>
+        
+       
+        <div className="group p-6 bg-gradient-to-br from-purple-300 to-purple-400 dark:from-gray-800/90 dark:to-gray-700/90 backdrop-blur-sm rounded-2xl border border-purple-200/50 dark:border-gray-600/50 hover:bg-gradient-to-br hover:from-purple-100 hover:to-purple-200 dark:hover:from-gray-700/95 dark:hover:to-gray-600/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25 shadow-lg relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-400/ to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="mb-4 p-2 bg-purple-200/50 dark:bg-purple-900/30 rounded-xl w-fit">
+              <MessageSquare className="text-purple-500 hover:text-purple-600 transition-colors duration-300" size={28} />
+            </div>
+            <p className="text-base font-semibold text-gray-400 dark:text-gray-200 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-300">
+              Supportive Chat
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Friendly conversations and emotional support
+            </p>
+          </div>
+        </div>
+        
+        {/* Learning & Growth Card */}
+        <div className="group p-6 bg-gradient-to-br from-indigo-300 to-indigo-400 dark:from-gray-800/90 dark:to-gray-700/90 backdrop-blur-sm rounded-2xl border border-indigo-200/50 dark:border-gray-600/50 hover:bg-gradient-to-br hover:from-indigo-100 hover:to-indigo-200 dark:hover:from-gray-700/95 dark:hover:to-gray-600/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-indigo-500/25 shadow-lg relative overflow-hidden sm:col-span-2 lg:col-span-1">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div className="relative z-10">
+            <div className="mb-4 p-2 bg-indigo-200/50 dark:bg-indigo-900/30 rounded-xl w-fit">
+              <BookOpen className="text-indigo-500 hover:text-indigo-600 transition-colors duration-300" size={28} />
+            </div>
+            <p className="text-base font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors duration-300">
+              Learning & Growth
+            </p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Educational support and personal development
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+    </div>
+          
+          ) : (
+            <>
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`message-wrapper ${message.role}`}
+                >
+                  <div className={`message-bubble ${message.role}`}>
+                    {formatMessage(message.content)}
+                    {message.role === "assistant" && (
+                      <button
+                        onClick={() => isSpeaking ? stopSpeaking() : speakMessage(message.content)}
+                        className="speak-button"
+                      >
+                        {isSpeaking ? (
+                          <>
+                            <VolumeX size={14} />
+                            <span>Stop</span>
+                          </>
+                        ) : (
+                          <>
+                            <Volume2 size={14} />
+                            <span>Listen</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+          
           {isTyping && (
             <div className="typing-indicator">
-              <Loader className="animate-spin mr-2" size={16} />
-              <span>SheSync AI is typing...</span>
+              <Bot size={16} className="text-pink-500" />
+              <span>SheSync AI is thinking</span>
+              <div className="typing-dots">
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+              </div>
             </div>
           )}
           <div ref={messagesEndRef} />
