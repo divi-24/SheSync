@@ -110,7 +110,8 @@ export function Landing() {
             </button> */}
           </div>
           {/* Hero Section */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 transform-none hover:transform-none transition-none">
+
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="w-full md:w-1/2 pr-8">
                 <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
@@ -122,7 +123,8 @@ export function Landing() {
 
                 <button
                   onClick={() => navigate("/Signup")}
-                  className="bg-pink-600 dark:bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-700 dark:hover:bg-pink-600 transition-colors"
+                  className="bg-pink-600 dark:bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-700 dark:hover:bg-pink-600 transform hover:scale-105 transition duration-300 ease-in-out"
+
                 >
                   Join Us!
                 </button>
@@ -130,17 +132,17 @@ export function Landing() {
             </div>
           </Card>
           {/* Features Overview */}
-          <Card>
+          <Card className="!bg-white dark:!bg-gray-900 transition-none transform-none hover:transform-none">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
               Comprehensive Health Management
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <LayoutDashboard
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
-                  onClick={() => navigate("/dashboard")}
+                  onClick={() => navigate("/Dashboard")}
                 />
-                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer   active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Personalized Child Dashboard
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -149,7 +151,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <GraduationCap
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/blogs")}
@@ -163,7 +165,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800  rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 hover:bg-pink-200 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <ShoppingBag
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/Ecom")}
@@ -177,7 +179,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex hover:bg-pink-200 flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <ActivitySquare
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/tracker")}
@@ -191,7 +193,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="hover:bg-pink-200 flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
                 <Stethoscope
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/consultations")}
@@ -205,7 +207,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <Bot
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/ChatBot")}
@@ -219,7 +221,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg  ">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg   hover:bg-pink-200">
                 <UsersRound
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/dashboard")}
@@ -234,7 +236,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <HeartPulse
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/symptomsanalyzer")}
@@ -248,7 +250,7 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <MessageSquare
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/forums")}
@@ -261,7 +263,7 @@ export function Landing() {
                   expert Q&A on menstrual health and related topics.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <ClipboardList
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() => navigate("/partner")}
@@ -273,7 +275,7 @@ export function Landing() {
                   A tool to help you diagnose PCOS and get personalized advice.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <Handshake
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() =>
@@ -292,7 +294,7 @@ export function Landing() {
                   supportive community for women everywhere.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
                 <HeartHandshake
                   className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
                   onClick={() =>
@@ -432,12 +434,13 @@ export function Landing() {
           </Card>*/}
 
           {/* Key Benefits Section */}
-          <Card className=" hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500 ">
+          <Card className="!bg-white dark:!bg-gray-900 focus:outline-none focus:ring focus:ring-pink-300 hover:!bg-white dark:hover:!bg-gray-900 hover:shadow-none hover:scale-100 transition-none transform-none">
+
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
               Key Benefits of Using SheSync
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <BenefitItem
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 " >
+              <BenefitItem className="hover:bg-pink-200 transition-colors"
                 title="Personalized Insights"
                 description="SheSync offers a shared platform with dual dashboards, ensuring parents stay informed without invading their child's privacy, fostering trust and security."
               />
@@ -882,7 +885,8 @@ const FeatureOverview = ({ icon, title, description }) => {
 
 const BenefitItem = ({ title, description }) => {
   return (
-    <div className="border-l-4 border-pink-500 pl-4 dark:border-pink-700">
+    <div className="border-l-4 border-pink-500 pl-4 dark:border-pink-700 bg-white dark:bg-gray-900 hover:bg-pink-200 hover:scale-105 transition-all duration-300 ease-in-out transform rounded-md">
+
       <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
         {title}
       </h4>
