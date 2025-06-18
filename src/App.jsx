@@ -103,12 +103,20 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    // 🔥 Only show the loader once per session
+    return !sessionStorage.getItem("loaderShown");
+  });
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 6000); // ⏱️ Show for 3s
-    return () => clearTimeout(timeout);
-  }, []);
+    if (loading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("loaderShown", "true"); // 🧠 Remember it
+      }, 6000); // Adjust if needed
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
 
   return (
     <ThemeProvider>
