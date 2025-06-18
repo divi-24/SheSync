@@ -64,19 +64,28 @@ export default function SideBar({
   return (
     <div className={`${width < 816 ? 'fixed' : 'relative'} z-50`}>
       {/* Mobile menu button when sidebar is hidden */}
-      {!sidebarVisible && width < 816 && (
+      
         <div className="fixed top-4 left-4 p-2 bg-pink-100 dark:bg-gray-700 rounded-full z-50 shadow-md">
-          <Menu
-            size={24}
-            className="text-black dark:text-white"
-            onClick={() => setSidebarVisible(true)}
+          {sidebarVisible ? (
+            <X
+              size={24}
+              className="text-black dark:text-white"
+              onClick={() => setSidebarVisible(false)}
+            />
+          ):(
+            <Menu
+              size={24}
+              className="text-black dark:text-white"
+              onClick={() => setSidebarVisible(true)}
           />
+          )}         
         </div>
-      )}
 
-      {/* Sidebar */}
+      {/* Sidebar*/}
       <aside
-        className={`bg-pink-100 dark:bg-gray-800 w-64 max-h-screen overflow-y-auto p-4 transition-all duration-300 ease-in-out ${
+        className={`bg-pink-100 dark:bg-gray-800 w-64 max-h-screen ${
+    width < 816 ? "overflow-y-auto" : "overflow-hidden"
+  } p-4 transition-all duration-300 ease-in-out transform ${
           sidebarVisible ? "translate-x-0" : "-translate-x-full"
         } ${width < 816 ? 'fixed' : 'relative'} shadow-lg`}
       >
