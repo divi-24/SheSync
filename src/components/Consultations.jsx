@@ -36,13 +36,8 @@ import {
   X,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
-import { Dialog, Transition } from "@headlessui/react";
+import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api";
+import { Dialog, Transition } from '@headlessui/react';
 import { format, addDays, parse, isBefore, isAfter } from "date-fns";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
@@ -62,27 +57,15 @@ const specializations = [
 ];
 
 const consultationTypes = ["In-Person", "Video Consultation", "Both"];
-const languageOptions = [
-  "English",
-  "Hindi",
-  "Gujarati",
-  "Marathi",
-  "Bengali",
-  "Tamil",
-  "Telugu",
-];
-const experienceRanges = [
-  "0-5 years",
-  "5-10 years",
-  "10-15 years",
-  "15+ years",
-];
+const languageOptions = ["English", "Hindi", "Gujarati", "Marathi", "Bengali", "Tamil", "Telugu"];
+const experienceRanges = ["0-5 years", "5-10 years", "10-15 years", "15+ years"];
 const priceRanges = ["₹500-1000", "₹1000-2000", "₹2000-3000", "₹3000+"];
 
 export function Consultations() {
   const navigate = useNavigate();
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -93,7 +76,7 @@ export function Consultations() {
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lng: 78.9629 });
-
+  
   const [filters, setFilters] = useState({
     specialization: "",
     consultationType: "",
@@ -111,11 +94,10 @@ export function Consultations() {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-  const [selectedConsultationType, setSelectedConsultationType] =
-    useState(null);
+  const [selectedConsultationType, setSelectedConsultationType] = useState(null);
   const [bookingStep, setBookingStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState("");
-
+  
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
@@ -124,6 +106,13 @@ export function Consultations() {
     googleMapsApiKey: "AIzaSyCIbAtB0SC6j13FLT4RTDDGgMud74q3-5A",
     libraries,
   });
+
+  // Dark mode toggle
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("darkMode", newMode.toString());
+  };
 
   // Map handlers
   const onMapLoad = useCallback((map) => setMap(map), []);
@@ -140,9 +129,9 @@ export function Consultations() {
     try {
       setIsSearching(true);
       setSearchError("");
-
+      
       let searchLocation = location || userLocation;
-
+      
       // If we have a search query, geocode it
       if (searchQuery && !location) {
         const geocoder = new window.google.maps.Geocoder();
@@ -151,13 +140,13 @@ export function Consultations() {
             status === "OK" ? resolve(results) : reject(status);
           });
         });
-
+        
         if (results.length === 0) {
           setSearchError("Location not found");
           setIsSearching(false);
           return;
         }
-
+        
         searchLocation = results[0].geometry.location;
         setUserLocation(searchLocation);
         setMapCenter({ lat: searchLocation.lat(), lng: searchLocation.lng() });
@@ -179,29 +168,25 @@ export function Consultations() {
 
       service.nearbySearch(request, (results, status) => {
         if (status === "OK" && results.length > 0) {
-          const newMarkers = results.map((place) => ({
+          const newMarkers = results.map(place => ({
             id: place.place_id,
             name: place.name,
             location: place.geometry.location,
             rating: place.rating,
             address: place.vicinity,
           }));
-
+          
           setMarkers(newMarkers);
-          setApiDoctors(
-            results.map((place) => ({
-              id: place.place_id,
-              name: place.name,
-              specialization: place.types.includes("doctor")
-                ? "Gynecologist"
-                : "Women's Health Specialist",
-              rating: place.rating || 4.5,
-              reviewCount: place.user_ratings_total || 0,
-              availableDate: new Date().toISOString().split("T")[0],
-              price: Math.floor(Math.random() * 100) + 100,
-              image: "/images/women.jpeg",
-            }))
-          );
+          setApiDoctors(results.map(place => ({
+            id: place.place_id,
+            name: place.name,
+            specialization: place.types.includes('doctor') ? 'Gynecologist' : 'Women\'s Health Specialist',
+            rating: place.rating || 4.5,
+            reviewCount: place.user_ratings_total || 0,
+            availableDate: new Date().toISOString().split('T')[0],
+            price: Math.floor(Math.random() * 100) + 100,
+            image: "/images/women.jpeg",
+          })));
         } else {
           setSearchError("No doctors found in this area");
         }
@@ -220,7 +205,7 @@ export function Consultations() {
         (position) => {
           const location = {
             lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            lng: position.coords.longitude
           };
           setUserLocation(location);
           setMapCenter(location);
@@ -270,20 +255,14 @@ export function Consultations() {
           />
           <div className="flex-1">
             <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-lg font-semibold dark:text-white">
-                  {doctor.name}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {doctor.specialization}
-                </p>
+          <div>
+            <h3 className="text-lg font-semibold dark:text-white">{doctor.name}</h3>
+            <p className="text-gray-600 dark:text-gray-300">{doctor.specialization}</p>
               </div>
               <div className="flex items-center space-x-1">
                 <Star className="h-5 w-5 fill-current text-yellow-400" />
                 <span className="font-medium">{doctor.rating}</span>
-                <span className="text-sm text-gray-500">
-                  ({doctor.reviewCount})
-                </span>
+                <span className="text-sm text-gray-500">({doctor.reviewCount})</span>
               </div>
             </div>
 
@@ -316,8 +295,8 @@ export function Consultations() {
               <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 ₹{doctor.price}
               </div>
-            </div>
           </div>
+        </div>
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3">
@@ -362,10 +341,7 @@ export function Consultations() {
   const FilterSection = ({ filters, setFilters, showFilters }) => (
     <motion.div
       initial={{ height: 0, opacity: 0 }}
-      animate={{
-        height: showFilters ? "auto" : 0,
-        opacity: showFilters ? 1 : 0,
-      }}
+      animate={{ height: showFilters ? "auto" : 0, opacity: showFilters ? 1 : 0 }}
       transition={{ duration: 0.3 }}
       className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6"
     >
@@ -378,16 +354,12 @@ export function Consultations() {
             </label>
             <select
               value={filters.specialization}
-              onChange={(e) =>
-                setFilters({ ...filters, specialization: e.target.value })
-              }
+              onChange={(e) => setFilters({ ...filters, specialization: e.target.value })}
               className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="">All Specializations</option>
               {specializations.map((spec) => (
-                <option key={spec} value={spec}>
-                  {spec}
-                </option>
+                <option key={spec} value={spec}>{spec}</option>
               ))}
             </select>
           </div>
@@ -399,16 +371,12 @@ export function Consultations() {
             </label>
             <select
               value={filters.consultationType}
-              onChange={(e) =>
-                setFilters({ ...filters, consultationType: e.target.value })
-              }
+              onChange={(e) => setFilters({ ...filters, consultationType: e.target.value })}
               className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="">All Types</option>
               {consultationTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
+                <option key={type} value={type}>{type}</option>
               ))}
             </select>
           </div>
@@ -420,16 +388,12 @@ export function Consultations() {
             </label>
             <select
               value={filters.language}
-              onChange={(e) =>
-                setFilters({ ...filters, language: e.target.value })
-              }
+              onChange={(e) => setFilters({ ...filters, language: e.target.value })}
               className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="">All Languages</option>
               {languageOptions.map((lang) => (
-                <option key={lang} value={lang}>
-                  {lang}
-                </option>
+                <option key={lang} value={lang}>{lang}</option>
               ))}
             </select>
           </div>
@@ -441,16 +405,12 @@ export function Consultations() {
             </label>
             <select
               value={filters.experience}
-              onChange={(e) =>
-                setFilters({ ...filters, experience: e.target.value })
-              }
+              onChange={(e) => setFilters({ ...filters, experience: e.target.value })}
               className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="">Any Experience</option>
               {experienceRanges.map((range) => (
-                <option key={range} value={range}>
-                  {range}
-                </option>
+                <option key={range} value={range}>{range}</option>
               ))}
             </select>
           </div>
@@ -462,16 +422,12 @@ export function Consultations() {
             </label>
             <select
               value={filters.priceRange}
-              onChange={(e) =>
-                setFilters({ ...filters, priceRange: e.target.value })
-              }
+              onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
               className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             >
               <option value="">Any Price</option>
               {priceRanges.map((range) => (
-                <option key={range} value={range}>
-                  {range}
-                </option>
+                <option key={range} value={range}>{range}</option>
               ))}
             </select>
           </div>
@@ -504,9 +460,7 @@ export function Consultations() {
 
   const SortingControls = ({ sortBy, setSortBy }) => (
     <div className="flex items-center space-x-4 mb-6">
-      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-        Sort by:
-      </span>
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Sort by:</span>
       <button
         onClick={() => setSortBy("rating")}
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
@@ -545,18 +499,9 @@ export function Consultations() {
 
   const BookingModal = ({ isOpen, closeModal, doctor }) => {
     const timeSlots = [
-      "09:00 AM",
-      "09:30 AM",
-      "10:00 AM",
-      "10:30 AM",
-      "11:00 AM",
-      "11:30 AM",
-      "02:00 PM",
-      "02:30 PM",
-      "03:00 PM",
-      "03:30 PM",
-      "04:00 PM",
-      "04:30 PM",
+      "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM",
+      "11:00 AM", "11:30 AM", "02:00 PM", "02:30 PM",
+      "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM"
     ];
 
     const renderStep = () => {
@@ -580,9 +525,7 @@ export function Consultations() {
                   }`}
                 >
                   <Video className="h-6 w-6 mx-auto mb-2 text-pink-500" />
-                  <span className="block text-sm font-medium">
-                    Video Consultation
-                  </span>
+                  <span className="block text-sm font-medium">Video Consultation</span>
                   <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">
                     ₹{doctor.price} for 30 mins
                   </span>
@@ -599,9 +542,7 @@ export function Consultations() {
                   }`}
                 >
                   <Stethoscope className="h-6 w-6 mx-auto mb-2 text-pink-500" />
-                  <span className="block text-sm font-medium">
-                    Clinic Visit
-                  </span>
+                  <span className="block text-sm font-medium">Clinic Visit</span>
                   <span className="block text-xs text-gray-500 dark:text-gray-400 mt-1">
                     ₹{doctor.price + 200} for 30 mins
                   </span>
@@ -627,9 +568,7 @@ export function Consultations() {
                         setBookingStep(3);
                       }}
                       className={`p-3 rounded-lg border text-center transition-colors ${
-                        selectedDate &&
-                        format(selectedDate, "yyyy-MM-dd") ===
-                          format(date, "yyyy-MM-dd")
+                        selectedDate && format(selectedDate, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
                           ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20"
                           : "border-gray-200 dark:border-gray-700 hover:border-pink-300"
                       }`}
@@ -686,12 +625,7 @@ export function Consultations() {
               <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 space-y-4">
                 <div className="flex justify-between text-sm">
                   <span>Consultation Fee</span>
-                  <span>
-                    ₹
-                    {selectedConsultationType === "clinic"
-                      ? doctor.price + 200
-                      : doctor.price}
-                  </span>
+                  <span>₹{selectedConsultationType === "clinic" ? doctor.price + 200 : doctor.price}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Platform Fee</span>
@@ -700,12 +634,7 @@ export function Consultations() {
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-2">
                   <div className="flex justify-between font-medium">
                     <span>Total Amount</span>
-                    <span>
-                      ₹
-                      {selectedConsultationType === "clinic"
-                        ? doctor.price + 250
-                        : doctor.price + 50}
-                    </span>
+                    <span>₹{selectedConsultationType === "clinic" ? doctor.price + 250 : doctor.price + 50}</span>
                   </div>
                 </div>
               </div>
@@ -818,17 +747,14 @@ export function Consultations() {
     setIsBookingModalOpen(true);
   };
 
-  const { width } = useScreenSize();
+  const {width} = useScreenSize();
 
   return (
-    <div className={`flex h-screen`}>
-      <SideBar
-        sidebarVisible={sidebarVisible}
-        setSidebarVisible={setSidebarVisible}
-        activeLink={6}
-      />
-      {width > 816 && (
-        <button
+    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
+
+      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={6}/>
+        {width > 816 && (
+          <button
           onClick={toggleSidebar}
           className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           style={{
@@ -841,17 +767,15 @@ export function Consultations() {
             className={`transition-transform duration-300 block m-auto ${
               sidebarVisible ? "rotate-180" : "rotate-0"
             }`}
-          />
+          />  
         </button>
-      )}
+        )}
 
       {/* Main content */}
 
-      <main
-        className={`flex-1 p-8 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
-      >
+      <main className={`flex-1 p-8 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
+        sidebarVisible ? "ml-64" : "ml-0"
+      }`}>
         <div className="container mx-auto py-8 px-4">
           {/* Header (keep the same as before) */}
           <div className="flex justify-between items-center mb-8">
@@ -863,7 +787,14 @@ export function Consultations() {
             >
               Expert Consultations
             </motion.h2>
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+            >
+              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
           </div>
+
 
           {/* Enhanced Search Section */}
           {isLoaded && (
@@ -876,7 +807,7 @@ export function Consultations() {
               <h2 className="text-2xl font-semibold mb-4 dark:text-white">
                 Find Nearby Gynecologists
               </h2>
-
+              
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <div className="flex-1 relative">
                   <div className="relative flex items-center">
@@ -886,7 +817,7 @@ export function Consultations() {
                       placeholder="Enter location or 'Near Me'"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                       className="w-full pl-3 pr-24 py-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700"
                     />
                     <div className="absolute right-0 flex space-x-1">
@@ -895,12 +826,12 @@ export function Consultations() {
                         disabled={isSearching}
                         className="bg-pink-500 text-white px-4 py-2 rounded-r-md hover:bg-pink-600 transition-colors duration-300 disabled:opacity-50"
                       >
-                        {isSearching ? "Searching..." : "Search"}
+                        {isSearching ? 'Searching...' : 'Search'}
                       </button>
                     </div>
                   </div>
                 </div>
-
+                
                 <button
                   onClick={getUserLocation}
                   disabled={isSearching}
@@ -949,12 +880,10 @@ export function Consultations() {
                       onClick={() => setSelectedMarker(marker)}
                     >
                       {selectedMarker?.id === marker.id && (
-                        <InfoWindow
-                          onCloseClick={() => setSelectedMarker(null)}
-                        >
+                        <InfoWindow onCloseClick={() => setSelectedMarker(null)}>
                           <div className="p-2 text-sm">
                             <h3 className="font-semibold">{marker.name}</h3>
-                            <p>Rating: {marker.rating || "N/A"}</p>
+                            <p>Rating: {marker.rating || 'N/A'}</p>
                             <p>Address: {marker.address}</p>
                           </div>
                         </InfoWindow>
@@ -976,9 +905,7 @@ export function Consultations() {
               <span>{showFilters ? "Hide Filters" : "Show Filters"}</span>
             </button>
             <button
-              onClick={() =>
-                setSortBy(sortBy === "rating" ? "distance" : "rating")
-              }
+              onClick={() => setSortBy(sortBy === "rating" ? "distance" : "rating")}
               className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
             >
               <ArrowUpDown className="h-5 w-5" />
@@ -986,29 +913,21 @@ export function Consultations() {
             </button>
           </div>
 
-          <FilterSection
-            filters={filters}
-            setFilters={setFilters}
-            showFilters={showFilters}
-          />
+          <FilterSection filters={filters} setFilters={setFilters} showFilters={showFilters} />
           <SortingControls sortBy={sortBy} setSortBy={setSortBy} />
 
           {/* Doctors List (keep the same as before) */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {isSearching ? (
-              Array(6)
-                .fill()
-                .map((_, i) => <DoctorCardSkeleton key={i} />)
+              Array(6).fill().map((_, i) => <DoctorCardSkeleton key={i} />)
             ) : apiDoctors.length > 0 ? (
-              apiDoctors.map((doctor) => (
-                <DoctorCard key={doctor.id} doctor={doctor} />
-              ))
+              apiDoctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} />)
             ) : (
               <div className="text-center text-gray-500 dark:text-gray-400 col-span-full py-8">
                 No doctors found. Try adjusting your search criteria.
               </div>
             )}
-          </div>
+</div>
         </div>
       </main>
 

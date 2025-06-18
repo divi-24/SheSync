@@ -91,6 +91,25 @@ export function PeriodTracker() {
     healthTips: true,
   });
   const [showHealthTips, setShowHealthTips] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("darkMode") === "true"
+  );
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", newMode.toString());
+      return newMode;
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -183,12 +202,12 @@ export function PeriodTracker() {
         const response = await axios.post(
           `${server_url}api/period/trackerdata`,
           submissionData,
+        {headers: 
           {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${localStorage.getItem("token") || ""}`, // Ensure token exists
-            },
-          }
+            "Content-Type": "application/json",
+            "Authorization": `${localStorage.getItem("token") || ""}`, // Ensure token exists
+          },
+        }
         );
         console.log("Data submitted successfully:", response.data);
         setShowHealthTips(true);
@@ -365,29 +384,25 @@ export function PeriodTracker() {
   const { width } = useScreenSize();
 
   return (
-    <div className={`flex h-screen`}>
+    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
       {/* Sidebar */}
-      <SideBar
-        sidebarVisible={sidebarVisible}
-        setSidebarVisible={setSidebarVisible}
-        activeLink={4}
-      />
+      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={4}/>
       {width > 816 && (
         <button
-          onClick={toggleSidebar}
-          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-          style={{
-            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-          }}
-          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-        >
-          <ChevronRight
-            size={14}
-            className={`transition-transform duration-300 block m-auto ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
+        onClick={toggleSidebar}
+        className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+        style={{
+          transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+        }}
+        aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+      >
+        <ChevronRight
+          size={14}
+          className={`transition-transform duration-300 block m-auto ${
+            sidebarVisible ? "rotate-180" : "rotate-0"
+          }`}
+        />  
+      </button>
       )}
 
       {/* Main Content */}
@@ -402,6 +417,16 @@ export function PeriodTracker() {
             <h2 className="text-3xl font-bold text-pink-600 dark:text-pink-400">
               Period Tracker
             </h2>
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
+            >
+              {darkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </button>
           </div>
 
           <div className="bg-pink-50 dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">

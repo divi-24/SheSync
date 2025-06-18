@@ -48,6 +48,7 @@ const local_url = "http://localhost:3000/api/period/";
 
 export function Dashboard() {
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
   const [waterIntake, setWaterIntake] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -163,6 +164,14 @@ export function Dashboard() {
   }, [server_url, local_url]);
 
   useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  useEffect(() => {
     const notificationInterval = setInterval(() => {
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 5000);
@@ -171,16 +180,16 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setSidebarVisible(false);
-      }
-    };
+  const handleResize = () => {
+    if (window.innerWidth < 768) {
+      setSidebarVisible(false);
+    }
+  };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  handleResize();
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
 
   const handleWaterIntake = () => {
     const userId = localStorage.getItem("userId");
@@ -305,7 +314,7 @@ export function Dashboard() {
   const healthTips = getHealthTips();
 
   return (
-    <div className={`flex h-screen`}>
+    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
       <style jsx global>{`
         @keyframes pulse {
           0%,
@@ -376,9 +385,9 @@ export function Dashboard() {
       `}</style>
       <aside
         className={`w-[240px] bg-pink-100 dark:bg-gray-800 flex flex-col transition-all duration-300 ease-in-out fixed h-full ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 ${window.innerWidth >= 768 ? "md:relative" : ""}`}
-        style={{ zIndex: 40 }}
+    sidebarVisible ? "translate-x-0" : "-translate-x-full"
+  } md:translate-x-0 ${window.innerWidth >= 768 ? "md:relative" : ""}`}
+  style={{ zIndex: 40 }}
       >
         <div className="px-4 py-4 flex flex-col space-y-2">
           <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 mt-4 ml-4">
@@ -486,11 +495,9 @@ export function Dashboard() {
         </div>
       </aside>
 
-      <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "md:ml-[240px]" : "ml-0"
-        }`}
-      >
+      <main className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
+    sidebarVisible ? "md:ml-[240px]" : "ml-0"
+  }`}>
         <div className="max-w-6xl mx-auto space-y-6">
           {error && (
             <div
@@ -510,6 +517,12 @@ export function Dashboard() {
                 className="p-2 rounded-full bg-[rgba(var(--foreground),0.1)] text-[rgb(var(--foreground))] transition-transform hover:scale-110"
               >
                 {showPrivacyForm ? <Unlock size={20} /> : <Lock size={20} />}
+              </button>
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="p-2 rounded-full bg-[rgba(var(--foreground),0.1)] text-[rgb(var(--foreground))] transition-transform hover:scale-110"
+              >
+                {darkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <button
                 onClick={sendSOSEmails}
