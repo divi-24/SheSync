@@ -58,17 +58,27 @@ import {
   Smile,
   PlusCircle,
   Tag,
-  Eye
+  Eye,
 } from "lucide-react";
-import CommunityChat from './CommunityChat';
+import CommunityChat from "./CommunityChat";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { use } from "react";
 
 // Add post tags for categorization
 const postTags = [
-  "PCOS", "Menstruation", "Hormones", "Wellness", "Diet", "Exercise",
-  "Mental Health", "Support", "Q&A", "Experience", "Tips", "Research"
+  "PCOS",
+  "Menstruation",
+  "Hormones",
+  "Wellness",
+  "Diet",
+  "Exercise",
+  "Mental Health",
+  "Support",
+  "Q&A",
+  "Experience",
+  "Tips",
+  "Research",
 ];
 
 // Add reaction types with emojis and labels
@@ -77,37 +87,37 @@ const reactionTypes = [
   { emoji: "❤️", label: "Support", count: 0 },
   { emoji: "🤗", label: "Hug", count: 0 },
   { emoji: "💡", label: "Insightful", count: 0 },
-  { emoji: "🙏", label: "Thanks", count: 0 }
+  { emoji: "🙏", label: "Thanks", count: 0 },
 ];
 
 // Update CreatePost component to receive forumCategories as a prop
 const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    category: '',
+    title: "",
+    content: "",
+    category: "",
     tags: [],
-    visibility: 'public',
-    image: null
+    visibility: "public",
+    image: null,
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleTagToggle = (tag) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       tags: prev.tags.includes(tag)
-        ? prev.tags.filter(t => t !== tag)
-        : [...prev.tags, tag]
+        ? prev.tags.filter((t) => t !== tag)
+        : [...prev.tags, tag],
     }));
   };
 
@@ -117,9 +127,9 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          image: reader.result
+          image: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -128,12 +138,16 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setIsSubmitting(true);
 
     try {
-      if (!formData.title.trim() || !formData.content.trim() || !formData.category) {
-        throw new Error('Please fill in all required fields');
+      if (
+        !formData.title.trim() ||
+        !formData.content.trim() ||
+        !formData.category
+      ) {
+        throw new Error("Please fill in all required fields");
       }
 
       await onSubmit(formData);
@@ -163,7 +177,7 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         className="bg-white rounded-2xl p-6 w-full max-w-2xl shadow-xl"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex justify-between items-center mb-6">
@@ -209,10 +223,12 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
                      transition-all duration-200"
             required
           >
-            <option value="" className="text-gray-400">Select Category</option>
-            {forumCategories.map(category => (
-              <option 
-                key={category.id} 
+            <option value="" className="text-gray-400">
+              Select Category
+            </option>
+            {forumCategories.map((category) => (
+              <option
+                key={category.id}
                 value={category.name}
                 className="text-gray-700"
               >
@@ -222,15 +238,16 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
           </select>
 
           <div className="flex flex-wrap gap-2">
-            {postTags.map(tag => (
+            {postTags.map((tag) => (
               <button
                 type="button"
                 key={tag}
                 onClick={() => handleTagToggle(tag)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200
-                  ${formData.tags.includes(tag)
-                    ? 'bg-pink-100 text-pink-600 hover:bg-pink-200'
-                    : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
+                  ${
+                    formData.tags.includes(tag)
+                      ? "bg-pink-100 text-pink-600 hover:bg-pink-200"
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                   }`}
               >
                 #{tag}
@@ -241,7 +258,7 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
           <div className="flex space-x-3">
             <button
               type="button"
-              onClick={() => document.getElementById('image-upload').click()}
+              onClick={() => document.getElementById("image-upload").click()}
               className="flex items-center space-x-2 px-4 py-2 rounded-xl
                        bg-pink-50 hover:bg-pink-100
                        text-pink-600 transition-all duration-200"
@@ -266,9 +283,15 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
                        focus:ring-2 focus:ring-pink-200 focus:border-transparent
                        transition-all duration-200"
             >
-              <option value="public" className="text-gray-700 bg-white">Public</option>
-              <option value="private" className="text-gray-700 bg-white">Private</option>
-              <option value="anonymous" className="text-gray-700 bg-white">Anonymous</option>
+              <option value="public" className="text-gray-700 bg-white">
+                Public
+              </option>
+              <option value="private" className="text-gray-700 bg-white">
+                Private
+              </option>
+              <option value="anonymous" className="text-gray-700 bg-white">
+                Anonymous
+              </option>
             </select>
           </div>
 
@@ -283,7 +306,7 @@ const CreatePost = ({ isOpen, onClose, onSubmit, forumCategories }) => {
                 type="button"
                 onClick={() => {
                   setImagePreview(null);
-                  setFormData(prev => ({ ...prev, image: null }));
+                  setFormData((prev) => ({ ...prev, image: null }));
                 }}
                 className="absolute top-2 right-2 p-1.5 bg-white/80 hover:bg-white 
                          text-gray-600 rounded-full transition-all duration-200"
@@ -366,7 +389,11 @@ export function Forum() {
   const [bookmarks, setBookmarks] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
   const [showNewPostModal, setShowNewPostModal] = useState(false);
-  const [newPost, setNewPost] = useState({ title: "", content: "", category: "" });
+  const [newPost, setNewPost] = useState({
+    title: "",
+    content: "",
+    category: "",
+  });
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const postsPerPage = 5;
@@ -382,22 +409,6 @@ export function Forum() {
   const [selectedCommunity, setSelectedCommunity] = useState(null);
   const [showCommunityChat, setShowCommunityChat] = useState(false);
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
-
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
@@ -407,31 +418,31 @@ export function Forum() {
   };
 
   const handleLike = (postId) => {
-    setRecentPosts(posts =>
-      posts.map(post =>
+    setRecentPosts((posts) =>
+      posts.map((post) =>
         post.id === postId ? { ...post, likes: post.likes + 1 } : post
       )
     );
   };
 
   const handleBookmark = (postId) => {
-    setBookmarks(prev =>
+    setBookmarks((prev) =>
       prev.includes(postId)
-        ? prev.filter(id => id !== postId)
+        ? prev.filter((id) => id !== postId)
         : [...prev, postId]
     );
   };
 
   const markNotificationRead = (id) => {
-    setNotifications(notifications =>
-      notifications.map(n => (n.id === id ? { ...n, read: true } : n))
+    setNotifications((notifications) =>
+      notifications.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
   };
 
   const toggleSolved = (postId) => {
-    setSolvedPosts(prev =>
+    setSolvedPosts((prev) =>
       prev.includes(postId)
-        ? prev.filter(id => id !== postId)
+        ? prev.filter((id) => id !== postId)
         : [...prev, postId]
     );
   };
@@ -450,32 +461,74 @@ export function Forum() {
       image: postData.image,
       visibility: postData.visibility,
       reactions: {},
-      views: 0
+      views: 0,
     };
 
-    setRecentPosts(prev => [newPostData, ...prev]);
+    setRecentPosts((prev) => [newPostData, ...prev]);
   };
 
   const handleReaction = (postId, reactionType) => {
-    setPostReactions(prev => {
+    setPostReactions((prev) => {
       const postReactions = prev[postId] || {};
       return {
         ...prev,
         [postId]: {
           ...postReactions,
-          [reactionType]: (postReactions[reactionType] || 0) + 1
-        }
+          [reactionType]: (postReactions[reactionType] || 0) + 1,
+        },
       };
     });
   };
 
   const forumCategories = [
-    { id: 1, name: "Women's Health", icon: <Flower />, color: "bg-white-100", members: 1200, posts: 5600 },
-    { id: 2, name: "Fitness & Nutrition", icon: <Dumbbell />, color: "bg-white-100", members: 980, posts: 4200 },
-    { id: 3, name: "Mental Wellness", icon: <Brain />, color: "bg-white-100", members: 850, posts: 3800 },
-    { id: 4, name: "Reproductive Health", icon: <Baby />, color: "bg-white-100", members: 720, posts: 3100 },
-    { id: 5, name: "Sexual Health", icon: <Shield />, color: "bg-white-100", members: 650, posts: 2800 },
-    { id: 6, name: "Menopause Support", icon: <BookOpen />, color: "bg-white-100", members: 590, posts: 2400 },
+    {
+      id: 1,
+      name: "Women's Health",
+      icon: <Flower />,
+      color: "bg-white-100",
+      members: 1200,
+      posts: 5600,
+    },
+    {
+      id: 2,
+      name: "Fitness & Nutrition",
+      icon: <Dumbbell />,
+      color: "bg-white-100",
+      members: 980,
+      posts: 4200,
+    },
+    {
+      id: 3,
+      name: "Mental Wellness",
+      icon: <Brain />,
+      color: "bg-white-100",
+      members: 850,
+      posts: 3800,
+    },
+    {
+      id: 4,
+      name: "Reproductive Health",
+      icon: <Baby />,
+      color: "bg-white-100",
+      members: 720,
+      posts: 3100,
+    },
+    {
+      id: 5,
+      name: "Sexual Health",
+      icon: <Shield />,
+      color: "bg-white-100",
+      members: 650,
+      posts: 2800,
+    },
+    {
+      id: 6,
+      name: "Menopause Support",
+      icon: <BookOpen />,
+      color: "bg-white-100",
+      members: 590,
+      posts: 2400,
+    },
   ];
 
   const [recentPosts, setRecentPosts] = useState([
@@ -487,7 +540,7 @@ export function Forum() {
       likes: 45,
       comments: 12,
       category: "Women's Health",
-      timestamp: "2024-03-10T14:30:00Z"
+      timestamp: "2024-03-10T14:30:00Z",
     },
     {
       id: 2,
@@ -497,17 +550,18 @@ export function Forum() {
       likes: 38,
       comments: 9,
       category: "Fitness & Nutrition",
-      timestamp: "2024-03-09T09:15:00Z"
+      timestamp: "2024-03-09T09:15:00Z",
     },
     {
       id: 3,
       title: "Coping with Endometriosis",
-      content: "Looking for support and sharing my pain management strategies...",
+      content:
+        "Looking for support and sharing my pain management strategies...",
       author: "Ishita Roy",
       likes: 52,
       comments: 17,
       category: "Reproductive Health",
-      timestamp: "2024-03-08T16:45:00Z"
+      timestamp: "2024-03-08T16:45:00Z",
     },
   ]);
 
@@ -519,18 +573,20 @@ export function Forum() {
     { title: "Menopause Symptoms", icon: <HelpCircle />, posts: 128 },
   ];
 
-  const filteredForums = forumCategories.filter(forum => {
+  const filteredForums = forumCategories.filter((forum) => {
     if (filterBy === "large") return forum.members > 1000;
     if (filterBy === "active") return forum.posts > 5000;
     return true;
   });
 
   const filteredPosts = [...recentPosts]
-    .filter(post => {
-      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    .filter((post) => {
+      const matchesSearch =
+        post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.content.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === "all" || post.category === selectedCategory;
+      const matchesCategory =
+        selectedCategory === "all" || post.category === selectedCategory;
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
@@ -638,11 +694,15 @@ export function Forum() {
           {post.category}
         </span>
         {post.visibility === "anonymous" && (
-          <span className="ml-2 text-xs text-gray-500">• Posted anonymously</span>
+          <span className="ml-2 text-xs text-gray-500">
+            • Posted anonymously
+          </span>
         )}
       </div>
 
-      <h3 className="text-xl font-semibold mb-2 dark:text-gray-100">{post.title}</h3>
+      <h3 className="text-xl font-semibold mb-2 dark:text-gray-100">
+        {post.title}
+      </h3>
       <p className="text-gray-600 dark:text-gray-400 mb-4">{post.content}</p>
 
       {post.image && (
@@ -657,7 +717,7 @@ export function Forum() {
 
       {post.tags && (
         <div className="flex flex-wrap gap-2 mb-4">
-          {post.tags.map(tag => (
+          {post.tags.map((tag) => (
             <span
               key={tag}
               className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs"
@@ -686,11 +746,13 @@ export function Forum() {
             {post.comments} comments
           </button>
           <div className="flex items-center space-x-1">
-            {Object.entries(postReactions[post.id] || {}).map(([type, count]) => (
-              <span key={type} className="text-sm">
-                {type} {count}
-              </span>
-            ))}
+            {Object.entries(postReactions[post.id] || {}).map(
+              ([type, count]) => (
+                <span key={type} className="text-sm">
+                  {type} {count}
+                </span>
+              )
+            )}
           </div>
         </div>
         <div className="flex items-center space-x-2">
@@ -708,7 +770,7 @@ export function Forum() {
       </div>
 
       <div className="mt-4 flex items-center space-x-2">
-        {reactionTypes.map(reaction => (
+        {reactionTypes.map((reaction) => (
           <button
             key={reaction.emoji}
             onClick={() => handleReaction(post.id, reaction.emoji)}
@@ -721,29 +783,33 @@ export function Forum() {
       </div>
     </motion.div>
   );
-  
-  const {width} = useScreenSize();
+
+  const { width } = useScreenSize();
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={10}/>
-              {width > 816 && (
-                <button
-                onClick={toggleSidebar}
-                className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-                style={{
-                  transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-                }}
-                aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-              >
-                <ChevronRight
-                  size={14}
-                  className={`transition-transform duration-300 block m-auto ${
-                    sidebarVisible ? "rotate-180" : "rotate-0"
-                  }`}
-                />  
-              </button>
-              )}
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={10}
+      />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
           sidebarVisible ? "ml-64" : "ml-0"
@@ -768,7 +834,7 @@ export function Forum() {
                   className="p-2 rounded-full bg-white-100 dark:bg-gray-600 "
                 >
                   <Bell className="h-6 w-6" />
-                  {notifications.some(n => !n.read) && (
+                  {notifications.some((n) => !n.read) && (
                     <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full" />
                   )}
                 </button>
@@ -783,17 +849,21 @@ export function Forum() {
                       <div className="px-4 py-2 font-semibold border-b dark:border-gray-700">
                         Notifications
                       </div>
-                      {notifications.map(notification => (
+                      {notifications.map((notification) => (
                         <div
                           key={notification.id}
                           className={`px-4 py-2 text-sm flex items-center justify-between ${
-                            !notification.read ? "bg-pink-50 dark:bg-gray-600" : ""
+                            !notification.read
+                              ? "bg-pink-50 dark:bg-gray-600"
+                              : ""
                           }`}
                         >
                           <span>{notification.text}</span>
                           {!notification.read && (
                             <button
-                              onClick={() => markNotificationRead(notification.id)}
+                              onClick={() =>
+                                markNotificationRead(notification.id)
+                              }
                               className="text-pink-600 hover:text-pink-700"
                             >
                               Mark read
@@ -820,16 +890,6 @@ export function Forum() {
                   {showProfileMenu && <ProfileMenu />}
                 </AnimatePresence>
               </div>
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-700"
-              >
-                {darkMode ? (
-                  <Sun className="h-5 w-5 text-gray-800 dark:text-gray-200" />
-                ) : (
-                  <Moon className="h-5 w-5 text-gray-800 dark:text-gray-200" />
-                )}
-              </button>
             </div>
           </div>
 
@@ -898,8 +958,10 @@ export function Forum() {
                  bg-gray-200 dark:bg-gray-800  hover:bg-gray-300 text-gray-700 dark:text-gray-100 px-1 py-2 rounded-md"
                 >
                   <option value="all">All Categories</option>
-                  {forumCategories.map(category => (
-                    <option key={category.id} value={category.name}>{category.name}</option>
+                  {forumCategories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -926,7 +988,7 @@ export function Forum() {
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               initial="hidden"
               animate="visible"
-              variants={{ visible: { transition: { staggerChildren: 0.1 } }}}
+              variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
             >
               {filteredForums.map((forum) => (
                 <motion.div
@@ -936,17 +998,21 @@ export function Forum() {
                 >
                   <div className="flex items-center mb-4">
                     <div className="p-2 bg-white rounded-lg">{forum.icon}</div>
-                    <h3 className="text-xl font-semibold ml-3 dark:text-gray-100">{forum.name}</h3>
+                    <h3 className="text-xl font-semibold ml-3 dark:text-gray-100">
+                      {forum.name}
+                    </h3>
                   </div>
                   <div className="flex justify-between text-sm dark:text-gray-400">
                     <span className="flex items-center">
-                      <Users className="mr-1" /> {forum.members.toLocaleString()} members
+                      <Users className="mr-1" />{" "}
+                      {forum.members.toLocaleString()} members
                     </span>
                     <span className="flex items-center">
-                      <MessageSquare className="mr-1" /> {forum.posts.toLocaleString()} posts
+                      <MessageSquare className="mr-1" />{" "}
+                      {forum.posts.toLocaleString()} posts
                     </span>
                   </div>
-                  <button 
+                  <button
                     onClick={() => {
                       setSelectedCommunity(forum);
                       setShowCommunityChat(true);
@@ -965,7 +1031,7 @@ export function Forum() {
               className="space-y-6"
               initial="hidden"
               animate="visible"
-              variants={{ visible: { transition: { staggerChildren: 0.1 } }}}
+              variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
             >
               {currentPosts.map((post) => (
                 <motion.div
@@ -976,9 +1042,11 @@ export function Forum() {
                   {renderPost(post)}
                 </motion.div>
               ))}
-              
+
               <div className="flex justify-center space-x-2">
-                {Array.from({ length: Math.ceil(filteredPosts.length / postsPerPage) }).map((_, index) => (
+                {Array.from({
+                  length: Math.ceil(filteredPosts.length / postsPerPage),
+                }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => paginate(index + 1)}
@@ -1000,7 +1068,9 @@ export function Forum() {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
           >
-            <h3 className="text-xl font-semibold mb-4 dark:text-gray-100">Trending Topics</h3>
+            <h3 className="text-xl font-semibold mb-4 dark:text-gray-100">
+              Trending Topics
+            </h3>
             <ul className="space-y-2">
               {trendingTopics.map((topic, index) => (
                 <li
@@ -1009,7 +1079,9 @@ export function Forum() {
                 >
                   {topic.icon}
                   <span className="ml-2">{topic.title}</span>
-                  <span className="ml-auto text-sm text-gray-500">{topic.posts} posts</span>
+                  <span className="ml-auto text-sm text-gray-500">
+                    {topic.posts} posts
+                  </span>
                 </li>
               ))}
             </ul>
