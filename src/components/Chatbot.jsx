@@ -30,18 +30,38 @@ import {
   HeartHandshake,
   Handshake,
   ChevronRight,
-  X
+  X,
 } from "lucide-react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
-const genAI = new GoogleGenerativeAI("AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro");
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY); // Use the environment variable
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const popularEmojis = ["😊", "😂", "❤️", "😍", "🥰", "😭", "😘", "🥺", "✨", "😅", "🙏", "🔥", "😊", "💕", "😌", "💜", "😩", "😤", "🥳", "💪"];
+const popularEmojis = [
+  "😊",
+  "😂",
+  "❤️",
+  "😍",
+  "🥰",
+  "😭",
+  "😘",
+  "🥺",
+  "✨",
+  "😅",
+  "🙏",
+  "🔥",
+  "😊",
+  "💕",
+  "😌",
+  "💜",
+  "😩",
+  "😤",
+  "🥳",
+  "💪",
+];
 
 export function Chatbot() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -53,10 +73,11 @@ export function Chatbot() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
+  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true"); // Initialize darkMode from localStorage
   const { width } = useScreenSize();
 
   useEffect(() => {
+    // Apply dark mode class to documentElement
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -71,7 +92,7 @@ export function Chatbot() {
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode.toString());
+    localStorage.setItem("darkMode", newMode.toString()); // Store dark mode preference
   };
 
   const handleSubmit = async (e) => {
@@ -110,7 +131,7 @@ export function Chatbot() {
   };
 
   const formatMessage = (text) => {
-    return text.split('**').map((part, index) => {
+    return text.split("**").map((part, index) => {
       return index % 2 === 1 ? (
         <strong key={index} className="text-pink-600 dark:text-pink-400">
           {part}
@@ -169,7 +190,7 @@ export function Chatbot() {
     const style = document.createElement("style");
     style.textContent = `
       @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;600&display=swap');
-     
+      
       :root {
         --fc-bg-primary: #FFF5F7;
         --fc-bg-secondary: #FFFFFF;
@@ -213,6 +234,7 @@ export function Chatbot() {
         left: 0;
         top: 0;
         z-index: 10;
+        transition: transform 0.3s ease; /* Add transition for sidebar */
       }
 
       .chat-content {
@@ -228,7 +250,6 @@ export function Chatbot() {
       @media (max-width: 816px) {
         .sidebar-container {
           transform: translateX(${sidebarVisible ? '0' : '-100%'});
-          transition: transform 0.3s ease;
         }
         
         .chat-content {
@@ -326,11 +347,29 @@ export function Chatbot() {
     `;
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
-  }, [sidebarVisible]);
+  }, [sidebarVisible]); // Re-run effect when sidebarVisible changes
+
+  const SidebarLink = ({ icon, label, onClick, active = false }) => {
+    return (
+      <button
+        onClick={onClick}
+        className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
+          active
+            ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
+            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100"
+        }`}
+      >
+        {icon}
+        <span>{label}</span>
+      </button>
+    );
+  };
+
 
   return (
     <div className={`main-container ${darkMode ? 'dark' : ''}`}>
-      <div className="sidebar-container">
+      {/* Sidebar */}
+      <div className="sidebar-container" style={{ transform: width <= 816 && !sidebarVisible ? 'translateX(-100%)' : 'translateX(0)' }}>
         <SideBar 
           sidebarVisible={sidebarVisible} 
           setSidebarVisible={setSidebarVisible} 
@@ -339,20 +378,24 @@ export function Chatbot() {
         />
       </div>
 
-      <button
-        onClick={toggleSidebar}
-        className="sidebar-toggle"
-        aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-      >
-        <ChevronRight
-          size={16}
-          className={`transition-transform duration-300 ${
-            sidebarVisible ? "rotate-180" : "rotate-0"
-          }`}
-        />
-      </button>
-
-      <div className="chat-content">
+      {/* Sidebar Toggle Button */}
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="sidebar-toggle"
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={16}
+            className={`transition-transform duration-300 ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
+        
+      {/* Main Chat Content */}
+      <div className="chat-content" style={{ marginLeft: width > 816 && sidebarVisible ? '280px' : '0' }}>
         <div className="chat-header">
           <div className="flex items-center">
             {width <= 816 && (
@@ -469,27 +512,34 @@ export function Chatbot() {
                   key={index}
                   className={`message-wrapper ${message.role}`}
                 >
+                  {message.role === "assistant" && (
+                    <div className="shrink-0 w-10 h-10 rounded-full bg-pink-300 dark:bg-pink-700 flex items-center justify-center text-black dark:text-white mr-2 text-lg font-medium">
+                      AI
+                    </div>
+                  )}
                   <div className={`message-bubble ${message.role}`}>
                     {formatMessage(message.content)}
                     {message.role === "assistant" && (
-                      <button
-                        onClick={() => isSpeaking ? stopSpeaking() : speakMessage(message.content)}
-                        className="speak-button"
-                      >
-                        {isSpeaking ? (
-                          <>
+                      <div className="mt-2 flex justify-end">
+                        <button
+                          onClick={() => isSpeaking ? stopSpeaking() : speakMessage(message.content)}
+                          className="text-xs flex items-center space-x-1 bg-pink-500 hover:bg-pink-600 text-white px-2 py-1 rounded-full"
+                        >
+                          {isSpeaking ? (
                             <VolumeX size={14} />
-                            <span>Stop</span>
-                          </>
-                        ) : (
-                          <>
+                          ) : (
                             <Volume2 size={14} />
-                            <span>Listen</span>
-                          </>
-                        )}
-                      </button>
+                          )}
+                          <span>{isSpeaking ? "Stop" : "Read"}</span>
+                        </button>
+                      </div>
                     )}
                   </div>
+                  {message.role === "user" && (
+                    <div className="shrink-0 w-10 h-10 rounded-full bg-pink-500 dark:bg-pink-800 flex items-center justify-center text-black dark:text-white ml-2 text-lg font-medium">
+                      U
+                    </div>
+                  )}
                 </div>
               ))}
             </>
@@ -518,7 +568,7 @@ export function Chatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
+              className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
             />
             <input
               type="file"
@@ -535,10 +585,25 @@ export function Chatbot() {
             <button
               type="button"
               onClick={toggleEmojiPicker}
-              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
+              className="relative p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
               aria-label="Add emoji"
             >
               <Smile size={20} />
+              {showEmojiPicker && (
+                <div className="absolute bottom-[100%] right-0 mb-2 p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
+                  <div className="grid grid-cols-5 gap-2">
+                    {popularEmojis.map((emoji, index) => (
+                      <button
+                        key={index}
+                        onClick={() => addEmoji(emoji)}
+                        className="text-xl hover:bg-pink-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </button>
             <button
               type="submit"
@@ -548,22 +613,6 @@ export function Chatbot() {
               <Send size={20} />
             </button>
           </form>
-
-          {showEmojiPicker && (
-            <div className="mt-2 p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
-              <div className="grid grid-cols-5 gap-2">
-                {popularEmojis.map((emoji, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addEmoji(emoji)}
-                    className="text-xl hover:bg-pink-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
-                  >
-                    {emoji}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

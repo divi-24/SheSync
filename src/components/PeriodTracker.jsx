@@ -71,6 +71,7 @@ export function PeriodTracker() {
   const navigate = useNavigate();
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
+  const { width } = useScreenSize();
   
   // Redirect to login if not signed in
   useEffect(() => {
@@ -242,7 +243,6 @@ export function PeriodTracker() {
     };
 
     try {
-      // Get the session token from Clerk
       const token = await user.getToken();
       
       try {
@@ -261,10 +261,7 @@ export function PeriodTracker() {
         alert("Data submitted successfully!");
         return;
       } catch (primaryError) {
-        console.warn(
-          "Primary server failed, attempting local fallback:",
-          primaryError
-        );
+        console.warn("Primary server failed, attempting local fallback:", primaryError);
       }
 
       const localResponse = await axios.post(
@@ -277,15 +274,11 @@ export function PeriodTracker() {
           },
         }
       );
-      console.log(
-        "Data submitted successfully via local server:",
-        localResponse.data
-      );
+      console.log("Data submitted successfully via local server:", localResponse.data);
       setShowHealthTips(true);
       alert("Data submitted successfully!");
     } catch (error) {
       console.error("Error submitting data:", error);
-
       if (error.response) {
         alert(`Error: ${error.response.data.message || "Server error"}`);
       } else if (error.request) {
@@ -736,16 +729,8 @@ export function PeriodTracker() {
 
           {renderSection("Cycle Information", cycleInfoContent, "cycleInfo")}
           {renderSection("Mood Tracking", moodTrackingContent, "moodTracking")}
-          {renderSection(
-            "Symptom Tracking",
-            symptomTrackingContent,
-            "symptomTracking"
-          )}
-          {renderSection(
-            "Sleep Tracking",
-            sleepTrackingContent,
-            "sleepTracking"
-          )}
+          {renderSection("Symptom Tracking", symptomTrackingContent, "symptomTracking")}
+          {renderSection("Sleep Tracking", sleepTrackingContent, "sleepTracking")}
           {renderSection("Health Tips", healthTipsContent, "healthTips")}
 
           <div className="mt-8 flex justify-center">

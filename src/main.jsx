@@ -16,3 +16,4 @@ ReactDOM.render(
   </ClerkProvider>,
   document.getElementById("root")
 );
+
