@@ -459,7 +459,8 @@ export function Landing() {
             </div>
           </Card>
           {/* Our Mission Section */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:shadow-none hover:scale-100 transform-none transition-none" >
+
             <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
               Our Mission
             </h3>
@@ -500,7 +501,7 @@ export function Landing() {
             </div>
           </Card>*/}
           {/* Testimonials */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               What Our Users Say
             </h3>
@@ -539,7 +540,7 @@ export function Landing() {
             </div>
           </Card>*/}
           {/* Success Stories */}
-          <Card className="bg-pink-800 text-white  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-pink-700 dark:text-gray-100">
               Success Stories
             </h3>
@@ -578,7 +579,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Expert Insights */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Expert Insights
             </h3>
@@ -594,7 +595,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Community Highlights */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:shadow-none hover:scale-100 transform-none transition-none">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Community Highlights
             </h3>
@@ -614,7 +615,7 @@ export function Landing() {
             </div>
           </Card>
           {/* FAQ Section */}
-          <Card className=" hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Frequently Asked Questions
             </h3>
@@ -938,7 +939,7 @@ const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
+    <div className="border-b border-gray-200 dark:border-gray-700 p-4 bg-pink-200 rounded-lg">
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
@@ -985,7 +986,7 @@ const ExpertInsightCard = ({ expert, insight }) => {
 
 const CommunityHighlightCard = ({ title, description }) => {
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-pink-50">
       <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
         {title}
       </h4>
