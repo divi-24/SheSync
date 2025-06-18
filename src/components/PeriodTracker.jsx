@@ -105,7 +105,6 @@ export function PeriodTracker() {
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("darkMode") === "true"
   );
-
   const [waterIntakeCount, setWaterIntakeCount] = useState(0);
 
   // Redirect if not authenticated

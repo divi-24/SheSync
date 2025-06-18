@@ -21,6 +21,7 @@ import { ModernTeamShowcase } from "./components/ModernTeamShowcase";
 import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
+import { ThemeProvider } from "./context/ThemeContext";
 
 // Create a wrapper component for protected routes
 function ProtectedRouteWrapper({ Component }) {
@@ -102,7 +103,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 export default App;

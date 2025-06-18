@@ -92,6 +92,43 @@ const symptomOptions = [
   "Lab Abnormalities",
 ];
 
+const categorizedSymptoms = {
+  "Menstrual Symptoms": [
+    "Irregular menstruation (Oligomenorrhea)",
+    "Heavy menstrual bleeding (Menorrhagia)",
+    "Skipped or absence of menstruation (Amenorrhea)",
+  ],
+  "Physical Appearance": [
+    "Excessive Hair growth (face, body - including on back, belly, and chest)",
+    "Acne (face, chest, and upper back)",
+    "Skin darkening (Neck, in the groin, and under the breasts)",
+    "Hair loss (hair on the scalp gets thinner and fall out)",
+    "Skin Tags (Acrochordons)",
+    "Oily Skin or Scalp",
+  ],
+  "Metabolic Signs": [
+    "Weight gain",
+    "Fatigue",
+    "Appetite Changes or Cravings",
+    "Reduced Libido",
+    "Associated Metabolic and Long-Term Risks",
+    "Insulin Resistance",
+    "Dyslipidemia",
+    "Cardiovascular Risks",
+    "Endometrial Hyperplasia",
+    "Ovarian Morphology",
+    "Lab Abnormalities",
+  ],
+  "Mental Health": [
+    "Mood Disorders",
+    "Sleep Disturbances",
+    "Infertility",
+    "Headaches",
+    "Bladder Issues",
+    "Hoarseness or Voice Changes",
+  ],
+  "Other Clues": ["Diagnostic Clues (Not Symptoms, but Relevant)"],
+};
 const symptomSeverityOptions = ["None", "Mild", "Moderate", "Severe"];
 
 const sleepQualityOptions = ["Poor", "Fair", "Good", "Excellent"];
@@ -99,29 +136,31 @@ const genAI = new GoogleGenerativeAI("AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const symptomSeverityMapping = {
-  "severe": { value: 100, color: "#ec4899" },
-  "moderate": { value: 66, color: "#f472b6" },
-  "mild": { value: 33, color: "#fbcfe8" },
-  "none": { value: 0, color: "#f9fafb" }
+  severe: { value: 100, color: "#ec4899" },
+  moderate: { value: 66, color: "#f472b6" },
+  mild: { value: 33, color: "#fbcfe8" },
+  none: { value: 0, color: "#f9fafb" },
 };
 
 const SymptomChart = ({ symptoms, severities }) => {
   const chartData = useMemo(() => {
-    return symptoms.map(symptom => {
-      const severity = (severities[symptom] || "None").toLowerCase();
-      const severityInfo = {
-        severe: { value: 100, color: "#ef4444", bgColor: "#fee2e2" },
-        moderate: { value: 66, color: "#f59e0b", bgColor: "#fef3c7" },
-        mild: { value: 33, color: "#ec4899", bgColor: "#fce7f3" },
-        none: { value: 0, color: "#9ca3af", bgColor: "#f3f4f6" }
-      }[severity] || { value: 0, color: "#9ca3af", bgColor: "#f3f4f6" };
-      
-      return {
-        name: symptom,
-        severity: severity,
-        ...severityInfo
-      };
-    }).filter(item => item.name && item.severity);
+    return symptoms
+      .map((symptom) => {
+        const severity = (severities[symptom] || "None").toLowerCase();
+        const severityInfo = {
+          severe: { value: 100, color: "#ef4444", bgColor: "#fee2e2" },
+          moderate: { value: 66, color: "#f59e0b", bgColor: "#fef3c7" },
+          mild: { value: 33, color: "#ec4899", bgColor: "#fce7f3" },
+          none: { value: 0, color: "#9ca3af", bgColor: "#f3f4f6" },
+        }[severity] || { value: 0, color: "#9ca3af", bgColor: "#f3f4f6" };
+
+        return {
+          name: symptom,
+          severity: severity,
+          ...severityInfo,
+        };
+      })
+      .filter((item) => item.name && item.severity);
   }, [symptoms, severities]);
 
   return (
@@ -129,7 +168,7 @@ const SymptomChart = ({ symptoms, severities }) => {
       <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
         Symptom Analysis
       </h3>
-      
+
       <div className="h-[calc(100%-4rem)] overflow-y-auto pr-2 -mr-2 scroll-smooth">
         <div className="space-y-4">
           {chartData.map((item, index) => (
@@ -146,13 +185,15 @@ const SymptomChart = ({ symptoms, severities }) => {
                   <h5 className="font-medium text-gray-900 dark:text-gray-100">
                     {item.name}
                   </h5>
-                  <span 
+                  <span
                     className="px-2.5 py-1 rounded-full text-xs font-medium"
                     style={{
                       backgroundColor: item.bgColor,
-                      color: item.color
-                    }}>
-                    {item.severity.charAt(0).toUpperCase() + item.severity.slice(1)}
+                      color: item.color,
+                    }}
+                  >
+                    {item.severity.charAt(0).toUpperCase() +
+                      item.severity.slice(1)}
                   </span>
                 </div>
               </div>
@@ -169,7 +210,7 @@ const SymptomChart = ({ symptoms, severities }) => {
                       <div className="w-1/4 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-900 dark:to-red-900 opacity-20" />
                       <div className="w-1/4 bg-gradient-to-r from-red-100 to-red-200 dark:from-red-900 dark:to-red-800 opacity-20" />
                     </div>
-                    
+
                     {/* Progress bar */}
                     <motion.div
                       initial={{ width: 0 }}
@@ -178,16 +219,18 @@ const SymptomChart = ({ symptoms, severities }) => {
                       className="relative h-full rounded-full"
                       style={{
                         backgroundColor: item.color,
-                        boxShadow: `0 0 10px ${item.color}40`
+                        boxShadow: `0 0 10px ${item.color}40`,
                       }}
                     >
                       {/* Shimmer effect */}
                       <div className="absolute inset-0 overflow-hidden">
-                        <div className="absolute inset-0 opacity-30 animate-[shimmer_2s_infinite]"
-                             style={{
-                               background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)`,
-                               transform: 'translateX(-100%)'
-                             }} />
+                        <div
+                          className="absolute inset-0 opacity-30 animate-[shimmer_2s_infinite]"
+                          style={{
+                            background: `linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)`,
+                            transform: "translateX(-100%)",
+                          }}
+                        />
                       </div>
                     </motion.div>
                   </div>
@@ -196,16 +239,20 @@ const SymptomChart = ({ symptoms, severities }) => {
                   <div className="absolute top-3 left-0 right-0 flex justify-between">
                     {["None", "Mild", "Moderate", "Severe"].map((label, i) => (
                       <div key={label} className="flex flex-col items-center">
-                        <div className={`w-px h-2 ${
-                          item.severity === label.toLowerCase()
-                            ? "bg-current"
-                            : "bg-gray-300 dark:bg-gray-600"
-                        }`} />
-                        <span className={`text-xs mt-1 ${
-                          item.severity === label.toLowerCase()
-                            ? `text-${item.color}`
-                            : "text-gray-400 dark:text-gray-500"
-                        }`}>
+                        <div
+                          className={`w-px h-2 ${
+                            item.severity === label.toLowerCase()
+                              ? "bg-current"
+                              : "bg-gray-300 dark:bg-gray-600"
+                          }`}
+                        />
+                        <span
+                          className={`text-xs mt-1 ${
+                            item.severity === label.toLowerCase()
+                              ? `text-${item.color}`
+                              : "text-gray-400 dark:text-gray-500"
+                          }`}
+                        >
                           {label}
                         </span>
                       </div>
@@ -226,19 +273,19 @@ const SymptomChart = ({ symptoms, severities }) => {
 
 const MoodTrendChart = ({ moodTypes, moodDate }) => {
   const moodValues = {
-    "Happy": { value: 100, color: "#10B981" }, // Green
-    "Energized": { value: 80, color: "#3B82F6" }, // Blue
-    "Calm": { value: 60, color: "#8B5CF6" }, // Purple
-    "Tired": { value: 40, color: "#F59E0B" }, // Orange
-    "Sad": { value: 20, color: "#6B7280" }, // Gray
-    "Angry": { value: 0, color: "#EF4444" } // Red
+    Happy: { value: 100, color: "#10B981" }, // Green
+    Energized: { value: 80, color: "#3B82F6" }, // Blue
+    Calm: { value: 60, color: "#8B5CF6" }, // Purple
+    Tired: { value: 40, color: "#F59E0B" }, // Orange
+    Sad: { value: 20, color: "#6B7280" }, // Gray
+    Angry: { value: 0, color: "#EF4444" }, // Red
   };
 
   const chartData = useMemo(() => {
     return moodTypes
-      .map(mood => ({
+      .map((mood) => ({
         mood,
-        ...(moodValues[mood] || { value: 50, color: "#6B7280" })
+        ...(moodValues[mood] || { value: 50, color: "#6B7280" }),
       }))
       .sort((a, b) => b.value - a.value); // Sort by value for better visualization
   }, [moodTypes]);
@@ -266,7 +313,7 @@ const MoodTrendChart = ({ moodTypes, moodDate }) => {
             <div
               key={index}
               className="relative flex-1"
-              style={{ height: '100%' }}
+              style={{ height: "100%" }}
             >
               {index < chartData.length - 1 && (
                 <motion.div
@@ -274,13 +321,15 @@ const MoodTrendChart = ({ moodTypes, moodDate }) => {
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: `${100 - point.value}%`,
-                    left: '50%',
-                    width: '100%',
-                    height: '2px',
-                    background: `linear-gradient(to right, ${point.color}, ${chartData[index + 1]?.color || point.color})`,
-                    transformOrigin: 'left'
+                    left: "50%",
+                    width: "100%",
+                    height: "2px",
+                    background: `linear-gradient(to right, ${point.color}, ${
+                      chartData[index + 1]?.color || point.color
+                    })`,
+                    transformOrigin: "left",
                   }}
                 />
               )}
@@ -291,7 +340,7 @@ const MoodTrendChart = ({ moodTypes, moodDate }) => {
                 className="absolute w-4 h-4 rounded-full cursor-pointer transform -translate-x-1/2 group hover:scale-125 transition-transform"
                 style={{
                   backgroundColor: point.color,
-                  left: '50%',
+                  left: "50%",
                   top: `${100 - point.value}%`,
                 }}
               >
@@ -326,29 +375,29 @@ const MoodTrendChart = ({ moodTypes, moodDate }) => {
 
 const PCOSRiskChart = ({ pcosReport }) => {
   const [riskLevel, riskCategory] = useMemo(() => {
-    if (!pcosReport || typeof pcosReport !== 'string') return [0, 'Low'];
+    if (!pcosReport || typeof pcosReport !== "string") return [0, "Low"];
     try {
       // Extract risk percentage from AI analysis
       const likelihoodMatch = pcosReport.match(/Likelihood:\s*(\d+)%/);
       const percentage = likelihoodMatch ? parseInt(likelihoodMatch[1]) : 0;
-      
+
       // Determine risk category
-      let category = 'Low';
-      if (percentage >= 75) category = 'High';
-      else if (percentage >= 40) category = 'Moderate';
-      
+      let category = "Low";
+      if (percentage >= 75) category = "High";
+      else if (percentage >= 40) category = "Moderate";
+
       return [percentage, category];
     } catch (error) {
-      console.error('Error parsing PCOS report:', error);
-      return [0, 'Low'];
+      console.error("Error parsing PCOS report:", error);
+      return [0, "Low"];
     }
   }, [pcosReport]);
 
   const circumference = 2 * Math.PI * 60;
   const getRiskColor = (level) => {
-    if (level >= 75) return '#EF4444'; // High risk - Red
-    if (level >= 40) return '#F59E0B'; // Moderate risk - Yellow
-    return '#10B981'; // Low risk - Green
+    if (level >= 75) return "#EF4444"; // High risk - Red
+    if (level >= 40) return "#F59E0B"; // Moderate risk - Yellow
+    return "#10B981"; // Low risk - Green
   };
 
   return (
@@ -376,8 +425,10 @@ const PCOSRiskChart = ({ pcosReport }) => {
               strokeWidth="12"
               strokeLinecap="round"
               initial={{ strokeDasharray: `0 ${circumference}` }}
-              animate={{ 
-                strokeDasharray: `${(riskLevel / 100) * circumference} ${circumference}` 
+              animate={{
+                strokeDasharray: `${
+                  (riskLevel / 100) * circumference
+                } ${circumference}`,
               }}
               transition={{ duration: 1, ease: "easeOut" }}
             />
@@ -399,7 +450,10 @@ const PCOSRiskChart = ({ pcosReport }) => {
               transition={{ delay: 0.5, duration: 0.3 }}
               className="text-center"
             >
-              <span className="text-4xl font-bold" style={{ color: getRiskColor(riskLevel) }}>
+              <span
+                className="text-4xl font-bold"
+                style={{ color: getRiskColor(riskLevel) }}
+              >
                 {riskLevel}%
               </span>
               <span className="block text-sm text-gray-500 mt-1">
@@ -410,15 +464,19 @@ const PCOSRiskChart = ({ pcosReport }) => {
         </div>
       </div>
       <div className="flex justify-between px-4 mt-4">
-        {['Low Risk', 'Moderate Risk', 'High Risk'].map((label, index) => (
+        {["Low Risk", "Moderate Risk", "High Risk"].map((label, index) => (
           <div key={label} className="flex items-center">
             <div
               className="w-3 h-3 rounded-full mr-1"
               style={{
-                backgroundColor: getRiskColor(index === 0 ? 0 : index === 1 ? 50 : 100)
+                backgroundColor: getRiskColor(
+                  index === 0 ? 0 : index === 1 ? 50 : 100
+                ),
               }}
             />
-            <span className="text-xs text-gray-600 dark:text-gray-400">{label}</span>
+            <span className="text-xs text-gray-600 dark:text-gray-400">
+              {label}
+            </span>
           </div>
         ))}
       </div>
@@ -437,8 +495,12 @@ const RecommendationCard = ({ title, description, icon: Icon }) => (
         <Icon className="h-6 w-6 text-pink-600 dark:text-pink-400" />
       </div>
       <div>
-        <h4 className="font-semibold text-gray-900 dark:text-gray-100">{title}</h4>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{description}</p>
+        <h4 className="font-semibold text-gray-900 dark:text-gray-100">
+          {title}
+        </h4>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+          {description}
+        </p>
       </div>
     </div>
   </motion.div>
@@ -463,23 +525,26 @@ const AnalysisSummaryChart = ({ pcosReport }) => {
 
     // Determine risk level and color
     const getRiskInfo = (percentage) => {
-      if (percentage >= 75) return { level: "High", color: "#ef4444", bgColor: "#fee2e2" };
-      if (percentage >= 40) return { level: "Moderate", color: "#f59e0b", bgColor: "#fef3c7" };
+      if (percentage >= 75)
+        return { level: "High", color: "#ef4444", bgColor: "#fee2e2" };
+      if (percentage >= 40)
+        return { level: "Moderate", color: "#f59e0b", bgColor: "#fef3c7" };
       return { level: "Low", color: "#10b981", bgColor: "#d1fae5" };
     };
 
     // Extract key findings
-    const findingsSection = pcosReport.split("## Symptom Analysis")[1]?.split("##")[0] || "";
+    const findingsSection =
+      pcosReport.split("## Symptom Analysis")[1]?.split("##")[0] || "";
     const keyFindings = findingsSection
       .split("\n")
-      .filter(line => line.trim().length > 0 && line.includes("**"))
-      .map(finding => {
+      .filter((line) => line.trim().length > 0 && line.includes("**"))
+      .map((finding) => {
         const match = finding.match(/\*\*(.*?)\((.*?)\):\*\*(.*)/);
         if (match) {
           return {
             symptom: match[1].trim(),
             severity: match[2].trim(),
-            description: match[3].trim()
+            description: match[3].trim(),
           };
         }
         return null;
@@ -491,7 +556,7 @@ const AnalysisSummaryChart = ({ pcosReport }) => {
     return {
       riskPercentage,
       ...riskInfo,
-      keyFindings
+      keyFindings,
     };
   }, [pcosReport]);
 
@@ -533,16 +598,27 @@ const AnalysisSummaryChart = ({ pcosReport }) => {
                     transition={{ duration: 1, ease: "easeOut" }}
                     style={{
                       strokeDasharray: `${2 * Math.PI * 50}`,
-                      strokeDashoffset: `${2 * Math.PI * 50 * (1 - analysisData.riskPercentage / 100)}`
+                      strokeDashoffset: `${
+                        2 *
+                        Math.PI *
+                        50 *
+                        (1 - analysisData.riskPercentage / 100)
+                      }`,
                     }}
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-3xl font-bold" style={{ color: analysisData.color }}>
+                  <span
+                    className="text-3xl font-bold"
+                    style={{ color: analysisData.color }}
+                  >
                     {analysisData.riskPercentage}%
                   </span>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: analysisData.color }} />
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: analysisData.color }}
+                    />
                     <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                       {analysisData.level} Risk
                     </span>
@@ -573,24 +649,28 @@ const AnalysisSummaryChart = ({ pcosReport }) => {
                     <h5 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
                       {finding.symptom}
                     </h5>
-                    <span 
+                    <span
                       className="px-2.5 py-0.5 rounded-full text-xs font-medium flex-shrink-0 whitespace-nowrap"
                       style={{
-                        backgroundColor: 
-                          finding.severity.toLowerCase() === "severe" ? "#fee2e2" :
-                          finding.severity.toLowerCase() === "moderate" ? "#fef3c7" :
-                          "#d1fae5",
+                        backgroundColor:
+                          finding.severity.toLowerCase() === "severe"
+                            ? "#fee2e2"
+                            : finding.severity.toLowerCase() === "moderate"
+                            ? "#fef3c7"
+                            : "#d1fae5",
                         color:
-                          finding.severity.toLowerCase() === "severe" ? "#ef4444" :
-                          finding.severity.toLowerCase() === "moderate" ? "#f59e0b" :
-                          "#10b981"
+                          finding.severity.toLowerCase() === "severe"
+                            ? "#ef4444"
+                            : finding.severity.toLowerCase() === "moderate"
+                            ? "#f59e0b"
+                            : "#10b981",
                       }}
                     >
                       {finding.severity}
                     </span>
                   </div>
                 </div>
-                
+
                 {/* Finding description */}
                 <div className="p-3 bg-white/50 dark:bg-gray-800/50">
                   <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed break-words">
@@ -637,25 +717,14 @@ export function Diagnosis() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [showHealthTips, setShowHealthTips] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
   const [showCharts, setShowCharts] = useState(false);
   const [chartData, setChartData] = useState({
     symptoms: [],
     moods: [],
-    riskLevel: 0
+    riskLevel: 0,
   });
   const [recommendations, setRecommendations] = useState([]);
   const [showTooltips, setShowTooltips] = useState(true);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   useEffect(() => {
     if (pcosReport) {
@@ -663,24 +732,27 @@ export function Diagnosis() {
       try {
         // Extract data for charts from the AI report
         const extractedData = {
-          symptoms: symptoms.map(symptom => ({
+          symptoms: symptoms.map((symptom) => ({
             name: symptom,
-            severity: symptomSeverities[symptom] || "Low"
+            severity: symptomSeverities[symptom] || "Low",
           })),
-          moods: moodTypes.map(mood => ({
+          moods: moodTypes.map((mood) => ({
             type: mood,
-            date: moodDate
+            date: moodDate,
           })),
-          riskLevel: typeof pcosReport === 'string' && pcosReport.match(/Likelihood: (\d+)%/) ? 
-            parseInt(pcosReport.match(/Likelihood: (\d+)%/)[1]) : 0
+          riskLevel:
+            typeof pcosReport === "string" &&
+            pcosReport.match(/Likelihood: (\d+)%/)
+              ? parseInt(pcosReport.match(/Likelihood: (\d+)%/)[1])
+              : 0,
         };
         setChartData(extractedData);
       } catch (error) {
-        console.error('Error processing chart data:', error);
+        console.error("Error processing chart data:", error);
         setChartData({
           symptoms: [],
           moods: [],
-          riskLevel: 0
+          riskLevel: 0,
         });
       }
     }
@@ -692,31 +764,26 @@ export function Diagnosis() {
       const newRecommendations = [
         {
           title: "Lifestyle Changes",
-          description: "Consider incorporating regular exercise and a balanced diet to manage PCOS symptoms.",
-          icon: ActivitySquare
+          description:
+            "Consider incorporating regular exercise and a balanced diet to manage PCOS symptoms.",
+          icon: ActivitySquare,
         },
         {
           title: "Medical Consultation",
-          description: "Schedule a visit with your healthcare provider for a comprehensive evaluation.",
-          icon: Stethoscope
+          description:
+            "Schedule a visit with your healthcare provider for a comprehensive evaluation.",
+          icon: Stethoscope,
         },
         {
           title: "Stress Management",
-          description: "Practice mindfulness and stress-reduction techniques to help balance hormones.",
-          icon: Heart
-        }
+          description:
+            "Practice mindfulness and stress-reduction techniques to help balance hormones.",
+          icon: Heart,
+        },
       ];
       setRecommendations(newRecommendations);
     }
   }, [pcosReport]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -793,10 +860,12 @@ export function Diagnosis() {
 
     try {
       // Format symptoms with severities for better analysis
-      const formattedSymptoms = symptoms.map(symptom => {
-        const severity = symptomSeverities[symptom] || "None";
-        return `${symptom} (${severity})`;
-      }).join("\n- ");
+      const formattedSymptoms = symptoms
+        .map((symptom) => {
+          const severity = symptomSeverities[symptom] || "None";
+          return `${symptom} (${severity})`;
+        })
+        .join("\n- ");
 
       const prompt = `Analyze the following symptoms for PCOS risk assessment:
 - ${formattedSymptoms}
@@ -822,15 +891,18 @@ Risk Level: [Low/Moderate/High]
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const analysisText = response.text();
-      
+
       // Process the AI response
-      const processedData = processAIResponse(analysisText, symptoms, symptomSeverities);
-      
+      const processedData = processAIResponse(
+        analysisText,
+        symptoms,
+        symptomSeverities
+      );
+
       setPcosReport(analysisText);
       setChartData(processedData);
       setShowCharts(true);
       setShowHealthTips(true);
-
     } catch (err) {
       console.error("Error generating report:", err);
       setError("Failed to generate report. Please try again.");
@@ -849,46 +921,67 @@ Risk Level: [Low/Moderate/High]
       const riskPercentage = riskMatch ? parseInt(riskMatch[1]) : 0;
 
       // Extract severity levels for each symptom
-      const severitySection = text.split("## Severity Levels")[1]?.split("##")[0] || "";
-      const processedSymptoms = symptoms.map(symptom => {
+      const severitySection =
+        text.split("## Severity Levels")[1]?.split("##")[0] || "";
+      const processedSymptoms = symptoms.map((symptom) => {
         let severity = "None";
         if (severitySection.toLowerCase().includes(symptom.toLowerCase())) {
-          if (severitySection.toLowerCase().includes(symptom.toLowerCase() + ".*severe")) {
+          if (
+            severitySection
+              .toLowerCase()
+              .includes(symptom.toLowerCase() + ".*severe")
+          ) {
             severity = "Severe";
-          } else if (severitySection.toLowerCase().includes(symptom.toLowerCase() + ".*moderate")) {
+          } else if (
+            severitySection
+              .toLowerCase()
+              .includes(symptom.toLowerCase() + ".*moderate")
+          ) {
             severity = "Moderate";
-          } else if (severitySection.toLowerCase().includes(symptom.toLowerCase() + ".*mild")) {
+          } else if (
+            severitySection
+              .toLowerCase()
+              .includes(symptom.toLowerCase() + ".*mild")
+          ) {
             severity = "Mild";
           }
         }
         return {
           name: symptom,
-          severity: severity
+          severity: severity,
         };
       });
 
       // Process mood data if available
-      const moodData = moodTypes.map(mood => ({
+      const moodData = moodTypes.map((mood) => ({
         type: mood,
-        value: mood === "Happy" ? 100 :
-               mood === "Energized" ? 90 :
-               mood === "Calm" ? 75 :
-               mood === "Tired" ? 50 :
-               mood === "Sad" ? 25 :
-               mood === "Angry" ? 0 : 50
+        value:
+          mood === "Happy"
+            ? 100
+            : mood === "Energized"
+            ? 90
+            : mood === "Calm"
+            ? 75
+            : mood === "Tired"
+            ? 50
+            : mood === "Sad"
+            ? 25
+            : mood === "Angry"
+            ? 0
+            : 50,
       }));
 
       return {
         symptoms: processedSymptoms,
         riskLevel: riskPercentage,
-        moods: moodData
+        moods: moodData,
       };
     } catch (error) {
       console.error("Error processing AI response:", error);
       return {
-        symptoms: symptoms.map(s => ({ name: s, severity: "None" })),
+        symptoms: symptoms.map((s) => ({ name: s, severity: "None" })),
         riskLevel: 0,
-        moods: []
+        moods: [],
       };
     }
   };
@@ -1031,28 +1124,32 @@ Risk Level: [Low/Moderate/High]
     symptoms,
   ]);
 
-  const {width} = useScreenSize();
+  const { width } = useScreenSize();
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={5}/>
-            {width > 816 && (
-              <button
-              onClick={toggleSidebar}
-              className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-              style={{
-                transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-              }}
-              aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-            >
-              <ChevronRight
-                size={14}
-                className={`transition-transform duration-300 block m-auto ${
-                  sidebarVisible ? "rotate-180" : "rotate-0"
-                }`}
-              />  
-            </button>
-            )}
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={5}
+      />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
       {/* Main Content */}
       <main
@@ -1066,21 +1163,11 @@ Risk Level: [Low/Moderate/High]
             <h2 className="text-3xl font-bold text-pink-600 dark:text-pink-400">
               PCOS Diagnosis
             </h2>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700"
-            >
-              {darkMode ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </button>
           </div>
 
           <div className="bg-pink-50 dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
             <div className="text-center mb-8">
-              <p className="text-black dark:text-gray-300">Diagnos</p>
+              <p className="text-black dark:text-gray-300">Diagnosis</p>
             </div>
 
             {renderSection(
@@ -1090,20 +1177,47 @@ Risk Level: [Low/Moderate/High]
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Select Symptoms
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {symptomOptions.map((symptom) => (
-                      <label key={symptom} className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={symptoms.includes(symptom)}
-                          onChange={() => handleSymptomChange(symptom)}
-                          className="form-checkbox text-pink-500"
-                        />
-                        <span className="ml-2 text-gray-700 dark:text-gray-300">
-                          {symptom}
-                        </span>
-                      </label>
-                    ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                    {Object.entries(categorizedSymptoms).map(
+                      ([category, symptomsList]) => (
+                        <div
+                          key={category}
+                          className={`dark:bg-gray-700 bg-white rounded-lg shadow p-4 border-l-4 ${
+                            category === "Menstrual Symptoms"
+                              ? "border-pink-500"
+                              : category === "Physical Appearance"
+                              ? "border-pink-500"
+                              : category === "Metabolic Signs"
+                              ? "border-pink-500"
+                              : category === "Mental Health"
+                              ? "border-pink-500"
+                              : "border-pink-500"
+                          }`}
+                        >
+                          <h3 className="text-lg font-semibold text-pink-600 dark:text-pink-300 mb-2">
+                            {category}
+                          </h3>
+                          <div className="space-y-2">
+                            {symptomsList.map((symptom) => (
+                              <label
+                                key={symptom}
+                                className="flex items-center"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={symptoms.includes(symptom)}
+                                  onChange={() => handleSymptomChange(symptom)}
+                                  className="form-checkbox text-pink-500"
+                                />
+                                <span className="ml-2 text-white">
+                                  {symptom}
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
 
@@ -1117,7 +1231,7 @@ Risk Level: [Low/Moderate/High]
                       onChange={(e) =>
                         handleSymptomSeverityChange(symptom, e.target.value)
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700  text-white dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 text-white"
                     >
                       <option value="">Select Severity</option>
                       {symptomSeverityOptions.map((severity) => (
@@ -1161,10 +1275,10 @@ Risk Level: [Low/Moderate/High]
               <>
                 {showCharts && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <SymptomChart 
-                      symptoms={chartData.symptoms.map(s => s.name)}
+                    <SymptomChart
+                      symptoms={chartData.symptoms.map((s) => s.name)}
                       severities={Object.fromEntries(
-                        chartData.symptoms.map(s => [s.name, s.severity])
+                        chartData.symptoms.map((s) => [s.name, s.severity])
                       )}
                     />
                     <AnalysisSummaryChart pcosReport={pcosReport} />
@@ -1173,21 +1287,26 @@ Risk Level: [Low/Moderate/High]
 
                 {showHealthTips && pcosReport && (
                   <div className="mt-8">
-                    <h3 className="text-xl font-semibold mb-4">AI Analysis Report</h3>
+                    <h3 className="text-xl font-semibold mb-4">
+                      AI Analysis Report
+                    </h3>
                     <div className="prose dark:prose-invert max-w-none">
-                      {pcosReport.split(/(## .+)/).filter(Boolean).map((section, index) => (
-                        <div key={index} className="mb-4">
-                          {section.startsWith("## ") ? (
-                            <h2 className="text-xl font-bold text-pink-600 dark:text-pink-400 mb-2">
-                              {section.replace("## ", "")}
-                            </h2>
-                          ) : (
-                            <div className="text-gray-700 dark:text-gray-300">
-                              <ReactMarkdown>{section}</ReactMarkdown>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                      {pcosReport
+                        .split(/(## .+)/)
+                        .filter(Boolean)
+                        .map((section, index) => (
+                          <div key={index} className="mb-4">
+                            {section.startsWith("## ") ? (
+                              <h2 className="text-xl font-bold text-pink-600 dark:text-pink-400 mb-2">
+                                {section.replace("## ", "")}
+                              </h2>
+                            ) : (
+                              <div className="text-gray-700 dark:text-gray-300">
+                                <ReactMarkdown>{section}</ReactMarkdown>
+                              </div>
+                            )}
+                          </div>
+                        ))}
                     </div>
                   </div>
                 )}
@@ -1205,10 +1324,10 @@ Risk Level: [Low/Moderate/High]
                 onClick={handleSubmit}
                 disabled={isLoading}
                 className={`bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-8 rounded-md text-lg transition duration-300 shadow-md ${
-                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
-                {isLoading ? 'Analyzing...' : 'Generate Analysis'}
+                {isLoading ? "Analyzing..." : "Generate Analysis"}
               </button>
             </div>
           </div>
@@ -1233,4 +1352,3 @@ const SidebarLink = ({ icon, label, onClick, active = false }) => {
     </button>
   );
 };
-
