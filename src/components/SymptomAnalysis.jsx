@@ -86,7 +86,7 @@ const symptomCategories = {
     "Constipation",
     "Diarrhea",
     "Indigestion",
-  ]
+  ],
 };
 
 const severityGuides = {
@@ -95,7 +95,7 @@ const severityGuides = {
     moderate: "Interferes with some activities",
     severe: "Significantly impacts daily life",
   },
-  "Headache": {
+  Headache: {
     mild: "Slight discomfort, can focus on tasks",
     moderate: "Distracting, difficulty concentrating",
     severe: "Intense pain, sensitivity to light/sound",
@@ -123,12 +123,6 @@ export function SymptomAnalysis() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState(null);
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("darkMode") === "true";
-    }
-    return false;
-  });
   const [symptomHistory, setSymptomHistory] = useState([]);
   const [showEmergencyAlert, setShowEmergencyAlert] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -145,20 +139,6 @@ export function SymptomAnalysis() {
   const [currentSymptomGuide, setCurrentSymptomGuide] = useState(null);
   const [cycleDay, setCycleDay] = useState(null);
   const [recentPatterns, setRecentPatterns] = useState([]);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("darkMode", "true");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("darkMode", "false");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
-  };
 
   const SidebarLink = ({ icon, label, onClick, active = false }) => {
     return (
@@ -246,7 +226,9 @@ export function SymptomAnalysis() {
                   min="1"
                   max="28"
                   value={cycleDay || ""}
-                  onChange={(e) => setCycleDay(e.target.value ? Number(e.target.value) : null)}
+                  onChange={(e) =>
+                    setCycleDay(e.target.value ? Number(e.target.value) : null)
+                  }
                   className="w-20 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700"
                   placeholder="Day"
                 />
@@ -270,6 +252,7 @@ export function SymptomAnalysis() {
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
+
                     <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700"}>
                       {category}
                     </span>
@@ -283,6 +266,7 @@ export function SymptomAnalysis() {
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Symptoms</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+
                 {(selectedCategories.length > 0? selectedCategories.flatMap((cat) => symptomCategories[cat]): commonSymptoms).map((symptom) => (
                   <motion.button
                     key={symptom}
@@ -298,11 +282,21 @@ export function SymptomAnalysis() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <span className={selectedSymptoms.includes(symptom) ? "text-pink-700" : "text-gray-700"}>{symptom}</span>
+                    <span
+                      className={
+                        selectedSymptoms.includes(symptom)
+                          ? "text-pink-700"
+                          : "text-gray-700"
+                      }
+                    >
+                      {symptom}
+                    </span>
                     {severityGuides[symptom] && (
                       <Info
                         className={`h-4 w-4 absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer ${
-                          selectedSymptoms.includes(symptom) ? "text-pink-700" : "text-gray-500"
+                          selectedSymptoms.includes(symptom)
+                            ? "text-pink-700"
+                            : "text-gray-500"
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -446,7 +440,13 @@ export function SymptomAnalysis() {
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
-                  <span className={duration === period ? "text-pink-700" : "text-gray-700"}>{period}</span>
+                  <span
+                    className={
+                      duration === period ? "text-pink-700" : "text-gray-700"
+                    }
+                  >
+                    {period}
+                  </span>
                 </motion.button>
               ))}
             </div>
@@ -531,14 +531,17 @@ export function SymptomAnalysis() {
               Step 5: Review and Submit
             </h2>
             <div className="bg-pink-50/80 p-6 rounded-lg border border-pink-100">
-              <h3 className="font-semibold mb-2 text-pink-700">Selected Symptoms:</h3>
+              <h3 className="font-semibold mb-2 text-pink-700">
+                Selected Symptoms:
+              </h3>
               <ul className="list-disc pl-5 mb-4 text-gray-700">
                 {selectedSymptoms.map((symptom, index) => (
                   <li key={index}>{symptom}</li>
                 ))}
               </ul>
               <p className="text-gray-700">
-                <strong className="text-pink-700">Intensity:</strong> {intensity}
+                <strong className="text-pink-700">Intensity:</strong>{" "}
+                {intensity}
               </p>
               <p className="text-gray-700">
                 <strong className="text-pink-700">Duration:</strong> {duration}
@@ -592,8 +595,10 @@ export function SymptomAnalysis() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-semibold text-pink-700">Analysis Results</h2>
-            
+            <h2 className="text-2xl font-semibold text-pink-700">
+              Analysis Results
+            </h2>
+
             {/* Existing analysis sections */}
             <div className="space-y-6">
               {/* Causes section */}
@@ -608,7 +613,10 @@ export function SymptomAnalysis() {
                 </h3>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {analysis.possibleCauses.map((cause, index) => (
-                    <li key={index} className="flex items-center space-x-2 text-gray-700">
+                    <li
+                      key={index}
+                      className="flex items-center space-x-2 text-gray-700"
+                    >
                       <div className="w-2 h-2 rounded-full bg-pink-400" />
                       <span>{cause}</span>
                     </li>
@@ -626,12 +634,17 @@ export function SymptomAnalysis() {
                 <h3 className="text-lg font-semibold mb-4 flex items-center text-pink-700">
                   <BarChart className="mr-2 text-pink-600" /> Symptom Patterns
                 </h3>
-                {analysis.patterns.recommendations.map((recommendation, index) => (
-                  <div key={index} className="mb-3 flex items-start space-x-3">
-                    <Tag className="w-5 h-5 text-pink-600 flex-shrink-0 mt-1" />
-                    <p className="text-gray-700">{recommendation}</p>
-                  </div>
-                ))}
+                {analysis.patterns.recommendations.map(
+                  (recommendation, index) => (
+                    <div
+                      key={index}
+                      className="mb-3 flex items-start space-x-3"
+                    >
+                      <Tag className="w-5 h-5 text-pink-600 flex-shrink-0 mt-1" />
+                      <p className="text-gray-700">{recommendation}</p>
+                    </div>
+                  )
+                )}
               </motion.div>
 
               {/* Lifestyle Recommendations */}
@@ -642,22 +655,30 @@ export function SymptomAnalysis() {
                 className="bg-pink-50/80 rounded-lg p-6 shadow-sm border border-pink-100"
               >
                 <h3 className="text-lg font-semibold mb-4 flex items-center text-pink-700">
-                  <Activity className="mr-2 text-pink-600" /> Lifestyle Recommendations
+                  <Activity className="mr-2 text-pink-600" /> Lifestyle
+                  Recommendations
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {Object.entries(analysis.lifestyle).map(([category, items]) => (
-                    <div key={category} className="space-y-2">
-                      <h4 className="font-medium capitalize mb-2 text-pink-700">{category}</h4>
-                      <ul className="space-y-1">
-                        {items.map((item, index) => (
-                          <li key={index} className="text-sm flex items-start space-x-2">
-                            <CheckCircle className="w-4 h-4 text-pink-500 flex-shrink-0 mt-1" />
-                            <span className="text-gray-700">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                  {Object.entries(analysis.lifestyle).map(
+                    ([category, items]) => (
+                      <div key={category} className="space-y-2">
+                        <h4 className="font-medium capitalize mb-2 text-pink-700">
+                          {category}
+                        </h4>
+                        <ul className="space-y-1">
+                          {items.map((item, index) => (
+                            <li
+                              key={index}
+                              className="text-sm flex items-start space-x-2"
+                            >
+                              <CheckCircle className="w-4 h-4 text-pink-500 flex-shrink-0 mt-1" />
+                              <span className="text-gray-700">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  )}
                 </div>
               </motion.div>
 
@@ -675,24 +696,38 @@ export function SymptomAnalysis() {
                   <div className="flex items-center space-x-3">
                     <ThumbsUp className="w-8 h-8 text-pink-500" />
                     <div>
-                      <div className="text-2xl font-bold text-pink-700">{analysis.communityInsights.similarExperiences}%</div>
-                      <div className="text-sm text-gray-700">Report Similar Symptoms</div>
+                      <div className="text-2xl font-bold text-pink-700">
+                        {analysis.communityInsights.similarExperiences}%
+                      </div>
+                      <div className="text-sm text-gray-700">
+                        Report Similar Symptoms
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <AlertCircle className="w-8 h-8 text-pink-500" />
                     <div>
                       <div className="text-2xl font-bold text-pink-700">
-                        {analysis.communityInsights.percentageSeekingMedicalAttention}%
+                        {
+                          analysis.communityInsights
+                            .percentageSeekingMedicalAttention
+                        }
+                        %
                       </div>
-                      <div className="text-sm text-gray-700">Sought Medical Care</div>
+                      <div className="text-sm text-gray-700">
+                        Sought Medical Care
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Heart className="w-8 h-8 text-pink-500" />
                     <div>
-                      <div className="text-sm font-medium text-pink-700">Common Relief:</div>
-                      <div className="text-sm text-gray-700">{analysis.communityInsights.commonRelief}</div>
+                      <div className="text-sm font-medium text-pink-700">
+                        Common Relief:
+                      </div>
+                      <div className="text-sm text-gray-700">
+                        {analysis.communityInsights.commonRelief}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -709,7 +744,9 @@ export function SymptomAnalysis() {
               <div className="flex space-x-3">
                 <AlertTriangle className="w-6 h-6 text-pink-500 flex-shrink-0" />
                 <p className="text-sm text-gray-700">
-                  This analysis is not a substitute for professional medical advice. If symptoms persist or worsen, please consult a healthcare provider.
+                  This analysis is not a substitute for professional medical
+                  advice. If symptoms persist or worsen, please consult a
+                  healthcare provider.
                 </p>
               </div>
             </motion.div>
@@ -750,7 +787,7 @@ export function SymptomAnalysis() {
   };
 
   const checkEmergencySymptoms = (symptoms) => {
-    const hasEmergency = symptoms.some(symptom => 
+    const hasEmergency = symptoms.some((symptom) =>
       emergencySymptoms.includes(symptom.toLowerCase())
     );
     setShowEmergencyAlert(hasEmergency);
@@ -764,14 +801,14 @@ export function SymptomAnalysis() {
       duration,
       cycleDay,
     };
-    setSymptomHistory(prev => [...prev, entry]);
+    setSymptomHistory((prev) => [...prev, entry]);
     analyzePatterns([...symptomHistory, entry]);
   };
 
   const analyzePatterns = (history) => {
     const patterns = {};
-    history.forEach(entry => {
-      entry.symptoms.forEach(symptom => {
+    history.forEach((entry) => {
+      entry.symptoms.forEach((symptom) => {
         if (!patterns[symptom]) {
           patterns[symptom] = {
             frequency: 1,
@@ -800,7 +837,8 @@ export function SymptomAnalysis() {
           <h3 className="text-red-500 font-semibold">Emergency Warning</h3>
           <p className="text-sm text-red-600 dark:text-red-400">
             Some of your symptoms may require immediate medical attention.
-            Please contact emergency services or visit the nearest emergency room.
+            Please contact emergency services or visit the nearest emergency
+            room.
           </p>
         </div>
       </div>
@@ -814,14 +852,21 @@ export function SymptomAnalysis() {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
     >
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
-        <h3 className="text-lg font-semibold mb-4">Severity Guide: {symptom}</h3>
+        <h3 className="text-lg font-semibold mb-4">
+          Severity Guide: {symptom}
+        </h3>
         <div className="space-y-4">
-          {Object.entries(severityGuides[symptom] || {}).map(([level, description]) => (
-            <div key={level} className="p-3 rounded-lg bg-gray-50 dark:bg-gray-700 ">
-              <span className="font-medium capitalize">{level}:</span>
-              <p className="text-sm mt-1">{description}</p>
-            </div>
-          ))}
+          {Object.entries(severityGuides[symptom] || {}).map(
+            ([level, description]) => (
+              <div
+                key={level}
+                className="p-3 rounded-lg bg-gray-50 dark:bg-gray-700 "
+              >
+                <span className="font-medium capitalize">{level}:</span>
+                <p className="text-sm mt-1">{description}</p>
+              </div>
+            )
+          )}
         </div>
         <button
           onClick={onClose}
@@ -835,7 +880,7 @@ export function SymptomAnalysis() {
 
   const mockAiAnalysis = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    
+
     // Initialize default patterns if no history exists
     const defaultPatterns = selectedSymptoms.reduce((acc, symptom) => {
       acc[symptom] = {
@@ -847,30 +892,34 @@ export function SymptomAnalysis() {
     }, {});
 
     // Use existing patterns or default ones
-    const currentPatterns = Object.keys(symptomPatterns).length > 0 ? symptomPatterns : defaultPatterns;
-    
+    const currentPatterns =
+      Object.keys(symptomPatterns).length > 0
+        ? symptomPatterns
+        : defaultPatterns;
+
     // Analyze patterns for better recommendations
     const mostFrequentSymptoms = Object.entries(currentPatterns)
-      .sort(([,a], [,b]) => b.frequency - a.frequency)
+      .sort(([, a], [, b]) => b.frequency - a.frequency)
       .slice(0, 3)
       .map(([symptom]) => symptom);
 
-    const cyclePatterns = selectedSymptoms.map(symptom => {
-      const pattern = currentPatterns[symptom];
-      if (pattern && pattern.cycleDays && pattern.cycleDays.length > 0) {
-        const commonCycleDays = pattern.cycleDays
-          .reduce((acc, day) => {
+    const cyclePatterns = selectedSymptoms
+      .map((symptom) => {
+        const pattern = currentPatterns[symptom];
+        if (pattern && pattern.cycleDays && pattern.cycleDays.length > 0) {
+          const commonCycleDays = pattern.cycleDays.reduce((acc, day) => {
             if (day) {
               acc[day] = (acc[day] || 0) + 1;
             }
             return acc;
           }, {});
-        return { symptom, commonCycleDays };
-      }
-      return null;
-    }).filter(Boolean);
+          return { symptom, commonCycleDays };
+        }
+        return null;
+      })
+      .filter(Boolean);
 
-    const cycleRecommendation = cycleDay 
+    const cycleRecommendation = cycleDay
       ? `Your symptoms are being recorded for day ${cycleDay} of your cycle`
       : "Consider tracking your cycle day for better pattern analysis";
 
@@ -923,27 +972,32 @@ export function SymptomAnalysis() {
     };
   };
 
-  const {width} = useScreenSize();
+  const { width } = useScreenSize();
 
   return (
-     <div className={`flex h-screen ${darkMode ? "dark" : ""}`}><SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={8}/>
-             {width > 816 && (
-               <button
-               onClick={toggleSidebar}
-               className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-               style={{
-                 transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-               }}
-               aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-             >
-               <ChevronRight
-                 size={14}
-                 className={`transition-transform duration-300 block m-auto ${
-                   sidebarVisible ? "rotate-180" : "rotate-0"
-                 }`}
-               />  
-             </button>
-             )}
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={8}
+      />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
       {/* Main Content */}
       <div
@@ -957,14 +1011,6 @@ export function SymptomAnalysis() {
             <h2 className="text-3xl font-bold text-pink-700">
               AI-Powered Symptom Analysis
             </h2>
-            <motion.button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-pink-50 text-pink-700 hover:bg-pink-100"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             {/* Progress Bar */}
@@ -988,9 +1034,15 @@ export function SymptomAnalysis() {
                       transition: { duration: 0.3 },
                     }}
                   >
-                    {step > stepNumber ? <CheckCircle size={20} className="text-pink-700" /> : stepNumber}
+                    {step > stepNumber ? (
+                      <CheckCircle size={20} className="text-pink-700" />
+                    ) : (
+                      stepNumber
+                    )}
                   </motion.div>
-                  <div className="text-xs mt-2 text-gray-600">Step {stepNumber}</div>
+                  <div className="text-xs mt-2 text-gray-600">
+                    Step {stepNumber}
+                  </div>
                 </div>
               ))}
             </div>
