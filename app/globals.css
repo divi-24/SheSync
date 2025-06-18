@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Homemade+Apple&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+  --header-color: #fe37a3;
+  --text-color: #000;
+  --sub-heading-color: #000;
+  --button-color: #000;
+  --header-font: "Shadows Into Light";
+  
+  --background: 255, 255, 255;
+  --foreground: 33, 33, 33;
+  --primary: 255, 105, 180;
+  --primary-foreground: 0, 0, 0;
+  --card: 255, 255, 255;
+  --card-foreground: 0, 0, 0;
+  --muted: 240, 240, 240;
+  --muted-foreground: 75, 75, 75;
+}
+
+.dark {
+  --background: 23, 23, 23;
+  --foreground: 255, 255, 255;
+  --primary: 255, 105, 180;
+  --primary-foreground: 255, 255, 255;
+  --card: 38, 38, 38;
+  --card-foreground: 255, 255, 255;
+  --muted: 50, 50, 50;
+  --muted-foreground: 150, 150, 150;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  overflow-x: hidden;
+}
+
+.special-header,
+h1 {
+  font-family: var(--header-font);
+}
+
+.special-header,
+h2 {
+  font-family: sans-serif;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: pink;
+}
+
+::-webkit-scrollbar-thumb {
+  display: block;
+  background: linear-gradient(rgb(101, 5, 82), #e3007b);
+  border-radius: 100px;
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-gradient {
+  animation: gradient 8s linear infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Utility Classes */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Header Button Styles */
+.header-button {
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 0.7em 2em;
+  border: 3px solid var(--header-color);
+  border-radius: 2px;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: var(--header-color);
+  text-decoration: none;
+  transition: 0.3s ease all;
+  z-index: 1;
+}
+
+.header-button:before {
+  transition: 0.5s all ease;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  opacity: 0;
+  content: "";
+  background-color: rgb(101, 5, 82);
+  z-index: -1;
+}
+
+.header-button:hover,
+.header-button:focus {
+  color: white;
+}
+
+.header-button:hover:before,
+.header-button:focus:before {
+  transition: 0.5s all ease;
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+.header-button:active {
+  transform: scale(0.9);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feature-image {
+    position: relative;
+    top: auto;
+    right: auto;
+    height: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .content {
+    margin-left: 20px;
+    max-width: 100%;
+  }
+  
+  .content h1 {
+    font-size: 48px;
+  }
+}
+
+/* Dark mode transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
