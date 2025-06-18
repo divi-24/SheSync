@@ -62,23 +62,31 @@ export default function SideBar({
   if (activeLink !== undefined) active[activeLink] = true;
 
   return (
-    <div className={`${width < 816 ? 'fixed' : 'relative'} z-50`}>
+    <div className="h-screen">
       {/* Mobile menu button when sidebar is hidden */}
       {!sidebarVisible && width < 816 && (
-        <div className="fixed top-4 left-4 p-2 bg-pink-100 dark:bg-gray-700 rounded-full z-50 shadow-md">
+        <button 
+          className="fixed top-4 left-4 p-3 bg-white dark:bg-gray-800 rounded-full z-50 shadow-lg border border-gray-200 dark:border-gray-700"
+          onClick={() => setSidebarVisible(true)}
+        >
           <Menu
-            size={24}
-            className="text-black dark:text-white"
-            onClick={() => setSidebarVisible(true)}
+            size={20}
+            className="text-pink-600 dark:text-pink-400"
           />
-        </div>
+        </button>
+      )}
+      {sidebarVisible && width < 816 && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setSidebarVisible(false)}
+        />
       )}
 
       {/* Sidebar */}
       <aside
-        className={`bg-pink-100 dark:bg-gray-800 w-64 max-h-screen overflow-y-auto p-4 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } ${width < 816 ? 'fixed' : 'relative'} shadow-lg`}
+          className={`bg-white dark:bg-gray-900 w-64 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out ${
+            sidebarVisible ? "translate-x-0" : "-translate-x-full"
+          } fixed z-50 shadow-xl`}
       >
         <div className="px-4 py-4 flex flex-col space-y-2">
           <div className="flex justify-between items-center mb-4">

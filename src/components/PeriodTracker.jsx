@@ -704,20 +704,40 @@ export function PeriodTracker() {
         setSidebarVisible={setSideBarVisible}
         darkMode={darkMode}
         toggleDarkMode={toggleDarkMode}
+        activeLink={4}
       />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
-      <div className="flex-1 p-6 lg:p-8">
+      <div className={`flex-1 p-6 lg:p-8 ${sidebarVisible && width > 816 ? "ml-64" : "ml-0"} w-full max-w-full transition-all duration-300 ease-in-out`}>
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               Period Tracker
             </h1>
-            <button
-              onClick={toggleSidebar}
-              className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+            {width < 816 && (
+              <button
+                onClick={toggleSidebar}
+                className="p-2 rounded-md text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            )}
           </div>
 
           <div className="mb-8">
