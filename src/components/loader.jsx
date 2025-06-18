@@ -47,11 +47,6 @@ function SheSyncLoader() {
         setProgress(100)
         setIsComplete(true)
         setShowSparkles(true)
-
-        // Redirect after showing completion
-        setTimeout(() => {
-          window.location.href = "https://shesync.netlify.app/"
-        }, 1500)
       }
     }, messageInterval)
 
