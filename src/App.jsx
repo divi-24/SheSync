@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './index.css';
 import {
   createBrowserRouter,
@@ -23,6 +23,7 @@ import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 import { ThemeProvider } from "./context/ThemeContext";
+import SheSyncLoader from "./components/loader";
 
 function ProtectedRouteWrapper({ Component }) {
   const { isLoaded, isSignedIn } = useAuth();
@@ -102,9 +103,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoading(false), 6000); // ⏱️ Show for 3s
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <ThemeProvider>
-      <RouterProvider router={router} />
+      {loading ? <SheSyncLoader /> : <RouterProvider router={router} />}
     </ThemeProvider>
   );
 }
