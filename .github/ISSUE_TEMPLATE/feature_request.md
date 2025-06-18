@@ -1,49 +1,24 @@
+---
 name: 🌟 Feature Request
-description: Suggest an improvement or new feature
-title: "[FEATURE] <short description>"
+description: Suggest a new feature or enhancement
+title: "[FEATURE] <your title here>"
 labels: [enhancement]
-assignees: ''
+assignees: []
+---
 
-body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for suggesting a feature! Fill in the details to help us evaluate it.
+## ✨ Feature Summary
 
-  - type: input
-    id: summary
-    attributes:
-      label: Feature Summary
-      description: A short title for your feature.
-      placeholder: "Add dark mode toggle"
-    validations:
-      required: true
+<!-- A short summary of the feature you're requesting -->
 
-  - type: textarea
-    id: description
-    attributes:
-      label: Description
-      description: Describe the feature you'd like to add.
-      placeholder: "It would be useful to have a dark mode for night users..."
+## 📄 Detailed Description
 
-  - type: textarea
-    id: benefits
-    attributes:
-      label: Benefits
-      description: How will this feature help users or the project?
-  
-  - type: checkboxes
-    id: contribution
-    attributes:
-      label: Contribution
-      options:
-        - label: I would like to implement this feature.
-        - label: I am just suggesting this idea.
+<!-- A detailed explanation of the feature -->
 
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Confirmation
-      options:
-        - label: I have checked existing issues for duplicates.
-          required: true
+## 💡 Benefits
+
+<!-- How would this improve the project? -->
+
+## 🙋‍♀️ Want to work on this feature?
+
+- [ ] I would like to implement this feature
+- [ ] I’m suggesting the idea only
