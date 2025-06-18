@@ -715,7 +715,7 @@ export  function ParentDashboard() {
                   >
                     <Activity className="h-5 w-5 text-pink-500 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{update.text}</p>
+                      <p className="text-sm font-medium text-gray-600 dark:text-gray-300">{update.text}</p>
                       <p className="text-xs text-gray-500">{update.date}</p>
                     </div>
                   </motion.div>
@@ -735,7 +735,7 @@ export  function ParentDashboard() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center px-4 py-2 rounded-lg bg-pink-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium border border-pink-100/30 dark:border-pink-900/20 shadow-lg shadow-pink-500/10 hover:shadow-xl hover:shadow-pink-500/20 transition-shadow"
+                className="flex items-center px-4 py-2 rounded-lg bg-gradient-to-r from-pink-300 to-pink-400 text-white font-medium border border-pink-100/30 dark:border-pink-900/20 shadow-lg shadow-pink-500/10 hover:shadow-xl hover:shadow-pink-500/20 transition-shadow"
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Contact Doctor
@@ -765,21 +765,21 @@ export  function ParentDashboard() {
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">Mood</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Mood</p>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-gray-200 dark:border-gray-700">
                     {child.mood}
                   </span>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">Sleep</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Sleep</p>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-gray-200 dark:border-gray-700">
                     {child.sleep}
                   </span>
                 </div>
               </div>
 
               <div>
-                <p className="text-sm font-medium mb-2">Current Symptoms</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Current Symptoms</p>
                 <div className="flex flex-wrap gap-2">
                   {child.symptoms.map((symptom, index) => (
                     <span
@@ -793,7 +793,7 @@ export  function ParentDashboard() {
               </div>
 
               <div>
-                <p className="text-sm font-medium mb-2">Medications</p>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Medications</p>
                 <div className="space-y-2">
                   {child.medications.map((medication, index) => (
                     <div key={index} className="flex items-center space-x-2">
@@ -813,7 +813,7 @@ export  function ParentDashboard() {
                 <div className="flex items-start space-x-2">
                   <Brain className="h-5 w-5 text-pink-400 mt-1" />
                   <div>
-                    <p className="font-medium">Cycle Insights</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Cycle Insights</p>
                     <p className="text-sm text-gray-600 dark:text-gray-300">
                       {child.name} is in her {child.currentPhase} phase. 
                       Next period expected on {child.nextPeriod}.
@@ -876,7 +876,7 @@ export  function ParentDashboard() {
         className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
       >
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Educational Resources</h3>
+          <h3 className="text-lg font-semibold mb-4 text-gray-600 dark:text-gray-300">Educational Resources</h3>
           <div className="grid gap-4">
             {resources.map((resource, index) => (
               <motion.div
@@ -890,17 +890,17 @@ export  function ParentDashboard() {
                   <resource.icon className="h-5 w-5 text-pink-500" />
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-medium mb-1">{resource.title}</h4>
+                  <h4 className="font-medium mb-1 text-gray-600 dark:text-gray-300">{resource.title}</h4>
                   <div className="flex items-center space-x-3 text-sm text-gray-500">
                     <span>{resource.type}</span>
                     <span>•</span>
                     <span>{resource.duration}</span>
-                    <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                    <span className="ml flex items-center justify-center space-x-2 p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-colors">
                       {resource.level}
                     </span>
                   </div>
                 </div>
-                <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 rounded-full">
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </motion.div>
@@ -920,7 +920,7 @@ export  function ParentDashboard() {
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold">Emergency Contacts</h3>
+            <h3 className="text-lg font-semibold text-gray-600 dark:text-gray-300">Emergency Contacts</h3>
             <button className="inline-flex items-center px-3 py-2 text-sm font-medium bg-pink-500 text-white rounded-md hover:bg-pink-600">
               <Plus className="h-4 w-4 mr-2" />
               Add Contact
@@ -940,7 +940,7 @@ export  function ParentDashboard() {
                     <User className="h-5 w-5 text-pink-500" />
                   </div>
                   <div>
-                    <h4 className="font-medium">{contact.name}</h4>
+                    <h4 className="font-medium text-gray-600 dark:text-gray-300">{contact.name}</h4>
                     <p className="text-sm text-gray-500">{contact.role}</p>
                   </div>
                 </div>
@@ -948,10 +948,10 @@ export  function ParentDashboard() {
                   <span className="px-2.5 py-0.5 text-xs font-medium border border-gray-200 dark:border-gray-700 rounded-full">
                     {contact.available}
                   </span>
-                  <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                  <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 rounded-full">
                     <Phone className="h-4 w-4" />
                   </button>
-                  <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+                  <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-100 rounded-full">
                     <Mail className="h-4 w-4" />
                   </button>
                 </div>
@@ -1194,7 +1194,7 @@ export  function ParentDashboard() {
                 <div key={metric.label} className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="font-medium">{metric.label}</span>
-                    <span className="text-gray-500">{metric.value}%</span>
+                    <span className="text-gray-900 dark:text-gray-100">{metric.value}%</span>
                   </div>
                   <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                     <motion.div
@@ -1257,7 +1257,7 @@ export  function ParentDashboard() {
                         <Pill className="h-5 w-5 text-pink-500" />
                       </div>
                       <div>
-                        <h4 className="font-medium">{med.name}</h4>
+                        <h4 className="font-medium text-gray-900 dark:text-gray-100">{med.name}</h4>
                         <p className="text-sm text-gray-500">{med.schedule}</p>
                       </div>
                     </div>
@@ -1312,7 +1312,7 @@ export  function ParentDashboard() {
                       <Activity className="h-5 w-5 text-pink-500" />
                     </div>
                     <div>
-                      <h4 className="font-medium">{activity.type}</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">{activity.type}</h4>
                       <p className="text-sm text-gray-500">{activity.duration}</p>
                     </div>
                   </div>
@@ -1359,7 +1359,7 @@ export  function ParentDashboard() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-medium">{goal.title}</h4>
+                    <h4 className="font-medium text-gray-900 dark:text-gray-100">{goal.title}</h4>
                     <p className="text-sm text-gray-500">{goal.target}</p>
                   </div>
                   <div className="flex items-center space-x-2">
