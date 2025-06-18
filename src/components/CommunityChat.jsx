@@ -1,14 +1,3 @@
-import { db } from '../firebase';
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  serverTimestamp,
-  query,
-  orderBy
-} from 'firebase/firestore';
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -139,25 +128,17 @@ const CommunityChat = ({ isOpen, onClose, community, currentUser }) => {
   }, [messages]);
 
   // Add welcome message when chat opens
-useEffect(() => {
-  if (!community?.id) return;
-
-  const q = query(
-    collection(db, 'communities', community.id, 'messages'),
-    orderBy('timestamp', 'asc')
-  );
-
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    const fetchedMessages = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setMessages(fetchedMessages);
-  });
-
-  return () => unsubscribe();
-}, [community?.id]);
-
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      setMessages([{
+        id: Date.now(),
+        text: `Welcome to the ${community.name} community! I'm your AI health assistant. How can I help you today?`,
+        sender: 'AI Assistant',
+        isBot: true,
+        timestamp: new Date().toISOString()
+      }]);
+    }
+  }, [isOpen, community.name, messages.length]);
 
   // Generate AI response using Gemini
   const generateAIResponse = async (userMessage) => {
@@ -189,32 +170,25 @@ useEffect(() => {
     }
   };
 
-const handleSendMessage = async (e) => {
-  e.preventDefault();
-  if (!newMessage.trim()) return;
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!newMessage.trim()) return;
 
-  setShowPrompts(false);
+    setShowPrompts(false);
+    
+    // Add user message
+    const userMessage = {
+      id: Date.now(),
+      text: newMessage,
+      sender: currentUser || 'You',
+      timestamp: new Date().toISOString()
+    };
+    setMessages(prev => [...prev, userMessage]);
+    setNewMessage('');
 
-  const message = {
-    text: newMessage,
-    sender: currentUser || 'You',
-    isBot: false,
-    timestamp: serverTimestamp()
+    // Generate AI response
+    await generateAIResponse(newMessage);
   };
-
-try {
-  await addDoc(collection(db, 'communities', community.id, 'messages'), message);
-  setNewMessage('');
-
-  // ✅ Only trigger AI in specific community (e.g., AI Bot Room)
-  if (community.name === 'AI Bot Room') {
-    generateAIResponse(newMessage);
-  }
-} catch (err) {
-  setError('Failed to send message.');
-  console.error(err);
-}
-};
 
   const handlePromptClick = (prompt) => {
     setNewMessage(prompt);
