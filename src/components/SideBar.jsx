@@ -58,7 +58,7 @@ export default function SideBar({
     }
   }, [width, setSidebarVisible]);
 
-  let active = new Array(14).fill(false);
+  let active = new Array(15).fill(false);
   if (activeLink !== undefined) active[activeLink] = true;
 
   return (
@@ -150,58 +150,64 @@ export default function SideBar({
             active={active[4]}
           />
           <SidebarLink
+            icon={<HeartPulse size={20} />}
+            label="Ovulation Calculator"
+            onClick={() => navigate("/ovulationcalculator")}
+            active={active[5]}
+          />
+          <SidebarLink
             icon={<ClipboardList size={20} />}
             label="PCOS Diagnosis"
             onClick={() => navigate("/partner")}
-            active={active[5]}
+            active={active[6]}
           />
           <SidebarLink
             icon={<Stethoscope size={20} />}
             label="Expert Consultation"
             onClick={() => navigate("/consultations")}
-            active={active[6]}
+            active={active[7]}
           />
           <SidebarLink
             icon={<Bot size={20} />}
             label="Eve"
             onClick={() => navigate("/ChatBot")}
-            active={active[7]}
+            active={active[8]}
           />
           <SidebarLink
             icon={<HeartPulse size={20} />}
             label="HealthLens"
             onClick={() => navigate("/symptomsanalyzer")}
-            active={active[8]}
+            active={active[9]}
           />
           <SidebarLink
             icon={<AppWindowMac size={20} />}
             label="Parent's Dashboard"
             onClick={() => navigate("/parents")}
-            active={active[9]}
+            active={active[10]}
           />
           <SidebarLink
             icon={<MessageSquare size={20} />}
             label="Forums"
             onClick={() => navigate("/forums")}
-            active={active[10]}
+            active={active[11]}
           />
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
             onClick={() => window.open("https://thepadproject.org/donate/")}
-            active={active[11]}
+            active={active[12]}
           />
           <SidebarLink
             icon={<Gamepad2 size={20} />}
             label="Bliss"
             onClick={() => window.open("https://she-syncgame.vercel.app/", "_blank")}
-            active={active[12]}
+            active={active[13]}
           />
           <SidebarLink
             icon={<Handshake size={20} />}
             label="NGO's"
             onClick={() => window.open("https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html", "_blank")}
-            active={active[13]}
+            active={active[14]}
           />
         </div>
       </aside>
