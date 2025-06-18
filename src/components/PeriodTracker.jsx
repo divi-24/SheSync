@@ -73,14 +73,13 @@ export function PeriodTracker() {
   const { user } = useUser();
   const { width } = useScreenSize();
   
-  // Redirect to login if not signed in
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
       navigate('/login');
     }
   }, [isLoaded, isSignedIn, navigate]);
   
-  const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [sidebarVisible, setSideBarVisible] = useState(true);
   const [cycleDuration, setCycleDuration] = useState("");
   const [lastPeriodStart, setLastPeriodStart] = useState("");
   const [lastPeriodDuration, setLastPeriodDuration] = useState("");
@@ -290,7 +289,7 @@ export function PeriodTracker() {
   };
 
   const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
+    setSideBarVisible(!sidebarVisible);
   };
 
   const toggleSection = (section) => {
@@ -700,8 +699,11 @@ export function PeriodTracker() {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
       <SideBar
-        sidebarVisible={sidebarVisible}
-        setSidebarVisible={setSidebarVisible}
+        visible={sidebarVisible}
+        toggleSidebar={toggleSidebar}
+        setSidebarVisible={setSideBarVisible}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
         activeLink={4}
       />
       {width > 816 && (

@@ -24,7 +24,6 @@ import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 import { ThemeProvider } from "./context/ThemeContext";
 
-// Create a wrapper component for protected routes
 function ProtectedRouteWrapper({ Component }) {
   const { isLoaded, isSignedIn } = useAuth();
   
@@ -39,7 +38,6 @@ function ProtectedRouteWrapper({ Component }) {
   return <Component />;
 }
 
-// Higher-order function to create protected route elements
 const ProtectedRoute = (Component) => {
   return () => <ProtectedRouteWrapper Component={Component} />;
 };
