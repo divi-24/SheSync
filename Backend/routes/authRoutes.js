@@ -1,12 +1,16 @@
 import express from "express";
 import {
-  loginController,
-  signupController,
+  createUserFromClerk,
+  getUserProfile,
 } from "../controllers/authController.js";
+import { clerkAuth } from "../middlewares/clerkMiddleware.js";
 
 const router = express.Router();
 
-router.post("/login", loginController);
-router.post("/signup", signupController);
+// Webhook endpoint for Clerk user creation/updates
+router.post("/clerk-webhook", createUserFromClerk);
+
+// Get user profile (requires authentication)
+router.get("/profile", clerkAuth, getUserProfile);
 
 export default router;

@@ -347,6 +347,22 @@ export function Ecom() {
     setSidebarVisible(!sidebarVisible);
   };
 
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", newMode.toString());
+      return newMode;
+    });
+  };
+
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === product.id);
@@ -461,6 +477,7 @@ export function Ecom() {
   );
 
   const { width } = useScreenSize();
+
   return (
     <div className={`flex h-screen`}>
       <SideBar

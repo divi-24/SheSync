@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { format, addDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import {
   Calendar,
   ChevronRight,
@@ -68,6 +69,17 @@ const sleepQualityOptions = ["Poor", "Fair", "Good", "Excellent"];
 
 export function PeriodTracker() {
   const navigate = useNavigate();
+  const { isLoaded, isSignedIn } = useAuth();
+  const { user } = useUser();
+  const { width } = useScreenSize();
+  
+  // Redirect to login if not signed in
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      navigate('/login');
+    }
+  }, [isLoaded, isSignedIn, navigate]);
+  
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [cycleDuration, setCycleDuration] = useState("");
   const [lastPeriodStart, setLastPeriodStart] = useState("");
@@ -91,6 +103,57 @@ export function PeriodTracker() {
     healthTips: true,
   });
   const [showHealthTips, setShowHealthTips] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("darkMode") === "true"
+  );
+  const [waterIntakeCount, setWaterIntakeCount] = useState(0);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      navigate("/login");
+    }
+  }, [isLoaded, isSignedIn, navigate]);
+  
+  const handleWaterIntakeUpdate = async () => {
+    if (!isSignedIn || !user) {
+      alert("You must be logged in to update water intake");
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      const response = await axios.get(
+        `${server_url}/api/period/waterupdate/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${await user.getToken()}`,
+          },
+        }
+      );
+      setWaterIntakeCount(response.data.waterIntakeCount);
+      console.log("Water intake updated:", response.data);
+    } catch (error) {
+      console.error("Error updating water intake:", error);
+      alert("Error updating water intake. Please try again.");
+    }
+  };
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", newMode.toString());
+      return newMode;
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -154,16 +217,17 @@ export function PeriodTracker() {
     }
   };
 
-  const handleSubmit = async () => {
-    const userId = localStorage.getItem("userId");
-
-    if (!userId) {
-      alert("Please log in first");
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault();
+    
+    if (!isSignedIn || !user) {
+      alert("You must be logged in to submit data");
+      navigate('/login');
       return;
     }
-
+    
     const submissionData = {
-      userId,
+      userId: user.id,
       cycleDuration,
       lastPeriodStart,
       lastPeriodDuration,
@@ -179,14 +243,16 @@ export function PeriodTracker() {
     };
 
     try {
+      const token = await user.getToken();
+      
       try {
         const response = await axios.post(
-          `${server_url}api/period/trackerdata`,
+          `${server_url}/api/period/trackerdata`,
           submissionData,
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `${localStorage.getItem("token") || ""}`, // Ensure token exists
+              "Authorization": `Bearer ${token}`,
             },
           }
         );
@@ -195,25 +261,24 @@ export function PeriodTracker() {
         alert("Data submitted successfully!");
         return;
       } catch (primaryError) {
-        console.warn(
-          "Primary server failed, attempting local fallback:",
-          primaryError
-        );
+        console.warn("Primary server failed, attempting local fallback:", primaryError);
       }
 
       const localResponse = await axios.post(
         "http://localhost:3000/api/period/trackerdata/",
-        submissionData
+        submissionData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
       );
-      console.log(
-        "Data submitted successfully via local server:",
-        localResponse.data
-      );
+      console.log("Data submitted successfully via local server:", localResponse.data);
       setShowHealthTips(true);
       alert("Data submitted successfully!");
     } catch (error) {
       console.error("Error submitting data:", error);
-
       if (error.response) {
         alert(`Error: ${error.response.data.message || "Server error"}`);
       } else if (error.request) {
@@ -282,414 +347,402 @@ export function PeriodTracker() {
         );
       } else if (periodDuration < 3) {
         tips.push(
-          "Your period duration is shorter than average. This can be normal, but keep an eye on it and consult your doctor if you're concerned."
-        );
-      }
-    }
-
-    if (moodTypes.includes("Sad") || moodTypes.includes("Angry")) {
-      tips.push(
-        "Mood swings can be common during your cycle. Try relaxation techniques or gentle exercise to help manage your emotions."
-      );
-    }
-    if (moodTypes.includes("Tired")) {
-      tips.push(
-        "Fatigue is common during menstruation. Ensure you're getting enough rest and consider iron-rich foods to combat tiredness."
-      );
-    }
-
-    if (symptoms.includes("Lower Abdomen Cramps")) {
-      tips.push(
-        "For menstrual cramps, try using a heating pad or taking a warm bath to alleviate discomfort."
-      );
-    }
-    if (symptoms.includes("Bloating")) {
-      tips.push(
-        "To reduce bloating, try to avoid salty foods and increase your water intake."
-      );
-    }
-    if (symptoms.includes("Headaches")) {
-      tips.push(
-        "Headaches can be common during your cycle. Stay hydrated and consider over-the-counter pain relievers if needed."
-      );
-    }
-    if (symptoms.includes("Sleep Disruption")) {
-      tips.push(
-        "To improve sleep during your cycle, try to maintain a consistent sleep schedule and create a relaxing bedtime routine."
-      );
-    }
-
-    if (sleepDuration) {
-      const sleepDurationInt = parseFloat(sleepDuration);
-      if (sleepDurationInt < 7) {
-        tips.push(
-          "You might not be getting enough sleep. Aim for 7-9 hours of sleep per night for optimal health and well-being."
-        );
-      } else if (sleepDurationInt > 9) {
-        tips.push(
-          "You're getting more sleep than average. While this can be normal, excessive sleep might indicate other health issues. Consider discussing with your doctor if this persists."
+          "Your period duration is shorter than average. This can be normal, but tracking consistently will help identify any patterns."
         );
       } else {
         tips.push(
-          "Your sleep duration is within the recommended range. Keep maintaining this healthy sleep pattern!"
+          "Your period duration is within the normal range. Continue tracking to maintain awareness of your cycle."
         );
       }
+    }
+
+    if (symptoms.includes("Lower Abdomen Cramps")) {
+      const severity =
+        symptomSeverities["Lower Abdomen Cramps"] || "Not specified";
+      if (severity === "Severe") {
+        tips.push(
+          "For severe cramps, consider over-the-counter pain relievers, a heating pad, and gentle exercise. If pain is debilitating, consult your doctor."
+        );
+      } else {
+        tips.push(
+          "For menstrual cramps, try using a heating pad, gentle yoga, or over-the-counter pain relievers if needed."
+        );
+      }
+    }
+
+    if (symptoms.includes("Fatigue")) {
+      tips.push(
+        "Combat period fatigue by ensuring adequate iron intake, staying hydrated, and getting enough rest. Consider iron-rich foods like spinach, beans, and lean meats."
+      );
+    }
+
+    if (symptoms.includes("Bloating")) {
+      tips.push(
+        "To reduce bloating, try limiting salt intake, avoiding carbonated drinks, and eating smaller, more frequent meals. Gentle exercise can also help."
+      );
     }
 
     if (sleepQuality === "Poor" || sleepQuality === "Fair") {
       tips.push(
-        "To improve sleep quality, try establishing a consistent bedtime routine, avoiding screens before bed, and creating a comfortable sleep environment."
+        "Improve sleep quality by maintaining a regular sleep schedule, creating a comfortable sleep environment, and avoiding caffeine and screens before bedtime."
       );
     }
 
-    tips.push(
-      "Stay hydrated by drinking plenty of water throughout your cycle."
-    );
-    tips.push(
-      "Regular exercise can help alleviate many menstrual symptoms and improve overall well-being."
-    );
-    tips.push(
-      "A balanced diet rich in fruits, vegetables, and whole grains can help support your body during your cycle."
-    );
+    if (moodTypes.includes("Sad") || moodTypes.includes("Angry")) {
+      tips.push(
+        "Mood changes during your cycle are normal. Regular exercise, mindfulness practices, and adequate sleep can help manage mood fluctuations."
+      );
+    }
+
+    if (tips.length === 0) {
+      tips.push(
+        "Keep tracking your cycle regularly to receive personalized health insights."
+      );
+    }
 
     return tips;
   }, [
     cycleDuration,
     lastPeriodDuration,
-    moodTypes,
-    sleepDuration,
-    sleepQuality,
     symptoms,
+    symptomSeverities,
+    sleepQuality,
+    moodTypes,
   ]);
 
-  const { width } = useScreenSize();
+  const cycleInfoContent = (
+    <div className="space-y-4">
+      <div>
+        <label
+          htmlFor="cycleDuration"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Average Cycle Duration (days)
+        </label>
+        <input
+          type="number"
+          id="cycleDuration"
+          name="cycleDuration"
+          value={cycleDuration}
+          onChange={handleInputChange}
+          min="1"
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="lastPeriodStart"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Last Period Start Date
+        </label>
+        <input
+          type="date"
+          id="lastPeriodStart"
+          name="lastPeriodStart"
+          value={lastPeriodStart}
+          onChange={handleInputChange}
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="lastPeriodDuration"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Last Period Duration (days)
+        </label>
+        <input
+          type="number"
+          id="lastPeriodDuration"
+          name="lastPeriodDuration"
+          value={lastPeriodDuration}
+          onChange={handleInputChange}
+          min="1"
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <button
+        onClick={predictNextPeriod}
+        className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+      >
+        Predict Next Period
+      </button>
+
+      {nextPeriodPrediction && (
+        <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900 rounded-md">
+          <p className="text-indigo-700 dark:text-indigo-200">
+            Your next period is predicted to start around:{" "}
+            <span className="font-semibold">{nextPeriodPrediction}</span>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+
+  const moodTrackingContent = (
+    <div className="space-y-4">
+      <div>
+        <label
+          htmlFor="moodDate"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Date
+        </label>
+        <input
+          type="date"
+          id="moodDate"
+          name="moodDate"
+          value={moodDate}
+          onChange={handleInputChange}
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Mood Types (select all that apply)
+        </label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {moodOptions.map((mood) => {
+            const MoodIcon = mood.icon;
+            const isSelected = moodTypes.includes(mood.name);
+            return (
+              <button
+                key={mood.name}
+                type="button"
+                onClick={() => handleMoodTypeChange(mood.name)}
+                className={`flex items-center space-x-2 p-3 rounded-md transition-colors ${isSelected
+                  ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  }`}
+              >
+                <MoodIcon className="w-5 h-5" />
+                <span>{mood.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Mood Intensity
+        </label>
+        <div className="flex space-x-3">
+          {moodSeverityOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setMoodSeverity(option.value)}
+              className={`px-4 py-2 rounded-md transition-colors ${moodSeverity === option.value
+                ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                }`}
+            >
+              {option.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const symptomTrackingContent = (
+    <div className="space-y-4">
+      <div>
+        <label
+          htmlFor="symptomDate"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Date
+        </label>
+        <input
+          type="date"
+          id="symptomDate"
+          name="symptomDate"
+          value={symptomDate}
+          onChange={handleInputChange}
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Symptoms
+        </label>
+        <div className="space-y-3">
+          {symptomOptions.map((symptom) => {
+            const isSelected = symptoms.includes(symptom);
+            return (
+              <div key={symptom} className="space-y-2">
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`symptom-${symptom}`}
+                    checked={isSelected}
+                    onChange={() => handleSymptomChange(symptom)}
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded"
+                  />
+                  <label
+                    htmlFor={`symptom-${symptom}`}
+                    className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                  >
+                    {symptom}
+                  </label>
+                </div>
+
+                {isSelected && (
+                  <div className="ml-6">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                      Severity
+                    </label>
+                    <div className="flex space-x-2">
+                      {symptomSeverityOptions.map((severity) => (
+                        <button
+                          key={`${symptom}-${severity}`}
+                          type="button"
+                          onClick={() =>
+                            handleSymptomSeverityChange(symptom, severity)
+                          }
+                          className={`px-2 py-1 text-xs rounded-md transition-colors ${symptomSeverities[symptom] === severity
+                            ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
+                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                            }`}
+                        >
+                          {severity}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+
+  const sleepTrackingContent = (
+    <div className="space-y-4">
+      <div>
+        <label
+          htmlFor="sleepDuration"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Sleep Duration (hours)
+        </label>
+        <input
+          type="number"
+          id="sleepDuration"
+          name="sleepDuration"
+          value={sleepDuration}
+          onChange={handleInputChange}
+          min="0"
+          max="24"
+          step="0.5"
+          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Sleep Quality
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {sleepQualityOptions.map((quality) => (
+            <button
+              key={quality}
+              type="button"
+              onClick={() => setSleepQuality(quality)}
+              className={`px-4 py-2 rounded-md transition-colors ${sleepQuality === quality
+                ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                }`}
+            >
+              {quality}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const healthTipsContent = (
+    <div className="space-y-4">
+      {showHealthTips ? (
+        <div>
+          <ul className="space-y-2">
+            {generateHealthTips.map((tip, index) => (
+              <li
+                key={index}
+                className="flex items-start space-x-2 text-gray-700 dark:text-gray-300"
+              >
+                <HeartPulse className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
+                <span>{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p className="text-gray-600 dark:text-gray-400">
+          Submit your tracking data to receive personalized health tips based on
+          your cycle information.
+        </p>
+      )}
+    </div>
+  );
 
   return (
-    <div className={`flex h-screen`}>
-      {/* Sidebar */}
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
       <SideBar
-        sidebarVisible={sidebarVisible}
-        setSidebarVisible={setSidebarVisible}
-        activeLink={4}
+        visible={sidebarVisible}
+        toggleSidebar={toggleSidebar}
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
       />
-      {width > 816 && (
-        <button
-          onClick={toggleSidebar}
-          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-          style={{
-            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-          }}
-          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-        >
-          <ChevronRight
-            size={14}
-            className={`transition-transform duration-300 block m-auto ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
-      )}
 
-      {/* Main Content */}
-      <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
-      >
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Header */}
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-bold text-pink-600 dark:text-pink-400">
+      <div className="flex-1 p-6 lg:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               Period Tracker
-            </h2>
+            </h1>
+            <button
+              onClick={toggleSidebar}
+              className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
 
-          <div className="bg-pink-50 dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
-            <div className="text-center mb-8">
-              <p className="text-black dark:text-gray-300">
-                Track your cycle, moods, symptoms, and sleep
-              </p>
-            </div>
+          <div className="mb-8">
+            <p className="text-gray-600 dark:text-gray-400">
+              Track your menstrual cycle, symptoms, mood, and sleep patterns to
+              gain insights into your reproductive health.
+            </p>
+          </div>
 
-            {renderSection(
-              <span style={{ color: "#db0085" }}>Cycle Information</span>,
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                      Start date of your last period
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="date"
-                        name="lastPeriodStart"
-                        value={lastPeriodStart}
-                        onChange={handleInputChange}
-                        className="w-full text-white pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                      />
-                      <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                      Last Period Duration (days)
-                    </label>
-                    <input
-                      type="number"
-                      name="lastPeriodDuration"
-                      value={lastPeriodDuration}
-                      onChange={handleInputChange}
-                      min="1"
-                      className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Average Cycle Duration (days)
-                  </label>
-                  <input
-                    type="number"
-                    name="cycleDuration"
-                    value={cycleDuration}
-                    onChange={handleInputChange}
-                    min="21"
-                    max="35"
-                    className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-                <button
-                  onClick={predictNextPeriod}
-                  className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition duration-300 shadow-md"
-                >
-                  Predict Next Period
-                </button>
-                {nextPeriodPrediction && (
-                  <p className="text-center font-medium text-white-700 dark:text-gray-300 bg-pink-300 dark:bg-pink-500 p-3 rounded-md">
-                    Predicted next period:{" "}
-                    {format(new Date(nextPeriodPrediction), "MMMM d, yyyy")}
-                  </p>
-                )}
-              </div>,
-              "cycleInfo"
-            )}
+          {renderSection("Cycle Information", cycleInfoContent, "cycleInfo")}
+          {renderSection("Mood Tracking", moodTrackingContent, "moodTracking")}
+          {renderSection("Symptom Tracking", symptomTrackingContent, "symptomTracking")}
+          {renderSection("Sleep Tracking", sleepTrackingContent, "sleepTracking")}
+          {renderSection("Health Tips", healthTipsContent, "healthTips")}
 
-            {renderSection(
-              <span style={{ color: "#db0085" }}>Mood Tracking</span>,
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Select Mood(s)
-                  </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {moodOptions.map((mood) => (
-                      <button
-                        key={mood.name}
-                        onClick={() => handleMoodTypeChange(mood.name)}
-                        className={`text-white flex items-center justify-center px-4 py-2 border rounded-md transition duration-300 ${
-                          moodTypes.includes(mood.name)
-                            ? "bg-pink-500 text-white-800 border-pink-300 dark:bg-pink-500 dark:text-gray-200 dark:border-pink-600"
-                            : "bg-white text-gray-600 border-gray-300 hover:bg-pink-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-pink-900"
-                        }`}
-                      >
-                        <mood.icon className="mr-2 h-4 w-4" />
-                        {mood.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Mood Severity
-                  </label>
-                  <div className="flex flex-wrap gap-4">
-                    {moodSeverityOptions.map((option) => (
-                      <label
-                        key={option.value}
-                        className="inline-flex items-center"
-                      >
-                        <input
-                          type="radio"
-                          value={option.value}
-                          checked={moodSeverity === option.value}
-                          onChange={() => setMoodSeverity(option.value)}
-                          className="form-radio text-pink-500"
-                        />
-                        <span className="ml-2 text-gray-700 dark:text-gray-300">
-                          {option.name}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Date of Mood Log
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="moodDate"
-                      value={moodDate}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 pr-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
-                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-white-400" />
-                  </div>
-                </div>
-              </div>,
-              "moodTracking"
-            )}
-
-            {renderSection(
-              <span style={{ color: "#db0085" }}>Symptom Tracking</span>,
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Select Symptoms
-                  </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {symptomOptions.map((symptom) => (
-                      <label key={symptom} className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={symptoms.includes(symptom)}
-                          onChange={() => handleSymptomChange(symptom)}
-                          className="form-checkbox text-pink-500"
-                        />
-                        <span className="ml-2 text-gray-700 dark:text-gray-300">
-                          {symptom}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {symptoms.map((symptom) => (
-                  <div key={symptom} className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {symptom} Severity
-                    </label>
-                    <select
-                      value={symptomSeverities[symptom] || ""}
-                      onChange={(e) =>
-                        handleSymptomSeverityChange(symptom, e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700  text-white dark:text-white"
-                    >
-                      <option value="">Select Severity</option>
-                      {symptomSeverityOptions.map((severity) => (
-                        <option key={severity} value={severity}>
-                          {severity}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Date of Symptoms
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="symptomDate"
-                      value={symptomDate}
-                      onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
-                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                  </div>
-                </div>
-              </div>,
-              "symptomTracking"
-            )}
-
-            {renderSection(
-              <span style={{ color: "#db0085" }}>Sleep Tracking</span>,
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Sleep Duration (hours)
-                  </label>
-                  <input
-                    type="number"
-                    name="sleepDuration"
-                    value={sleepDuration}
-                    onChange={handleInputChange}
-                    min="0"
-                    max="24"
-                    step="0.5"
-                    className="w-full px-3 text-white py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Sleep Quality
-                  </label>
-                  <select
-                    name="sleepQuality"
-                    value={sleepQuality}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="">Select Sleep Quality</option>
-                    {sleepQualityOptions.map((quality) => (
-                      <option key={quality} value={quality}>
-                        {quality}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>,
-              "sleepTracking"
-            )}
-
-            {showHealthTips &&
-              renderSection(
-                <span style={{ color: "#db0085" }}>Health Tips</span>,
-                <div className="space-y-4">
-                  {generateHealthTips.map((tip, index) => (
-                    <div
-                      key={index}
-                      className="flex items-start space-x-3 bg-white dark:bg-gray-700 p-4 rounded-md shadow-sm"
-                    >
-                      <Heart className="w-6 h-6 text-pink-600 flex-shrink-0 mt-1" />
-                      <p className="text-white  dark:text-pink-500">{tip}</p>
-                    </div>
-                  ))}
-                </div>,
-                "healthTips"
-              )}
-
+          <div className="mt-8 flex justify-center">
             <button
               onClick={handleSubmit}
-              className="w-full bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-4 rounded-md text-lg transition duration-300 shadow-md"
+              className="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
             >
               Submit Tracking Data
             </button>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
-
-const SidebarLink = ({ icon, label, onClick, active = false }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
-        active
-          ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-          : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
-      }`}
-    >
-      {icon}
-      <span>{label}</span>
-    </button>
-  );
-};

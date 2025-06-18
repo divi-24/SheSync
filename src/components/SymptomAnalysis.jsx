@@ -252,6 +252,7 @@ export function SymptomAnalysis() {
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
+
                     <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700"}>
                       {category}
                     </span>
@@ -265,6 +266,7 @@ export function SymptomAnalysis() {
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Symptoms</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+
                 {(selectedCategories.length > 0? selectedCategories.flatMap((cat) => symptomCategories[cat]): commonSymptoms).map((symptom) => (
                   <motion.button
                     key={symptom}
