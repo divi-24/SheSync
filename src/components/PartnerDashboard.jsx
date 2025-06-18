@@ -42,6 +42,36 @@ import useScreenSize from "../hooks/useScreenSize";
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
 
+import { Check } from "lucide-react";
+// A custom pink‐themed checkbox
+// Paste this where your FancyCheckbox is defined (or replace the old one)
+
+const FancyCheckbox = ({ id, checked, onChange, label }) => (
+  <label
+    htmlFor={id}
+    className="flex items-center space-x-2 cursor-pointer select-none"
+  >
+    <div
+      onClick={onChange}
+      className={`
+        w-5 h-5 rounded border-2 flex items-center justify-center transition
+        ${checked
+          ? "border-pcosPink bg-green"
+          : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"}
+      `}
+    >
+      {checked && (
+        <Check className="w-4 h-4 text-green" />
+      )}
+    </div>
+    <input type="checkbox" id={id} checked={checked} onChange={onChange} className="hidden" />
+    <span className="text-white">{label}</span>
+  </label>
+);
+
+
+
+// ─────────────────────────────────────────────────────
 const toggleSidebar = () => {
   setSidebarVisible(!sidebarVisible);
 };
@@ -1171,96 +1201,111 @@ Risk Level: [Low/Moderate/High]
             </div>
 
             {renderSection(
-              <span style={{ color: "#db0085" }}>Symptom Tracking</span>,
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Select Symptoms
-                  </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                    {Object.entries(categorizedSymptoms).map(
-                      ([category, symptomsList]) => (
-                        <div
-                          key={category}
-                          className={`dark:bg-gray-700 bg-white rounded-lg shadow p-4 border-l-4 ${
-                            category === "Menstrual Symptoms"
-                              ? "border-pink-500"
-                              : category === "Physical Appearance"
-                              ? "border-pink-500"
-                              : category === "Metabolic Signs"
-                              ? "border-pink-500"
-                              : category === "Mental Health"
-                              ? "border-pink-500"
-                              : "border-pink-500"
-                          }`}
-                        >
-                          <h3 className="text-lg font-semibold text-pink-600 dark:text-pink-300 mb-2">
-                            {category}
-                          </h3>
-                          <div className="space-y-2">
-                            {symptomsList.map((symptom) => (
-                              <label
-                                key={symptom}
-                                className="flex items-center"
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={symptoms.includes(symptom)}
-                                  onChange={() => handleSymptomChange(symptom)}
-                                  className="form-checkbox text-pink-500"
-                                />
-                                <span className="ml-2 text-white">
-                                  {symptom}
-                                </span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
+  /* Title */
+  <span className="text-pcosPink font-semibold">Symptom Tracking</span>,
 
-                {symptoms.map((symptom) => (
-                  <div key={symptom} className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {symptom} Severity
-                    </label>
-                    <select
-                      value={symptomSeverities[symptom] || ""}
-                      onChange={(e) =>
-                        handleSymptomSeverityChange(symptom, e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 text-white"
-                    >
-                      <option value="">Select Severity</option>
-                      {symptomSeverityOptions.map((severity) => (
-                        <option key={severity} value={severity}>
-                          {severity}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                ))}
+  /* Content */
+  <div className="space-y-4">
+    {/* Select Symptoms label in white */}
+    <label className="block text-sm font-medium text-white">
+      Select Symptoms
+    </label>
 
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
-                    Date of Symptoms
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      name="symptomDate"
-                      value={symptomDate}
-                      onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
-                    <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                  </div>
-                </div>
-              </div>,
-              "symptomTracking"
-            )}
+    {/* 1→2→3 column grid */}
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+      {Object.entries(categorizedSymptoms).map(([category, symptomsList], idx) => (
+        <motion.div
+          key={category}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: idx * 0.08 }}
+          className="
+            bg-white/90 dark:bg-gray-700
+            rounded-2xl shadow-lg dark:shadow-xl/20
+            p-4
+            border-l-4 border-pcosPink
+            ring-1 ring-inset ring-pcosPink/20
+            hover:bg-white/100 dark:hover:bg-gray-600
+            transition
+          "
+        >
+          {/* Category heading in white */}
+          <h3 className="text-lg font-semibold text-white mb-2">
+            {category}
+          </h3>
+
+          {/* Symptom checkboxes (labels now white via FancyCheckbox) */}
+          <div className="space-y-2">
+            {symptomsList.map((symptom) => (
+              <FancyCheckbox
+                key={symptom}
+                id={`symptom-${symptom}`}
+                checked={symptoms.includes(symptom)}
+                onChange={() => handleSymptomChange(symptom)}
+                label={symptom}
+              />
+            ))}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+
+    {/* Severity selectors */}
+    {symptoms.map((symptom) => (
+      <div key={symptom} className="space-y-2">
+        <label className="block text-sm font-medium text-white">
+          {symptom} Severity
+        </label>
+        <select
+          value={symptomSeverities[symptom] || ""}
+          onChange={(e) =>
+            handleSymptomSeverityChange(symptom, e.target.value)
+          }
+          className="
+            w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
+            focus:outline-none focus:ring-2 focus:ring-pcosPink focus:border-pcosPink
+            bg-transparent text-white
+          "
+        >
+          <option value="" className="text-gray-400">
+            Select Severity
+          </option>
+          {symptomSeverityOptions.map((sev) => (
+            <option key={sev} value={sev} className="text-white">
+              {sev}
+            </option>
+          ))}
+        </select>
+      </div>
+    ))}
+
+    {/* Date picker */}
+    <div className="space-y-2">
+      <label className="block text-sm font-medium text-white">
+        Date of Symptoms
+      </label>
+      <div className="relative">
+        <input
+          type="date"
+          name="symptomDate"
+          value={symptomDate}
+          onChange={handleInputChange}
+          className="
+            w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md
+            focus:outline-none focus:ring-2 focus:ring-pcosPink focus:border-pcosPink
+            bg-transparent text-white
+          "
+        />
+        <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+      </div>
+    </div>
+  </div>,
+
+  /* Section key */
+  "symptomTracking"
+)}
+
+
 
             {isLoading ? (
               <div className="text-center py-4">
