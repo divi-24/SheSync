@@ -53,6 +53,7 @@ export default function SideBar({sidebarVisible, setSidebarVisible, activeLink, 
 
     return (   
         <div className={`${width < 816 ? 'fixed' : 'relative'} z-50`}>
+
             {/* Mobile menu button when sidebar is hidden */}
             {!sidebarVisible && width < 816 && (
                 <div className="fixed top-4 left-4 p-2 bg-pink-100 dark:bg-gray-700 rounded-full z-50 shadow-md">
@@ -66,11 +67,12 @@ export default function SideBar({sidebarVisible, setSidebarVisible, activeLink, 
             
             {/* Sidebar */}
             <aside
-                className={`bg-pink-100 dark:bg-gray-800 w-64 min-h-screen p-4 transition-all duration-300 ease-in-out ${
+                className={`bg-pink-100 dark:bg-gray-800 w-64 max-h-screen overflow-y-auto p-4 transition-all duration-300 ease-in-out ${
                     sidebarVisible ? "translate-x-0" : "-translate-x-full"
                 } ${width < 816 ? 'fixed' : 'relative'} shadow-lg`}
             >
                 <div className="px-4 py-4 flex flex-col space-y-2">
+
                     <div className="flex justify-between items-center mb-4">
                         <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400">
                             SheSync
