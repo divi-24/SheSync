@@ -19,6 +19,7 @@ import { ModernTeamShowcase } from "./components/ModernTeamShowcase";
 import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const router = createBrowserRouter([
   {
@@ -80,7 +81,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 export default App;
