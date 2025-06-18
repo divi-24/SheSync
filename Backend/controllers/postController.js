@@ -10,12 +10,14 @@ export async function createPost(req, res) {
       title,
       category,
       content,
+      author: req.user.clerkId || req.user._id 
     });
     await newPost.save();
     console.log("sent the post", newPost);
     res.status(200).json({ message: "Post created successfully", newPost });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -34,8 +36,12 @@ export async function getPosts(req, res) {
 export async function likePost(req, res) {
   try {
     const { id } = req.params;
-    const { userId } = req.query;
+    const userId = req.user.clerkId || req.user._id; 
     const post = await Post.findById(id);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
 
     if (post.likes.includes(userId)) {
       return res.status(400).json({ error: "User already liked the post" });

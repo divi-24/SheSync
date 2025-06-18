@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "../hooks/useScreenSize";
 import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, SignInButton, UserButton, SignUpButton } from "@clerk/clerk-react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function SideBar({
@@ -97,6 +98,9 @@ export default function SideBar({
                   <Moon className="h-5 w-5" />
                 )}
               </motion.button>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
               {width < 816 && (
                 <button
                   onClick={() => setSidebarVisible(false)}
@@ -107,6 +111,13 @@ export default function SideBar({
               )}
             </div>
           </div>
+
+          <SignedOut>
+            <div className="flex my-4">
+              <SignInButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+              <SignUpButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+            </div>
+          </SignedOut>
 
           <SidebarLink
             icon={<LayoutDashboard size={20} />}

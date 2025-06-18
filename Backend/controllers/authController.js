@@ -1,68 +1,48 @@
-import bcryptjs from "bcryptjs";
 import { User } from "../models/userModel.js";
-import JWT from "jsonwebtoken";
-export async function signupController(req, res) {
-  const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "please fill all the fields" });
+export async function createUserFromClerk(req, res) {
+  const { data } = req.body;
+  
+  if (!data || !data.id) {
+    return res.status(400).json({ message: "Invalid webhook data" });
   }
-
+  
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ clerkId: data.id });
     if (existingUser) {
-      return res.status(400).json({ message: "email already exists" });
+      existingUser.name = `${data.first_name || ''} ${data.last_name || ''}`.trim();
+      existingUser.email = data.email_addresses[0]?.email_address;
+      await existingUser.save();
+      return res.status(200).json({ message: "User updated successfully" });
     }
-
-    const hashedpassword = await bcryptjs.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedpassword });
-
+    
+    const newUser = new User({
+      clerkId: data.id,
+      name: `${data.first_name || ''} ${data.last_name || ''}`.trim(),
+      email: data.email_addresses[0]?.email_address,
+    });
+    
     await newUser.save();
-    res.status(201).json({ message: "You have signed up essfully" });
+    return res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.log("Error while signing you up", error);
-    res.status(500).json({ message: "Error during signup" });
+    console.error("Error creating/updating user from Clerk webhook:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 }
-export async function loginController(req, res) {
-  const { email, password } = req.body;
 
-  if (!email || !password) {
-    console.log("Missing email or password");
-    return res
-      .status(400)
-      .json({ message: "Please provide both email and password." });
-  }
-
+export async function getUserProfile(req, res) {
   try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      console.log("No user found with this email:", email);
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-    console.log("User found:", user);
-
-    const isPasswordValid = await bcryptjs.compare(password, user.password);
-    if (!isPasswordValid) {
-      console.log("Password mismatch for email:", email);
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-    const token = await JWT.sign(
-      { userId: user._id, name: user.name, email: user.email },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "2d",
-      }
-    );
-
-    console.log("Login successful for email:", email, token);
+    const { _id, name, email } = req.user;
+    
     return res.status(200).json({
-      message: "You have logged in successfully",
-      userId: user._id,
-      token: token,
+      user: {
+        id: _id,
+        name,
+        email,
+      }
     });
   } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ message: "Server error. Please try again later." });
+    console.error("Error fetching user profile:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 }
