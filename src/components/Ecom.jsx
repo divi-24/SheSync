@@ -483,7 +483,7 @@ useEffect(() => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Products"
-                 className="text-white w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
+                 className="text-gray-800 w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
               hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400 "
               />
               
@@ -495,9 +495,8 @@ useEffect(() => {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
                className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
-            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
-          >
-            
+            px-4 py-2 text-gray-800 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+          >  
          <option disabled value="">Select Category</option>
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -509,7 +508,7 @@ useEffect(() => {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
-            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+            px-4 py-2 text-gray-800 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
            >
               
         <option disabled value="">Sort By</option>
@@ -523,7 +522,7 @@ useEffect(() => {
 
           <section className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-pink-500 dark:text-pink-400">
+              <h2 className="text-gray-300 font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-pink-500 dark:text-pink-400">
                 Featured Products
               </h2>
               <motion.button

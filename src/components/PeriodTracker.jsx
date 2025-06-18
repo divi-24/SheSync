@@ -450,7 +450,7 @@ export function PeriodTracker() {
                         name="lastPeriodStart"
                         value={lastPeriodStart}
                         onChange={handleInputChange}
-                        className="w-full text-white pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                        className="w-full pl-10 pr-3 py-2 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700"
                       />
                       <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                     </div>
@@ -465,7 +465,7 @@ export function PeriodTracker() {
                       value={lastPeriodDuration}
                       onChange={handleInputChange}
                       min="1"
-                      className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 text-gray-800 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
                     />
                   </div>
                 </div>
@@ -480,7 +480,7 @@ export function PeriodTracker() {
                     onChange={handleInputChange}
                     min="21"
                     max="35"
-                    className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-800 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
                 <button
@@ -507,20 +507,23 @@ export function PeriodTracker() {
                     Select Mood(s)
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                    {moodOptions.map((mood) => (
+                    {moodOptions.map(({ name, icon: Icon }) => (
                       <button
-                        key={mood.name}
-                        onClick={() => handleMoodTypeChange(mood.name)}
-                        className={`text-white flex items-center justify-center px-4 py-2 border rounded-md transition duration-300 ${
-                          moodTypes.includes(mood.name)
-                            ? "bg-pink-500 text-white-800 border-pink-300 dark:bg-pink-500 dark:text-gray-200 dark:border-pink-600"
-                            : "bg-white text-gray-600 border-gray-300 hover:bg-pink-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-pink-900"
-                        }`}
+                        key={name}
+                        onClick={() => handleMoodTypeChange(name)}
+                        className={`flex items-center justify-center px-4 py-2 rounded-md border font-medium transition duration-200 ease-in-out w-full md:w-auto
+                          ${
+                            moodTypes.includes(name)
+                              ? "bg-pink-600 text-white border-pink-700"
+                              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 dark:bg-gray-700 dark:text-white dark:border-gray-500 dark:hover:bg-gray-600"
+                          }`}
+
                       >
-                        <mood.icon className="mr-2 h-4 w-4" />
-                        {mood.name}
+                        <Icon className="mr-2 w-4 h-4" />
+                        {name}
                       </button>
                     ))}
+
                   </div>
                 </div>
 
@@ -555,12 +558,12 @@ export function PeriodTracker() {
                   </label>
                   <div className="relative">
                     <input
-                      type="date"
-                      name="moodDate"
-                      value={moodDate}
-                      onChange={handleInputChange}
-                      className="w-full pl-10 pr-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
-                    />
+                        type="date"
+                        name="moodDate"
+                        value={moodDate}
+                        onChange={handleInputChange}
+                        className="w-full pl-10 pr-3 py-2 text-gray-800 selection:bg-pink-200 selection:text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700"
+                      />
                     <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-white-400" />
                   </div>
                 </div>
@@ -624,7 +627,7 @@ export function PeriodTracker() {
                       name="symptomDate"
                       value={symptomDate}
                       onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                      className="w-full pl-10 pr-3 py-2 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700"
                     />
                     <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                   </div>
@@ -648,7 +651,7 @@ export function PeriodTracker() {
                     min="0"
                     max="24"
                     step="0.5"
-                    className="w-full px-3 text-white py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 text-gray-800 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
                 <div className="space-y-2">
@@ -659,7 +662,7 @@ export function PeriodTracker() {
                     name="sleepQuality"
                     value={sleepQuality}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300  text-gray-800 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
                   >
                     <option value="">Select Sleep Quality</option>
                     {sleepQualityOptions.map((quality) => (
