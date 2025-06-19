@@ -626,7 +626,7 @@ const EducationProgressModal = ({ child, onClose }) => {
 
 export  function ParentDashboard() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [darkMode, setDarkMode] = useState(false)
+  // const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedChild, setSelectedChild] = useState(null)
   const [showNotifications, setShowNotifications] = useState(false)
@@ -639,10 +639,10 @@ export  function ParentDashboard() {
   setSidebarVisible(!sidebarVisible);
 };
 
-  useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.toggle('dark', darkMode)
-  }, [darkMode])
+  // useEffect(() => {
+  //   const root = window.document.documentElement
+  //   root.classList.toggle('dark', darkMode)
+  // }, [darkMode])
 
   const renderOverviewCards = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1407,10 +1407,8 @@ export  function ParentDashboard() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-full bg-pink-50 hover:bg-pink-100 dark:bg-pink-900/30 text-pink-400"
             >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </motion.button>
             <div className="relative">
               <motion.button
@@ -1444,7 +1442,7 @@ export  function ParentDashboard() {
   const {width} = useScreenSize();
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
+    <div className={`flex h-screen dark:bg-[#111827]`}>
         <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={9}/>
           {width > 816 && (
             <button
