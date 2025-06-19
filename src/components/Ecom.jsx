@@ -333,7 +333,6 @@ const specialOffers = [
 export function Ecom() {
   // const router = useRouter()
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cartItems, setCartItems] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -347,21 +346,6 @@ export function Ecom() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const addToCart = (product) => {
     setCartItems((prev) => {
