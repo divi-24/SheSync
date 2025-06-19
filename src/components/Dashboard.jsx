@@ -576,7 +576,7 @@ export function Dashboard() {
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
           sidebarVisible ? "md:ml-[240px]" : "ml-0"
-        }`}
+        } w-full max-w-full`}
       >
         <div className="max-w-6xl mx-auto space-y-6">
           {error && (

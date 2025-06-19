@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import './index.css';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -23,8 +24,8 @@ import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 import { ThemeProvider } from "./context/ThemeContext";
+import SheSyncLoader from "./components/loader";
 
-// Create a wrapper component for protected routes
 function ProtectedRouteWrapper({ Component }) {
   const { isLoaded, isSignedIn } = useAuth();
   
@@ -39,7 +40,6 @@ function ProtectedRouteWrapper({ Component }) {
   return <Component />;
 }
 
-// Higher-order function to create protected route elements
 const ProtectedRoute = (Component) => {
   return () => <ProtectedRouteWrapper Component={Component} />;
 };
@@ -108,9 +108,24 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [loading, setLoading] = useState(() => {
+    // 🔥 Only show the loader once per session
+    return !sessionStorage.getItem("loaderShown");
+  });
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("loaderShown", "true"); // 🧠 Remember it
+      }, 6000); // Adjust if needed
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
   return (
     <ThemeProvider>
-      <RouterProvider router={router} />
+      {loading ? <SheSyncLoader /> : <RouterProvider router={router} />}
     </ThemeProvider>
   );
 }
