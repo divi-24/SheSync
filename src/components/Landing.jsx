@@ -22,6 +22,7 @@ import { FaSquareXTwitter, FaSquareInstagram } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import FAQSection from './FAQSection';
 
 export function Landing() {
   const navigate = useNavigate();
@@ -615,7 +616,7 @@ export function Landing() {
             </div>
           </Card>
           {/* FAQ Section */}
-          <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
+          {/* <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Frequently Asked Questions
             </h3>
@@ -645,7 +646,8 @@ export function Landing() {
                 answer="Yes, all our educational content is created or reviewed by qualified healthcare professionals to ensure accuracy and relevance."
               />
             </div>
-          </Card>
+          </Card> */}
+          <FAQSection />
           {/*App Features Showcase */}
           {/* <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
