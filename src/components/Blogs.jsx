@@ -41,7 +41,7 @@ import {
   Droplet,
   X,
   ChevronRight,
-  ClipboardList
+  ClipboardList,
 } from "lucide-react";
 import { Quiz } from "./Quiz";
 import SideBar from "./SideBar";
@@ -264,9 +264,6 @@ const womenHealthTopics = [
 
 export function Blogs() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
   const [activeItem, setActiveItem] = useState(null);
   const [readSections, setReadSections] = useState(
     Array(womenHealthTopics.length).fill(false)
@@ -279,22 +276,6 @@ export function Blogs() {
   const [allSectionsRead, setAllSectionsRead] = useState(false);
   const [quizScore, setQuizScore] = useState(null);
   const [sidebarVisible, setSidebarVisible] = useState(true);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const toggleAccordion = (id) => {
     setActiveItem((prev) => (prev === id ? null : id));
@@ -347,36 +328,38 @@ export function Blogs() {
       : blogPosts.filter((post) => post.category === selectedCategory);
 
   const { width } = useScreenSize();
-      
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-         
-          <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={2} />
-          
-          {width > 816 && (
-                    <button
-                    onClick={toggleSidebar}
-                    className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-                    style={{
-                      transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-                    }}
-                    aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-                  >
-                    <ChevronRight
-                      size={14}
-                      className={`transition-transform duration-300 block m-auto ${
-                        sidebarVisible ? "rotate-180" : "rotate-0"
-                      }`}
-                    />  
-                  </button>
-                  )}
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={2}
+      />
+
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
       {/* Main Content */}
-            <main
+      <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
+          sidebarVisible && width > 816 ? "ml-64" : "ml-0"
+        } w-full max-w-full`}
       >
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
@@ -384,16 +367,6 @@ export function Blogs() {
             <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400">
               Education Hub
             </h2>
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition-transform hover:scale-110"
-            >
-              {darkMode ? (
-                <Sun className="h-5 w-5 text-yellow-400" />
-              ) : (
-                <Moon className="h-5 w-5 text-gray-800" />
-              )}
-            </button>
           </div>
           {/* Featured Article */}
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300">
@@ -430,8 +403,8 @@ export function Blogs() {
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="px-4 py-2 text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white transition-all duration-300 focus:shadow-lg"
-            > 
-            <option value="All">All Categories</option> 
+            >
+              <option value="All">All Categories</option>
               <option value="Health">Health</option>
               <option value="Nutrition">Nutrition</option>
               <option value="Wellness">Wellness</option>

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import './index.css';
 import {
   createBrowserRouter,
   RouterProvider,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 import { Landing } from "./components/Landing";
 import { Forum } from "./components/Forum";
 import { Blogs } from "./components/Blogs";
@@ -19,6 +22,26 @@ import { ModernTeamShowcase } from "./components/ModernTeamShowcase";
 import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
+import { ThemeProvider } from "./context/ThemeContext";
+import SheSyncLoader from "./components/loader";
+
+function ProtectedRouteWrapper({ Component }) {
+  const { isLoaded, isSignedIn } = useAuth();
+  
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  if (!isSignedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <Component />;
+}
+
+const ProtectedRoute = (Component) => {
+  return () => <ProtectedRouteWrapper Component={Component} />;
+};
 
 const router = createBrowserRouter([
   {
@@ -27,7 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forums",
-    element: <Forum />,
+    element: <ProtectedRouteWrapper Component={Forum} />,
   },
   {
     path: "/blogs",
@@ -35,15 +58,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/consultations",
-    element: <Consultations />,
+    element: <ProtectedRouteWrapper Component={Consultations} />,
   },
   {
     path: "/tracker",
-    element: <PeriodTracker />,
+    element: <ProtectedRouteWrapper Component={PeriodTracker} />,
   },
   {
     path: "/Ecom",
-    element: <Ecom />,
+    element: <ProtectedRouteWrapper Component={Ecom} />,
   },
   {
     path: "/Signup",
@@ -55,11 +78,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/ChatBot",
-    element: <Chatbot />,
+    element: <ProtectedRouteWrapper Component={Chatbot} />,
   },
   {
     path: "/Dashboard",
-    element: <Dashboard />,
+    element: <ProtectedRouteWrapper Component={Dashboard} />,
   },
   {
     path: "/team",
@@ -67,20 +90,39 @@ const router = createBrowserRouter([
   },
   {
     path: "/symptomsanalyzer",
-    element: <SymptomAnalysis />,
+    element: <ProtectedRouteWrapper Component={SymptomAnalysis} />,
   },
   {
     path: "/parents",
-    element: <ParentDashboard />,
+    element: <ProtectedRouteWrapper Component={ParentDashboard} />,
   },
   {
     path: "/partner",
-    element: <Diagnosis />,
+    element: <ProtectedRouteWrapper Component={Diagnosis} />,
   },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  const [loading, setLoading] = useState(() => {
+    // 🔥 Only show the loader once per session
+    return !sessionStorage.getItem("loaderShown");
+  });
+
+  useEffect(() => {
+    if (loading) {
+      const timer = setTimeout(() => {
+        setLoading(false);
+        sessionStorage.setItem("loaderShown", "true"); // 🧠 Remember it
+      }, 6000); // Adjust if needed
+      return () => clearTimeout(timer);
+    }
+  }, [loading]);
+
+  return (
+    <ThemeProvider>
+      {loading ? <SheSyncLoader /> : <RouterProvider router={router} />}
+    </ThemeProvider>
+  );
 }
 
 export default App;

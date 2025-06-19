@@ -1,5 +1,4 @@
-"use client";
-
+"use-client"
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { useRouter } from "next/navigation"
@@ -56,6 +55,7 @@ import { Dashboard } from "./Dashboard";
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "../hooks/useScreenSize";
 import SideBar from "./SideBar";
+
 const products = [
   {
     id: 1,
@@ -63,7 +63,13 @@ const products = [
     brand: "EcoFlow",
     price: 8.99,
     oldPrice: 10.99,
-    icon: <Package className="h-12 w-12 text-pink-500" />,
+    icon: (
+      <img
+        src="/images/products/organic-pads.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.5,
     category: "Pads",
     isNew: true,
@@ -75,7 +81,13 @@ const products = [
     brand: "LunaCup",
     price: 29.99,
     oldPrice: 34.99,
-    icon: <Droplet className="h-12 w-12 text-blue-500" />,
+    icon: (
+      <img
+        src="/images/products/mes_cup.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.8,
     category: "Menstrual Cups",
     featured: true,
@@ -86,7 +98,13 @@ const products = [
     brand: "ComfortEase",
     price: 15.99,
     oldPrice: 19.99,
-    icon: <Zap className="h-12 w-12 text-yellow-500" />,
+    icon: (
+      <img
+        src="/images/products/relief_patches.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.2,
     category: "Pain Relief",
     isNew: true,
@@ -97,7 +115,13 @@ const products = [
     brand: "GreenCycle",
     price: 24.99,
     oldPrice: 29.99,
-    icon: <Leaf className="h-12 w-12 text-green-500" />,
+    icon: (
+      <img
+        src="/images/products/sponge_8707445.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.6,
     category: "Pads",
   },
@@ -107,7 +131,13 @@ const products = [
     brand: "PureFlow",
     price: 7.99,
     oldPrice: 9.99,
-    icon: <Package className="h-12 w-12 text-purple-500" />,
+    icon: (
+      <img
+        src="/images/products/tampon.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.4,
     category: "Tampons",
     featured: true,
@@ -118,7 +148,13 @@ const products = [
     brand: "CycleSync",
     price: 49.99,
     oldPrice: 59.99,
-    icon: <Activity className="h-12 w-12 text-indigo-500" />,
+    icon: (
+      <img
+        src="/images/products/smart-band.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.1,
     category: "Accessories",
     isNew: true,
@@ -129,7 +165,13 @@ const products = [
     brand: "MoonBloom",
     price: 19.99,
     oldPrice: 24.99,
-    icon: <Coffee className="h-12 w-12 text-amber-500" />,
+    icon: (
+      <img
+        src="/images/products/herbal_tea.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.7,
     category: "Wellness",
     isNew: true,
@@ -140,7 +182,13 @@ const products = [
     brand: "HerbalEase",
     price: 22.99,
     oldPrice: 27.99,
-    icon: <Pill className="h-12 w-12 text-red-500" />,
+    icon: (
+      <img
+        src="/images/products/herbs.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.3,
     category: "Pain Relief",
   },
@@ -161,7 +209,13 @@ const products = [
     brand: "CalmScents",
     price: 39.99,
     oldPrice: 49.99,
-    icon: <Wind className="h-12 w-12 text-cyan-500" />,
+    icon: (
+      <img
+        src="/images/products/therapy.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.6,
     category: "Wellness",
     isNew: true,
@@ -172,7 +226,13 @@ const products = [
     brand: "SheFort",
     price: 10.99,
     oldPrice: 12.99,
-    icon: <ThermometerSun className="h-12 w-12 text-red-500" />,
+    icon: (
+      <img
+        src="/images/products/hot-water-bag.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.5,
     category: "Pain Relief",
     isNew: true,
@@ -194,7 +254,13 @@ const products = [
     brand: "Nirvana",
     price: 12.99,
     oldPrice: 15.0,
-    icon: <CircleDot className="h-12 w-12 text-teal-500" />,
+    icon: (
+      <img
+        src="/images/products/disc.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.0,
     category: "Menstrual Cups",
     isNew: true,
@@ -205,7 +271,13 @@ const products = [
     brand: "Comfy",
     price: 20.99,
     oldPrice: 25.99,
-    icon: <GlassWater className="h-12 w-12 text-cyan-500" />,
+    icon: (
+      <img
+        src="/images/products/thermo.png"
+        alt="Organic Pads"
+        className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.9,
     category: "Accessories",
   },
@@ -261,21 +333,21 @@ const specialOffers = [
 export function Ecom() {
   // const router = useRouter()
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(
-      () => localStorage.getItem("darkMode") === "true"
-    );
+  const [darkMode, setDarkMode] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cartItems, setCartItems] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [sortBy, setSortBy] = useState("featured");
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
- const [sidebarVisible, setSidebarVisible] = useState(true);
- const toggleSidebar = () => {
-  setSidebarVisible(!sidebarVisible);
-};
-useEffect(() => {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
+
+  useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -290,6 +362,7 @@ useEffect(() => {
       return newMode;
     });
   };
+
   const addToCart = (product) => {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === product.id);
@@ -375,15 +448,19 @@ useEffect(() => {
   };
 
   const filteredProducts = products
-    .filter(
-      (product) =>{
-        console.log('Product:', product.name, 'Search:', searchQuery); // Add this line
-        return (selectedCategory === "All" || product.category === selectedCategory) &&
-               (searchQuery === "" ||
-                String(product.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-                String(product.brand || '').toLowerCase().includes(searchQuery.toLowerCase()));
-      }
-    )
+    .filter((product) => {
+      console.log("Product:", product.name, "Search:", searchQuery); // Add this line
+      return (
+        (selectedCategory === "All" || product.category === selectedCategory) &&
+        (searchQuery === "" ||
+          String(product.name || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()) ||
+          String(product.brand || "")
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()))
+      );
+    })
     .sort((a, b) => {
       if (sortBy === "priceLowToHigh") return a.price - b.price;
       if (sortBy === "priceHighToLow") return b.price - a.price;
@@ -399,35 +476,36 @@ useEffect(() => {
     0
   );
 
-  const {width} = useScreenSize();
+  const { width } = useScreenSize();
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-
-      
-        <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={3}/>
-          {width > 816 && (
-            <button
-            onClick={toggleSidebar}
-            className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-            style={{
-              transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-            }}
-            aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-          >
-            <ChevronRight
-              size={14}
-              className={`transition-transform duration-300 block m-auto ${
-                sidebarVisible ? "rotate-180" : "rotate-0"
-              }`}
-            />  
-          </button>
-          )}
-
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={3}
+      />
+      {width > 816 && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          style={{
+            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          }}
+          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+        >
+          <ChevronRight
+            size={14}
+            className={`transition-transform duration-300 block m-auto ${
+              sidebarVisible ? "rotate-180" : "rotate-0"
+            }`}
+          />
+        </button>
+      )}
 
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
+          sidebarVisible && width > 816 ? "ml-64" : "ml-0"
         }`}
       >
         <div className="max-w-7xl mx-auto space-y-12">
@@ -440,18 +518,6 @@ useEffect(() => {
               Shop
             </h2>
             <div className="flex items-center space-x-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={toggleDarkMode}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-              >
-                {darkMode ? (
-                  <Sun className="h-5 w-5" />
-                ) : (
-                  <Moon className="h-5 w-5" />
-                )}
-              </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -483,22 +549,24 @@ useEffect(() => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Products"
-                 className="text-white w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
+                className="text-white w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
               hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400 "
               />
-              
-              <Search className=" max-w-[300px] text-gray-400 dark:text-gray-300 hover:scale-110 transition-transform duration-200 ease-in-out
+
+              <Search
+                className=" max-w-[300px] text-gray-400 dark:text-gray-300 hover:scale-110 transition-transform duration-200 ease-in-out
              absolute  right-3 top-2.5 h-5 w-5"
-             />
+              />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-               className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
+              className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
             px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
-          >
-            
-         <option disabled value="">Select Category</option>
+            >
+              <option disabled value="">
+                Select Category
+              </option>
               {categories.map((category) => (
                 <option key={category} value={category}>
                   {category}
@@ -510,15 +578,15 @@ useEffect(() => {
               onChange={(e) => setSortBy(e.target.value)}
               className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
             px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
-           >
-              
-        <option disabled value="">Sort By</option>
-        <option value="featured">Featured</option>
-        <option value="priceLowToHigh">Lowest First</option>
-        <option value="priceHighToLow">Highest First</option>
-       <option value="rating">Top Rated</option>
+            >
+              <option disabled value="">
+                Sort By
+              </option>
+              <option value="featured">Featured</option>
+              <option value="priceLowToHigh">Lowest First</option>
+              <option value="priceHighToLow">Highest First</option>
+              <option value="rating">Top Rated</option>
             </select>
-            
           </motion.div>
 
           <section className="space-y-6">
@@ -774,8 +842,6 @@ useEffect(() => {
               ))}
             </div>
           </section>
-
-          
 
           <section className="relative overflow-hidden rounded-2xl">
             <div className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 opacity-10" />

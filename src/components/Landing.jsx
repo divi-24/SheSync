@@ -4,9 +4,6 @@ import {
   LayoutDashboard,
   MessageSquare,
   HeartPulse,
-  Gamepad2,
-  AppWindowMac,
-  Home,
   GraduationCap,
   ShoppingBag,
   ActivitySquare,
@@ -15,53 +12,21 @@ import {
   Bot,
   HeartHandshake,
   ChevronRight,
-  Calendar,
-  Heart,
   Moon,
   Handshake,
   Sun,
-  Droplet,
-  Utensils,
-  Menu,
-  X,
   Check,
-  Star,
-  Users,
-  ArrowRight,
-  UserCircle,
-  UsersRound,
-  CalendarHeart,
-  Church,
-  Package,
+  UsersRound
 } from "lucide-react";
-import { FaSquareXTwitter ,FaSquareInstagram  } from "react-icons/fa6"; 
-import{FaFacebookSquare } from "react-icons/fa"
+import { FaSquareXTwitter, FaSquareInstagram } from "react-icons/fa6";
+import { FaFacebookSquare } from "react-icons/fa";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
 export function Landing() {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
   const [sidebarVisible, setSidebarVisible] = useState(true);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -72,24 +37,28 @@ export function Landing() {
   useEffect(() => {
     // Handle initial sidebar state
     const handleResize = () => {
-      if (window.innerWidth < 768) { // 768px is typical mobile breakpoint
+      if (window.innerWidth < 768) {
+        // 768px is typical mobile breakpoint
         setSidebarVisible(false);
       }
     };
 
     handleResize();
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
-      
-      <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={1}/>
-        {width > 816 && (
-          <button
+    <div className={`flex h-screen`}>
+      <SideBar
+        sidebarVisible={sidebarVisible}
+        setSidebarVisible={setSidebarVisible}
+        activeLink={1}
+      />
+      {width > 816 && (
+        <button
           onClick={toggleSidebar}
           className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           style={{
@@ -102,15 +71,15 @@ export function Landing() {
             className={`transition-transform duration-300 block m-auto ${
               sidebarVisible ? "rotate-180" : "rotate-0"
             }`}
-          />  
+          />
         </button>
-        )}
+      )}
 
       {/* Main Content */}
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-    sidebarVisible ? "md:ml-[240px]" : "ml-0"
-  }`}
+          sidebarVisible ? "md:ml-[240px]" : "ml-0"
+        }`}
       >
         <div className="fixed bottom-4 right-4 z-50">
           <img
@@ -123,11 +92,13 @@ export function Landing() {
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-pink-600 dark:text-pink-400 
-            ">
-            Welcome to SheSync 
+            <h1
+              className="text-3xl font-bold text-pink-600 dark:text-pink-400 
+            "
+            >
+              Welcome to SheSync
             </h1>
-            <button
+            {/* <button
               onClick={toggleDarkMode}
               className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 "
             >
@@ -136,10 +107,11 @@ export function Landing() {
               ) : (
                 <Moon className="h-5 w-5 text-gray-800 dark:text-gray-200" />
               )}
-            </button>
+            </button> */}
           </div>
           {/* Hero Section */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 transform-none hover:transform-none transition-none">
+
             <div className="flex flex-col md:flex-row items-center gap-8">
               <div className="w-full md:w-1/2 pr-8">
                 <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
@@ -147,11 +119,12 @@ export function Landing() {
                 </h2>
                 <p className="text-lg mb-6 text-gray-700 dark:text-gray-300">
                   Empowering Women One Cycle at a Time
-                  </p>
-                  
+                </p>
+
                 <button
                   onClick={() => navigate("/Signup")}
-                  className="bg-pink-600 dark:bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-700 dark:hover:bg-pink-600 transition-colors"
+                  className="bg-pink-600 dark:bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-700 dark:hover:bg-pink-600 transform hover:scale-105 transition duration-300 ease-in-out"
+
                 >
                   Join Us!
                 </button>
@@ -159,16 +132,17 @@ export function Landing() {
             </div>
           </Card>
           {/* Features Overview */}
-          <Card>
+          <Card className="!bg-white dark:!bg-gray-900 transition-none transform-none hover:transform-none">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
               Comprehensive Health Management
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <LayoutDashboard className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"  onClick={() => navigate("/dashboard")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <LayoutDashboard
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/Dashboard")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer   active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Personalized Child Dashboard
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -177,12 +151,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <GraduationCap className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/blogs")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <GraduationCap
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/blogs")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Education Hub
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -191,12 +165,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800  rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <ShoppingBag className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/Ecom")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 hover:bg-pink-200 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <ShoppingBag
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/Ecom")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Curated Shop
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -205,12 +179,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <ActivitySquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/tracker")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-
-                >
+              <div className="flex hover:bg-pink-200 flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <ActivitySquare
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/tracker")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Health Tracker
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -219,12 +193,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <Stethoscope className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/consultations")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                
-                >
+              <div className="hover:bg-pink-200 flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                <Stethoscope
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/consultations")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Expert Consultations
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -233,12 +207,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <Bot className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/ChatBot")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <Bot
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/ChatBot")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Eve
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -247,12 +221,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg  ">
-                <UsersRound className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/dashboard")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg   hover:bg-pink-200">
+                <UsersRound
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/dashboard")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Parent's Dashboard
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 ">
@@ -262,12 +236,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <HeartPulse className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/symptomsanalyzer")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <HeartPulse
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/symptomsanalyzer")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Health Lens
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -276,12 +250,12 @@ export function Landing() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <MessageSquare className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/forums")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <MessageSquare
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/forums")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   Forums
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -289,29 +263,29 @@ export function Landing() {
                   expert Q&A on menstrual health and related topics.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <ClipboardList className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => navigate("/partner")}/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <ClipboardList
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() => navigate("/partner")}
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   PCOS Diagnosis
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
                   A tool to help you diagnose PCOS and get personalized advice.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <Handshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() =>
-              window.open(
-                "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
-                "_blank"
-              )
-            }/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <Handshake
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() =>
+                    window.open(
+                      "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
+                      "_blank"
+                    )
+                  }
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   NGO's
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -320,16 +294,14 @@ export function Landing() {
                   supportive community for women everywhere.
                 </p>
               </div>
-              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                <HeartHandshake className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" onClick={() => 
-              window.open(
-                "https://thepadproject.org/donate/"
-                )  
-              }/>
-                <h4
-                  className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ..."
-                  
-                >
+              <div className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-pink-200">
+                <HeartHandshake
+                  className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4"
+                  onClick={() =>
+                    window.open("https://thepadproject.org/donate/")
+                  }
+                />
+                <h4 className="text-lg font-semibold text-pink-600 cursor-pointer  hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 ...">
                   ShareJoy
                 </h4>
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
@@ -344,7 +316,7 @@ export function Landing() {
           {/*<Card className="my-8">
             <div className="bg-gray-900 rounded-xl p-6 relative overflow-hidden group">
               {/* Animated Background Pattern */}
-              {/*<div className="absolute inset-0 opacity-10">
+          {/*<div className="absolute inset-0 opacity-10">
                 <div
                   className="absolute inset-0"
                   style={{
@@ -356,10 +328,10 @@ export function Landing() {
               </div>
 
               {/* Animated Gradient Overlay */}
-              {/*<div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-[length:200%_100%] animate-gradient"></div>
+          {/*<div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-[length:200%_100%] animate-gradient"></div>
 
               {/* Content */}
-              {/*<div className="relative z-10 space-y-6">
+          {/*<div className="relative z-10 space-y-6">
                 <div className="flex items-start justify-between">
                   <div>
                     <h3 className="text-2xl font-bold text-white mb-2">
@@ -374,7 +346,7 @@ export function Landing() {
                 </div>
 
                 {/* Team Stats Grid */}
-                {/*<div className="grid grid-cols-2 gap-4">
+          {/*<div className="grid grid-cols-2 gap-4">
                   <div className="bg-gray-800/50 rounded-lg p-4">
                     <div className="flex justify-between items-center">
                       <div>
@@ -402,7 +374,7 @@ export function Landing() {
                 </div>
 
                 {/* Team Focus Areas */}
-                {/*<div className="bg-gray-800/50 rounded-lg p-4">
+          {/*<div className="bg-gray-800/50 rounded-lg p-4">
                   <h4 className="text-gray-300 font-medium mb-3">
                     Focus Areas
                   </h4>
@@ -423,14 +395,14 @@ export function Landing() {
                 </div>
 
                 {/* Action Button */}
-                {/*<button
+          {/*<button
                   onClick={() => navigate("/team")}
                   className="w-full bg-gradient-to-r from-pink-600 to-purple-600 text-white px-6 py-4 rounded-lg font-medium
                            hover:from-pink-500 hover:to-purple-500 transition-all duration-300
                            flex items-center justify-center space-x-2 group relative overflow-hidden"
                 >
                   {/* Button Shine Effect */}
-                  {/*<div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300">
+          {/*<div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300">
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                   </div>
 
@@ -443,7 +415,7 @@ export function Landing() {
                 </button>
 
                 {/* Bottom Stats */}
-                {/*<div className="pt-4 mt-4 border-t border-gray-800 grid grid-cols-2 gap-4">
+          {/*<div className="pt-4 mt-4 border-t border-gray-800 grid grid-cols-2 gap-4">
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-400 text-sm">
@@ -460,14 +432,15 @@ export function Landing() {
               </div>
             </div>
           </Card>*/}
-          
+
           {/* Key Benefits Section */}
-          <Card className=" hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500 ">
+          <Card className="!bg-white dark:!bg-gray-900 focus:outline-none focus:ring focus:ring-pink-300 hover:!bg-white dark:hover:!bg-gray-900 hover:shadow-none hover:scale-100 transition-none transform-none">
+
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100  ">
               Key Benefits of Using SheSync
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <BenefitItem
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 " >
+              <BenefitItem className="hover:bg-pink-200 transition-colors"
                 title="Personalized Insights"
                 description="SheSync offers a shared platform with dual dashboards, ensuring parents stay informed without invading their child's privacy, fostering trust and security."
               />
@@ -486,7 +459,8 @@ export function Landing() {
             </div>
           </Card>
           {/* Our Mission Section */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:shadow-none hover:scale-100 transform-none transition-none" >
+
             <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
               Our Mission
             </h3>
@@ -504,7 +478,7 @@ export function Landing() {
             </p>
           </Card>
           {/* How It Works Section */}
-        {/* <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          {/* <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               How SheSync Works
             </h3>
@@ -527,7 +501,7 @@ export function Landing() {
             </div>
           </Card>*/}
           {/* Testimonials */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               What Our Users Say
             </h3>
@@ -543,7 +517,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Latest Blog Posts */}
-         {/* <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          {/* <Card className=" hover:bg-pink-200 active:bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Latest from Our Blog
             </h3>
@@ -566,7 +540,7 @@ export function Landing() {
             </div>
           </Card>*/}
           {/* Success Stories */}
-          <Card className="bg-pink-800 text-white  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-pink-700 dark:text-gray-100">
               Success Stories
             </h3>
@@ -605,7 +579,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Expert Insights */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Expert Insights
             </h3>
@@ -621,7 +595,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Community Highlights */}
-          <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className="!bg-pink-200 active:!bg-pink-700 focus:outline-none focus:ring focus:ring-pink-300 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:shadow-none hover:scale-100 transform-none transition-none">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Community Highlights
             </h3>
@@ -641,7 +615,7 @@ export function Landing() {
             </div>
           </Card>
           {/* FAQ Section */}
-          <Card className=" hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Frequently Asked Questions
             </h3>
@@ -673,7 +647,7 @@ export function Landing() {
             </div>
           </Card>
           {/*App Features Showcase */}
-         {/* <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          {/* <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               App Features Showcase
             </h3>
@@ -709,7 +683,7 @@ export function Landing() {
             </div>
           </Card>*/}
           {/* Partnerships */}
-        {/*  <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          {/*  <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Our Trusted Partners
             </h3>
@@ -725,7 +699,7 @@ export function Landing() {
               <PartnerLogo name="MindfulHer" />
             </div>
           </Card>*/}
-         
+
           {/* CTA */}
           <Card className=" dark:hover:bg-pink-500  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 ">
             <div className="text-center">
@@ -746,144 +720,135 @@ export function Landing() {
           </Card>
           {/* Footer */}
           <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-400">
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-    <div>
-      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Company
-      </h4>
-      <ul className="space-y-2">
-        <li>
-          <button
-            onClick={() => navigate("/symptomsanalyzer")}
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            About Us
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => navigate("/parents")}
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Careers
-          </button>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Press
-          </a>
-        </li>
-      </ul>
-    </div>
+<div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Company</h4>
+    <ul className="space-y-2">
+      <li>
+        <button
+          onClick={() => navigate("/symptomsanalyzer")}
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          About Us
+        </button>
+      </li>
+      <li>
+        <button
+          onClick={() => navigate("/parents")}
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Careers
+        </button>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Press
+        </a>
+      </li>
+    </ul>
+  </div>
 
-    <div>
-      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Resources
-      </h4>
-      <ul className="space-y-2">
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Blog
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Help Center
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Community
-          </a>
-        </li>
-      </ul>
-    </div>
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Resources</h4>
+    <ul className="space-y-2">
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Blog
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Help Center
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Community
+        </a>
+      </li>
+    </ul>
+  </div>
 
-    <div>
-      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Legal
-      </h4>
-      <ul className="space-y-2">
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Privacy Policy
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Terms of Service
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          >
-            Cookie Policy
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-        Connect
-      </h4>
-      <div className="flex space-x-4">
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Legal</h4>
+    <ul className="space-y-2">
+      <li>
         <a
-          href="https://x.com"
-          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          aria-label="Twitter"
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
         >
-          <FaSquareXTwitter size={24} />
+          Privacy Policy
         </a>
+      </li>
+      <li>
         <a
-          href="https://facebook.com"
-          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          aria-label="Facebook"
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
         >
-          <FaFacebookSquare size={24} />
+          Terms of Service
         </a>
+      </li>
+      <li>
         <a
-          href="https://instagram.com"
-          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
-          aria-label="Instagram"
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
         >
-          <FaSquareInstagram size={24} />
+          Cookie Policy
         </a>
-      </div>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect</h4>
+    <div className="flex space-x-4">
+      <a
+        href="https://x.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Twitter"
+      >
+        <FaSquareXTwitter size={24} />
+      </a>
+      <a
+        href="https://facebook.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Facebook"
+      >
+        <FaFacebookSquare size={24} />
+      </a>
+      <a
+        href="https://instagram.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Instagram"
+      >
+        <FaSquareInstagram size={24} />
+      </a>
     </div>
   </div>
-  <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
-    <p className="text-gray-700 dark:text-gray-100">TEAM: WEB PIONEERS</p>
-    <p className="text-gray-700 dark:text-gray-100">
-      &copy; 2025 SheSync. All rights reserved.
-    </p>
-  </div>
-</footer>
+</div>
+
+<div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+  <p className="text-gray-700 dark:text-gray-100">TEAM: WEB PIONEERS</p>
+  <p className="text-gray-700 dark:text-gray-100">&copy; 2025 SheSync. All rights reserved.</p>
+</div>
+
         </div>
       </main>
     </div>
   );
 }
-
 
 const Card = ({ children, className }) => {
   return (
@@ -911,7 +876,8 @@ const FeatureOverview = ({ icon, title, description }) => {
 
 const BenefitItem = ({ title, description }) => {
   return (
-    <div className="border-l-4 border-pink-500 pl-4 dark:border-pink-700">
+    <div className="border-l-4 border-pink-500 pl-4 dark:border-pink-700 bg-white dark:bg-gray-900 hover:bg-pink-200 hover:scale-105 transition-all duration-300 ease-in-out transform rounded-md">
+
       <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
         {title}
       </h4>
@@ -963,7 +929,7 @@ const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
+    <div className="border-b border-gray-200 dark:border-gray-700 p-4 bg-pink-200 rounded-lg">
       <button
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
@@ -1010,7 +976,7 @@ const ExpertInsightCard = ({ expert, insight }) => {
 
 const CommunityHighlightCard = ({ title, description }) => {
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-pink-50">
       <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
         {title}
       </h4>

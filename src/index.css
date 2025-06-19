@@ -25,9 +25,12 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
+  padding-right: 0 !important;
 }
 
 h1 {
@@ -65,4 +68,31 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Emergency fixes - add to src/styles/index.css */
+* {
+  box-sizing: border-box !important;
+}
+
+.main-container, .page-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Force proper content alignment */
+.content-area {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 20px !important;
+}
+
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
 }

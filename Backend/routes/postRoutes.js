@@ -4,10 +4,11 @@ import {
   createPost,
   likePost,
 } from "../controllers/postController.js";
+import { clerkAuth } from "../middlewares/clerkMiddleware.js";
 
 const router = express.Router();
 
-router.post("/createPost", createPost);
+router.post("/createPost", clerkAuth, createPost);
 router.get("/getPost", getPosts);
-router.get("/like/:id", likePost);
+router.get("/like/:id", clerkAuth, likePost);
 export default router;

@@ -12,62 +12,121 @@ import {
   Stethoscope,
   Bot,
   HeartHandshake,
-  Handshake , 
-  Menu
+  Handshake,
+  Menu,
+  Sun,
+  Moon,
+  X
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import useScreenSize from "../hooks/useScreenSize";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, SignInButton, UserButton, SignUpButton } from "@clerk/clerk-react";
+import { useTheme } from "../context/ThemeContext";
 
-export default function SideBar({sidebarVisible , setSidebarVisible , activeLink}) {
-    const navigate = useNavigate();
+export default function SideBar({
+  sidebarVisible,
+  setSidebarVisible,
+  activeLink,
+}) {
+  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+  const { width } = useScreenSize();
 
-    const { width, height } = useScreenSize();
-
-    const SidebarLink = ({ icon, label, onClick, active = false }) => {
-        return (
-            <button
-            onClick={onClick}
-            className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
-                active
-                ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-                : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
-            }`}
-            >
-            {icon}
-            <span>{label}</span>
-            </button>
-        );
-    };
-
-    useEffect( () => {
-        if (width < 816) {
-            setSidebarVisible(false);
-        } else {
-            setSidebarVisible(true);
-        }
-    } , []);
-    
-    let active = [false , false ,false , false , false , false , false , false , false , false , false , false , false , false];
-
-    if (activeLink) { active[activeLink] = true; }  
-
-    return (   
-        (!sidebarVisible && width < 816 ) ?
-        <div className="fixed top-0 left-0 w-fit   p-2 my-6 mx-2 transition-all duration-300 ease-in-out bg-pink-100 rounded-3xl z-50">
-            <Menu size={24} className="text-black" onClick={() => setSidebarVisible(true)} />
-        </div>  :  
-    <aside
-        className={`bg-pink-100 dark:bg-gray-800 w-64 min-h-screen p-4 z-50 fixed transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
+  const SidebarLink = ({ icon, label, onClick, active = false }) => {
+    return (
+      <button
+        onClick={onClick}
+        className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
+          active
+            ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
+            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
         }`}
-        style={{ zIndex: 40 }}
+      >
+        {icon}
+        <span>{label}</span>
+      </button>
+    );
+  };
+
+  useEffect(() => {
+    if (width < 816) {
+      setSidebarVisible(false);
+    } else {
+      setSidebarVisible(true);
+    }
+  }, [width, setSidebarVisible]);
+
+  let active = new Array(14).fill(false);
+  if (activeLink !== undefined) active[activeLink] = true;
+
+  return (
+    <div className="h-screen">
+      {/* Mobile menu button when sidebar is hidden */}
+      {!sidebarVisible && width < 816 && (
+        <button 
+          className="fixed top-4 left-4 p-3 bg-white dark:bg-gray-800 rounded-full z-50 shadow-lg border border-gray-200 dark:border-gray-700"
+          onClick={() => setSidebarVisible(true)}
+        >
+          <Menu
+            size={20}
+            className="text-pink-600 dark:text-pink-400"
+          />
+        </button>
+      )}
+      {sidebarVisible && width < 816 && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => setSidebarVisible(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+          className={`bg-white dark:bg-gray-900 w-64 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out ${
+            sidebarVisible ? "translate-x-0" : "-translate-x-full"
+          } fixed z-50 shadow-xl`}
       >
         <div className="px-4 py-4 flex flex-col space-y-2">
-            {width < 816 && (<Menu size={24} className="text-black dark:text-white" onClick={() => setSidebarVisible(false)} />)}
-          <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 ">
-            SheSync
-          </h1>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+              SheSync
+            </h1>
+            <div className="flex items-center space-x-2">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleTheme}
+                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </motion.button>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+              {width < 816 && (
+                <button
+                  onClick={() => setSidebarVisible(false)}
+                  className="p-1 rounded-full hover:bg-pink-200 dark:hover:bg-gray-700"
+                >
+                  <X size={20} className="text-black dark:text-white" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          <SignedOut>
+            <div className="flex my-4">
+              <SignInButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+              <SignUpButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+            </div>
+          </SignedOut>
+
           <SidebarLink
             icon={<LayoutDashboard size={20} />}
             label="Dashboard"
@@ -99,11 +158,11 @@ export default function SideBar({sidebarVisible , setSidebarVisible , activeLink
             active={active[4]}
           />
           <SidebarLink
-                      icon={<ClipboardList size={20} />}
-                      label="PCOS Diagnosis"
-                      onClick={() => navigate("/partner")}
-                      active={active[5]}
-                    />
+            icon={<ClipboardList size={20} />}
+            label="PCOS Diagnosis"
+            onClick={() => navigate("/partner")}
+            active={active[5]}
+          />
           <SidebarLink
             icon={<Stethoscope size={20} />}
             label="Expert Consultation"
@@ -137,36 +196,23 @@ export default function SideBar({sidebarVisible , setSidebarVisible , activeLink
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
-            onClick={() => 
-              window.open(
-                "https://thepadproject.org/donate/"
-                )  
-              }
-              active={active[11]}
+            onClick={() => window.open("https://thepadproject.org/donate/")}
+            active={active[11]}
           />
           <SidebarLink
             icon={<Gamepad2 size={20} />}
             label="Bliss"
-            onClick={() =>
-              window.open(
-                "https://she-syncgame.vercel.app/",
-                "_blank"
-              )
-            }
+            onClick={() => window.open("https://she-syncgame.vercel.app/", "_blank")}
             active={active[12]}
           />
           <SidebarLink
             icon={<Handshake size={20} />}
             label="NGO's"
-            onClick={() =>
-              window.open(
-                "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
-                "_blank"
-              )
-            }
+            onClick={() => window.open("https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html", "_blank")}
             active={active[13]}
           />
         </div>
       </aside>
-      );
+    </div>
+  );
 }

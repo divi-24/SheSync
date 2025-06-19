@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const periodTrackingSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: String, required: true }, 
     date: { type: Date, default: Date.now },
     cycleDuration: { type: Number },
     lastPeriodStart: { type: Date },
@@ -20,7 +20,7 @@ const periodTrackingSchema = new mongoose.Schema(
     lastWaterLogDate: {
       type: String,
       default: () => new Date().toISOString().slice(0, 10),
-    }, // YYYY-MM-DD
+    }, 
   },
   { timestamps: true }
 );
