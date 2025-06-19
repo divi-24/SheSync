@@ -55,10 +55,9 @@ npm install
 ```env
 VITE_SERVER_URL=https://shesync.onrender.com/
 
-VITE_GEMINI_API_KEY=AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro
+VITE_GEMINI_API_KEY=AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro // Use new API key, this one is not working
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_YW11c2luZy1ob3JuZXQtOS5jbGVyay5hY2NvdW50cy5kZXYk
 
-VITE_GEMINI_API_KEY=AIzaSyCehvvjeNLcorIVJTX3QsUAVuoC1y2NWyM
 VITE_GOOGLE_MAPS_API_KEY=AIzaSyB5pTapWtBsb95f5qpxiadprABnynOIZdQ
 ```
 
