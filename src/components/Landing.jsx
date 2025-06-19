@@ -755,7 +755,7 @@ export function Landing() {
         <li>
           <button
             onClick={() => navigate("/symptomsanalyzer")}
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             About Us
           </button>
@@ -763,7 +763,7 @@ export function Landing() {
         <li>
           <button
             onClick={() => navigate("/parents")}
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Careers
           </button>
@@ -771,7 +771,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Press
           </a>
@@ -787,7 +787,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Blog
           </a>
@@ -795,7 +795,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Help Center
           </a>
@@ -803,7 +803,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Community
           </a>
@@ -819,7 +819,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Privacy Policy
           </a>
@@ -827,7 +827,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Terms of Service
           </a>
@@ -835,7 +835,7 @@ export function Landing() {
         <li>
           <a
             href="#"
-            className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+            className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           >
             Cookie Policy
           </a>
@@ -849,21 +849,21 @@ export function Landing() {
       <div className="flex space-x-4">
         <a
           href="https://x.com"
-          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           aria-label="Twitter"
         >
           <FaSquareXTwitter size={24} />
         </a>
         <a
           href="https://facebook.com"
-          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           aria-label="Facebook"
         >
           <FaFacebookSquare size={24} />
         </a>
         <a
           href="https://instagram.com"
-          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+          className="text-gray-700 dark:text-gray-700 dark:text-gray-700 dark:text-gray-700"
           aria-label="Instagram"
         >
           <FaSquareInstagram size={24} />
