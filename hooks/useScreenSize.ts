@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -9,16 +9,13 @@ interface ScreenSize {
 
 export default function useScreenSize(): ScreenSize {
   const [screenSize, setScreenSize] = useState<ScreenSize>({
-    width: 0,
-    height: 0,
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+    height: typeof window !== 'undefined' ? window.innerHeight : 0,
   });
 
   useEffect(() => {
-    // Set initial values after component mounts
-    setScreenSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+    // Only run on client side
+    if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       setScreenSize({
@@ -26,6 +23,9 @@ export default function useScreenSize(): ScreenSize {
         height: window.innerHeight,
       });
     };
+
+    // Set initial size
+    handleResize();
 
     window.addEventListener('resize', handleResize);
     
