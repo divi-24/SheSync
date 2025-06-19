@@ -975,7 +975,7 @@ export function SymptomAnalysis() {
   const { width } = useScreenSize();
 
   return (
-    <div className={`flex h-screen`}>
+    <div className={`flex h-screen dark:bg-[#111827]`}>
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
@@ -1012,7 +1012,7 @@ export function SymptomAnalysis() {
               AI-Powered Symptom Analysis
             </h2>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white rounded-lg shadow-md p-6 dark:bg-[#111827] border-gray-800 border-[1px]">
             {/* Progress Bar */}
             <div className="w-full bg-pink-50 rounded-full h-2.5 mb-4">
               <div

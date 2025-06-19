@@ -77,7 +77,6 @@ export function Chatbot() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(() => localStorage.getItem("darkMode") === "true");
   const { width } = useScreenSize();
   const [userName, setUserName] = useState(() => {
     const stored = sessionStorage.getItem("shesync_username");
@@ -95,10 +94,6 @@ export function Chatbot() {
     sessionStorage.setItem("shesync_username", userName || "");
   }, [userName]);
 
-  useEffect(() => {
-    if (darkMode) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-  }, [darkMode]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -118,12 +113,6 @@ export function Chatbot() {
     if (storedMsgs) setMessages(JSON.parse(storedMsgs));
     if (storedName) setUserName(storedName);
   }, []);
-
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode.toString());
-  };
 
   const handleTabSelect = (key) => {
     setSelectedTab(key);
@@ -411,7 +400,7 @@ Eve:`;
   }, [sidebarVisible]);
 
   return (
-    <div className={`main-container ${darkMode ? "dark" : ""}`}>
+    <div className={`main-container dark:bg-[#111827]`}>
       <div
         className="sidebar-container"
         style={{
@@ -422,7 +411,6 @@ Eve:`;
           sidebarVisible={sidebarVisible}
           setSidebarVisible={setSidebarVisible}
           activeLink={7}
-          darkMode={darkMode}
         />
       </div>
       {width > 816 && (
@@ -455,13 +443,6 @@ Eve:`;
             <h2 className="text-2xl font-bold">SheSync Chatbot</h2>
           </div>
           <div className="flex space-x-2">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2"
-              aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
             <button onClick={clearChat} className="p-2" aria-label="Clear chat">
               <Trash2 size={20} />
             </button>
