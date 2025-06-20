@@ -946,17 +946,19 @@ const FAQItem = ({ question, answer }) => {
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-semibold text-gray-900 dark:text-gray-100">
+        <span className="font-semibold text-gray-900 dark:text-black">
           {question}
         </span>
-        <span>{isOpen ? "-" : "+"}</span>
+        <span className="text-gray-900 dark:text-black">{isOpen ? "-" : "+"}</span>
       </button>
       {isOpen && (
-        <p className="mt-2 text-gray-700 dark:text-gray-300">{answer}</p>
+        <p className="mt-2 text-gray-700 dark:text-black">{answer}</p>
       )}
     </div>
   );
 };
+
+export default FAQItem;
 
 const SuccessStoryCard = ({ name, story, improvement }) => {
   return (
