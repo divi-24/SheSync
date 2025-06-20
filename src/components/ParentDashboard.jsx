@@ -626,7 +626,7 @@ const EducationProgressModal = ({ child, onClose }) => {
 
 export  function ParentDashboard() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [darkMode, setDarkMode] = useState(false)
+  // const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedChild, setSelectedChild] = useState(null)
   const [showNotifications, setShowNotifications] = useState(false)
@@ -639,10 +639,6 @@ export  function ParentDashboard() {
   setSidebarVisible(!sidebarVisible);
 };
 
-  useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.toggle('dark', darkMode)
-  }, [darkMode])
 
   const renderOverviewCards = () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -766,13 +762,13 @@ export  function ParentDashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Mood</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-900 ">
                     {child.mood}
                   </span>
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Sleep</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-9 00">
                     {child.sleep}
                   </span>
                 </div>
@@ -1407,10 +1403,8 @@ export  function ParentDashboard() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setDarkMode(!darkMode)}
               className="p-2 rounded-full bg-pink-50 hover:bg-pink-100 dark:bg-pink-900/30 text-pink-400"
             >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
             </motion.button>
             <div className="relative">
               <motion.button
@@ -1444,7 +1438,7 @@ export  function ParentDashboard() {
   const {width} = useScreenSize();
 
   return (
-    <div className={`flex h-screen ${darkMode ? "dark" : ""}`}>
+    <div className={`flex h-screen dark:bg-[#111827]`}>
         <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={9}/>
           {width > 816 && (
             <button
@@ -1502,7 +1496,7 @@ export  function ParentDashboard() {
                   className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                     activeTab === tab
                       ? "bg-gradient-to-r from-pink-300 to-pink-400 text-white shadow-lg"
-                      : "text-gray-600 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+                      : "text-gray- bg-white text-black dark:bg-[#111827] dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20"
                   }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
