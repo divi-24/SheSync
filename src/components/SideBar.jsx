@@ -122,8 +122,8 @@ export default function SideBar({
 
           <SignedOut>
             <div className="flex my-4">
-              <SignInButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
-              <SignUpButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+              <SignInButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em] bg-[#fbcfe8]" mode="modal"/>
+              <SignUpButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em] bg-[#fbcfe8]" mode="modal"/>
             </div>
           </SignedOut>
 
