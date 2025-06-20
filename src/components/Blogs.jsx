@@ -29,7 +29,6 @@ const blogPosts = [
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/7HlHGLr1hTA?si=mP2SIqz85Emga8od"
       >
         "Understanding Your Menstrual Cycle"
       </a>
@@ -43,13 +42,22 @@ const blogPosts = [
     category: "Health",
     content:
       "The menstrual cycle is typically 28 days long, but can range from 21 to 35 days. It consists of four main phases: menstruation, the follicular phase, ovulation, and the luteal phase. Each phase is characterized by different hormonal changes that affect your body and mood. Understanding these phases can help you better manage your health and well-being throughout your cycle.",
+    video: (
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/7HlHGLr1hTA?si=pGQOe9NJgCEsV9L5"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      ></iframe>
+    ),
   },
   {
     id: 2,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/kQyByK9XaQg?si=fz0az0Hz4fizD3_B"
       >
         "How long does the menstrual cycle and period last?"
       </a>
@@ -63,13 +71,21 @@ const blogPosts = [
     category: "Nutrition",
     content:
       "Your menstrual cycle takes around 28 days to complete, but this is a good time to point out that EVERYONE is different! Just like your fingerprints are unique, so is your bloody brilliant body and how you experience periods. So, while we say 28 days it might be a little longer, it might be a little shorter, there really aren’t any set rules here. Of those 28 days, you could expect to bleed for anywhere between 3-8 days. Again, everyone is different, and your periods are likely to change. Your body can take some time to get into its own flow, so cut it a bit of slack - it’s learning what to do while you’re getting used to things too!",
-  },
+    video:(
+      <iframe 
+        width="560" 
+        height="315" 
+        src="https://www.youtube.com/embed/kQyByK9XaQg?si=Xnu21W1iMabfH68Z" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen></iframe>
+    )
+    },
   {
     id: 3,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/kQyByK9XaQg?si=fz0az0Hz4fizD3_B"
       >
         "What are the signs that my period is coming?"
       </a>
@@ -84,13 +100,15 @@ const blogPosts = [
     content:
       "If you’ve never had a period before, there are some signs which might indicate your period is coming and they’re all natural parts of growing up. If you’ve noticed your boobs are beginning to develop, and you’ve started to grow pubic hair, then you could expect to get your period about two years later. A more immediate sign for some people is if you notice discharge in your pants. Discharge is a white or yellowish fluid which usually shows up a few months before your first period. There are lots of other signs your period is coming and these can be both physical and emotional. We call these signs PMS (premenstrual syndrome). Not everyone gets PMS and we all experience it differently. It usually happens just before and during your period, and it’s basically the reason you might find yourself wanting to eat your body weight in chocolate or burst into tears at the smallest of things…lost sock, bad hair day, burnt toast…trust me, we all have those days! PMS brings with it all kinds of symptoms such as headaches, bloating, cramps, mood swings, feeling tired and having trouble concentrating. We’ve got a great blog all about PMS with top tips on how to help with these symptoms and many more, so go and take a look. It will finally explain some of those weird and wonderful feelings that you never knew were thanks to your bloody brilliant period!",
     className: "blog-post-3",
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/kQyByK9XaQg?si=iyoRPoEHMefjHsQM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
   },
   {
     id: 4,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/NM2fnDJf_RA?si=1bfSJA_GNW8LCktL"
       >
         "Why does the colour vary so much?"
       </a>
@@ -104,13 +122,15 @@ const blogPosts = [
     category: "History",
     content:
       "Like we just said, there’s lots of other things going on in there besides blood, that’s why it doesn’t always come out bright red like you might expect. But it’s not just what your period is made up of that determines the colour. The colour of your period can be a great tool for knowing what’s going on in your body. It can highlight signs of a poor diet, possible infections or other health conditions. In most cases a variety of shades is totally normal, with oxygen and hormones (there they are again) also playing a role in the shade of your flow (which is COMPLETELY NATURAL!).We’ve got a handy diagram and more information on the different colours of your period here.",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/NM2fnDJf_RA?si=kf8VQZ8yRcgVaV3k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
   {
     id: 5,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtube.com/watch?v=5u6Y6ZP2_Wg&t=0&feature=shared"
       >
         "Pain and WHAT IS NORMAL?"
       </a>
@@ -124,13 +144,15 @@ const blogPosts = [
     category: "Fitness",
     content:
       "A not-so-fun part about getting your period is period pains, or menstrual cramps, as they’re also called. It’s worth pointing out that not everyone gets period cramps. Most women, girls and people who have periods do, but if you don’t, then that’s absolutely nothing to worry about – just embrace the fact you can enjoy your bloody brilliant period cramp free. So, what is period pain? Period pain is mainly caused by your uterus contracting (tensing up like the other muscles in your body) to help get rid of the lining which we spoke about earlier. You can get pains in your stomach, but it can also spread into your back and thighs. We’ve got a whole heap more information on period pain and what you can do to help here. Hopefully by now you’ll be getting the idea that there’s all kinds of normal when it comes to your period: your normal, your mates’ normal, your next-door neighbours’ normal! What we’re trying to say is we’re all unique, but periods themselves are a normal part of life. After all, half the population will have periods at some point in their lives, so we should all be able to support each other. It’s important to have conversations about periods, as it’s something so many of us have in common! Getting to know your body, your feelings, your health and your flow is really important. If you notice changes in your normal, or if you find it difficult to cope with any aspect of your period, ask for support. There’s no shame in asking for advice, like our team of Bloody Brilliant experts - your local doctor or nurse has all the skills and experience needed to help you. Only you know how you feel, so it’s important you get help if you need it! ",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/5u6Y6ZP2_Wg?si=0corejaxkLAdamVU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
   {
     id: 6,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtube.com/watch?v=5u6Y6ZP2_Wg&feature=shared"
       >
         "Hormones and Mental Health"
       </a>
@@ -144,13 +166,15 @@ const blogPosts = [
     category: "Mental Health",
     content:
       "Hormonal fluctuations during the menstrual cycle can significantly impact mental health. Many women experience mood swings, anxiety, or depression, especially during the premenstrual phase. Understanding these changes can help in managing symptoms. Techniques such as cognitive-behavioral therapy, mindfulness, and in some cases, medication, can be effective in addressing hormone-related mental health concerns.",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/5u6Y6ZP2_Wg?si=k3bqefy1Fqx9E2-o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
   {
     id: 7,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/GVRDGQhoEYQ?si=lCe3rA71seWpGjd_"
       >
         "Menstrual Hygiene Best Practices"
       </a>
@@ -164,13 +188,15 @@ const blogPosts = [
     category: "Hygiene",
     content:
       "Proper menstrual hygiene is crucial for preventing infections and ensuring comfort. Change your menstrual product regularly, at least every 4-8 hours for pads and tampons. Wash your hands before and after changing products. If using reusable products like menstrual cups or cloth pads, ensure they are thoroughly cleaned and sterilized between uses. Avoid scented products as they can disrupt your natural pH balance.",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/GVRDGQhoEYQ?si=xc5wVsaieAbEhMXA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
   {
     id: 8,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/UBhiwkM8MIY?si=GsACG7mZKkQ2VPYP"
       >
         "Hormonal Birth Control Options"
       </a>
@@ -184,13 +210,15 @@ const blogPosts = [
     category: "Contraception",
     content:
       "Hormonal birth control methods include pills, patches, injections, and intrauterine devices (IUDs). These work by altering your hormone levels to prevent ovulation or fertilization. While effective for contraception, they can also affect your menstrual cycle, often making periods lighter or more regular. Some methods may even stop periods altogether. It's important to discuss the pros and cons of each method with your healthcare provider to find the best option for you.",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/UBhiwkM8MIY?si=oudSo2-O9bAfbOKW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
   {
     id: 9,
     title: (
       <a
         className="text-pink-600"
-        href="https://youtu.be/C3ttfI5YxvE?si=1wF58Pj_cmgLXf-7"
       >
         "Menstrual Disorders: When to Seek Help"
       </a>
@@ -204,7 +232,10 @@ const blogPosts = [
     category: "Health",
     content:
       "While some variation in menstrual cycles is normal, certain symptoms may indicate a disorder. Heavy bleeding, severe pain, irregular cycles, or bleeding between periods could be signs of conditions like endometriosis, PCOS, or fibroids. If you experience these symptoms, or if your period significantly impacts your daily life, it's important to consult with a healthcare provider for proper diagnosis and treatment.",
-  },
+    video:(
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/C3ttfI5YxvE?si=k8_IdhcZe0Wjs0cN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    )
+    },
 ];
 const womenHealthTopics = [
   {
@@ -325,18 +356,16 @@ export function Blogs() {
         >
           <ChevronRight
             size={14}
-            className={`transition-transform duration-300 block m-auto ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
+            className={`transition-transform duration-300 block m-auto ${sidebarVisible ? "rotate-180" : "rotate-0"
+              }`}
           />
         </button>
       )}
 
       {/* Main Content */}
       <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible && width > 816 ? "ml-64" : "ml-0"
-        } w-full max-w-full`}
+        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible && width > 816 ? "ml-64" : "ml-0"
+          } w-full max-w-full`}
       >
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
@@ -367,31 +396,43 @@ export function Blogs() {
               Read More
             </button>
           </div>
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-            <div className="relative flex-grow text-white">
-              <input
-                type="text"
-                placeholder="Search articles..."
-                className="w-full px-4 py-2 text-white bg-[#db2777] placeholder:text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white transition-all duration-300 focus:shadow-lg"
-              />
-              <Search className="absolute right-3 top-2.5 h-5 w-5 text-white" />
+          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full items-stretch ">
+            {/* Search Input */}
+            <div className="w-full sm:w-[70%]  flex ">
+              <div className="relative w-full pt-4 flex items-center">
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  className="w-full h-11 px-4 pr-10 text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg"
+                />
+                <Search className="absolute  right-3  h-5 w-5 text-white pointer-events-none" />
+              </div>
             </div>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 text-white rounded-full border bg-[#db2777] border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white transition-all duration-300 focus:shadow-lg"
-            >
-              <option value="All">All Categories</option>
-              <option value="Health">Health</option>
-              <option value="Nutrition">Nutrition</option>
-              <option value="Wellness">Wellness</option>
-              <option value="History">History</option>
-              <option value="Fitness">Fitness</option>
-              <option value="Mental Health">Mental Health</option>
-              <option value="Hygiene">Hygiene</option>
-              <option value="Contraception">Contraception</option>
-            </select>
+
+            {/* Category Dropdown */}
+            <div className="w-30 sm:w-[30%]  flex items-center" >
+              <div className="relative w-full mt-1 pt-0.1 h-11 ">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full h-full  px-4 text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg "
+                 style={{ lineHeight: '3rem' }}
+              >
+                <option value="All">All Categories</option>
+                <option value="Health">Health</option>
+                <option value="Nutrition">Nutrition</option>
+                <option value="Wellness">Wellness</option>
+                <option value="History">History</option>
+                <option value="Fitness">Fitness</option>
+                <option value="Mental Health">Mental Health</option>
+                <option value="Hygiene">Hygiene</option>
+                <option value="Contraception">Contraception</option>
+              </select>
+            </div>
+           </div>
           </div>
+
+
           {/* Trophy System */}
           {/*<div className="bg-white dark:bg-gray-800 rounded-xl p-6 text-center shadow-lg transform hover:scale-105 transition-all duration-300">
             <h2 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 mb-4">
@@ -487,11 +528,10 @@ export function Blogs() {
                           e.stopPropagation();
                           handleSavePost(post.id);
                         }}
-                        className={`p-2 rounded-full ${
-                          savedPosts.includes(post.id)
-                            ? "bg-pink-100 text-pink-500"
-                            : "bg-gray-100 text-gray-500"
-                        } hover:bg-pink-200 transition-colors duration-300`}
+                        className={`p-2 rounded-full ${savedPosts.includes(post.id)
+                          ? "bg-pink-100 text-pink-500"
+                          : "bg-gray-100 text-gray-500"
+                          } hover:bg-pink-200 transition-colors duration-300`}
                       >
                         <Bookmark className="h-5 w-5" />
                       </button>
@@ -535,11 +575,10 @@ export function Blogs() {
               <div
                 className="bg-gradient-to-r from-pink-500 to-purple-500 h-2.5 rounded-full transition-all duration-500 ease-out"
                 style={{
-                  width: `${
-                    (readSections.filter(Boolean).length /
-                      readSections.length) *
+                  width: `${(readSections.filter(Boolean).length /
+                    readSections.length) *
                     100
-                  }%`,
+                    }%`,
                 }}
               ></div>
             </div>
@@ -594,7 +633,7 @@ export function Blogs() {
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Test your knowledge on women's health topics. Answer the
-                questions below and see how much you've learned!
+                questions below and see how much you&#39;ve learned!
               </p>
               <Quiz onQuizComplete={handleQuizComplete} />
             </div>
@@ -620,6 +659,20 @@ export function Blogs() {
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               {selectedPost.content}
             </p>
+            <span>
+              {selectedPost.video ? (
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                    Video Explanation
+                  </h3>
+                  {selectedPost.video}
+                </div>
+              ) : (
+                <p className="text-gray-500 dark:text-gray-400 mb-4">
+                  No video available for this post.
+                </p>
+              )}
+            </span>
             <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
               <span>{selectedPost.author}</span>
               <span>{selectedPost.date}</span>
