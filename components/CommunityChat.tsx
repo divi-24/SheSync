@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -96,7 +96,7 @@ const CommunityAvatar = () => (
 const formatMessage = (text: string) => {
   // Format numbered lists with improved spacing and bullets
   const formattedText = text.replace(
-    /(\d+\.\s.*?)(?=\d+\.|$)/gs,
+    /(\d+\.\s.*?)(?=\d+\.|$)/g, // Removed the 's' flag
     '<div class="mb-3 flex items-start"><span class="mr-2 text-pink-300">•</span><div>$1</div></div>'
   );
 

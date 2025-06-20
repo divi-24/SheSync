@@ -1,4 +1,4 @@
-import { ModernTeamShowcase } from '@/components/ModernTeamShowcase'
+import  ModernTeamShowcase  from '@/components/ModernTeamShowcase'
 
 export default function TeamPage() {
   return <ModernTeamShowcase />

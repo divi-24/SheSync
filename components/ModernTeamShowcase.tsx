@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Linkedin, Github } from 'lucide-react';
 import Image, { StaticImageData } from 'next/image'; // Added StaticImageData import
 // Import images with type safety
-import palakImage from '../../public/images/palak1.jpeg';
-import vibhorImage from '../../public/images/vibhor.jpeg';
-import deepakImage from '../../public/images/deepak.jpeg';
-import anishkaImage from '../../public/images/anishka.jpeg';
-import ankitaImage from '../../public/images/ankita.jpeg';
+import palakImage from '@/public/images/palak1.jpeg';
+import vibhorImage from '@/public/images/vibhor.jpeg';
+import deepakImage from '@/public/images/deepak.jpeg';
+import anishkaImage from '@/public/images/anishka.jpeg';
+import ankitaImage from '@/public/images/ankita.jpeg';
 
 interface TeamMember {
   id: number;
