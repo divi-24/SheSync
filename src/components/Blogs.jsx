@@ -2,35 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Calendar,
-  HeartPulse,
-  MessageSquare,
-  HeartHandshake,
-  AppWindowMac,
-  Frown,
-  Smile,
-  Angry,
-  Coffee,
-  Zap,
-  Moon,
-  Handshake,
   ChevronDown,
-  Gamepad2,
   ChevronUp,
-  Heart,
-  Sun,
-  LayoutDashboard,
-  Home,
-  GraduationCap,
-  ShoppingBag,
-  ActivitySquare,
   Stethoscope,
-  Bot,
   Search,
-  BookOpen,
   Utensils,
   Leaf,
   Clock,
-  Filter,
   Bookmark,
   Share2,
   Award,
@@ -41,7 +19,6 @@ import {
   Droplet,
   X,
   ChevronRight,
-  ClipboardList,
 } from "lucide-react";
 import { Quiz } from "./Quiz";
 import SideBar from "./SideBar";
@@ -358,8 +335,8 @@ export function Blogs() {
       {/* Main Content */}
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
+          sidebarVisible && width > 816 ? "ml-64" : "ml-0"
+        } w-full max-w-full`}
       >
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
@@ -377,7 +354,7 @@ export function Blogs() {
             <div className="flex items-center space-x-4">
               <Award className="h-16 w-16 text-pink-500" />
               <div>
-                <h3 className="text-xl font-semibold text-pink dark:text-gray-200">
+                <h3 className="text-xl font-semibold text-black dark:text-white">
                   Embracing Your Cycle: A Guide to Menstrual Wellness
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -395,14 +372,14 @@ export function Blogs() {
               <input
                 type="text"
                 placeholder="Search articles..."
-                className="w-full px-4 py-2 text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white transition-all duration-300 focus:shadow-lg"
+                className="w-full px-4 py-2 text-white bg-[#db2777] placeholder:text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white transition-all duration-300 focus:shadow-lg"
               />
               <Search className="absolute right-3 top-2.5 h-5 w-5 text-white" />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 text-white rounded-full border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white transition-all duration-300 focus:shadow-lg"
+              className="px-4 py-2 text-white rounded-full border bg-[#db2777] border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white transition-all duration-300 focus:shadow-lg"
             >
               <option value="All">All Categories</option>
               <option value="Health">Health</option>
