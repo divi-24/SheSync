@@ -1,4 +1,4 @@
-import { Ecom } from '@/components/Ecom'
+import  Ecom  from '@/components/Ecom'
 
 export default function EcomPage() {
   return <Ecom />

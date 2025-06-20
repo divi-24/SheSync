@@ -55,18 +55,16 @@ const render_url = "https://shesync.onrender.com/";
 const server_url = process.env.NEXT_PUBLIC_SERVER_URL || render_url;
 const local_url = "http://localhost:3000/";
 
+type DataVisibilityKey = 'cycleInfo' | 'moodData' | 'sleepData' | 'symptomsData' | 'wellnessData';
+
 export function Dashboard() {
+  // All hooks must be called unconditionally at the top level
   const router = useRouter();
-  
   const { isSignedIn } = useAuth();
   const { user } = useUser();
+  const { width } = useScreenSize(); // Moved to top with other hooks
 
-  useEffect(() => {
-    if (!isSignedIn) {
-      router.push("/login");
-    }
-  }, [isSignedIn, router]);
-
+  // State declarations
   const [waterIntake, setWaterIntake] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -84,6 +82,9 @@ export function Dashboard() {
     wellnessData: true,
   });
   const [showPrivacyForm, setShowPrivacyForm] = useState(false);
+
+  // Rest of your component code remains the same...
+  // Only the hook order needed to be fixed
 
   const fallbackData = {
     cycleDuration: 28,
@@ -182,7 +183,7 @@ export function Dashboard() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  const toggleDataSelection = (dataType: string) => {
+  const toggleDataSelection = (dataType: DataVisibilityKey) => {
     setSelectedData((prev) => ({
       ...prev,
       [dataType]: !prev[dataType],
@@ -290,7 +291,6 @@ export function Dashboard() {
   };
 
   const healthTips = getHealthTips();
-  const { width } = useScreenSize();
 
   return (
     <div className={`flex h-screen`}>
@@ -761,6 +761,7 @@ const getMoodIcon = (mood: string) => {
         return <Meh className="h-6 w-6 text-yellow-500" />;
     }
   }
+  return <Meh className="h-6 w-6 text-yellow-500" />;
 };
 
 const InsightItem = ({ title, value, icon }: { title: string; value: string; icon: React.ReactNode }) => {

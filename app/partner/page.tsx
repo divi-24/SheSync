@@ -1,4 +1,4 @@
-import { Diagnosis } from '@/components/PartnerDashboard'
+import  Diagnosis  from '@/components/PartnerDashboard'
 import ProtectedRoute from '@/components/common/ProtectedRoute'
 
 export default function PartnerPage() {

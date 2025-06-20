@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   LayoutDashboard,
   HeartPulse,
@@ -65,7 +68,7 @@ import CommunityChat from "./CommunityChat";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
-// Define types
+// Type Definitions
 type Post = {
   id: number;
   title: string;
@@ -110,7 +113,14 @@ type TrendingTopic = {
 
 type PostReactions = Record<number, Record<string, number>>;
 
-// Add post tags for categorization
+interface CreatePostProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (postData: Omit<Post, "id" | "likes" | "comments" | "views">) => Promise<void>;
+  forumCategories: ForumCategory[];
+}
+
+// Constants
 const postTags = [
   "PCOS",
   "Menstruation",
@@ -126,7 +136,6 @@ const postTags = [
   "Research",
 ];
 
-// Add reaction types with emojis and labels
 const reactionTypes: ReactionType[] = [
   { emoji: "👍", label: "Helpful", count: 0 },
   { emoji: "❤️", label: "Support", count: 0 },
@@ -135,37 +144,29 @@ const reactionTypes: ReactionType[] = [
   { emoji: "🙏", label: "Thanks", count: 0 },
 ];
 
-// CreatePost component props
-interface CreatePostProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (postData: any) => Promise<void>;
-  forumCategories: ForumCategory[];
-}
-
-// Update CreatePost component to use TypeScript
+// CreatePost Component
 const CreatePost: React.FC<CreatePostProps> = ({
   isOpen,
   onClose,
   onSubmit,
   forumCategories,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Omit<Post, "id" | "likes" | "comments" | "views">>({
     title: "",
     content: "",
+    author: "You",
     category: "",
-    tags: [] as string[],
-    visibility: "public" as "public" | "private" | "anonymous",
-    image: null as string | null,
+    tags: [],
+    visibility: "public",
+    image: null,
+    timestamp: new Date().toISOString(),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -177,9 +178,9 @@ const CreatePost: React.FC<CreatePostProps> = ({
   const handleTagToggle = (tag: string) => {
     setFormData((prev) => ({
       ...prev,
-      tags: prev.tags.includes(tag)
+      tags: prev.tags?.includes(tag)
         ? prev.tags.filter((t) => t !== tag)
-        : [...prev.tags, tag],
+        : [...(prev.tags || []), tag],
     }));
   };
 
@@ -204,15 +205,15 @@ const CreatePost: React.FC<CreatePostProps> = ({
     setIsSubmitting(true);
 
     try {
-      if (
-        !formData.title.trim() ||
-        !formData.content.trim() ||
-        !formData.category
-      ) {
+      if (!formData.title.trim() || !formData.content.trim() || !formData.category) {
         throw new Error("Please fill in all required fields");
       }
 
-      await onSubmit(formData);
+      await onSubmit({
+        ...formData,
+        tags: formData.tags || [],
+        visibility: formData.visibility || "public",
+      });
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -307,7 +308,7 @@ const CreatePost: React.FC<CreatePostProps> = ({
                 onClick={() => handleTagToggle(tag)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200
                   ${
-                    formData.tags.includes(tag)
+                    formData.tags?.includes(tag)
                       ? "bg-pink-100 text-pink-600 hover:bg-pink-200"
                       : "bg-gray-50 text-gray-600 hover:bg-gray-100"
                   }`}
@@ -359,10 +360,11 @@ const CreatePost: React.FC<CreatePostProps> = ({
 
           {imagePreview && (
             <div className="relative w-full h-48">
-              <img
+              <Image
                 src={imagePreview}
                 alt="Preview"
-                className="w-full h-full object-cover rounded-xl"
+                fill
+                className="object-cover rounded-xl"
               />
               <button
                 type="button"
@@ -443,9 +445,7 @@ const Forum: React.FC = () => {
   ]);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [sortBy, setSortBy] = useState<"newest" | "likes" | "comments">(
-    "newest"
-  );
+  const [sortBy, setSortBy] = useState<"newest" | "likes" | "comments">("newest");
   const [filterBy, setFilterBy] = useState<"all" | "large" | "active">("all");
   const [solvedPosts, setSolvedPosts] = useState<number[]>([1]);
   const [bookmarks, setBookmarks] = useState<number[]>([]);
@@ -459,14 +459,10 @@ const Forum: React.FC = () => {
   const [commentText, setCommentText] = useState("");
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [postVisibility, setPostVisibility] = useState<
-    "public" | "private" | "anonymous"
-  >("public");
+  const [postVisibility, setPostVisibility] = useState<"public" | "private" | "anonymous">("public");
   const [postError, setPostError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedCommunity, setSelectedCommunity] = useState<ForumCategory | null>(
-    null
-  );
+  const [selectedCommunity, setSelectedCommunity] = useState<ForumCategory | null>(null);
   const [showCommunityChat, setShowCommunityChat] = useState(false);
 
   const postsPerPage = 5;
@@ -514,19 +510,19 @@ const Forum: React.FC = () => {
     );
   };
 
-  const handleCreatePost = async (postData: any) => {
+  const handleCreatePost = async (postData: Omit<Post, "id" | "likes" | "comments" | "views">) => {
     const newPostData: Post = {
       id: recentPosts.length + 1,
       title: postData.title,
       content: postData.content,
-      author: "You",
+      author: postData.author || "You",
       likes: 0,
       comments: 0,
       category: postData.category,
-      timestamp: new Date().toISOString(),
-      tags: postData.tags,
-      image: postData.image,
-      visibility: postData.visibility,
+      timestamp: postData.timestamp || new Date().toISOString(),
+      tags: postData.tags || [],
+      image: postData.image || null,
+      visibility: postData.visibility || "public",
       views: 0,
     };
 
@@ -672,33 +668,6 @@ const Forum: React.FC = () => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const ProfileMenu = () => (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
-    >
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <User className="mr-3 h-5 w-5" /> Profile
-      </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
-      </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <CheckCircle className="mr-3 h-5 w-5" /> My Solutions
-      </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <Mail className="mr-3 h-5 w-5" /> Messages
-      </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <Lock className="mr-3 h-5 w-5" /> Privacy Settings
-      </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
-        <XCircle className="mr-3 h-5 w-5" /> Logout
-      </button>
-    </motion.div>
-  );
-
   const renderPost = (post: Post) => (
     <motion.div
       key={post.id}
@@ -749,9 +718,11 @@ const Forum: React.FC = () => {
       </div>
 
       <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-        <img
+        <Image
           src="/images/women.jpeg"
           alt={post.author}
+          width={32}
+          height={32}
           className="w-8 h-8 rounded-full mr-2"
         />
         <span className="font-medium">{post.author}</span>
@@ -775,15 +746,17 @@ const Forum: React.FC = () => {
 
       {post.image && (
         <div className="mb-4">
-          <img
+          <Image
             src={post.image}
             alt="Post attachment"
+            width={800}
+            height={400}
             className="rounded-lg max-h-96 w-full object-cover"
           />
         </div>
       )}
 
-      {post.tags && (
+      {post.tags && post.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {post.tags.map((tag) => (
             <span
@@ -852,6 +825,33 @@ const Forum: React.FC = () => {
     </motion.div>
   );
 
+  const ProfileMenu = () => (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
+    >
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <User className="mr-3 h-5 w-5" /> Profile
+      </button>
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
+      </button>
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <CheckCircle className="mr-3 h-5 w-5" /> My Solutions
+      </button>
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <Mail className="mr-3 h-5 w-5" /> Messages
+      </button>
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <Lock className="mr-3 h-5 w-5" /> Privacy Settings
+      </button>
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <XCircle className="mr-3 h-5 w-5" /> Logout
+      </button>
+    </motion.div>
+  );
+
   const { width } = useScreenSize();
 
   return (
@@ -878,6 +878,7 @@ const Forum: React.FC = () => {
           />
         </button>
       )}
+
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
           sidebarVisible ? "ml-64" : "ml-0"
@@ -948,9 +949,11 @@ const Forum: React.FC = () => {
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                   className="flex items-center space-x-2 p-0.5 rounded-full bg-white-100 dark:bg-gray-600"
                 >
-                  <img
+                  <Image
                     src="/images/women.jpeg"
                     alt="Profile"
+                    width={40}
+                    height={40}
                     className="h-10 w-10 rounded-full"
                   />
                 </button>
@@ -1101,15 +1104,7 @@ const Forum: React.FC = () => {
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
             >
-              {currentPosts.map((post) => (
-                <motion.div
-                  key={post.id}
-                  variants={cardVariants}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md relative group"
-                >
-                  {renderPost(post)}
-                </motion.div>
-              ))}
+              {currentPosts.map((post) => renderPost(post))}
 
               <div className="flex justify-center space-x-2">
                 {Array.from({
