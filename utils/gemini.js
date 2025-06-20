@@ -1,12 +1,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Initialize the Gemini API with your API key
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "AIzaSyCehvvjeNLcorIVJTX3QsUAVuoC1y2NWyM");
 
 // Test function to verify API connection
 export const testGeminiConnection = async() => {
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
         const chat = model.startChat();
         const result = await chat.sendMessage("Test connection");
         console.log("API Connection successful:", await result.response.text());
