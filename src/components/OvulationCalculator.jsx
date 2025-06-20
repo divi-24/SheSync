@@ -80,7 +80,7 @@ const OvulationCalculator = () => {
 
   return (
     <div className={`flex min-h-screen ${darkMode ? "dark" : ""}`}>
-      <div className="fixed top-0 left-0 h-screen">
+      <div className="fixed top-0 left-0 z-50">
         <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
@@ -106,7 +106,6 @@ const OvulationCalculator = () => {
           />
         </button>
       )}
-      
 
       {/* Main Content */}
       <div
