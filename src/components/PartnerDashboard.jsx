@@ -1194,7 +1194,7 @@ Risk Level: [Low/Moderate/High]
                       ([category, symptomsList]) => (
                         <div
                           key={category}
-                          className={`dark:bg-gray-700 bg-white rounded-lg shadow p-4 border-l-4 ${
+                          className={`dark:bg-gray-900 bg-white rounded-lg shadow p-4 border-l-4 ${
                             category === "Menstrual Symptoms"
                               ? "border-pink-500"
                               : category === "Physical Appearance"
@@ -1221,7 +1221,7 @@ Risk Level: [Low/Moderate/High]
                                   onChange={() => handleSymptomChange(symptom)}
                                   className="form-checkbox text-pink-500"
                                 />
-                                <span className="ml-2 text-white">
+                                <span className="ml-2 text-black dark:text-white">
                                   {symptom}
                                 </span>
                               </label>
@@ -1266,7 +1266,7 @@ Risk Level: [Low/Moderate/High]
                       name="symptomDate"
                       value={symptomDate}
                       onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                      className="text-black w-full pl-10 pr-3 py-2 border bg-white border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-900 dark:text-white"
                     />
                     <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                   </div>
@@ -1372,7 +1372,7 @@ Risk Level: [Low/Moderate/High]
             <div className="flex justify-between items-center">
               <button
                 onClick={() => setShowTooltips(!showTooltips)}
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400"
+                className="text-sm text-black bg-white border border-black dark:bg-gray-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
               >
                 {showTooltips ? "Hide Tooltips" : "Show Tooltips"}
               </button>
