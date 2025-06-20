@@ -45,7 +45,8 @@ import {
 import axios from "axios";
 import { PrivacyForm } from "./PrivacyForm";
 import { useAuth, useUser } from '@clerk/clerk-react';
-
+import SideBar from "./SideBar";
+import useScreenSize from "../hooks/useScreenSize";
 
 // Try multiple server URLs in case one is down
 const render_url = "https://shesync.onrender.com/";
@@ -53,6 +54,25 @@ const server_url = import.meta.env.VITE_SERVER_URL || render_url;
 const local_url = "http://localhost:3000/";
 
 export function Dashboard() {
+
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  
+    const { width } = useScreenSize();
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setSidebarVisible(false);
+        }
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
 
   const navigate = useNavigate();
   
@@ -73,7 +93,6 @@ export function Dashboard() {
   const [periodData, setPeriodData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [selectedData, setSelectedData] = useState({
     cycleInfo: true,
     moodData: true,
@@ -461,117 +480,29 @@ export function Dashboard() {
           color: rgb(var(--foreground));
         }
       `}</style>
-      <aside
-        className={`w-[240px] bg-pink-100 dark:bg-gray-800 flex flex-col transition-all duration-300 ease-in-out fixed h-full ${
-          sidebarVisible ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 ${window.innerWidth >= 768 ? "md:relative" : ""}`}
-        style={{ zIndex: 40 }}
-      >
-        <div className="px-4 py-4 flex flex-col space-y-2">
-          <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400 mt-4 ml-4">
-            SheSync
-          </h1>
-          <nav className="px-4 py-4 flex flex-col space-y-2">
-            <NavItem
-              icon={<LayoutDashboard size={20} />}
-              label="Dashboard"
-              onClick={() => navigate("/dashboard")}
-              active
-            />
-            <NavItem
-              icon={<Home size={20} />}
-              label="Home"
-              onClick={() => navigate("/")}
-            />
-            <NavItem
-              icon={<GraduationCap size={20} />}
-              label="Education"
-              onClick={() => navigate("/blogs")}
-            />
-            <NavItem
-              icon={<ShoppingBag size={20} />}
-              label="Shop"
-              onClick={() => navigate("/Ecom")}
-            />
-            <NavItem
-              icon={<ActivitySquare size={20} />}
-              label="Track Your Health"
-              onClick={() => navigate("/tracker")}
-            />
-            <NavItem
-              icon={<ClipboardList size={20} />}
-              label="PCOS Diagnosis"
-              onClick={() => navigate("/partner")}
-            />
-            <NavItem
-              icon={<Stethoscope size={20} />}
-              label="ExpertConsultation"
-              onClick={() => navigate("/consultations")}
-            />
-            <NavItem
-              icon={<Bot size={20} />}
-              label="Eve"
-              onClick={() => navigate("/ChatBot")}
-            />
-            <NavItem
-              icon={<HeartPulse size={20} />}
-              label="HealthLens"
-              onClick={() => navigate("/symptomsanalyzer")}
-            />
-            <NavItem
-              icon={<AppWindowMac size={20} />}
-              label="Parent'sDashboard"
-              onClick={() => navigate("/parents")}
-            />
-            <NavItem
-              icon={<MessageSquare size={20} />}
-              label="Forums"
-              onClick={() => navigate("/forums")}
-            />
-            <NavItem
-              icon={<HeartHandshake size={20} />}
-              label="ShareJoy"
-              onClick={() =>
-                window.open("https://thepadproject.org/donate/", "_blank")
-              }
-            />
-            <NavItem
-              icon={<Gamepad2 size={20} />}
-              label="Bliss"
-              onClick={() =>
-                window.open("https://she-syncgame.vercel.app/", "_blank")
-              }
-            />
-            <NavItem
-              icon={<Handshake size={20} />}
-              label="NGO's"
-              onClick={() =>
-                window.open(
-                  "https://www.hercircle.in/engage/wellness/reproductive-health/5-organisations-working-towards-eradicating-period-poverty-2239.html",
-                  "_blank"
-                )
-              }
-            />
-          </nav>
-        </div>
-        <div className="pt-6 mt-6 border-t border-[rgba(var(--foreground),0.1)]">
-          <div className="flex items-center">
-            <div className="w-8 h-8 rounded-half bg-[rgba(var(--foreground),0.1)] flex items-center justify-center text-sm font-medium">
-              ☮️
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium">{user?.fullName || 'User'}</p>
-              <p className="text-xs text-[rgba(var(--foreground),0.6)]">
-                Premium Member
-              </p>
-            </div>
-            <ChevronRight
-              size={16}
-              className="ml-auto text-[rgba(var(--foreground),0.4)]"
-            />
-          </div>
-        </div>
-      </aside>
+
+         <SideBar
+                sidebarVisible={sidebarVisible}
+                setSidebarVisible={setSidebarVisible}
+                activeLink={0}
+              />
+              {width > 816 && (
+                <button
+                  onClick={toggleSidebar}
+                  className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+                  style={{
+                    transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+                  }}
+                  aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+                >
+                  <ChevronRight
+                    size={14}
+                    className={`transition-transform duration-300 block m-auto ${
+                      sidebarVisible ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
+              )}
 
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
@@ -964,7 +895,7 @@ export function Dashboard() {
       )}
 
       {showMythModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-gra-900 bg-opacity-50 flex items-center justify-center p-4 animate-fadeIn">
           <div className="bg-[rgb(var(--card))] p-6 rounded-lg max-w-md w-full">
             <h4 className="font-semibold mb-2">Myth: {currentMyth.myth}</h4>
             <p className="mb-4">Fact: {currentMyth.fact}</p>
