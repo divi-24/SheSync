@@ -79,7 +79,6 @@ export function Dashboard() {
   
   const { isLoaded,isSignedIn } = useAuth();
   const { user } = useUser();
-  const {width} = useScreenSize();
 
   useEffect(() => {
     if (!isSignedIn) {
