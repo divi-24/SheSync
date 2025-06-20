@@ -1,4 +1,5 @@
-import { SymptomAnalysis } from '@/components/SymptomAnalysis'
+
+import  SymptomAnalysis  from '@/components/SymptomAnalysis'
 import ProtectedRoute from '@/components/common/ProtectedRoute'
 
 export default function SymptomAnalyzerPage() {
