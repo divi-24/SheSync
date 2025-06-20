@@ -4,7 +4,7 @@ function FAQItem({ question, answer, isOpen, onClick }) {
   return (
     <div
       onClick={onClick}
-      className="cursor-pointer border border-gray-300 rounded p-4 transition-all duration-200"
+      className="cursor-pointer border border-gray-300 dark:text-white text-black rounded p-4 transition-all duration-200"
     >
       <div className="flex justify-between items-center">
         <h4 className="text-lg font-medium">{question}</h4>

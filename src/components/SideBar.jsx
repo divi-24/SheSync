@@ -41,7 +41,7 @@ export default function SideBar({
         className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
           active
             ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
+            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 bg-white dark:bg-[#111827] dark:hover:bg-gray-700"
         }`}
       >
         {icon}
@@ -84,7 +84,7 @@ export default function SideBar({
 
       {/* Sidebar */}
       <aside
-          className={`bg-white dark:bg-gray-900 w-64 h-screen overflow-y-auto border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out ${
+          className={`bg-white dark:bg-gray-900 w-64 h-screen  overflow-y-auto border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out ${
             sidebarVisible ? "translate-x-0" : "-translate-x-full"
           } fixed z-50 shadow-xl`}
       >

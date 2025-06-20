@@ -211,13 +211,13 @@ export function SymptomAnalysis() {
             exit={{ opacity: 0, x: -50 }}
             className="space-y-6"
           >
-            <h2 className="text-2xl font-semibold mb-4">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-white">
               Step 1: Select Your Symptoms
             </h2>
 
             {/* Cycle Day Input */}
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-white">
                 Current Day of Menstrual Cycle (optional)
               </label>
               <div className="flex items-center space-x-2">
@@ -229,7 +229,7 @@ export function SymptomAnalysis() {
                   onChange={(e) =>
                     setCycleDay(e.target.value ? Number(e.target.value) : null)
                   }
-                  className="w-20 p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700"
+                  className="w-20 p-2 border border-gray-300  dark:border-gray-600 rounded-md bg-white dark:bg-gray-900"
                   placeholder="Day"
                 />
                 <CalendarClock className="h-5 w-5 text-gray-400" />
@@ -239,21 +239,21 @@ export function SymptomAnalysis() {
             {/* Category Selection */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Category</h3>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-3 ">
                 {Object.keys(symptomCategories).map((category) => (
                   <motion.button
                     key={category}
                     onClick={() => toggleCategory(category)}
                     className={`p-4 rounded-lg text-base transition-colors ${
                       selectedCategories.includes(category)
-                        ? "bg-pink-200 text-pink-700 font-medium shadow-sm"
-                        : "bg-pink-50 text-gray-700 hover:bg-pink-100 border border-pink-100"
+                        ? "bg-pink-200 dark:bg-[#111827]  text-pink-700 font-medium shadow-sm border border-pink-100"
+                        : "bg-pink-50 dark:bg-[#1b212e] text-gray-700 hover:bg-pink-100 border border-pink-100"
                     }`}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
 
-                    <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700"}>
+                    <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700  dark:text-white"}>
                       {category}
                     </span>
                   </motion.button>
@@ -276,8 +276,8 @@ export function SymptomAnalysis() {
                     }}
                     className={`p-3 rounded-md text-sm transition-colors relative group ${
                       selectedSymptoms.includes(symptom)
-                        ? "bg-pink-200 text-pink-700 font-medium shadow-sm"
-                        : "bg-pink-50 text-gray-700 hover:bg-pink-100 border border-pink-100"
+                        ? "bg-pink-200 dark:bg-[#111827] text-pink-700 font-medium shadow-sm border-pink-100"
+                        : "bg-pink-50 dark:bg-[#1b212e] text-gray-700 hover:bg-pink-100 border border-pink-100"
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -286,7 +286,7 @@ export function SymptomAnalysis() {
                       className={
                         selectedSymptoms.includes(symptom)
                           ? "text-pink-700"
-                          : "text-gray-700"
+                          : "text-gray-700 dark:text-white"
                       }
                     >
                       {symptom}
@@ -317,7 +317,7 @@ export function SymptomAnalysis() {
                 value={customSymptom}
                 onChange={(e) => setCustomSymptom(e.target.value)}
                 placeholder="Add custom symptom"
-                className="flex-grow p-2 border border-pink-100 rounded-md bg-pink-50 placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-transparent"
+                className="flex-grow p-2 border border-pink-100 dark:bg-[#111827] rounded-md bg-pink-50 placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-transparent"
               />
               <motion.button
                 onClick={handleAddCustomSymptom}
@@ -374,8 +374,8 @@ export function SymptomAnalysis() {
                   onClick={() => setIntensity(level)}
                   className={`w-full p-4 rounded-lg text-base transition-colors ${
                     intensity === level
-                      ? "bg-pink-200 text-pink-700 font-medium shadow-sm"
-                      : "bg-pink-50 text-gray-700 hover:bg-pink-100 border border-pink-100"
+                      ? "bg-pink-200 dark:bg-[#111827] text-pink-700 font-medium shadow-sm border-pink-100"
+                      : "bg-pink-50 dark:bg-[#1b212e] text-gray-700 dark:text-white hover:bg-pink-100 border border-pink-100"
                   }`}
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
@@ -387,7 +387,7 @@ export function SymptomAnalysis() {
             <div className="flex justify-between">
               <motion.button
                 onClick={handleBack}
-                className="py-3 px-6 rounded-lg text-pink-700 font-medium border border-pink-200 hover:bg-pink-50 transition-colors"
+                className="py-3 px-6 rounded-lg text-white bg-[#db2777] font-medium border border-pink-200 hover:bg-pink-900 transition-colors"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
@@ -434,15 +434,15 @@ export function SymptomAnalysis() {
                   onClick={() => setDuration(period)}
                   className={`w-full p-4 rounded-lg text-base transition-colors ${
                     duration === period
-                      ? "bg-pink-200 text-pink-700 font-medium shadow-sm"
-                      : "bg-pink-50 text-gray-700 hover:bg-pink-100 border border-pink-100"
+                      ? "bg-pink-200 dark:bg-[#111827] text-pink-700 font-medium shadow-sm border-pink-100"
+                      : "bg-pink-50 dark:bg-[#1b212e] text-gray-700 dark:text-white hover:bg-pink-100 border border-pink-100"
                   }`}
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
                   <span
                     className={
-                      duration === period ? "text-pink-700" : "text-gray-700"
+                      duration === period ? "text-pink-700" : "text-gray-700 dark:text-white"
                     }
                   >
                     {period}
@@ -494,7 +494,7 @@ export function SymptomAnalysis() {
               placeholder="Any other details you'd like to share..."
               className="w-full p-4 border border-pink-100 rounded-lg bg-pink-50 text-gray-700 placeholder-gray-500 mb-6 
                 focus:ring-2 focus:ring-pink-200 focus:border-transparent transition-colors
-                hover:border-pink-200"
+                hover:border-pink-200 dark:bg-[#111827] dark:text-white"
               rows={4}
             />
             <div className="flex justify-between">
@@ -530,20 +530,20 @@ export function SymptomAnalysis() {
             <h2 className="text-2xl font-semibold mb-4 text-pink-700">
               Step 5: Review and Submit
             </h2>
-            <div className="bg-pink-50/80 p-6 rounded-lg border border-pink-100">
+            <div className="bg-pink-50/80 p-6 rounded-lg border border-pink-100 dark:bg-[#111827] dark:text-white">
               <h3 className="font-semibold mb-2 text-pink-700">
                 Selected Symptoms:
               </h3>
               <ul className="list-disc pl-5 mb-4 text-gray-700">
                 {selectedSymptoms.map((symptom, index) => (
-                  <li key={index}>{symptom}</li>
+                  <li key={index} className="dark:text-white">{symptom}</li>
                 ))}
               </ul>
-              <p className="text-gray-700">
+              <p className="text-gray-700 dark:text-white">
                 <strong className="text-pink-700">Intensity:</strong>{" "}
                 {intensity}
               </p>
-              <p className="text-gray-700">
+              <p className="text-gray-700 dark:text-white">
                 <strong className="text-pink-700">Duration:</strong> {duration}
               </p>
               {additionalInfo && (
@@ -551,7 +551,7 @@ export function SymptomAnalysis() {
                   <h3 className="font-semibold mt-4 mb-2 text-pink-700">
                     Additional Information:
                   </h3>
-                  <p className="text-gray-700">{additionalInfo}</p>
+                  <p className="text-gray-700 dark:text-white">{additionalInfo}</p>
                 </>
               )}
             </div>
