@@ -612,22 +612,22 @@ export function Forum() {
       animate={{ opacity: 1, y: 0 }}
       className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
     >
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <User className="mr-3 h-5 w-5" /> Profile
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
       </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <CheckCircle className="mr-3 h-5 w-5" /> My Solutions
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <Mail className="mr-3 h-5 w-5" /> Messages
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <Lock className="mr-3 h-5 w-5" /> Privacy Settings
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700">
+      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
         <XCircle className="mr-3 h-5 w-5" /> Logout
       </button>
     </motion.div>
@@ -642,7 +642,7 @@ export function Forum() {
       <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={() => toggleSolved(post.id)}
-          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
         >
           {solvedPosts.includes(post.id) ? (
             <CheckCircle className="h-5 w-5 text-green-500" />
@@ -652,7 +652,7 @@ export function Forum() {
         </button>
         <button
           onClick={() => handleBookmark(post.id)}
-          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
         >
           <Bookmark
             className={`h-5 w-5 ${
@@ -666,13 +666,13 @@ export function Forum() {
           <>
             <button
               onClick={() => setEditingPost(post)}
-              className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
             >
               <Edit className="h-5 w-5 text-gray-400" />
             </button>
             <button
               onClick={() => handleDeletePost(post.id)}
-              className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
             >
               <Trash2 className="h-5 w-5 text-red-400" />
             </button>
@@ -720,7 +720,7 @@ export function Forum() {
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-xs"
+              className="px-2 py-1 bg-gray-100 dark:bg-gray-900 rounded-full text-xs"
             >
               #{tag}
             </span>
@@ -756,10 +756,10 @@ export function Forum() {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full">
             <Share2 className="h-4 w-4" />
           </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full">
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full">
             <Flag className="h-4 w-4" />
           </button>
           <span className="flex items-center text-sm text-gray-500">
@@ -774,7 +774,7 @@ export function Forum() {
           <button
             key={reaction.emoji}
             onClick={() => handleReaction(post.id, reaction.emoji)}
-            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full"
             title={reaction.label}
           >
             <span className="text-lg">{reaction.emoji}</span>
@@ -975,7 +975,7 @@ export function Forum() {
                 <input
                   type="text"
                   placeholder="Search Forums"
-                  className="pl-10 pr-4 py-2 w-80 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-600 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                  className="pl-10 pr-4 py-2 w-80 border bg-white text-black border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-600 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   value={searchTerm}
                   onChange={handleSearch}
                 />
@@ -994,7 +994,7 @@ export function Forum() {
                 <motion.div
                   key={forum.id}
                   variants={cardVariants}
-                  className={`${forum.color} dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-all`}
+                  className={`${forum.color} dark:bg-gray-800 text-black p-6 rounded-xl shadow-md hover:shadow-lg transition-all`}
                 >
                   <div className="flex items-center mb-4">
                     <div className="p-2 bg-white rounded-lg">{forum.icon}</div>
@@ -1037,7 +1037,7 @@ export function Forum() {
                 <motion.div
                   key={post.id}
                   variants={cardVariants}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md relative group"
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md text-black relative group"
                 >
                   {renderPost(post)}
                 </motion.div>
@@ -1053,7 +1053,7 @@ export function Forum() {
                     className={`px-3 py-1 rounded-md ${
                       currentPage === index + 1
                         ? "bg-pink-600 text-white"
-                        : "bg-gray-200 dark:bg-gray-700"
+                        : "bg-gray-200 dark:bg-gray-900"
                     }`}
                   >
                     {index + 1}
@@ -1075,7 +1075,7 @@ export function Forum() {
               {trendingTopics.map((topic, index) => (
                 <li
                   key={index}
-                  className="flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded-md cursor-pointer transition-colors"
+                  className="flex items-center text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-900 p-2 rounded-md cursor-pointer transition-colors"
                 >
                   {topic.icon}
                   <span className="ml-2">{topic.title}</span>
@@ -1121,7 +1121,7 @@ const SidebarLink = ({ icon, label, onClick, active = false }) => {
       className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
         active
           ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-          : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
+          : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-900"
       }`}
     >
       {icon}

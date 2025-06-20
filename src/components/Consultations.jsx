@@ -512,7 +512,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "rating"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <Star className="h-4 w-4 mr-1" />
@@ -523,7 +523,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "price"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <IndianRupee className="h-4 w-4 mr-1" />
@@ -534,7 +534,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "distance"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <MapPin className="h-4 w-4 mr-1" />
@@ -887,7 +887,7 @@ export function Consultations() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                      className="w-full pl-3 pr-24 py-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-700"
+                      className="w-full pl-3 pr-24 py-2 text-gray-900 bg-white dark:text-white border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 dark:bg-gray-900"
                     />
                     <div className="absolute right-0 flex space-x-1">
                       <button
@@ -970,19 +970,19 @@ export function Consultations() {
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
+              className="flex items-center space-x-2 text-white bg-[#e73e8f] dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
             >
               <Filter className="h-5 w-5" />
-              <span>{showFilters ? "Hide Filters" : "Show Filters"}</span>
+              <span className="text-white ">{showFilters ? "Hide Filters" : "Show Filters"}</span>
             </button>
             <button
               onClick={() =>
                 setSortBy(sortBy === "rating" ? "distance" : "rating")
               }
-              className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
+              className="flex items-center space-x-2 bg-[#e73e8f] text-white text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
             >
               <ArrowUpDown className="h-5 w-5" />
-              <span>Sort</span>
+              <span className="text-white">Sort</span>
             </button>
           </div>
 

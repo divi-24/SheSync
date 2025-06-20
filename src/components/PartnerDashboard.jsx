@@ -1,4 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
+
+
 import { format, addDays } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
@@ -647,7 +649,7 @@ const AnalysisSummaryChart = ({ pcosReport }) => {
                 <div className="p-3 border-b border-gray-100 dark:border-gray-600">
                   <div className="flex items-start justify-between gap-3">
                     <h5 className="font-medium text-gray-900 dark:text-gray-100 text-sm">
-                      {finding.symptom}
+                   
                     </h5>
                     <span
                       className="px-2.5 py-0.5 rounded-full text-xs font-medium flex-shrink-0 whitespace-nowrap"
@@ -698,6 +700,8 @@ export function Diagnosis() {
   const [moodTypes, setMoodTypes] = useState([]);
   const [moodSeverity, setMoodSeverity] = useState("");
   const [moodDate, setMoodDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const [symptomDates, setSymptomDates] = useState({});
+
   const [symptoms, setSymptoms] = useState([]);
   const [symptomSeverities, setSymptomSeverities] = useState({});
   const [symptomDate, setSymptomDate] = useState(
@@ -836,6 +840,14 @@ export function Diagnosis() {
       [symptom]: severity,
     }));
   };
+
+  const handleSymptomDateChange = (symptom, date) => {
+  setSymptomDates((prevDates) => ({
+    ...prevDates,
+    [symptom]: date,
+  }));
+};
+
 
   const predictNextPeriod = () => {
     if (lastPeriodStart && cycleDuration) {
@@ -1182,7 +1194,7 @@ Risk Level: [Low/Moderate/High]
                       ([category, symptomsList]) => (
                         <div
                           key={category}
-                          className={`dark:bg-gray-700 bg-white rounded-lg shadow p-4 border-l-4 ${
+                          className={`dark:bg-gray-900 bg-white rounded-lg shadow p-4 border-l-4 ${
                             category === "Menstrual Symptoms"
                               ? "border-pink-500"
                               : category === "Physical Appearance"
@@ -1209,19 +1221,20 @@ Risk Level: [Low/Moderate/High]
                                   onChange={() => handleSymptomChange(symptom)}
                                   className="form-checkbox text-pink-500"
                                 />
-                                <span className="ml-2 text-white">
+                                <span className="ml-2 text-black dark:text-white">
                                   {symptom}
                                 </span>
                               </label>
                             ))}
                           </div>
                         </div>
+                        
                       )
                     )}
                   </div>
                 </div>
 
-                {symptoms.map((symptom) => (
+              {/*{symptoms.map((symptom) => (
                   <div key={symptom} className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       {symptom} Severity
@@ -1253,14 +1266,57 @@ Risk Level: [Low/Moderate/High]
                       name="symptomDate"
                       value={symptomDate}
                       onChange={handleInputChange}
-                      className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+                      className="text-black w-full pl-10 pr-3 py-2 border bg-white border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-900 dark:text-white"
                     />
                     <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                   </div>
                 </div>
-              </div>,
-              "symptomTracking"
-            )}
+              </div>,*/}
+              {symptoms.map((symptom) => (
+  <div key={symptom} className="space-y-4">
+    {/* Symptom severity */}
+    <div>
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        {symptom} Severity
+      </label>
+      <select
+        value={symptomSeverities[symptom] || ""}
+        onChange={(e) =>
+          handleSymptomSeverityChange(symptom, e.target.value)
+        }
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 text-white"
+      >
+        <option value="">Select Severity</option>
+        {symptomSeverityOptions.map((severity) => (
+          <option key={severity} value={severity}>
+            {severity}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Symptom date */}
+    <div>
+      <label className="block text-sm font-medium text-white-700 dark:text-gray-300">
+        Date of {symptom}
+      </label>
+      <div className="relative">
+        <input
+          type="date"
+          value={symptomDates[symptom] || ""}
+          onChange={(e) =>
+            handleSymptomDateChange(symptom, e.target.value)
+          }
+          className="text-white w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink-300 dark:bg-gray-700 dark:text-white"
+        />
+        <Calendar className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+      </div>
+    </div>
+  </div>
+))}   
+  </div>,
+  "symptomTracking" // ✅ this was missing!
+)}
 
             {isLoading ? (
               <div className="text-center py-4">
@@ -1316,7 +1372,7 @@ Risk Level: [Low/Moderate/High]
             <div className="flex justify-between items-center">
               <button
                 onClick={() => setShowTooltips(!showTooltips)}
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400"
+                className="text-sm text-black bg-white border border-black dark:bg-gray-900 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
               >
                 {showTooltips ? "Hide Tooltips" : "Show Tooltips"}
               </button>
