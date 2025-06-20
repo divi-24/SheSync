@@ -719,6 +719,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Footer */}
+
           <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 focus:outline-none focus:ring">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
@@ -753,107 +754,99 @@ export function Landing() {
                 </ul>
               </div>
 
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Resources
-                </h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Help Center
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Community
-                    </a>
-                  </li>
-                </ul>
-              </div>
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Resources</h4>
+    <ul className="space-y-2">
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Blog
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Help Center
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Community
+        </a>
+      </li>
+    </ul>
+  </div>
 
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Legal
-                </h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
-                    >
-                      Cookie Policy
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Connect
-                </h4>
-                <div className="flex space-x-4">
-                  <a
-                    href="https://x.com"
-                    className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
-                    aria-label="Twitter"
-                  >
-                    <FaSquareXTwitter size={24} />
-                  </a>
-                  <a
-                    href="https://facebook.com"
-                    className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
-                    aria-label="Facebook"
-                  >
-                    <FaFacebookSquare size={24} />
-                  </a>
-                  <a
-                    href="https://instagram.com"
-                    className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
-                    aria-label="Instagram"
-                  >
-                    <FaSquareInstagram size={24} />
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
-              <p className="text-gray-700 dark:text-gray-100">
-                TEAM: WEB PIONEERS
-              </p>
-              <p className="text-gray-700 dark:text-gray-100">
-                &copy; 2025 SheSync. All rights reserved.
-              </p>
-            </div>
-          </footer>
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Legal</h4>
+    <ul className="space-y-2">
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Privacy Policy
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Terms of Service
+        </a>
+      </li>
+      <li>
+        <a
+          href="#"
+          className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+        >
+          Cookie Policy
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect</h4>
+    <div className="flex space-x-4">
+      <a
+        href="https://x.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Twitter"
+      >
+        <FaSquareXTwitter size={24} />
+      </a>
+      <a
+        href="https://facebook.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Facebook"
+      >
+        <FaFacebookSquare size={24} />
+      </a>
+      <a
+        href="https://instagram.com"
+        className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+        aria-label="Instagram"
+      >
+        <FaSquareInstagram size={24} />
+      </a>
+    </div>
+  </div>
+</div>
+
+<div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+  <p className="text-gray-700 dark:text-gray-100">TEAM: WEB PIONEERS</p>
+  <p className="text-gray-700 dark:text-gray-100">&copy; 2025 SheSync. All rights reserved.</p>
+</div>
+
         </div>
       </main>
     </div>
