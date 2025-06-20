@@ -96,7 +96,7 @@ const CommunityAvatar = () => (
 const formatMessage = (text: string) => {
   // Format numbered lists with improved spacing and bullets
   const formattedText = text.replace(
-    /(\d+\.\s.*?)(?=\d+\.|$)/g, // Removed the 's' flag
+    /(\d+\.\s.*?)(?=\d+\.|$)/g,
     '<div class="mb-3 flex items-start"><span class="mr-2 text-pink-300">•</span><div>$1</div></div>'
   );
 
@@ -125,6 +125,12 @@ interface Community {
   name: string;
 }
 
+interface Participant {
+  id: number;
+  name: string;
+  isBot?: boolean;
+}
+
 interface CommunityChatProps {
   isOpen: boolean;
   onClose: () => void;
@@ -139,7 +145,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ isOpen, onClose, communit
   const [error, setError] = useState('');
   const [showPrompts, setShowPrompts] = useState(true);
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const [participants, setParticipants] = useState([
+  const [participants, setParticipants] = useState<Participant[]>([
     { id: 1, name: 'AI Assistant', isBot: true },
     { id: 2, name: currentUser || 'You' }
   ]);
@@ -382,7 +388,7 @@ const CommunityChat: React.FC<CommunityChatProps> = ({ isOpen, onClose, communit
             >
               <h4 className="text-sm font-medium text-gray-600 mb-3">Suggested Topics:</h4>
               <div className="flex flex-wrap gap-2">
-                {getCommunityPrompts(community.name).map((prompt, index) => (
+                {getCommunityPrompts(community.name).map((prompt: string, index: number) => (
                   <button
                     key={index}
                     onClick={() => handlePromptClick(prompt)}

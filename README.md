@@ -124,6 +124,7 @@ components/                      # Reusable UI components
 ├── Landing.tsx                 # Landing page component
 ├── Dashboard.tsx               # Dashboard component
 ├── SideBar.tsx                 # Navigation sidebar
+|__ Consultations.tsx           
 └── [other components...]       # Feature components
 
 context/                        # React context providers
