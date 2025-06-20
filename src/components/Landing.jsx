@@ -720,6 +720,7 @@ export function Landing() {
           </Card>
           {/* Footer */}
           <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-400">
+            <div className="px-4 sm:px-6 md:px-8 lg:px-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
@@ -852,6 +853,7 @@ export function Landing() {
               <p className="text-gray-700 dark:text-gray-100">
                 &copy; 2025 SheSync. All rights reserved.
               </p>
+            </div>
             </div>
           </footer>
         </div>
