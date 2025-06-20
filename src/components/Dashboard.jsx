@@ -48,6 +48,7 @@ import { useAuth, useUser } from '@clerk/clerk-react';
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 
+ 
 // Try multiple server URLs in case one is down
 const render_url = "https://shesync.onrender.com/";
 const server_url = import.meta.env.VITE_SERVER_URL || render_url;
@@ -76,14 +77,14 @@ export function Dashboard() {
 
   const navigate = useNavigate();
   
-  const { isSignedIn } = useAuth();
+  const { isLoaded,isSignedIn } = useAuth();
   const { user } = useUser();
 
   useEffect(() => {
     if (!isSignedIn) {
       navigate("/login");
     }
-  }, [isSignedIn, navigate]);
+  }, [isLoaded,isSignedIn, navigate]);
 
   const [waterIntake, setWaterIntake] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
@@ -94,12 +95,14 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedData, setSelectedData] = useState({
+    
     cycleInfo: true,
     moodData: true,
     sleepData: true,
     symptomsData: true,
     wellnessData: true,
   });
+  const [darkMode, setDarkMode] = useState(false)
   const [showPrivacyForm, setShowPrivacyForm] = useState(false);
 
   const fallbackData = {
@@ -126,8 +129,12 @@ export function Dashboard() {
     currentPhase: "Luteal",
   };
 
+  
+
 
   const fetchPeriodData = async () => {
+    let renderError = null;
+    let localError = null;
     if (!isSignedIn || !user) {
       setError("You must be signed in to view this page.");
       setLoading(false);
@@ -208,7 +215,8 @@ export function Dashboard() {
         setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
         setError(null);
         return;
-        } catch (renderError) {
+        } catch (error) {
+          renderError=error
           console.error("Error fetching from render:", renderError);
           console.log("Render error details:", renderError.message, renderError.code);
         }
@@ -221,7 +229,8 @@ export function Dashboard() {
         setPeriodData(data.periodTrackingData);
         setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
         setError("Using local data due to server unavailability.");
-      } catch (localError) {
+      } catch (error) {
+        localError=error;
         console.error("Error fetching from local:", localError);
         console.log("Local error details:", localError.message, localError.code);
         console.log("Using fallback data");
@@ -277,7 +286,7 @@ export function Dashboard() {
     if (waterIntake < 8) {
       setWaterIntake((prev) => Math.min(prev + 1, 8));
       try {
-        const token = await user.getToken();
+        const token = await  user.getToken();
         const response = await axios.get(
           `${server_url}api/period/waterupdate/${user.id}`,
           {
@@ -409,105 +418,36 @@ export function Dashboard() {
   };
 
   const healthTips = getHealthTips();
+  
+
 
   return (
-    <div className={`flex h-screen`}>
-      <style jsx global>{`
-        @keyframes pulse {
-          0%,
-          100% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.05);
-          }
-        }
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        @keyframes slideIn {
-          from {
-            transform: translateY(-100%);
-          }
-          to {
-            transform: translateY(0);
-          }
-        }
-        @keyframes slideOut {
-          from {
-            transform: translateY(0);
-          }
-          to {
-            transform: translateY(-100%);
-          }
-        }
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        :root {
-          --background: 255, 255, 255;
-          --foreground: 33, 33, 33;
-          --primary: 255, 105, 180;
-          --primary-foreground: 0, 0, 0;
-          --card: 255, 255, 255;
-          --card-foreground: 0, 0, 0;
-          --muted: 240, 240, 240;
-          --muted-foreground: 75, 75, 75;
-        }
-        .dark {
-          --background: 23, 23, 23;
-          --foreground: 255, 255, 255;
-          --primary: 255, 105, 180;
-          --primary-foreground: 255, 255, 255;
-          --card: 38, 38, 38;
-          --card-foreground: 255, 255, 255;
-          --muted: 50, 50, 50;
-          --muted-foreground: 150, 150, 150;
-        }
-        body {
-          background-color: rgb(var(--background));
-          color: rgb(var(--foreground));
-        }
-      `}</style>
+    <div className={`flex h-screen ${darkMode ? "dark" : ""}  bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 dark:text-white text-black`}>
+      
+     <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={0}/>
+          {width > 816 && (
+            <button
+            onClick={toggleSidebar}
+            className="fixed left-0 top-0 w-10 z-50 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+            style={{
+              transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+            }}
+            aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+          >
+            <ChevronRight
+              size={14}
+              className={`transition-transform duration-300 block m-auto ${
+                sidebarVisible ? "rotate-180" : "rotate-0"
+              }`}
+            />  
+          </button>
+          )}
 
-         <SideBar
-                sidebarVisible={sidebarVisible}
-                setSidebarVisible={setSidebarVisible}
-                activeLink={0}
-              />
-              {width > 816 && (
-                <button
-                  onClick={toggleSidebar}
-                  className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md  transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-                  style={{
-                    transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
-                  }}
-                  aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-                >
-                  <ChevronRight
-                    size={14}
-                    className={`transition-transform duration-300 block m-auto ${
-                      sidebarVisible ? "rotate-180" : "rotate-0"
-                    }`}
-                  />
-                </button>
-              )}
 
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "md:ml-[240px]" : "ml-0"
-        } w-full max-w-full`}
+          sidebarVisible ? "ml-64" : "ml-0"
+        }`}
       >
         <div className="max-w-6xl mx-auto space-y-6">
           {error && (
@@ -634,6 +574,7 @@ export function Dashboard() {
               MythBusters
             </TabButton>
           </div>
+          
 
           {showPrivacyForm && (
             <Card className="mb-6">
@@ -1011,7 +952,7 @@ const TabButton = ({ children, active, onClick }) => {
       onClick={onClick}
       className={`px-4 py-2 rounded-md transition-colors ${
         active
-          ? "bg-[rgb(var(--primary))] text-white"
+          ? "bg-[rgb(var(--primary))]  text-black dark:text-white"
           : "bg-[rgba(var(--foreground),0.1)] text-[rgb(var(--muted-foreground))] hover:bg-[rgba(var(--foreground),0.2)]"
       }`}
     >
