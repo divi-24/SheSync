@@ -38,7 +38,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "utils/gemini.js"  ],
   "exclude": [
     "node_modules"
   ]
