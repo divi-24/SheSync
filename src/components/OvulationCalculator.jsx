@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { addDays, format } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
+import OvulationImg from '../../ovulationsecimg.png';
 import useScreenSize from "../hooks/useScreenSize";
 
 const OvulationCalculator = () => {
@@ -31,6 +32,11 @@ const OvulationCalculator = () => {
   }, [darkMode]);
 
   const calculateOvulation = () => {
+    if (!startDate || isNaN(new Date(startDate))) {
+      alert("Please select a valid start date.");
+      return;
+    }
+
     const start = new Date(startDate);
     const ovulationDate = addDays(start, cycleLength - 14);
     const fertileStart = addDays(ovulationDate, -4);
@@ -74,7 +80,7 @@ const OvulationCalculator = () => {
 
   return (
     <div className={`flex min-h-screen ${darkMode ? "dark" : ""}`}>
-      <div className="fixed top-0 left-0 w-64 h-screen z-50">
+      <div className="fixed top-0 left-0 z-50">
         <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
@@ -104,7 +110,7 @@ const OvulationCalculator = () => {
       {/* Main Content */}
       <div
         className={`flex-1 p-4 sm:p-8 bg-white dark:bg-gray-900 text-black dark:text-gray-100 transition-all duration-300 overflow-y-auto ${
-        width > 816 && sidebarVisible ? "ml-64" : ""
+        width > 816 && sidebarVisible ? "ml-64" : "ml-0"
         }`}
       >
         <div className="text-center mb-10 max-w-4xl mx-auto">
@@ -121,7 +127,7 @@ const OvulationCalculator = () => {
         <div className="bg-pink-50 dark:bg-gray-800 shadow-lg rounded-lg p-6 max-w-xl mx-auto mb-20">
           <div className="flex justify-center mb-10">
             <img
-              src="ovulationsecimg.png"
+              src={OvulationImg}
               alt="Ovulation illustration"
               className="w-80 h-auto"
             />

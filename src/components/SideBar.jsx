@@ -77,7 +77,7 @@ export default function SideBar({
       )}
       {sidebarVisible && width < 816 && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-slate-400 bg-opacity-50 z-40"
           onClick={() => setSidebarVisible(false)}
         />
       )}
@@ -98,7 +98,7 @@ export default function SideBar({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={toggleTheme}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                className="p-2 rounded-full bg-gray-200 dark:bg-white text-black dark:text-black"
               >
                 {theme === "dark" ? (
                   <Sun className="h-5 w-5" />
@@ -112,7 +112,7 @@ export default function SideBar({
               {width < 816 && (
                 <button
                   onClick={() => setSidebarVisible(false)}
-                  className="p-1 rounded-full hover:bg-pink-200 dark:hover:bg-gray-700"
+                  className="p-1 rounded-full hover:bg-pink-200 dark:hover:bg-gray-700 bg-white dark:bg-black"
                 >
                   <X size={20} className="text-black dark:text-white" />
                 </button>
@@ -122,8 +122,8 @@ export default function SideBar({
 
           <SignedOut>
             <div className="flex my-4">
-              <SignInButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
-              <SignUpButton className="text-black dark:text-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+              <SignInButton className="text-black dark:text-white bg-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
+              <SignUpButton className="text-black dark:text-white bg-white dark:bg-pink-900 rounded-2xl py-2 w-[40%] block m-auto text-[0.8em]" mode="modal"/>
             </div>
           </SignedOut>
 
