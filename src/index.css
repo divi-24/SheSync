@@ -26,7 +26,7 @@ body {
   margin: 0;
   display: flex;
   min-width: 320px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   width: 100%;
   overflow-x: hidden;
   max-width: 100vw;

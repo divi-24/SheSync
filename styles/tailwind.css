@@ -1493,9 +1493,9 @@ video {
   height: 1px;
 }
 
-.h-screen {
+/* .h-screen {
   height: 100vh;
-}
+} */
 
 .h-2\.5 {
   height: 0.625rem;
@@ -2135,10 +2135,10 @@ video {
   background-color: rgb(254 243 199 / var(--tw-bg-opacity, 1));
 }
 
-.bg-black {
+/* .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
+} */
 
 .bg-blue-400 {
   --tw-bg-opacity: 1;
