@@ -1,0 +1,26 @@
+{
+  "app\\page.tsx -> @/components/Landing": {
+    "id": 94267,
+    "files": [
+      "static/chunks/8e1d74a4.ac2ec36b6a8380cf.js",
+      "static/chunks/53c13509.af0ceb335e3fe32c.js",
+      "static/chunks/477-f908c894a35210d7.js",
+      "static/chunks/155-e2e61302c21d4f62.js",
+      "static/chunks/457-d961995b443a2c3a.js",
+      "static/chunks/722-2b23af6e8772aa03.js",
+      "static/chunks/846.48f8f9f7ea9503cc.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_app": {
+    "id": 90472,
+    "files": [
+      "static/chunks/472.04a8725c923ee78b.js"
+    ]
+  },
+  "node_modules\\next\\dist\\client\\index.js -> ../pages/_error": {
+    "id": 99341,
+    "files": [
+      "static/chunks/341.3c610d3851438041.js"
+    ]
+  }
+}

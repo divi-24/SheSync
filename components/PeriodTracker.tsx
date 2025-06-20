@@ -65,6 +65,14 @@ const symptomOptions = [
 const symptomSeverityOptions = ["None", "Mild", "Moderate", "Severe"];
 const sleepQualityOptions = ["Poor", "Fair", "Good", "Excellent"];
 
+interface ExpandedSections {
+  cycleInfo: boolean;
+  moodTracking: boolean;
+  symptomTracking: boolean;
+  sleepTracking: boolean;
+  healthTips: boolean;
+}
+
 export function PeriodTracker() {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
@@ -93,7 +101,7 @@ export function PeriodTracker() {
   const [sleepDuration, setSleepDuration] = useState("");
   const [sleepQuality, setSleepQuality] = useState("");
   const [nextPeriodPrediction, setNextPeriodPrediction] = useState("");
-  const [expandedSections, setExpandedSections] = useState({
+  const [expandedSections, setExpandedSections] = useState<ExpandedSections>({
     cycleInfo: true,
     moodTracking: true,
     symptomTracking: true,
@@ -103,13 +111,6 @@ export function PeriodTracker() {
   const [showHealthTips, setShowHealthTips] = useState(false);
   const [waterIntakeCount, setWaterIntakeCount] = useState(0);
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      router.push("/login");
-    }
-  }, [isLoaded, isSignedIn, router]);
-  
   const handleWaterIntakeUpdate = async () => {
     if (!isSignedIn || !user) {
       alert("You must be logged in to update water intake");
@@ -234,14 +235,14 @@ export function PeriodTracker() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  const toggleSection = (section: string) => {
+  const toggleSection = (section: keyof ExpandedSections) => {
     setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
   };
 
-  const renderSection = (title: string, content: React.ReactNode, section: string) => (
+  const renderSection = (title: string, content: React.ReactNode, section: keyof ExpandedSections) => (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
       <div
         className="flex justify-between items-center cursor-pointer"
@@ -250,13 +251,13 @@ export function PeriodTracker() {
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
           {title}
         </h3>
-        {expandedSections[section as keyof typeof expandedSections] ? (
+        {expandedSections[section] ? (
           <ChevronUp className="w-5 h-5 text-gray-500 dark:text-gray-400" />
         ) : (
           <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
         )}
       </div>
-      {expandedSections[section as keyof typeof expandedSections] && <div className="mt-4">{content}</div>}
+      {expandedSections[section] && <div className="mt-4">{content}</div>}
     </div>
   );
 

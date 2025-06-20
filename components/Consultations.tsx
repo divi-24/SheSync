@@ -40,7 +40,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { format, addDays } from "date-fns";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
-
+import { Libraries } from "@react-google-maps/api";
 interface Doctor {
   id: string;
   name: string;
@@ -76,7 +76,7 @@ interface Filters {
   availability: boolean;
 }
 
-const libraries = ["places"] as const;
+const libraries: Libraries = ["places"];
 
 const specializations = [
   "Gynecology",

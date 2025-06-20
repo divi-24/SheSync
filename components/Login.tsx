@@ -1,8 +1,9 @@
 'use client';
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { Home, Moon, Sun } from "react-feather";
+import { useRouter } from "next/navigation"; // Updated import
+import { Home, Moon, Sun } from "lucide-react"; // Replaced react-feather with lucide-react
 import { SignIn } from "@clerk/nextjs";
 
 const Login: React.FC = () => {
@@ -35,13 +36,10 @@ const Login: React.FC = () => {
       <div className="absolute top-4 left-4 flex space-x-4">
         <Link
           href="/"
-          className="text-white-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
-          passHref
+          className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 flex items-center"
         >
-          <a>
-            <Home className="w-6 h-6" />
-            <span className="sr-only">Back to Home</span>
-          </a>
+          <Home className="w-6 h-6" />
+          <span className="sr-only">Back to Home</span>
         </Link>
         <button
           onClick={toggleDarkMode}
@@ -74,25 +72,29 @@ const Login: React.FC = () => {
               headerSubtitle: "text-gray-600 dark:text-gray-400",
               formFieldLabel: "text-gray-700 dark:text-gray-300",
               formFieldInput:
-                "bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
+                "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600",
               footerActionLink:
                 "text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300",
+              socialButtonsBlockButton:
+                "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300",
             },
           }}
         />
       </div>
       <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
         By logging in, you agree to our{" "}
-        <Link href="/terms" passHref>
-          <a className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-            Terms of Service
-          </a>
+        <Link
+          href="/terms"
+          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+        >
+          Terms of Service
         </Link>{" "}
         and{" "}
-        <Link href="/privacy" passHref>
-          <a className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300">
-            Privacy Policy
-          </a>
+        <Link
+          href="/privacy"
+          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+        >
+          Privacy Policy
         </Link>
         .
       </div>
