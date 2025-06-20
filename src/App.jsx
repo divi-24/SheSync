@@ -18,6 +18,7 @@ import { PeriodTracker } from "./components/PeriodTracker";
 import { Ecom } from "./components/Ecom";
 import { Chatbot } from "./components/Chatbot";
 import { Dashboard } from "./components/Dashboard";
+import OvulationCalculator from "./components/OvulationCalculator";
 import { ModernTeamShowcase } from "./components/ModernTeamShowcase";
 import { SymptomAnalysis } from "./components/SymptomAnalysis";
 import { ParentDashboard } from "./components/ParentDashboard";
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/blogs",
     element: <Blogs />,
+  },
+  {
+    path: "/ovulationcalculator",
+    element: <OvulationCalculator />,
   },
   {
     path: "/consultations",

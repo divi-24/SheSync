@@ -56,6 +56,25 @@ const local_url = "http://localhost:3000/";
 
 export function Dashboard() {
 
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+  
+    const { width } = useScreenSize();
+  
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth < 768) {
+          setSidebarVisible(false);
+        }
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
+
   const navigate = useNavigate();
   
   const { isLoaded,isSignedIn } = useAuth();
@@ -76,7 +95,6 @@ export function Dashboard() {
   const [periodData, setPeriodData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [selectedData, setSelectedData] = useState({
     
     cycleInfo: true,
@@ -819,7 +837,7 @@ export function Dashboard() {
       )}
 
       {showMythModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-gra-900 bg-opacity-50 flex items-center justify-center p-4 animate-fadeIn">
           <div className="bg-[rgb(var(--card))] p-6 rounded-lg max-w-md w-full">
             <h4 className="font-semibold mb-2">Myth: {currentMyth.myth}</h4>
             <p className="mb-4">Fact: {currentMyth.fact}</p>

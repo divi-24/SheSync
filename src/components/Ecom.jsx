@@ -333,7 +333,6 @@ const specialOffers = [
 export function Ecom() {
   // const router = useRouter()
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [cartItems, setCartItems] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -347,21 +346,6 @@ export function Ecom() {
     setSidebarVisible(!sidebarVisible);
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const addToCart = (product) => {
     setCartItems((prev) => {
@@ -549,8 +533,8 @@ export function Ecom() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Products"
-                className="text-white w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white
-              hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400 "
+                className="text-black w-full px-4 py-2 bg-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white
+              hover:bg-pink-100 dark:hover:bg-[#111827] hover:border-pink-400 "
               />
 
               <Search
@@ -561,8 +545,8 @@ export function Ecom() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
-            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+              className="hover:bg-pink-100 dark:hover:bg-[#111827] hover:border-pink-400
+            px-4 py-2 text-black rounded-md border bg-white border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-white"
             >
               <option disabled value="">
                 Select Category
@@ -576,8 +560,9 @@ export function Ecom() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="hover:bg-pink-100 dark:hover:bg-gray-600 hover:border-pink-400
-            px-4 py-2 text-white rounded-md border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-gray-700 dark:text-white"
+              className="hover:bg-pink-100 dark:hover:bg-[#111827] hover:border-pink-400
+            px-4 py-2 text-black rounded-md border bg-white border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-whitehover:bg-pink-100 
+             dark:text-white"
             >
               <option disabled value="">
                 Sort By
@@ -597,7 +582,7 @@ export function Ecom() {
               <motion.button
                 whileHover={{ scale: 1.02, x: 5 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 text-pink-500 dark:text-pink-400"
+                className="flex items-center gap-2 text-black bg-white dark:bg-black dark:text-pink-400"
               >
                 View All <ArrowRight className="h-4 w-4" />
               </motion.button>
@@ -658,7 +643,7 @@ export function Ecom() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => toggleFavorite(product.id)}
-                        className={`p-2 rounded-full ${
+                        className={`p-2 rounded-full bg-white dark:bg-[#111827] ${
                           favorites.includes(product.id)
                             ? "text-red-500"
                             : "text-gray-400"

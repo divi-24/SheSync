@@ -12,9 +12,7 @@ import {
   Bot,
   HeartHandshake,
   ChevronRight,
-  Moon,
   Handshake,
-  Sun,
   Check,
   UsersRound
 } from "lucide-react";
@@ -22,6 +20,7 @@ import { FaSquareXTwitter, FaSquareInstagram } from "react-icons/fa6";
 import { FaFacebookSquare } from "react-icons/fa";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import FAQSection from './FAQSection';
 
 export function Landing() {
   const navigate = useNavigate();
@@ -615,7 +614,7 @@ export function Landing() {
             </div>
           </Card>
           {/* FAQ Section */}
-          <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
+          {/* <Card className=" hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Frequently Asked Questions
             </h3>
@@ -645,7 +644,8 @@ export function Landing() {
                 answer="Yes, all our educational content is created or reviewed by qualified healthcare professionals to ensure accuracy and relevance."
               />
             </div>
-          </Card>
+          </Card> */}
+          <FAQSection />
           {/*App Features Showcase */}
           {/* <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
@@ -719,7 +719,7 @@ export function Landing() {
             </div>
           </Card>
           {/* Footer */}
-          <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-400">
+          <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 focus:outline-none focus:ring">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
@@ -729,7 +729,7 @@ export function Landing() {
                   <li>
                     <button
                       onClick={() => navigate("/symptomsanalyzer")}
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+                      className="text-gray-100 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
                     >
                       About Us
                     </button>
@@ -737,7 +737,7 @@ export function Landing() {
                   <li>
                     <button
                       onClick={() => navigate("/parents")}
-                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
+                      className="text-gray-100 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
                     >
                       Careers
                     </button>
@@ -958,7 +958,7 @@ const FAQItem = ({ question, answer }) => {
 
 const SuccessStoryCard = ({ name, story, improvement }) => {
   return (
-    <div className="bg-pink-50 dark:bg-pink-50 p-6 rounded-lg border border-pink-700 dark:border-pink-700 borderw-4">
+    <div className="bg-pink-50 dark:bg-pink-200 p-6 rounded-lg border border-pink-700 dark:border-pink-700 borderw-4">
       <h4 className="text-lg font-semibold mb-2 text-pink-600 dark:text-pink-800">
         {name}
       </h4>
@@ -986,7 +986,7 @@ const ExpertInsightCard = ({ expert, insight }) => {
 
 const CommunityHighlightCard = ({ title, description }) => {
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-pink-50">
+    <div className="border border-gray-200 dark:border-gray-700 dark:bg-[#111827] rounded-lg p-4 bg-pink-50">
       <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">
         {title}
       </h4>
