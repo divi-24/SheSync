@@ -791,7 +791,7 @@ export function Forum() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={10}
+        activeLink={11}
       />
       {width > 816 && (
         <button
