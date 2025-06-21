@@ -25,6 +25,7 @@ import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 import { ThemeProvider } from "./context/ThemeContext";
 import SheSyncLoader from "./components/loader";
+import PeriodProducts from "./components/PeriodProducts";
 
 function ProtectedRouteWrapper({ Component }) {
   const { isLoaded, isSignedIn } = useAuth();
@@ -100,6 +101,10 @@ const router = createBrowserRouter([
   {
     path: "/parents",
     element: <ProtectedRouteWrapper Component={ParentDashboard} />,
+  },
+  {
+    path: "/periodproducts",
+    element: <PeriodProducts/>,
   },
   {
     path: "/partner",
