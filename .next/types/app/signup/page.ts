@@ -1,4 +1,4 @@
-// File: C:\Users\Muneer Ali Subzwari\Desktop\shesync\SheSync\app\signup\page.tsx
+// File: C:\Users\Muneer Ali Subzwari\Desktop\SheSync\SheSync\app\signup\page.tsx
 import * as entry from '../../../../app/signup/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

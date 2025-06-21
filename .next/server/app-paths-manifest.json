@@ -2,16 +2,16 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/blogs/page": "app/blogs/page.js",
   "/chatbot/page": "app/chatbot/page.js",
-  "/consultations/page": "app/consultations/page.js",
   "/ecom/page": "app/ecom/page.js",
-  "/parents/page": "app/parents/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/partner/page": "app/partner/page.js",
-  "/page": "app/page.js",
   "/forums/page": "app/forums/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/login/page": "app/login/page.js",
+  "/parents/page": "app/parents/page.js",
+  "/page": "app/page.js",
   "/signup/page": "app/signup/page.js",
   "/symptomsanalyzer/page": "app/symptomsanalyzer/page.js",
+  "/team/page": "app/team/page.js",
+  "/consultations/page": "app/consultations/page.js",
   "/tracker/page": "app/tracker/page.js",
-  "/team/page": "app/team/page.js"
+  "/partner/page": "app/partner/page.js"
 }

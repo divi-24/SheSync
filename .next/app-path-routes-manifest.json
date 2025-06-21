@@ -2,16 +2,16 @@
   "/_not-found/page": "/_not-found",
   "/blogs/page": "/blogs",
   "/chatbot/page": "/chatbot",
-  "/consultations/page": "/consultations",
   "/ecom/page": "/ecom",
-  "/parents/page": "/parents",
-  "/dashboard/page": "/dashboard",
-  "/partner/page": "/partner",
-  "/page": "/",
   "/forums/page": "/forums",
+  "/dashboard/page": "/dashboard",
   "/login/page": "/login",
+  "/parents/page": "/parents",
+  "/page": "/",
   "/signup/page": "/signup",
   "/symptomsanalyzer/page": "/symptomsanalyzer",
+  "/team/page": "/team",
+  "/consultations/page": "/consultations",
   "/tracker/page": "/tracker",
-  "/team/page": "/team"
+  "/partner/page": "/partner"
 }

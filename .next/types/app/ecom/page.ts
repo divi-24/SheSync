@@ -1,4 +1,4 @@
-// File: C:\Users\Muneer Ali Subzwari\Desktop\shesync\SheSync\app\ecom\page.tsx
+// File: C:\Users\Muneer Ali Subzwari\Desktop\SheSync\SheSync\app\ecom\page.tsx
 import * as entry from '../../../../app/ecom/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

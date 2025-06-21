@@ -24,4 +24,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.next
+
 

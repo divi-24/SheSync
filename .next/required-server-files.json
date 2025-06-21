@@ -2,8 +2,8 @@
   "version": 1,
   "config": {
     "env": {
-      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZXhhY3QtY2hhbW9pcy02NC5jbGVyay5hY2NvdW50cy5kZXYk",
-      "CLERK_SECRET_KEY": "sk_test_4jDSD6XhrQ2IyG1uq3XYqe11NI87BbYfJmjActwTV6"
+      "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_ZXRoaWNhbC1nZWxkaW5nLTI5LmNsZXJrLmFjY291bnRzLmRldiQ",
+      "CLERK_SECRET_KEY": "sk_test_tb1MAya36J3mbAxugoKaFLUkAJQezIXTkBR3oRe6dT"
     },
     "webpack": null,
     "eslint": {
@@ -102,7 +102,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\shesync\\SheSync",
+    "outputFileTracingRoot": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\SheSync\\SheSync",
     "experimental": {
       "nodeMiddleware": false,
       "cacheLife": {
@@ -285,10 +285,10 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.js",
     "turbopack": {
-      "root": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\shesync\\SheSync"
+      "root": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\SheSync\\SheSync"
     }
   },
-  "appDir": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\shesync\\SheSync",
+  "appDir": "C:\\Users\\Muneer Ali Subzwari\\Desktop\\SheSync\\SheSync",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",
