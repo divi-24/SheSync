@@ -400,127 +400,177 @@ Eve:`;
   }, [sidebarVisible]);
 
   return (
-    <div className={`main-container dark:bg-[#111827]`}>
-      <div
-        className="sidebar-container"
-        style={{
-          transform: width <= 816 && !sidebarVisible ? "translateX(-100%)" : "translateX(0)",
-        }}
-      >
-        <SideBar
-          sidebarVisible={sidebarVisible}
-          setSidebarVisible={setSidebarVisible}
-          activeLink={7}
-        />
+    <div className="main-container min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-pink-900/20 relative overflow-hidden">
+      
+     
+      
+      {/* Animated background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-pink-400/30 to-purple-400/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-400/10 to-purple-400/10 rounded-full blur-3xl animate-spin" style={{animationDuration: '20s'}}></div>
       </div>
-      {width > 816 && (
-        <button
-          onClick={toggleSidebar}
-          className="sidebar-toggle"
-          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
-        >
-          <ChevronRight
-            size={16}
-            className={`transition-transform duration-300 ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
-      )}
+
+      {/* Sidebar */}
       <div
-        className="chat-content"
-        style={{
-          marginLeft: width > 816 && sidebarVisible ? "280px" : "0",
-        }}
+        className={`sidebar-container fixed left-0 top-0 h-full w-80 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-r border-pink-200/50 dark:border-gray-700/50 shadow-2xl z-40 transition-all duration-500 ease-in-out ${
+          width <= 816 && !sidebarVisible ? '-translate-x-full' : 'translate-x-0'
+        }`}
       >
-        <div className="chat-header">
-          <div className="flex items-center">
-            {width <= 816 && (
-              <button onClick={toggleSidebar} className="mobile-menu-button mr-4 p-2">
-                <LayoutDashboard size={20} />
-              </button>
-            )}
-            <h2 className="text-2xl font-bold">SheSync Chatbot</h2>
-          </div>
-          <div className="flex space-x-2">
-            <button onClick={clearChat} className="p-2" aria-label="Clear chat">
-              <Trash2 size={20} />
-            </button>
-            <button
-              onClick={() =>
-                alert("This chatbot provides support and information for young women aged 13-20.")
-              }
-              className="p-2"
-              aria-label="Help"
-            >
-              <HelpCircle size={20} />
-            </button>
+        
+        <div className="p-4 space-y-2">
+           <SideBar
+              sidebarVisible={sidebarVisible}
+              setSidebarVisible={setSidebarVisible}
+              activeLink={8}
+            />
+            
+      
+          <div className="space-y-2">
+            <div className="p-3 rounded-xl bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 border border-pink-200/50 dark:border-pink-700/30">
+              <p className="text-sm font-medium text-gray-800 dark:text-gray-200">Active Chat</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">SheSync Support</p>
+            </div>
           </div>
         </div>
-        <div className="messages-container">
-          {!selectedTab && (
-            <div className="empty-state w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center flex-col justify-center min-h-screen py-12">
-              <div className="empty-state-icon mb-8 relative">
-                <div className="absolute inset-0 bg-pink-400/30 rounded-full blur-xl animate-pulse"></div>
-                <Bot
-                  size={90}
-                  className="relative text-pink-400 hover:text-pink-500 dark:text-pink-300 hover:scale-110 transition-all duration-300 drop-shadow-2xl"
-                />
+      </div>
+
+      {/* Main content */}
+      <div
+        className={`chat-content transition-all duration-500 ease-in-out ${
+          width > 816 && sidebarVisible ? 'ml-80' : 'ml-0'
+        }`}
+      >
+        {/* Header */}
+        <div className="chat-header sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-pink-200/30 dark:border-gray-700/30 p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              {width <= 816 && (
+                <button 
+                  onClick={toggleSidebar} 
+                  className="p-2 rounded-xl bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 hover:bg-pink-200 dark:hover:bg-pink-900/50 transition-all duration-300 hover:scale-110"
+                >
+                  <LayoutDashboard size={20} />
+                </button>
+              )}
+              <div>
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  SheSync Chatbot
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Your AI companion for life's journey</p>
               </div>
-              <div className="text-center mb-12">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100 bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent drop-shadow-sm">
+            </div>
+            <div className="flex items-center space-x-2">
+              <button 
+                onClick={clearChat} 
+                className="p-3 rounded-xl bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-all duration-300 hover:scale-110 hover:shadow-lg" 
+                aria-label="Clear chat"
+              >
+                <Trash2 size={20} />
+              </button>
+              <button
+                onClick={() =>
+                  alert("This chatbot provides support and information for young women aged 13-20.")
+                }
+                className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                aria-label="Help"
+              >
+                <HelpCircle size={20} />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Messages container */}
+        <div className="messages-container flex-1 overflow-y-auto">
+          {!selectedTab && (
+            <div className="empty-state w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center flex-col justify-center min-h-screen py-12 relative">
+              {/* Floating bot icon */}
+              <div className="empty-state-icon mb-12 relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-400/40 to-purple-400/40 rounded-full blur-2xl animate-pulse"></div>
+                <div className="relative p-8 bg-white/20 dark:bg-gray-800/20 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/30 shadow-2xl">
+                  <Bot
+                    size={80}
+                    className="text-pink-500 dark:text-pink-400 hover:text-pink-600 dark:hover:text-pink-300 transition-all duration-500 hover:scale-110 drop-shadow-2xl animate-pulse"
+                  />
+                </div>
+              </div>
+
+              {/* Welcome message */}
+              <div className="text-center mb-16 max-w-2xl">
+                <h3 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm animate-pulse">
                   Hey there! 👋
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 max-w-md sm:max-w-lg lg:max-w-xl mx-auto text-sm sm:text-base lg:text-lg leading-relaxed">
-                  I'm your SheSync AI companion, here to chat about anything on your mind.
+                <p className="text-gray-700 dark:text-gray-300 text-lg sm:text-xl leading-relaxed backdrop-blur-sm">
+                  I'm your <span className="font-semibold text-pink-600 dark:text-pink-400">SheSync AI companion</span>, here to chat about anything on your mind.
                   Whether it's school, relationships, health, or just life in general - let's talk!
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full max-w-4xl">
-                {TAB_CHOICES.map((tab) => (
+
+              {/* Enhanced topic cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+                {TAB_CHOICES.map((tab, index) => (
                   <div
                     key={tab.key}
-                    className={`group p-6 bg-gradient-to-br from-pink-300 to-pink-400 dark:from-gray-800/90 dark:to-gray-700/90 backdrop-blur-sm rounded-2xl border border-pink-200/50 hover:bg-gradient-to-br hover:from-pink-100 hover:to-pink-200 dark:hover:from-gray-700/95 dark:hover:to-gray-600/95 transition-all duration-300 hover:scale-105 hover:shadow-2xl shadow-lg relative overflow-hidden cursor-pointer`}
+                    className="group relative p-8 bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-700/30 hover:bg-white/80 dark:hover:bg-gray-800/80 transition-all duration-500 hover:scale-105 hover:shadow-2xl shadow-xl cursor-pointer overflow-hidden"
                     onClick={() => handleTabSelect(tab.key)}
+                    style={{
+                      animationDelay: `${index * 100}ms`
+                    }}
                   >
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {/* Animated background gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-400/20 via-purple-400/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                    
                     <div className="relative z-10">
-                      <div className="mb-4 p-2 bg-white/40 dark:bg-pink-900/30 rounded-xl w-fit">
+                      <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
                         {tab.icon}
                       </div>
-                      <p className={`font-semibold text-black dark:text-gray-200 group-hover:text-pink-700 dark:group-hover:text-pink-300 transition-colors duration-300`}>
+                      <h4 className="font-bold text-xl text-gray-800 dark:text-gray-100 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-300 mb-3">
                         {tab.title}
-                      </p>
-                      <p className="text-sm text-black dark:text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-all duration-300 opacity-80 group-hover:opacity-100">
                         {tab.desc}
                       </p>
                     </div>
+
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-pink-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
                   </div>
                 ))}
               </div>
-              <div className="absolute inset-0 -z-10 overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-              </div>
             </div>
           )}
+
+          {/* Messages */}
           {messages.map((message, index) => (
-            <div key={index} className={`message-wrapper ${message.role}`}>
+            <div key={index} className={`message-wrapper flex items-end space-x-4 p-4 ${
+              message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''
+            }`}>
               {message.role === "assistant" && (
-                <div className="shrink-0 w-10 h-10 rounded-full bg-pink-300 dark:bg-pink-700 flex items-center justify-center text-black dark:text-white mr-2 text-lg font-medium">
+                <div className="shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg animate-pulse">
                   AI
                 </div>
               )}
-              <div className={`message-bubble ${message.role}`}>
-                {formatMessage(message.content)}
+              <div className={`message-bubble max-w-md lg:max-w-lg xl:max-w-xl p-4 rounded-2xl shadow-lg backdrop-blur-sm ${
+                message.role === 'user' 
+                  ? 'bg-gradient-to-br from-pink-500 to-purple-600 text-white ml-auto' 
+                  : 'bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200/50 dark:border-gray-700/50'
+              }`}>
+                <div className="prose prose-sm max-w-none">
+                  {formatMessage(message.content)}
+                </div>
                 {message.role === "assistant" && (
-                  <div className="mt-2 flex justify-end">
+                  <div className="mt-3 flex justify-end">
                     <button
                       onClick={() =>
                         isSpeaking
                           ? stopSpeaking()
                           : speakMessage(message.content)
                       }
-                      className="text-xs flex items-center space-x-1 bg-pink-500 hover:bg-pink-600 text-white px-2 py-1 rounded-full"
+                      className="flex items-center space-x-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 hover:shadow-lg hover:scale-105"
                     >
                       {isSpeaking ? <VolumeX size={14} /> : <Volume2 size={14} />}
                       <span>{isSpeaking ? "Stop" : "Read"}</span>
@@ -529,42 +579,57 @@ Eve:`;
                 )}
               </div>
               {message.role === "user" && (
-                <div className="shrink-0 w-10 h-10 rounded-full bg-pink-500 dark:bg-pink-800 flex items-center justify-center text-black dark:text-white ml-2 text-lg font-medium">
+                <div className="shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-teal-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
                   U
                 </div>
               )}
             </div>
           ))}
+
+          {/* Typing indicator */}
           {isTyping && (
-            <div className="typing-indicator">
-              <Bot size={16} className="text-pink-500" />
-              <span>SheSync AI is thinking</span>
-              <div className="typing-dots">
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
-                <div className="typing-dot"></div>
+            <div className="typing-indicator flex items-center space-x-3 p-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center shadow-lg animate-pulse">
+                <Bot size={20} className="text-white" />
+              </div>
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+                <div className="flex items-center space-x-2">
+                  <span className="text-gray-600 dark:text-gray-400 text-sm">SheSync AI is thinking</span>
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
-        {/* Typing bar is always visible */}
-        <div className="input-container">
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <input
-              type="text"
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              disabled={isTyping}
-              placeholder={
-                selectedTab
-                  ? "Type your message..."
-                  : "Please select a tab above to start the conversation."
-              }
-              className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
-            />
+
+        {/* Enhanced input container */}
+        <div className="input-container sticky bottom-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-t border-pink-200/30 dark:border-gray-700/30 p-4 shadow-lg">
+          <form onSubmit={handleSubmit} className="flex gap-3 max-w-4xl mx-auto">
+            <div className="relative flex-1">
+              <input
+                type="text"
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={isTyping}
+                placeholder={
+                  selectedTab
+                    ? "Type your message..."
+                    : "Please select a topic above to start the conversation."
+                }
+                className="w-full p-4 pr-12 rounded-2xl border-2 border-gray-200/50 dark:border-gray-700/50 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-400 dark:focus:ring-pink-500 focus:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl"
+              />
+              {input && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+              )}
+            </div>
+            
             <input
               type="file"
               id="file-upload"
@@ -573,25 +638,26 @@ Eve:`;
             />
             <label
               htmlFor="file-upload"
-              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white cursor-pointer"
+              className="p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 text-white cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 shadow-md"
             >
               <Paperclip size={20} />
             </label>
+            
             <button
               type="button"
               onClick={toggleEmojiPicker}
-              className="relative p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
+              className="relative p-4 rounded-2xl bg-gradient-to-br from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-white transition-all duration-300 hover:shadow-lg hover:scale-105 shadow-md"
               aria-label="Add emoji"
             >
               <Smile size={20} />
               {showEmojiPicker && (
-                <div className="absolute bottom-[100%] right-0 mb-2 p-2 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-lg">
+                <div className="absolute bottom-full right-0 mb-2 p-4 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-2xl">
                   <div className="grid grid-cols-5 gap-2">
                     {popularEmojis.map((emoji, index) => (
                       <button
                         key={index}
                         onClick={() => addEmoji(emoji)}
-                        className="text-xl hover:bg-pink-100 dark:hover:bg-gray-700 rounded p-1 transition-colors"
+                        className="text-2xl hover:bg-pink-100 dark:hover:bg-gray-700 rounded-xl p-2 transition-all duration-300 hover:scale-125"
                         tabIndex={-1}
                       >
                         {emoji}
@@ -601,11 +667,12 @@ Eve:`;
                 </div>
               )}
             </button>
+            
             <button
               type="submit"
-              className="p-3 rounded-lg bg-pink-500 hover:bg-pink-600 text-white"
+              className="p-4 rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white transition-all duration-300 hover:shadow-lg hover:scale-105 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Send message"
-              disabled={isTyping}
+              disabled={isTyping || !input.trim()}
             >
               <Send size={20} />
             </button>
