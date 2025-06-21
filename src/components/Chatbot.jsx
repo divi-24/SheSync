@@ -410,7 +410,7 @@ Eve:`;
         <SideBar
           sidebarVisible={sidebarVisible}
           setSidebarVisible={setSidebarVisible}
-          activeLink={7}
+          activeLink={8}
         />
       </div>
       {width > 816 && (
