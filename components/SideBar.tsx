@@ -29,23 +29,24 @@ import { useRouter } from "next/navigation";
 import useScreenSize from "../hooks/useScreenSize";
 import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-import { useTheme } from "../context/ThemeContext";
 
 interface SideBarProps {
   sidebarVisible: boolean;
   setSidebarVisible: (visible: boolean) => void;
   activeLink?: number;
+  toggleDarkMode?: () => void;
 }
 
 export default function SideBar({
   sidebarVisible,
   setSidebarVisible,
   activeLink,
+  toggleDarkMode,
 }: SideBarProps) {
   const router = useRouter();
-  const { theme, toggleTheme } = useTheme();
   const { width } = useScreenSize();
   const [isHovering, setIsHovering] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const navLinks = [
     { icon: <LayoutDashboard size={20} />, label: "Dashboard", path: "/dashboard" },
@@ -53,6 +54,7 @@ export default function SideBar({
     { icon: <GraduationCap size={20} />, label: "Education", path: "/blogs" },
     { icon: <ShoppingBag size={20} />, label: "Shop", path: "/ecom" },
     { icon: <ActivitySquare size={20} />, label: "Track Your Health", path: "/tracker" },
+    { icon: <HeartPulse size={20} />, label: "Ovulation Calculator", path: "/OvulationCalculator" },
     { icon: <ClipboardList size={20} />, label: "PCOS Diagnosis", path: "/partner" },
     { icon: <Stethoscope size={20} />, label: "Expert Consultation", path: "/consultations" },
     { icon: <Bot size={20} />, label: "Eve", path: "/chatbot" },
@@ -120,10 +122,16 @@ export default function SideBar({
     }
   };
 
-  // Add dark mode class to body when theme changes
+  const handleToggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    if (toggleDarkMode) {
+      toggleDarkMode();
+    }
+  };
+
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
 
   return (
     <>
@@ -185,11 +193,11 @@ export default function SideBar({
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={toggleTheme}
+                onClick={handleToggleDarkMode}
                 className="p-2 rounded-full bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 shadow-sm"
                 aria-label="Toggle theme"
               >
-                {theme === "dark" ? (
+                {darkMode ? (
                   <Sun className="h-4 w-4" />
                 ) : (
                   <Moon className="h-4 w-4" />
