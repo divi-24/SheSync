@@ -19,7 +19,7 @@ export function Login() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
-      <div className="absolute top-4 left-4 flex space-x-4">
+      <div className="absolute top-4 left-4 flex items-center space-x-4">
         <Link
           to="/"
           className="text-white-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
