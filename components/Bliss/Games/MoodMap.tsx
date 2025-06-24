@@ -36,18 +36,24 @@ const MoodMap: React.FC<MoodMapProps> = () => {
         const MODEL_URL = "/bliss/models";
 
         const loadModels = async () => {
-            await Promise.all([
-                faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-                faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-                faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-                faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-                faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
-            ]);
+            try {
+                await Promise.all([
+                    faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+                    faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+                    faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+                    faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+                    faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL),
+                ]);
+            } catch (error) {
+                console.error("Failed to load models:", error);
+            }
         };
 
         const startVideo = async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { width: 500, height: 350 } 
+                });
                 streamRef.current = stream;
                 if (videoRef.current) {
                     videoRef.current.srcObject = stream;
@@ -58,33 +64,55 @@ const MoodMap: React.FC<MoodMapProps> = () => {
         };
 
         const detect = async () => {
-            const options = new faceapi.TinyFaceDetectorOptions({ inputSize: 224 });
+            const options = new faceapi.TinyFaceDetectorOptions({ 
+                inputSize: 224,
+                scoreThreshold: 0.5
+            });
 
             intervalRef.current = setInterval(async () => {
                 if (!videoRef.current || videoRef.current.paused || videoRef.current.ended) return;
 
-                const result = await faceapi
-                    .detectSingleFace(videoRef.current, options)
-                    .withFaceLandmarks()
-                    .withFaceExpressions()
-                    .withAgeAndGender();
+                try {
+                    const result = await faceapi
+                        .detectSingleFace(videoRef.current, options)
+                        .withFaceLandmarks()
+                        .withFaceExpressions()
+                        .withAgeAndGender();
 
-                if (result) {
-                    const expressions = result.expressions as Record<string, number>;
-                    const maxExp = Object.entries(expressions).reduce((a, b) =>
-                        a[1] > b[1] ? a : b
-                    );
-                    setEmotion(maxExp[0] as EmotionType);
-                    setAge(Math.round(result.age).toString());
-                    setGender(result.gender);
+                    if (result) {
+                        // Create a new object with the expression values
+                        const expressions = {
+                            neutral: result.expressions.neutral,
+                            happy: result.expressions.happy,
+                            sad: result.expressions.sad,
+                            angry: result.expressions.angry,
+                            fearful: result.expressions.fearful,
+                            disgusted: result.expressions.disgusted,
+                            surprised: result.expressions.surprised
+                        };
+
+                        // Find the dominant expression
+                        const maxExp = Object.entries(expressions).reduce(
+                            (prev, current) => (prev[1] > current[1] ? prev : current)
+                        );
+
+                        setEmotion(maxExp[0] as EmotionType);
+                        setAge(Math.round(result.age).toString());
+                        setGender(result.gender);
+                    }
+                } catch (error) {
+                    console.error("Face detection error:", error);
                 }
             }, 1500);
         };
 
-        loadModels().then(async () => {
+        const initialize = async () => {
+            await loadModels();
             await startVideo();
             await detect();
-        });
+        };
+
+        initialize();
 
         return () => {
             if (intervalRef.current) clearInterval(intervalRef.current);
@@ -95,22 +123,24 @@ const MoodMap: React.FC<MoodMapProps> = () => {
     }, []);
 
     const getExpressionIcon = (expression: EmotionType) => {
-        switch (expression.toLowerCase()) {
+        const iconProps = { className: "w-6 h-6" };
+
+        switch (expression) {
             case "happy":
-                return <Smile />;
+                return <Smile {...iconProps} />;
             case "sad":
-                return <Frown />;
+                return <Frown {...iconProps} />;
             case "angry":
-                return <Flame />;
+                return <Flame {...iconProps} />;
             case "surprised":
-                return <Zap />;
+                return <Zap {...iconProps} />;
             case "disgusted":
-                return <Skull />;
+                return <Skull {...iconProps} />;
             case "fearful":
-                return <Ghost />;
+                return <Ghost {...iconProps} />;
             case "neutral":
             default:
-                return <Meh />;
+                return <Meh {...iconProps} />;
         }
     };
 
@@ -133,8 +163,9 @@ const MoodMap: React.FC<MoodMapProps> = () => {
             >
                 <ChevronRight
                     size={14}
-                    className={`transition-transform duration-300 block m-auto ${sidebarVisible ? "rotate-180" : "rotate-0"
-                        }`}
+                    className={`transition-transform duration-300 block m-auto ${
+                        sidebarVisible ? "rotate-180" : "rotate-0"
+                    }`}
                 />
             </button>
             <button
@@ -145,31 +176,34 @@ const MoodMap: React.FC<MoodMapProps> = () => {
                 Back to Bliss Page
             </button>
 
-            {/* Main Content */}
-            <div className={`flex-1 transition-all duration-300 ${sidebarVisible ? "lg:ml-64" : "ml-0"} p-6 flex flex-col items-center justify-center text-center`}>
+            <div
+                className={`flex-1 transition-all duration-300 ${
+                    sidebarVisible ? "lg:ml-64" : "ml-0"
+                } p-6 flex flex-col items-center justify-center text-center`}
+            >
                 <h1 className="text-4xl font-bold text-pink-700 dark:text-pink-300 mb-6">
                     Mood Map
                 </h1>
 
-                {/* Webcam Feed */}
                 <video
                     ref={videoRef}
                     autoPlay
                     muted
                     playsInline
-                    width="500"
-                    height="350"
+                    width={500}
+                    height={350}
                     className="rounded-lg shadow-md border-4 border-pink-300 max-w-full"
                 />
 
-                {/* Result Info */}
                 <div className="mt-6 text-2xl font-semibold text-pink-700 dark:text-pink-300 flex flex-col items-center gap-2">
                     <div className="flex items-center gap-2">
-                        {getExpressionIcon(emotion)} You look: <span className="ml-1">{capitalize(emotion)}</span>
+                        {getExpressionIcon(emotion)} You look:{" "}
+                        <span className="ml-1">{capitalize(emotion)}</span>
                     </div>
                     {age && gender && (
                         <div className="flex items-center gap-2 text-base text-gray-700 dark:text-gray-300">
-                            <User size={18} /> Estimated Age: {age} &nbsp; | &nbsp; Gender: {capitalize(gender)}
+                            <User size={18} /> Estimated Age: {age} &nbsp; | &nbsp; Gender:{" "}
+                            {capitalize(gender)}
                         </div>
                     )}
                 </div>
