@@ -19,9 +19,12 @@ import {
   ChevronRight,
   ArrowLeft,
 } from "lucide-react";
+import type { LucideProps } from "lucide-react";
 import SideBar from "../../SideBar"; // Adjust path as needed
 
-type IconType = React.ComponentType<{ size: number }>;
+// Define the icon type based on Lucide's component type
+type IconType = React.ForwardRefExoticComponent<Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>>;
+
 const icons: IconType[] = [Smile, Sun, Moon, Star, Cloud, Zap, Leaf, Flame, Droplet, Eye, Heart, Ghost, Bell, Apple, Camera];
 const TOTAL_MOVES = 15;
 

@@ -36,6 +36,7 @@
     "@swc/helpers": "^0.5.17",
     "axios": "^1.7.9",
     "date-fns": "^4.1.0",
+    "face-api.js": "^0.22.2",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.468.0",
     "next": "^15.3.4",
