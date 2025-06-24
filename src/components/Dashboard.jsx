@@ -672,21 +672,27 @@ export function Dashboard() {
               </Card>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div onClick={() => navigate("/tracker")} className="cursor-pointer">
                 <AnimatedCard
                   title="Mood"
                   value={periodData.moodTypes[0]}
                   icon={getMoodIcon(periodData.moodTypes[0])}
                 />
+                  </div>
+                <div onClick={() => navigate("/tracker")} className="cursor-pointer">
                 <AnimatedCard
                   title="Sleep Quality"
                   value={periodData.sleepQuality}
                   icon={<Moon className="h-6 w-6" />}
                 />
+                  </div>
+                <div onClick={() => navigate("/symptomsanalyzer")} className="cursor-pointer">
                 <AnimatedCard
                   title="Active Symptoms"
                   value={periodData.symptoms.length}
                   icon={<ThermometerSun className="h-6 w-6" />}
                 />
+                  </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -729,6 +735,7 @@ export function Dashboard() {
               <Card>
                 <h3 className="font-semibold mb-4">Wellness Tracker</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  
                   <WellnessItem
                     title="Energy"
                     value={periodData.moodSeverity}
