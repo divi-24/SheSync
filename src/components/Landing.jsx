@@ -91,6 +91,24 @@ export function Landing() {
         </button>
         )}
 
+        <header>
+  <img src="/logo.png" alt="Logo" />
+  
+  <div className="menu-toggle" onClick={toggleMenu}>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul className={`nav_links ${menuOpen ? 'active' : ''}`}>
+    <li><a href="/">Home</a></li>
+    <li><a href="/forums">Forums</a></li>
+    <li><a href="/blogs">Blogs</a></li>
+    <li><a href="/consultations">Consult</a></li>
+  </ul>
+</header>
+
+
       {/* Main Content */}
       <main
         className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
