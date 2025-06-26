@@ -727,20 +727,20 @@ export function Landing() {
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <button
+                    <a
                       onClick={() => navigate("/symptomsanalyzer")}
-                      className="text-gray-100 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
+                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
                     >
                       About Us
-                    </button>
+                    </a>
                   </li>
                   <li>
-                    <button
+                    <a
                       onClick={() => navigate("/parents")}
-                      className="text-gray-100 dark:text-white hover:text-pink-600 dark:hover:text-pink-400"
+                      className="text-gray-700 dark:text-gray-700 hover:text-pink-600 dark:hover:text-pink-400"
                     >
                       Careers
-                    </button>
+                    </a>
                   </li>
                   <li>
                     <a
