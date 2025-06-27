@@ -5,6 +5,7 @@ import { connectDb } from "./config/db.js";
 import periodTrackingRoutes from "./routes/periodTrackingRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import spotifyRoutes from "./routes/spotify.js";
 dotenv.config();
 export const MONGO_URL = process.env.MONGO_URL;
 const app = express();
@@ -30,6 +31,7 @@ connectDb();
 app.use("/api/auth", authRoutes);
 app.use("/api/period", periodTrackingRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/spotify", spotifyRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
