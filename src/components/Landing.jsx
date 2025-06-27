@@ -719,8 +719,8 @@ export function Landing() {
             </div>
           </Card>
           {/* Footer */}
-          <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 focus:outline-none focus:ring">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-400">
+           <div className="px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   Company
@@ -844,7 +844,6 @@ export function Landing() {
                   </a>
                 </div>
               </div>
-            </div>
             <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
               <p className="text-gray-700 dark:text-gray-100">
                 TEAM: WEB PIONEERS
@@ -853,8 +852,9 @@ export function Landing() {
                 &copy; 2025 SheSync. All rights reserved.
               </p>
             </div>
+            </div>
           </footer>
-        </div>
+          </div>
       </main>
     </div>
   );
@@ -944,17 +944,19 @@ const FAQItem = ({ question, answer }) => {
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-semibold text-gray-900 dark:text-gray-100">
+        <span className="font-semibold text-gray-900 dark:text-black">
           {question}
         </span>
-        <span>{isOpen ? "-" : "+"}</span>
+        <span className="text-gray-900 dark:text-black">{isOpen ? "-" : "+"}</span>
       </button>
       {isOpen && (
-        <p className="mt-2 text-gray-700 dark:text-gray-300">{answer}</p>
+        <p className="mt-2 text-gray-700 dark:text-black">{answer}</p>
       )}
     </div>
   );
 };
+
+export default FAQItem;
 
 const SuccessStoryCard = ({ name, story, improvement }) => {
   return (
