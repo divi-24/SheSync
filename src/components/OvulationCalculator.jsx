@@ -140,7 +140,7 @@ const OvulationCalculator = () => {
               type="date"
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full p-2 rounded bg-white text-black dark:bg-gray-500 dark:text-white"
+              className="w-full p-2 rounded bg-white text-black dark:bg-gray-500 dark:text-white border border-gray-300 dark:border-gray-600 appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500"
             />
           </div>
           <div className="mb-4">
