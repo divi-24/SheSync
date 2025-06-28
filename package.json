@@ -22,6 +22,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "esbuild": "^0.24.2",
+    "face-api.js": "^0.22.2",
     "framer-motion": "^11.18.2",
     "lucide-react": "^0.468.0",
     "prop-types": "^15.8.1",

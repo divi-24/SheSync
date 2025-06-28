@@ -25,6 +25,13 @@ import { ParentDashboard } from "./components/ParentDashboard";
 import { Diagnosis } from "./components/PartnerDashboard";
 import { ThemeProvider } from "./context/ThemeContext";
 import SheSyncLoader from "./components/loader";
+import Bliss from "./components/Bliss/Bliss";
+import Quiz from "./components/Bliss/games/Quiz";
+import Sudoku from "./components/Bliss/games/Sudoku";
+import MemoryGame from "./components/Bliss/games/MemoryGame";
+import QuoteJoke from "./components/Bliss/games/QuoteJoke";
+import MoodMap from "./components/Bliss/games/Moodmap";
+import SimonGame from "./components/Bliss/games/SimonGame";
 
 function ProtectedRouteWrapper({ Component }) {
   const { isLoaded, isSignedIn } = useAuth();
@@ -104,6 +111,34 @@ const router = createBrowserRouter([
   {
     path: "/partner",
     element: <ProtectedRouteWrapper Component={Diagnosis} />,
+  },
+  {
+    path: "/bliss",
+    element: <ProtectedRouteWrapper Component={Bliss} />,
+  },
+  {
+    path: "/bliss/quiz",
+    element: <ProtectedRouteWrapper Component={Quiz} />,
+  },
+  {
+    path: "/bliss/sudoku",
+    element: <ProtectedRouteWrapper Component={Sudoku} />,
+  },
+  {
+    path: "/bliss/memory-game",
+    element: <ProtectedRouteWrapper Component={MemoryGame} />,
+  },
+  {
+    path: "/bliss/joke-quote",
+    element: <ProtectedRouteWrapper Component={QuoteJoke} />,
+  },
+  {
+    path: "/bliss/mood-map",
+    element: <ProtectedRouteWrapper Component={MoodMap} />,
+  },
+  {
+    path: "/bliss/simon",
+    element: <ProtectedRouteWrapper Component={SimonGame} />,
   },
 ]);
 

@@ -228,9 +228,7 @@ export default function SideBar({
           <SidebarLink
             icon={<Gamepad2 size={20} />}
             label="Bliss"
-            onClick={() =>
-              window.open("https://she-syncgame.vercel.app/", "_blank")
-            }
+            onClick={() => navigate("/bliss")}
             active={active[13]}
           />
           <SidebarLink

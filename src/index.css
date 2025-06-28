@@ -96,3 +96,45 @@ button:focus-visible {
   max-width: 100% !important;
   overflow-x: hidden !important;
 }
+
+/*Memory Game css by VJLIVE*/
+.perspective {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+.card-inner.rotate {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: white;
+  color: #ec4899; /* Tailwind pink-500 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-face {
+  background-color: #1f2937; /* gray-800 */
+  color: #f9a8d4; /* pink-300 */
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
