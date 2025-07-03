@@ -1143,7 +1143,7 @@ Risk Level: [Low/Moderate/High]
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={5}
+        activeLink={6}
       />
       {width > 816 && (
         <button

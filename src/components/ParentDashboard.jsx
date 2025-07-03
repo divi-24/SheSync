@@ -1439,7 +1439,7 @@ export  function ParentDashboard() {
 
   return (
     <div className={`flex h-screen dark:bg-[#111827]`}>
-        <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={9}/>
+        <SideBar sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeLink={10}/>
           {width > 816 && (
             <button
             onClick={toggleSidebar}
