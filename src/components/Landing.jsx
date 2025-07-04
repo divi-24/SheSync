@@ -95,7 +95,7 @@ export function Landing() {
               className="text-3xl font-bold text-pink-600 dark:text-pink-400 
             "
             >
-              Welcome to SheSync
+                Welcome to SheSync
             </h1>
             {/* <button
               onClick={toggleDarkMode}
