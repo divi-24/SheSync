@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Linkedin, Github } from 'lucide-react'
 
 // Import images
-import palakImage from '../../public/images/palak1.jpeg'
-import vibhorImage from '../../public/images/vibhor.jpeg'
-import deepakImage from '../../public/images/deepak.jpeg'
-import anishkaImage from '../../public/images/anishka.jpeg'
-import ankitaImage from '../../public/images/ankita.jpeg'
+import palakImage from '../../src/images/palak1.jpeg'
+import vibhorImage from '../../src/images/vibhor.jpeg'
+import deepakImage from '../../src/images/deepak.jpeg'
+import anishkaImage from '../../src/images/anishka.jpeg'
+import ankitaImage from '../../src/images/ankita.jpeg'
 
 const teamMembers = [
   {
