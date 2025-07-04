@@ -547,7 +547,7 @@ export function Landing() {
           </Card>
           {/* FAQ Section */}
 
-          <Card className="border border-pink-600 hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
+          {/* <Card className="border border-pink-600 hover:bg-pink-200  focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
 
             <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
               Frequently Asked Questions

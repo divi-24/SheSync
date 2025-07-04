@@ -237,6 +237,11 @@ export function Consultations() {
     }
   };
 
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   // UI Components
   const SidebarLink = ({ icon, label, onClick, active = false }) => {
     return (
@@ -361,7 +366,7 @@ export function Consultations() {
 
   const FilterSection = ({ filters, setFilters, showFilters }) => (
     <motion.div
-      initial={{ height: 0, opacity: 0 }}
+      initial={!hasMounted ? { height: 0, opacity: 0 } : false}
       animate={{
         height: showFilters ? "auto" : 0,
         opacity: showFilters ? 1 : 0,
@@ -979,7 +984,7 @@ export function Consultations() {
               onClick={() =>
                 setSortBy(sortBy === "rating" ? "distance" : "rating")
               }
-              className="flex items-center space-x-2 bg-[#e73e8f] text-white text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
+              className="flex items-center space-x-2 bg-[#e73e8f] text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
             >
               <ArrowUpDown className="h-5 w-5" />
               <span className="text-white">Sort</span>
