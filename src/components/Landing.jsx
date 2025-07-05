@@ -95,7 +95,7 @@ export function Landing() {
               className="text-3xl font-bold text-pink-600 dark:text-pink-400 
             "
             >
-              Welcome to SheSync
+                Welcome to SheSync
             </h1>
             {/* <button
               onClick={toggleDarkMode}
@@ -578,7 +578,7 @@ export function Landing() {
                 answer="Yes, all our educational content is created or reviewed by qualified healthcare professionals to ensure accuracy and relevance."
               />
             </div>
-          </Card> */}
+          </Card> 
           <FAQSection />
           {/*App Features Showcase */}
           {/* <Card className=" hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300  dark:hover:bg-pink-500">
