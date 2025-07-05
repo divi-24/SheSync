@@ -312,8 +312,26 @@ export function Blogs() {
   };
 
   const handleShare = (postId) => {
-    // Implement sharing functionality here
-    console.log(`Sharing post ${postId}`);
+    const articleUrl = `${window.location.origin}/blogs`;
+
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'Check out this article!',
+          text: 'Here’s something interesting I found:',
+          url: articleUrl,
+        })
+        .then(() => console.log('Article shared successfully!'))
+        .catch((error) => console.error('Error sharing article:', error));
+    } else {
+      navigator.clipboard.writeText(articleUrl)
+        .then(() => {
+          console.log('Link copied to clipboard!');
+        })
+        .catch((err) => {
+          console.error('Clipboard write failed:', err);
+        });
+    }
   };
 
   const handleCardClick = (post) => {
