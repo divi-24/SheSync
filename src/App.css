@@ -1,8 +1,15 @@
 #root {
+  width: 100%;
+  height: 100%; /* Ensure #root can contain full-height children */
+  /* text-align: center; */ /* Removed as it might interfere with full-width layouts, can be added to .content-constrained if needed */
+}
+
+.content-constrained {
   max-width: 1280px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
   padding: 2rem;
-  text-align: center;
+  /* text-align: center; */ /* Add back if specific pages using this class need it */
 }
 
 .logo {
