@@ -876,7 +876,7 @@ export function Dashboard() {
                     <p className="font-medium mb-2">{myth.myth}</p>
                     <button
                       onClick={() => openMythModal(myth)}
-                      className="text-[rgb(var(--primary))] hover:underline"
+                      className="px-4 py-2 rounded-md font-medium text-[rgb(var(--primary))] bg-[rgba(var(--primary),0.1)] hover:bg-[rgba(var(--primary),0.15)] underline-offset-4 hover:underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--primary))]/40 dark:text-[rgb(var(--primary))] dark:bg-[rgba(var(--primary),0.1)] dark:hover:bg-[rgba(var(--primary),0.2)]"
                     >
                       Reveal the truth
                     </button>

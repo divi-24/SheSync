@@ -1,4 +1,4 @@
-"use-client"
+"use-client";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { useRouter } from "next/navigation"
@@ -341,11 +341,10 @@ export function Ecom() {
   const [searchQuery, setSearchQuery] = useState("");
   const [email, setEmail] = useState("");
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  
+
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
-
 
   const addToCart = (product) => {
     setCartItems((prev) => {
@@ -582,7 +581,7 @@ export function Ecom() {
               <motion.button
                 whileHover={{ scale: 1.02, x: 5 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 text-black bg-white dark:bg-black dark:text-pink-400"
+                className="flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-colors text-pink-600 bg-white hover:bg-gray-100 dark:text-pink-400 dark:bg-zinc-800 dark:hover:bg-zinc-700"
               >
                 View All <ArrowRight className="h-4 w-4" />
               </motion.button>
@@ -643,11 +642,12 @@ export function Ecom() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => toggleFavorite(product.id)}
-                        className={`p-2 rounded-full bg-white dark:bg-[#111827] ${
-                          favorites.includes(product.id)
-                            ? "text-red-500"
-                            : "text-gray-400"
-                        }`}
+                        className={`p-2 rounded-full transition-all duration-200 ease-in-out bg-white hover:bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-gray-400 shadow-md hover:shadow-lg
+                          ${
+                            favorites.includes(product.id)
+                              ? "text-red-500 dark:text-red-500"
+                              : ""
+                          }`}
                       >
                         <Heart
                           className="h-6 w-6"
@@ -681,7 +681,7 @@ export function Ecom() {
               <motion.button
                 whileHover={{ scale: 1.02, x: 5 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 text-pink-500 dark:text-pink-400"
+                className="flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-colors text-pink-600 bg-white hover:bg-gray-100 dark:text-pink-400 dark:bg-zinc-800 dark:hover:bg-zinc-700"
               >
                 View All <ArrowRight className="h-4 w-4" />
               </motion.button>
@@ -742,11 +742,12 @@ export function Ecom() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => toggleFavorite(product.id)}
-                        className={`p-2 rounded-full ${
-                          favorites.includes(product.id)
-                            ? "text-red-500"
-                            : "text-gray-400"
-                        }`}
+                        className={`p-2 rounded-full transition-all duration-200 ease-in-out bg-white hover:bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-gray-400 shadow-md hover:shadow-lg
+                          ${
+                            favorites.includes(product.id)
+                              ? "text-red-500 dark:text-red-500"
+                              : ""
+                          }`}
                       >
                         <Heart
                           className="h-6 w-6"
@@ -924,11 +925,12 @@ export function Ecom() {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => toggleFavorite(product.id)}
-                        className={`p-2 rounded-full ${
-                          favorites.includes(product.id)
-                            ? "text-red-500"
-                            : "text-gray-400"
-                        }`}
+                        className={`p-2 rounded-full transition-all duration-200 ease-in-out bg-white hover:bg-gray-100 text-gray-500 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-gray-400 shadow-md hover:shadow-lg
+                          ${
+                            favorites.includes(product.id)
+                              ? "text-red-500 dark:text-red-500"
+                              : ""
+                          }`}
                       >
                         <Heart
                           className="h-6 w-6"
@@ -1013,61 +1015,57 @@ export function Ecom() {
                               initial={{ scale: 0.95, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               exit={{ scale: 0.95, opacity: 0 }}
-                              className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700"
+                              className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 transition-colors"
                             >
                               <div className="p-2 rounded-md bg-pink-100 dark:bg-pink-900/30">
                                 {item.icon}
                               </div>
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium truncate dark:text-white">
+                                <h4 className="font-medium truncate text-zinc-800 dark:text-zinc-100">
                                   {item.name}
                                 </h4>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                  {item.brand}
-                                </p>
+                                <p className="text-sm text-gray-500 dark:text-zinc-400">{item.brand}</p>
                               </div>
                               <div className="flex items-center gap-2">
                                 <motion.button
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   onClick={() =>
-                                    updateCartItemQuantity(
-                                      item.id,
-                                      Math.max(0, item.quantity - 1)
-                                    )
+                                    updateCartItemQuantity(item.id, Math.max(0, item.quantity - 1))
                                   }
-                                  className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                                  className="p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition"
+                                  aria-label="Decrease quantity"
                                 >
-                                  <Minus className="h-4 w-4 dark:text-white" />
+                                  <Minus className="h-4 w-4 text-zinc-700 dark:text-zinc-200" />
                                 </motion.button>
-                                <span className="w-8 text-center">
+
+                                <span className="w-8 text-center text-zinc-700 dark:text-zinc-100">
                                   {item.quantity}
                                 </span>
                                 <motion.button
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
-                                  onClick={() =>
-                                    updateCartItemQuantity(
-                                      item.id,
-                                      item.quantity + 1
-                                    )
-                                  }
-                                  className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+                                  onClick={() => updateCartItemQuantity(item.id, item.quantity + 1)}
+                                  className="p-2 rounded-full bg-white hover:bg-gray-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition"
+                                  aria-label="Increase quantity"
                                 >
-                                  <Plus className="h-4 w-4 dark:text-white" />
+                                  <Plus className="h-4 w-4 text-zinc-700 dark:text-zinc-200" />
                                 </motion.button>
                               </div>
-                              <div className="flex items-center gap-4 dark:text-white">
-                                <p className="font-medium">
+
+                              {/* Price & Remove Button */}
+                              <div className="flex items-center gap-4">
+                                <p className="font-medium text-zinc-800 dark:text-zinc-100">
                                   ${(item.price * item.quantity).toFixed(2)}
                                 </p>
                                 <motion.button
                                   whileHover={{ scale: 1.1 }}
                                   whileTap={{ scale: 0.9 }}
                                   onClick={() => removeCartItem(item.id)}
-                                  className="p-1 rounded-full text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                  className="p-2 rounded-full bg-white hover:bg-red-100 dark:bg-zinc-800 dark:hover:bg-red-900/30 border border-red-100 dark:border-red-900/40 transition"
+                                  aria-label="Remove item"
                                 >
-                                  <Trash2 className="h-4 w-4" />
+                                  <Trash2 className="h-4 w-4 text-red-500" />
                                 </motion.button>
                               </div>
                             </motion.div>
