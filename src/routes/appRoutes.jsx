@@ -5,6 +5,7 @@ import {Blogs} from "../components/Blogs";
 import OvulationCalculator from "../components/OvulationCalculator";
 import {Consultations} from "../components/Consultations";
 import {PeriodTracker} from "../components/PeriodTracker";
+import PeriodProducts from "../components/PeriodProducts";
 import {Ecom} from "../components/Ecom";
 import {Signup} from "../components/Signup";
 import {Login} from "../components/Login";
@@ -78,6 +79,10 @@ export const appRoutes = [
   {
     path: "/parents",
     element: <ProtectedRouteWrapper Component={ParentDashboard} />,
+  },
+  {
+    path: "/periodproducts",
+    element: <PeriodProducts/>,
   },
   {
     path: "/partner",

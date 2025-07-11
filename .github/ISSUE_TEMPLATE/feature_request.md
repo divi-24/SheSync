@@ -1,9 +1,10 @@
 ---
-name: 🌟 Feature Request
-description: Suggest a new feature or enhancement
+name: "\U0001F31F Feature Request"
+about: features
 title: "[FEATURE] <your title here>"
-labels: [enhancement]
-assignees: []
+labels: enhancement
+assignees: ''
+
 ---
 
 ## ✨ Feature Summary

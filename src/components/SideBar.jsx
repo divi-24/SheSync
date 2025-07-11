@@ -64,7 +64,7 @@ export default function SideBar({
     }
   }, [width, setSidebarVisible]);
 
-  let active = new Array(15).fill(false);
+  let active = new Array(16).fill(false);
   if (activeLink !== undefined) active[activeLink] = true;
 
   return (
@@ -208,28 +208,36 @@ export default function SideBar({
             active={active[9]}
           />
           <SidebarLink
+            icon={<ShoppingBag size={20} />}
+            label="Period Products"
+            onClick={() => navigate("/periodproducts")}
+            active={active[10]}
+          />
+          <SidebarLink
             icon={<AppWindowMac size={20} />}
             label="Parent's Dashboard"
             onClick={() => navigate("/parents")}
-            active={active[10]}
+            active={active[11]}
           />
           <SidebarLink
             icon={<MessageSquare size={20} />}
             label="Forums"
             onClick={() => navigate("/forums")}
-            active={active[11]}
+            active={active[12]}
           />
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
             onClick={() => window.open("https://thepadproject.org/donate/")}
-            active={active[12]}
+            active={active[13]}
           />
           <SidebarLink
             icon={<Gamepad2 size={20} />}
             label="Bliss"
-            onClick={() => navigate("/bliss")}
-            active={active[13]}
+            onClick={() =>
+              window.open("https://she-syncgame.vercel.app/", "_blank")
+            }
+            active={active[14]}
           />
           <SidebarLink
             icon={<Handshake size={20} />}
@@ -240,7 +248,7 @@ export default function SideBar({
                 "_blank"
               )
             }
-            active={active[14]}
+            active={active[15]}
           />
         </div>
       </aside>
