@@ -52,8 +52,16 @@ header {
 }
 
 img {
-  mix-blend-mode: multiply;
+  mix-blend-mode: multiply; /* Assuming this is acceptable for now */
+  /* REMOVED width: 150px; */
+  display: block; /* Good default for images to avoid inline spacing issues */
+  max-width: 100%; /* Good default for responsive images */
+  height: auto; /* Maintain aspect ratio with max-width */
+}
+
+img.default-thumbnail-size { /* Example for keeping the old style if needed elsewhere */
   width: 150px;
+  mix-blend-mode: multiply; /* if this was specific to those thumbnails */
 }
 
 .nav_links {
