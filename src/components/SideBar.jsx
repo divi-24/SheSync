@@ -235,7 +235,7 @@ export default function SideBar({
             icon={<Gamepad2 size={20} />}
             label="Bliss"
             onClick={() =>
-              window.open("https://she-syncgame.vercel.app/", "_blank")
+              navigate("/bliss")
             }
             active={active[14]}
           />

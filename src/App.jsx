@@ -25,10 +25,6 @@ export function ProtectedRouteWrapper({ Component }) {
   return <Component />;
 }
 
-const ProtectedRoute = (Component) => {
-  return () => <ProtectedRouteWrapper Component={Component} />;
-};
-
 const router = createBrowserRouter(appRoutes);
 
 function App() {
@@ -37,25 +33,26 @@ function App() {
     return !sessionStorage.getItem("loaderShown");
   });
 
-  
-// Note : Saving user in the database
   const { user } = useUser();
 
   useEffect(() => {
-    async function webhook(){
+    if (!user) return;
+
+    async function webhook() {
       try {
         const savedUser = await axios.post(
           import.meta.env.VITE_NODE_ENV === "production"
             ? `${server_url}api/auth/clerk-webhook`
             : `${local_url}api/auth/clerk-webhook`,
           {
-          clerkId: user.id,
-          name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
-          email: user.emailAddresses?.[0]?.emailAddress,
-        })
+            clerkId: user.id,
+            name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+            email: user.emailAddresses?.[0]?.emailAddress,
+          }
+        );
         console.log("User saved successfully", savedUser);
       } catch (error) {
-        console.log( "Frontend Webhook Error in the App.jsx" , error);
+        console.log("Frontend Webhook Error in App.jsx", error);
       }
     }
     webhook();
@@ -66,7 +63,7 @@ function App() {
       const timer = setTimeout(() => {
         setLoading(false);
         sessionStorage.setItem("loaderShown", "true"); // 🧠 Remember it
-      }, 6000); // Adjust if needed
+      }, 6000);
       return () => clearTimeout(timer);
     }
   }, [loading]);
