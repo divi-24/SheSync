@@ -153,7 +153,7 @@ export function Landing() {
                   Learn menstrual health through interactive blogs, modules, and rewards— stigma-free and fun!
                 </p>
               </div>
-
+              
               <div onClick={() => navigate("/Ecom")} className="flex flex-col items-start p-6 bg-white dark:bg-gray-800 hover:bg-pink-200 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                 <ShoppingBag className="h-8 w-8 text-pink-600 dark:text-pink-400 mb-4" />
                 <h4 className="text-lg font-semibold text-pink-600">Curated Shop</h4>
