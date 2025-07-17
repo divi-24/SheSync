@@ -56,8 +56,9 @@ const local_url = "http://localhost:3000/";
 export function Dashboard() {
 
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  
-    const { width } = useScreenSize();
+  const { width } = useScreenSize();
+  const navigate = useNavigate()
+
   
     useEffect(() => {
       const handleResize = () => {
@@ -74,7 +75,6 @@ export function Dashboard() {
     }, []);
   
 
-  const navigate = useNavigate();
   
   const { isSignedIn } = useAuth();
   const { user } = useUser();

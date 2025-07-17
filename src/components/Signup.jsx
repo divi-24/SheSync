@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Home, Moon, Sun } from "react-feather";
 import { SignUp } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 export function Signup() {
+  const { isSignedIn, user } = useUser(); // Call hook at the top level
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("darkMode") === "true"
   );
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (darkMode) {

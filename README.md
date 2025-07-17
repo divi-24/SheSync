@@ -66,6 +66,34 @@ VITE_GOOGLE_MAPS_API_KEY=AIzaSyB5pTapWtBsb95f5qpxiadprABnynOIZdQ
 ```bash
 npm run dev
 ```
+5. To use the Dockerfile, you need to have Docker installed on your machine. Follow these steps:
+
+a. Build the Docker image by running the following command from the root directory of the project: <br/>
+**For Frontend**:
+```bash
+    docker build -t shesync-frontend .
+```
+- to run Frontend:
+```bash
+    docker run -it -p 5173:5173 shesync-frontend
+```
+
+**For Backend** (You have to be in Backend folder) :
+```bash
+    docker build -t shesync-backend .
+```
+- to run Backend:
+```bash
+    docker run -it -p 3000:3000 shesync-backend
+```
+**To build both the docker Images at once**
+```bash
+    docker-compose up --build
+```
+**To run both the docker Images at once**
+```bash
+    docker-compose up
+```
 
 ## 🏗️ Project Structure
 
