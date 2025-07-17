@@ -1,0 +1,37 @@
+# EditorConfig helps maintain consistent coding styles
+# Visit https://editorconfig.org for more info
+
+# Root EditorConfig file
+root = true
+
+# Global defaults
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# JSON files: 2-space indentation
+[*.json]
+indent_size = 2
+
+# Markdown files: allow trailing whitespace (e.g., for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# Shell scripts
+[*.sh]
+indent_style = space
+indent_size = 4
+
+# YAML files
+[*.yml]
+indent_style = space
+indent_size = 2
+
+# Python files (if any in future)
+[*.py]
+indent_style = space
+indent_size = 4
