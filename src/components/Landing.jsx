@@ -653,10 +653,9 @@ export function Landing() {
             </div>
           </Card>
           {/* Footer */}
-
-          <footer className=" border border-pink-600 mt-12 pt-8 rounded  hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500">
-            <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-10">
-
+         <footer className="border border-pink-600 mt-12 pt-8 rounded border-t border-gray-200 dark:border-gray-700 hover:bg-pink-200 active:bg-pink-100 focus:outline-none focus:ring focus:ring-pink-300 dark:hover:bg-pink-500">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 grid grid-cols-2 md:grid-cols-4 flex flex-wrap justify-between gap-10">
+ 
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   Company
@@ -787,18 +786,15 @@ export function Landing() {
                   </li>
                 </ul>
               </div>
-            </div>
-            <div className="w-full mt-8 p-4 border-t-1 border-pink-800 dark:border-pink-500">
-              <div className="max-w-7xl mx-auto px-4 text-center">
-                <p className="text-gray-700 dark:text-gray-100 font-semibold">TEAM: WEB PIONEERS</p>
-                <p className="text-gray-700 dark:text-gray-100 text-sm">
-                  &copy; 2025 SheSync. All rights reserved.
-                </p>
-              </div>
-
-            </div>
+            <div className="max-w-7xl mx-auto px-4 text-center">
+              <p className="text-gray-700 dark:text-gray-100 font-semibold">TEAM: WEB PIONEERS</p>
+              <p className="text-gray-700 dark:text-gray-100 text-sm">
+               &copy; 2025 SheSync. All rights reserved.
+               </p>
+           </div>
+          </div>
           </footer>
-        </div>
+          </div>
       </main>
     </div>
   );
@@ -889,17 +885,19 @@ const FAQItem = ({ question, answer }) => {
         className="flex justify-between items-center w-full text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-semibold text-gray-900 dark:text-gray-100">
+        <span className="font-semibold text-gray-900 dark:text-black">
           {question}
         </span>
-        <span>{isOpen ? "-" : "+"}</span>
+        <span className="text-gray-900 dark:text-black">{isOpen ? "-" : "+"}</span>
       </button>
       {isOpen && (
-        <p className="mt-2 text-gray-700 dark:text-gray-300">{answer}</p>
+        <p className="mt-2 text-gray-700 dark:text-black">{answer}</p>
       )}
     </div>
   );
 };
+
+export default FAQItem;
 
 const SuccessStoryCard = ({ name, story, improvement }) => {
   return (
