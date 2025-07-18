@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema(
   {
@@ -15,16 +15,16 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: String, 
-      required: false, 
+      type: String,
+      required: false,
     },
     likes: [
       {
-        type: String, 
+        type: String,
         required: true,
       },
     ],
   },
   { timestamps: true }
 );
-export const Post = mongoose.model("Post", postSchema);
+export const Post = mongoose.model('Post', postSchema);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { addDays, format } from "date-fns";
 import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
-import OvulationImg from '../../ovulationsecimg.png';
+import OvulationImg from '../../public/ovulationsecimg.png';
 import useScreenSize from "../hooks/useScreenSize";
 
 const OvulationCalculator = () => {

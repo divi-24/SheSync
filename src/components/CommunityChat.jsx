@@ -204,239 +204,200 @@ const CommunityChat = ({ isOpen, onClose, community, currentUser }) => {
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center p-4"
     >
-      <motion.div
-        initial={{ scale: 0.95 }}
-        animate={{ scale: 1 }}
-        className="bg-white rounded-lg w-full max-w-4xl h-[80vh] flex flex-col shadow-xl"
-      >
-        {/* Header */}
-        <div className="p-4 border-b border-pink-100 bg-pink-50 rounded-t-lg flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={onClose}
-              className="text-pink-400 hover:text-pink-500 transition-colors"
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </button>
-            <div className="flex items-center space-x-3">
-              <div className="relative h-10 w-10">
-                <CommunityAvatar />
-                <div className="absolute -bottom-1 -right-1 bg-green-400 rounded-full w-3 h-3 border-2 border-white"></div>
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                  {community.name}
-                  <Star className="h-4 w-4 text-pink-400 fill-pink-400" />
-                </h2>
-                <p className="text-sm text-gray-500 flex items-center gap-2">
-                  <Users className="h-4 w-4" />
-                  {participants.length} participants • 
-                  <MessageSquare className="h-4 w-4" />
-                  {messages.length} messages
-                </p>
-              </div>
+    <motion.div
+      initial={{ scale: 0.95 }}
+      animate={{ scale: 1 }}
+      className="bg-white dark:bg-gray-900 rounded-lg w-full max-w-4xl h-[80vh] flex flex-col shadow-xl"
+    >
+      {/* Header */}
+      <div className="p-4 border-b border-pink-100 bg-pink-50 dark:bg-gray-800 rounded-t-lg flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={onClose}
+            className="transition-colors"
+          >
+            <ArrowLeft className="h-6 w-6 stroke-pink-500 hover:stroke-pink-600 transition-colors" />
+          </button>
+          <div className="flex items-center space-x-3">
+            <div className="relative h-10 w-10">
+              <CommunityAvatar />
+              <div className="absolute -bottom-1 -right-1 bg-green-400 rounded-full w-3 h-3 border-2 border-white" />
+            </div>
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-white flex items-center gap-2">
+                {community.name}
+                <Star className="h-4 w-4 text-pink-400 fill-pink-400" />
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                {participants.length} participants • 
+                <MessageSquare className="h-4 w-4" />
+                {messages.length} messages
+              </p>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
-            <button className="text-pink-400 hover:text-pink-500 transition-colors p-2 hover:bg-pink-50 rounded-full">
-              <Bell className="h-5 w-5" />
-            </button>
-            <button className="text-pink-400 hover:text-pink-500 transition-colors p-2 hover:bg-pink-50 rounded-full">
-              <Users className="h-5 w-5" />
-            </button>
-            <button 
-              className="text-pink-400 hover:text-pink-500 transition-colors p-2 hover:bg-pink-50 rounded-full"
-              onClick={() => setShowPrompts(!showPrompts)}
-            >
-              <HelpCircle className="h-5 w-5" />
-            </button>
-          </div>
         </div>
-
-        {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-pink-50 to-white">
-          {messages.map(message => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+        <div className="flex items-center space-x-2">
+          {[Bell, Users, HelpCircle].map((Icon, idx) => (
+            <button
+              key={idx}
+              className="p-2 rounded-full bg-white ring-1 ring-pink-200 text-pink-500 hover:bg-pink-50 transition dark:bg-gray-800 dark:ring-gray-600"
             >
-              <div className={`flex max-w-[80%] ${message.isBot ? 'flex-row' : 'flex-row-reverse'}`}>
-                <div className="relative h-10 w-10">
-                  {message.isBot ? <BotAvatar /> : <UserAvatar />}
+              <Icon className="h-5 w-5" />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Chat Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-pink-50 to-white dark:from-gray-900 dark:to-gray-950">
+        {messages.map((message) => (
+          <motion.div
+            key={message.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+          >
+            <div className={`flex max-w-[80%] ${message.isBot ? 'flex-row' : 'flex-row-reverse'}`}>
+              <div className="relative h-10 w-10">
+                {message.isBot ? <BotAvatar /> : <UserAvatar />}
+                {message.isBot && (
+                  <div className="absolute -bottom-1 -right-1 bg-pink-300 rounded-full p-1">
+                    <Sparkles className="h-3 w-3 text-white" />
+                  </div>
+                )}
+              </div>
+              <div className={`mx-3 space-y-2 ${message.isBot ? 'items-start' : 'items-end'}`}>
+                <div className={`px-5 py-3 rounded-2xl shadow-sm transform transition-all duration-200 hover:scale-[1.02] ${
+                  message.isBot 
+                    ? 'bg-white text-gray-800 border border-pink-100 dark:bg-gray-800 dark:text-white' 
+                    : 'bg-gradient-to-r from-pink-400 to-pink-300 text-white'
+                }`}>
+                  <div className="prose max-w-none leading-relaxed">
+                    {formatMessage(message.text)}
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3 text-xs">
+                  <span className="font-semibold text-gray-600 dark:text-gray-300">{message.sender}</span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-500 dark:text-gray-400">{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   {message.isBot && (
-                    <div className="absolute -bottom-1 -right-1 bg-pink-300 rounded-full p-1">
-                      <Sparkles className="h-3 w-3 text-white" />
+                    <div className="flex items-center space-x-2 ml-2">
+                      {[ThumbsUp, Reply, Share2, Bookmark].map((Icon, idx) => (
+                        <button key={idx} className="p-1 rounded-full bg-white ring-1 ring-pink-200 text-pink-500 hover:bg-pink-50 dark:bg-gray-800 dark:ring-gray-600 transition">
+                          <Icon className="h-4 w-4" />
+                        </button>
+                      ))}
                     </div>
                   )}
                 </div>
-                <div className={`mx-3 space-y-2 ${message.isBot ? 'items-start' : 'items-end'}`}>
-                  <div className={`px-5 py-3 rounded-2xl shadow-sm transform transition-all duration-200 hover:scale-[1.02] ${
-                    message.isBot 
-                      ? 'bg-white text-gray-800 border border-pink-100' 
-                      : 'bg-gradient-to-r from-pink-400 to-pink-300 text-white'
-                  }`}>
-                    <div className="prose max-w-none leading-relaxed">
-                      {formatMessage(message.text)}
-                    </div>
-                  </div>
-                  <div className={`flex items-center space-x-3 text-xs ${
-                    message.isBot ? 'justify-start' : 'justify-end'
-                  }`}>
-                    <span className="font-semibold text-gray-600">{message.sender}</span>
-                    <span className="text-gray-400">•</span>
-                    <span className="text-gray-500">{new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                    {message.isBot && (
-                      <div className="flex items-center space-x-2 ml-2">
-                        <button className="hover:text-pink-400 transition-colors text-gray-400 p-1 hover:bg-pink-50 rounded-full">
-                          <ThumbsUp className="h-4 w-4" />
-                        </button>
-                        <button className="hover:text-pink-400 transition-colors text-gray-400 p-1 hover:bg-pink-50 rounded-full">
-                          <Reply className="h-4 w-4" />
-                        </button>
-                        <button className="hover:text-pink-400 transition-colors text-gray-400 p-1 hover:bg-pink-50 rounded-full">
-                          <Share2 className="h-4 w-4" />
-                        </button>
-                        <button className="hover:text-pink-400 transition-colors text-gray-400 p-1 hover:bg-pink-50 rounded-full">
-                          <Bookmark className="h-4 w-4" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-          {isTyping && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center space-x-3 text-gray-600 bg-white p-4 rounded-2xl w-fit shadow-sm border border-pink-100"
-            >
-              <Bot className="h-5 w-5 text-pink-400" />
-              <span className="font-medium">AI Assistant is thinking</span>
-              <div className="flex space-x-1">
-                <motion.span
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="h-2 w-2 bg-pink-300 rounded-full"
-                />
-                <motion.span
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 1, delay: 0.2, repeat: Infinity }}
-                  className="h-2 w-2 bg-pink-200 rounded-full"
-                />
-                <motion.span
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 1, delay: 0.4, repeat: Infinity }}
-                  className="h-2 w-2 bg-pink-100 rounded-full"
-                />
-              </div>
-            </motion.div>
-          )}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-100 shadow-sm flex items-center space-x-2"
-            >
-              <X className="h-5 w-5 text-red-400" />
-              <span>{error}</span>
-            </motion.div>
-          )}
-          <div ref={chatEndRef} />
-        </div>
-
-        {/* Conversation Starters */}
-        <AnimatePresence>
-          {showPrompts && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="p-4 border-t border-pink-100 bg-pink-50"
-            >
-              <h4 className="text-sm font-medium text-gray-600 mb-3">Suggested Topics:</h4>
-              <div className="flex flex-wrap gap-2">
-                {getCommunityPrompts(community.name).map((prompt, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handlePromptClick(prompt)}
-                    className="px-4 py-2 text-sm bg-white text-gray-700 rounded-full hover:bg-pink-100 transition-colors duration-200 border border-pink-100"
-                  >
-                    {prompt}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Message Input */}
-        <form onSubmit={handleSendMessage} className="p-4 border-t border-pink-100 bg-pink-50/80 backdrop-blur-sm rounded-b-lg">
-          <div className="flex items-center space-x-3">
-            <div className="flex items-center space-x-2">
-              <button
-                type="button"
-                className="p-2 text-pink-400 hover:text-pink-500 transition-colors rounded-full hover:bg-white"
-              >
-                <Paperclip className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="p-2 text-pink-400 hover:text-pink-500 transition-colors rounded-full hover:bg-white"
-              >
-                <Camera className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="p-2 text-pink-400 hover:text-pink-500 transition-colors rounded-full hover:bg-white"
-              >
-                <Mic className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type your message..."
-                className="w-full bg-white text-gray-700 placeholder-gray-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-200"
-              />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
-                <button
-                  type="button"
-                  className="p-1.5 text-pink-400 hover:text-pink-500 transition-colors rounded-lg hover:bg-pink-50"
-                >
-                  <Sticker className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  className="p-1.5 text-pink-400 hover:text-pink-500 transition-colors rounded-lg hover:bg-pink-50"
-                >
-                  <Gift className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  className="p-1.5 text-pink-400 hover:text-pink-500 transition-colors rounded-lg hover:bg-pink-50"
-                  onClick={() => setShowPrompts(!showPrompts)}
-                >
-                  <HelpCircle className="h-5 w-5" />
-                </button>
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={!newMessage.trim()}
-              className="p-2.5 bg-gradient-to-r from-pink-400 to-pink-300 text-white rounded-xl transition-all duration-200 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
-            >
-              <Send className="h-5 w-5" />
-            </button>
+          </motion.div>
+        ))}
+        {isTyping && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center space-x-3 text-gray-600 bg-white p-4 rounded-2xl w-fit shadow-sm border border-pink-100 dark:bg-gray-800 dark:text-white"
+          >
+            <Bot className="h-5 w-5 text-pink-400" />
+            <span className="font-medium">AI Assistant is thinking</span>
+            <div className="flex space-x-1">
+              {[0, 0.2, 0.4].map((delay, i) => (
+                <motion.span
+                  key={i}
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ duration: 1, delay, repeat: Infinity }}
+                  className={`h-2 w-2 rounded-full ${i === 0 ? 'bg-pink-300' : i === 1 ? 'bg-pink-200' : 'bg-pink-100'}`}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-red-50 text-red-600 p-4 rounded-xl text-sm border border-red-100 shadow-sm flex items-center space-x-2"
+          >
+            <X className="h-5 w-5 text-red-400" />
+            <span>{error}</span>
+          </motion.div>
+        )}
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Suggested Topics */}
+      <AnimatePresence>
+        {showPrompts && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="p-4 border-t border-pink-100 bg-pink-50 dark:bg-gray-800"
+          >
+            <h4 className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-3">Suggested Topics:</h4>
+            <div className="flex flex-wrap gap-2">
+              {getCommunityPrompts(community.name).map((prompt, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePromptClick(prompt)}
+                  className="px-4 py-2 text-sm !bg-white dark:!bg-gray-700 text-gray-700 dark:text-white rounded-full hover:bg-pink-100 dark:hover:bg-pink-800 transition border border-pink-100 dark:border-gray-600"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Message Input */}
+      <form onSubmit={handleSendMessage} className="p-4 border-t border-pink-100 bg-pink-50/80 dark:bg-gray-800 dark:border-gray-700 backdrop-blur-sm rounded-b-lg">
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
+            {[Paperclip, Camera, Mic].map((Icon, idx) => (
+              <button
+                type="button"
+                key={idx}
+                className="p-2 text-pink-500 hover:text-pink-600 transition-colors rounded-full bg-white ring-1 ring-pink-200 hover:bg-pink-50 dark:bg-gray-800 dark:ring-gray-600"
+              >
+                <Icon className="h-5 w-5" />
+              </button>
+            ))}
           </div>
-        </form>
-      </motion.div>
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="w-full !bg-white dark:!bg-gray-700 text-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300 transition"
+            />
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
+              {[Sticker, Gift, HelpCircle].map((Icon, idx) => (
+                <button
+                  type="button"
+                  key={idx}
+                  className="p-1.5 text-pink-500 hover:text-pink-600 transition-colors rounded-lg bg-white ring-1 ring-pink-200 hover:bg-pink-50 dark:bg-gray-800 dark:ring-gray-600"
+                >
+                  <Icon className="h-5 w-5" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <button
+            type="submit"
+            disabled={!newMessage.trim()}
+            className="p-2.5 bg-gradient-to-r from-pink-400 to-pink-300 text-white rounded-xl transition hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
+          >
+            <Send className="h-5 w-5" />
+          </button>
+        </div>
+      </form>
+    </motion.div>
     </motion.div>
   );
 };

@@ -33,6 +33,7 @@ import {
 import axios from "axios";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import { motion } from "framer-motion";
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
@@ -72,13 +73,13 @@ export function PeriodTracker() {
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
   const { width } = useScreenSize();
-  
+
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
-      navigate('/login');
+      navigate("/login");
     }
   }, [isLoaded, isSignedIn, navigate]);
-  
+
   const [sidebarVisible, setSideBarVisible] = useState(true);
   const [cycleDuration, setCycleDuration] = useState("");
   const [lastPeriodStart, setLastPeriodStart] = useState("");
@@ -113,14 +114,14 @@ export function PeriodTracker() {
       navigate("/login");
     }
   }, [isLoaded, isSignedIn, navigate]);
-  
+
   const handleWaterIntakeUpdate = async () => {
     if (!isSignedIn || !user) {
       alert("You must be logged in to update water intake");
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    
+
     try {
       const response = await axios.get(
         `${server_url}/api/period/waterupdate/me`,
@@ -218,13 +219,13 @@ export function PeriodTracker() {
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
-    
+
     if (!isSignedIn || !user) {
       alert("You must be logged in to submit data");
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    
+
     const submissionData = {
       userId: user.id,
       cycleDuration,
@@ -243,7 +244,7 @@ export function PeriodTracker() {
 
     try {
       const token = await user.getToken();
-      
+
       try {
         const response = await axios.post(
           `${server_url}/api/period/trackerdata`,
@@ -251,7 +252,7 @@ export function PeriodTracker() {
           {
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -260,7 +261,10 @@ export function PeriodTracker() {
         alert("Data submitted successfully!");
         return;
       } catch (primaryError) {
-        console.warn("Primary server failed, attempting local fallback:", primaryError);
+        console.warn(
+          "Primary server failed, attempting local fallback:",
+          primaryError
+        );
       }
 
       const localResponse = await axios.post(
@@ -269,11 +273,14 @@ export function PeriodTracker() {
         {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Data submitted successfully via local server:", localResponse.data);
+      console.log(
+        "Data submitted successfully via local server:",
+        localResponse.data
+      );
       setShowHealthTips(true);
       alert("Data submitted successfully!");
     } catch (error) {
@@ -300,21 +307,26 @@ export function PeriodTracker() {
   };
 
   const renderSection = (title, content, section) => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 mb-6 shadow-sm transition-all duration-300">
       <div
-        className="flex justify-between items-center cursor-pointer"
         onClick={() => toggleSection(section)}
+        className="w-full flex justify-between items-center px-6 py-4 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors"
       >
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        <h3 className="text-lg font-semibold text-zinc-800 dark:text-zinc-100">
           {title}
         </h3>
         {expandedSections[section] ? (
-          <ChevronUp className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          <ChevronUp className="w-5 h-5 text-zinc-500 dark:text-zinc-300" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+          <ChevronDown className="w-5 h-5 text-zinc-500 dark:text-zinc-300" />
         )}
       </div>
-      {expandedSections[section] && <div className="mt-4">{content}</div>}
+
+      {expandedSections[section] && (
+        <div className="px-6 pb-6 pt-2 bg-white dark:bg-zinc-800 rounded-b-lg">
+          {content}
+        </div>
+      )}
     </div>
   );
 
@@ -410,11 +422,12 @@ export function PeriodTracker() {
   ]);
 
   const cycleInfoContent = (
-    <div className="space-y-4">
-      <div>
+    <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
+      {/* Input: Average Cycle Duration */}
+      <div className="space-y-2">
         <label
           htmlFor="cycleDuration"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Average Cycle Duration (days)
         </label>
@@ -425,14 +438,15 @@ export function PeriodTracker() {
           value={cycleDuration}
           onChange={handleInputChange}
           min="1"
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <div>
+      {/* Input: Last Period Start Date */}
+      <div className="space-y-2">
         <label
           htmlFor="lastPeriodStart"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Last Period Start Date
         </label>
@@ -442,14 +456,15 @@ export function PeriodTracker() {
           name="lastPeriodStart"
           value={lastPeriodStart}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <div>
+      {/* Input: Last Period Duration */}
+      <div className="space-y-2">
         <label
           htmlFor="lastPeriodDuration"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Last Period Duration (days)
         </label>
@@ -460,20 +475,24 @@ export function PeriodTracker() {
           value={lastPeriodDuration}
           onChange={handleInputChange}
           min="1"
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <button
+      {/* Predict Button */}
+      <motion.button
         onClick={predictNextPeriod}
-        className="mt-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="w-full py-2 px-4 rounded-md font-medium text-white bg-pink-500 hover:bg-pink-600 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
       >
         Predict Next Period
-      </button>
+      </motion.button>
 
+      {/* Prediction Result */}
       {nextPeriodPrediction && (
-        <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900 rounded-md">
-          <p className="text-indigo-700 dark:text-indigo-200">
+        <div className="p-4 rounded-md bg-pink-50 dark:bg-pink-900/20 border border-pink-200 dark:border-pink-800">
+          <p className="text-pink-700 dark:text-pink-300">
             Your next period is predicted to start around:{" "}
             <span className="font-semibold">{nextPeriodPrediction}</span>
           </p>
@@ -483,11 +502,12 @@ export function PeriodTracker() {
   );
 
   const moodTrackingContent = (
-    <div className="space-y-4">
-      <div>
+    <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
+      {/* Mood Date */}
+      <div className="space-y-2">
         <label
           htmlFor="moodDate"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Date
         </label>
@@ -497,12 +517,13 @@ export function PeriodTracker() {
           name="moodDate"
           value={moodDate}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {/* Mood Types */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Mood Types (select all that apply)
         </label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -514,10 +535,11 @@ export function PeriodTracker() {
                 key={mood.name}
                 type="button"
                 onClick={() => handleMoodTypeChange(mood.name)}
-                className={`flex items-center space-x-2 p-3 rounded-md transition-colors ${isSelected
-                  ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                  }`}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-md border transition-colors text-sm ${
+                  isSelected
+                    ? "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800"
+                    : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-gray-300 dark:border-zinc-600 hover:bg-pink-50 dark:hover:bg-zinc-700"
+                }`}
               >
                 <MoodIcon className="w-5 h-5" />
                 <span>{mood.name}</span>
@@ -527,20 +549,22 @@ export function PeriodTracker() {
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {/* Mood Intensity */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Mood Intensity
         </label>
-        <div className="flex space-x-3">
+        <div className="flex flex-wrap gap-3">
           {moodSeverityOptions.map((option) => (
             <button
               key={option.value}
               type="button"
               onClick={() => setMoodSeverity(option.value)}
-              className={`px-4 py-2 rounded-md transition-colors ${moodSeverity === option.value
-                ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
+              className={`px-4 py-2 rounded-md border transition-colors text-sm ${
+                moodSeverity === option.value
+                  ? "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-gray-300 dark:border-zinc-600 hover:bg-pink-50 dark:hover:bg-zinc-700"
+              }`}
             >
               {option.name}
             </button>
@@ -551,11 +575,12 @@ export function PeriodTracker() {
   );
 
   const symptomTrackingContent = (
-    <div className="space-y-4">
-      <div>
+    <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
+      {/* Date Picker */}
+      <div className="space-y-2">
         <label
           htmlFor="symptomDate"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Date
         </label>
@@ -565,15 +590,16 @@ export function PeriodTracker() {
           name="symptomDate"
           value={symptomDate}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {/* Symptom List */}
+      <div className="space-y-4">
+        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Symptoms
         </label>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {symptomOptions.map((symptom) => {
             const isSelected = symptoms.includes(symptom);
             return (
@@ -584,22 +610,23 @@ export function PeriodTracker() {
                     id={`symptom-${symptom}`}
                     checked={isSelected}
                     onChange={() => handleSymptomChange(symptom)}
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 dark:border-gray-600 rounded"
+                    className="h-4 w-4 text-pink-500 focus:ring-pink-400 border-gray-300 dark:border-zinc-600 rounded"
                   />
                   <label
                     htmlFor={`symptom-${symptom}`}
-                    className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+                    className="ml-2 text-sm text-zinc-700 dark:text-zinc-300"
                   >
                     {symptom}
                   </label>
                 </div>
 
+                {/* Severity Selector */}
                 {isSelected && (
-                  <div className="ml-6">
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                  <div className="ml-6 space-y-1">
+                    <label className="block text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       Severity
                     </label>
-                    <div className="flex space-x-2">
+                    <div className="flex flex-wrap gap-2">
                       {symptomSeverityOptions.map((severity) => (
                         <button
                           key={`${symptom}-${severity}`}
@@ -607,10 +634,11 @@ export function PeriodTracker() {
                           onClick={() =>
                             handleSymptomSeverityChange(symptom, severity)
                           }
-                          className={`px-2 py-1 text-xs rounded-md transition-colors ${symptomSeverities[symptom] === severity
-                            ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
-                            : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                            }`}
+                          className={`px-3 py-1 rounded-md text-xs font-medium transition-colors border ${
+                            symptomSeverities[symptom] === severity
+                              ? "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800"
+                              : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-gray-300 dark:border-zinc-600 hover:bg-pink-50 dark:hover:bg-zinc-700"
+                          }`}
                         >
                           {severity}
                         </button>
@@ -627,11 +655,12 @@ export function PeriodTracker() {
   );
 
   const sleepTrackingContent = (
-    <div className="space-y-4">
-      <div>
+    <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
+      {/* Sleep Duration Input */}
+      <div className="space-y-2">
         <label
           htmlFor="sleepDuration"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-zinc-700 dark:text-zinc-300"
         >
           Sleep Duration (hours)
         </label>
@@ -644,24 +673,26 @@ export function PeriodTracker() {
           min="0"
           max="24"
           step="0.5"
-          className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
+          className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+      {/* Sleep Quality Selector */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
           Sleep Quality
         </label>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           {sleepQualityOptions.map((quality) => (
             <button
               key={quality}
               type="button"
               onClick={() => setSleepQuality(quality)}
-              className={`px-4 py-2 rounded-md transition-colors ${sleepQuality === quality
-                ? "bg-indigo-100 dark:bg-indigo-800 text-indigo-700 dark:text-indigo-200"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                }`}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors border ${
+                sleepQuality === quality
+                  ? "bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 border-pink-200 dark:border-pink-800"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border-gray-300 dark:border-zinc-600 hover:bg-pink-50 dark:hover:bg-zinc-700"
+              }`}
             >
               {quality}
             </button>
@@ -672,23 +703,23 @@ export function PeriodTracker() {
   );
 
   const healthTipsContent = (
-    <div className="space-y-4">
+    <div className="space-y-4 text-zinc-800 dark:text-zinc-100">
       {showHealthTips ? (
-        <div>
-          <ul className="space-y-2">
-            {generateHealthTips.map((tip, index) => (
-              <li
-                key={index}
-                className="flex items-start space-x-2 text-gray-700 dark:text-gray-300"
-              >
-                <HeartPulse className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
-                <span>{tip}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="space-y-3">
+          {generateHealthTips.map((tip, index) => (
+            <li
+              key={index}
+              className="flex items-start gap-3 p-3 bg-pink-50 dark:bg-pink-900/10 border border-pink-100 dark:border-pink-800 rounded-md"
+            >
+              <HeartPulse className="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-zinc-800 dark:text-zinc-200">
+                {tip}
+              </span>
+            </li>
+          ))}
+        </ul>
       ) : (
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
           Submit your tracking data to receive personalized health tips based on
           your cycle information.
         </p>
@@ -697,19 +728,17 @@ export function PeriodTracker() {
   );
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+    <div className="flex min-h-screen bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 transition-colors duration-300">
       <SideBar
-        visible={sidebarVisible}
-        toggleSidebar={toggleSidebar}
+        sidebarVisible={sidebarVisible}
         setSidebarVisible={setSideBarVisible}
-        darkMode={darkMode}
-        toggleDarkMode={toggleDarkMode}
         activeLink={4}
       />
+
       {width > 816 && (
         <button
           onClick={toggleSidebar}
-          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-transform duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
           style={{
             transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
           }}
@@ -724,39 +753,55 @@ export function PeriodTracker() {
         </button>
       )}
 
-      <div className={`flex-1 p-6 lg:p-8 ${sidebarVisible && width > 816 ? "ml-64" : "ml-0"} w-full max-w-full transition-all duration-300 ease-in-out`}>
+      <div
+        className={`flex-1 p-6 lg:p-8 transition-all duration-300 ease-in-out ${
+          sidebarVisible && width > 816 ? "ml-64" : "ml-0"
+        }`}
+      >
         <div className="max-w-4xl mx-auto">
+          {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-pink-600 dark:text-pink-400">
               Period Tracker
             </h1>
             {width < 816 && (
               <button
                 onClick={toggleSidebar}
-                className="p-2 rounded-md text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                className="p-2 rounded-md text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
             )}
           </div>
 
+          {/* Subheading */}
           <div className="mb-8">
-            <p className="text-gray-600 dark:text-gray-400">
-              Track your menstrual cycle, symptoms, mood, and sleep patterns to
-              gain insights into your reproductive health.
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Track your menstrual cycle, symptoms, mood, and sleep patterns to gain
+              insights into your reproductive health.
             </p>
           </div>
 
+          {/* Sections */}
           {renderSection("Cycle Information", cycleInfoContent, "cycleInfo")}
           {renderSection("Mood Tracking", moodTrackingContent, "moodTracking")}
-          {renderSection("Symptom Tracking", symptomTrackingContent, "symptomTracking")}
-          {renderSection("Sleep Tracking", sleepTrackingContent, "sleepTracking")}
+          {renderSection(
+            "Symptom Tracking",
+            symptomTrackingContent,
+            "symptomTracking"
+          )}
+          {renderSection(
+            "Sleep Tracking",
+            sleepTrackingContent,
+            "sleepTracking"
+          )}
           {renderSection("Health Tips", healthTipsContent, "healthTips")}
 
-          <div className="mt-8 flex justify-center">
+          {/* Submit Button */}
+          <div className="mt-10 flex justify-center">
             <button
               onClick={handleSubmit}
-              className="inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
+              className="inline-flex items-center justify-center py-3 px-6 rounded-md font-medium bg-pink-500 hover:bg-pink-600 text-white transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500"
             >
               Submit Tracking Data
             </button>

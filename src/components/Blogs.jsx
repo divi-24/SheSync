@@ -403,7 +403,7 @@ export function Blogs() {
                 <input
                   type="text"
                   placeholder="Search articles..."
-                  className="w-full h-11 px-4 pr-10 text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg"
+                  className="w-full h-11 px-4 pr-10 text-gray-800 dark:text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg"
                 />
                 <Search className="absolute  right-3  h-5 w-5 text-white pointer-events-none" />
               </div>
@@ -650,9 +650,9 @@ export function Blogs() {
               </h2>
               <button
                 onClick={() => setSelectedPost(null)}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="p-2 rounded-md bg-black/80 hover:bg-black/90 dark:bg-white/10 dark:hover:bg-white/20 transition-colors"
               >
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5 text-white dark:text-white" />
               </button>
             </div>
             <div className="mb-4">{selectedPost.icon}</div>
@@ -662,7 +662,7 @@ export function Blogs() {
             <span>
               {selectedPost.video ? (
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                  <h3 className="text-lg font-semibold text-pink-500 dark:text-gray-300 mb-2">
                     Video Explanation
                   </h3>
                   {selectedPost.video}

@@ -1,16 +1,18 @@
-import mongoose from "mongoose";
-import { MONGO_URL } from "../index.js";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
+
 export async function connectDb() {
   try {
-    mongoose
-      .connect(MONGO_URL)
-      .then(() => {
-        console.log("Successfully connected to MongoDB");
-        console.log(MONGO_URL);
+    await mongoose
+      .connect(`${process.env.MONGO_URL}/${process.env.APP_NAME}`)
+      .then(connectionInstance => {
+        console.log(
+          `MongoDB connection successful Instance Name ${connectionInstance.connection.host}`
+        );
       })
-      .catch((error) => {
-        console.error("MongoDB connection error:", error);
-        console.log(MONGO_URL);
+      .catch(error => {
+        console.error('MongoDB connection error:', error);
       });
   } catch (error) {
     console.log(error);

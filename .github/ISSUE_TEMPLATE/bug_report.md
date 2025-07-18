@@ -1,9 +1,10 @@
 ---
-name: 🐛 Bug Report
-description: Report a bug to help us improve the project
+name: "\U0001F41B Bug Report"
+about: bugs
 title: "[BUG] <short description>"
-labels: [bug]
-assignees: []
+labels: bug, enhancement
+assignees: ''
+
 ---
 
 ## 🐞 Bug Summary
@@ -37,4 +38,3 @@ assignees: []
 ## 🙋‍♀️ Want to work on this issue?
 
 - [ ] I want to fix this issue
-

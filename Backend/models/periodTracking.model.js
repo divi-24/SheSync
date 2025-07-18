@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const periodTrackingSchema = new mongoose.Schema(
   {
-    user: { type: String, required: true }, 
+    user: { type: String, required: true },
     date: { type: Date, default: Date.now },
     cycleDuration: { type: Number },
     lastPeriodStart: { type: Date },
@@ -20,12 +20,9 @@ const periodTrackingSchema = new mongoose.Schema(
     lastWaterLogDate: {
       type: String,
       default: () => new Date().toISOString().slice(0, 10),
-    }, 
+    },
   },
   { timestamps: true }
 );
 
-export const PeriodTracking = mongoose.model(
-  "PeriodTracking",
-  periodTrackingSchema
-);
+export const PeriodTracking = mongoose.model('PeriodTracking', periodTrackingSchema);

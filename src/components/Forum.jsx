@@ -610,24 +610,25 @@ export function Forum() {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1"
+      exit={{ opacity: 0, y: -10 }}
+      className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 bg-white"
     >
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
         <User className="mr-3 h-5 w-5" /> Profile
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
         <Bookmark className="mr-3 h-5 w-5" /> Bookmarks
       </button>
-      <button className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
         <CheckCircle className="mr-3 h-5 w-5" /> My Solutions
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
         <Mail className="mr-3 h-5 w-5" /> Messages
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-zinc-800 hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
         <Lock className="mr-3 h-5 w-5" /> Privacy Settings
       </button>
-      <button className="flex items-center w-full px-4 py-2  text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <button className="flex items-center w-full px-4 py-2 text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300">
         <XCircle className="mr-3 h-5 w-5" /> Logout
       </button>
     </motion.div>
@@ -642,7 +643,7 @@ export function Forum() {
       <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={() => toggleSolved(post.id)}
-          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
+          className="p-1 rounded-full bg-gray-200 dark:bg-gray-900"
         >
           {solvedPosts.includes(post.id) ? (
             <CheckCircle className="h-5 w-5 text-green-500" />
@@ -652,7 +653,7 @@ export function Forum() {
         </button>
         <button
           onClick={() => handleBookmark(post.id)}
-          className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-900"
+          className="p-1 rounded-full bg-gray-200 dark:bg-gray-900"
         >
           <Bookmark
             className={`h-5 w-5 ${
@@ -732,37 +733,39 @@ export function Forum() {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => handleLike(post.id)}
-            className="flex items-center hover:text-pink-600 transition-colors"
+            className="flex items-center px-3 py-1 rounded-md !bg-pink-200 text-pink-700 dark:!bg-gray-700 dark:text-gray-300 transition-colors"
           >
             <Heart
               className={`h-5 w-5 mr-1 ${
-                post.likes > 0 ? "text-pink-600 fill-current" : ""
+                post.likes > 0 ? "text-pink-600 dark:text-pink-400 fill-current" : ""
               }`}
             />
             {post.likes} likes
           </button>
-          <button className="flex items-center text-gray-500 hover:text-gray-700">
+
+          {/* Comments Button */}
+          <button className="flex items-center px-3 py-1 rounded-md !bg-pink-200 text-pink-700 dark:!bg-gray-700 dark:text-gray-300 transition-colors">
             <MessageSquare className="h-5 w-5 mr-1" />
             {post.comments} comments
           </button>
-          <div className="flex items-center space-x-1">
-            {Object.entries(postReactions[post.id] || {}).map(
-              ([type, count]) => (
-                <span key={type} className="text-sm">
-                  {type} {count}
-                </span>
-              )
-            )}
+
+          {/* Reactions */}
+          <div className="flex items-center space-x-1 text-gray-600 dark:text-gray-300">
+            {Object.entries(postReactions[post.id] || {}).map(([type, count]) => (
+              <span key={type} className="text-sm flex items-center">
+                {type} {count}
+              </span>
+            ))}
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full">
-            <Share2 className="h-4 w-4" />
+          <button className="p-2 !bg-gray-200 hover:bg-gray-300 dark:!bg-gray-700 rounded-full transition-colors">
+            <Share2 className="h-4 w-4 text-gray-600 dark:text-gray-300" />
           </button>
-          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full">
-            <Flag className="h-4 w-4" />
+          <button className="p-2 !bg-gray-200 hover:bg-gray-300 dark:!bg-gray-700 rounded-full transition-colors">
+            <Flag className="h-4 w-4 text-gray-600 dark:text-gray-300" />
           </button>
-          <span className="flex items-center text-sm text-gray-500">
+          <span className="flex items-center text-sm text-gray-500 dark:text-gray-400">
             <Eye className="h-4 w-4 mr-1" />
             {post.views || 0}
           </span>
@@ -774,7 +777,7 @@ export function Forum() {
           <button
             key={reaction.emoji}
             onClick={() => handleReaction(post.id, reaction.emoji)}
-            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-full"
+            className="p-1 bg-gray-300 dark:bg-gray-900 rounded-full"
             title={reaction.label}
           >
             <span className="text-lg">{reaction.emoji}</span>
@@ -791,7 +794,7 @@ export function Forum() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={10}
+        activeLink={11}
       />
       {width > 816 && (
         <button
@@ -831,46 +834,54 @@ export function Forum() {
               <div className="relative">
                 <button
                   onClick={() => setShowNotifications(!showNotifications)}
-                  className="p-2 rounded-full bg-white-100 dark:bg-gray-600 "
+                  className="p-2 rounded-full bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:bg-zinc-700 dark:text-white dark:hover:bg-zinc-600 transition-colors"
                 >
                   <Bell className="h-6 w-6" />
                   {notifications.some((n) => !n.read) && (
-                    <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full" />
+                    <span className="absolute top-0 right-0 h-3 w-3 bg-red-500 rounded-full ring-2 ring-white dark:ring-zinc-800" />
                   )}
                 </button>
+
                 <AnimatePresence>
                   {showNotifications && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-md shadow-lg py-2  text-gray-700 dark:text-gray-100"
+                      className="absolute right-0 mt-2 w-72 rounded-md shadow-lg bg-white text-zinc-800 dark:bg-zinc-800 dark:text-white border border-zinc-200 dark:border-zinc-700"
                     >
-                      <div className="px-4 py-2 font-semibold border-b dark:border-gray-700">
+                      <div className="px-4 py-2 font-semibold border-b border-zinc-200 dark:border-zinc-700">
                         Notifications
                       </div>
-                      {notifications.map((notification) => (
-                        <div
-                          key={notification.id}
-                          className={`px-4 py-2 text-sm flex items-center justify-between ${
-                            !notification.read
-                              ? "bg-pink-50 dark:bg-gray-600"
-                              : ""
-                          }`}
-                        >
-                          <span>{notification.text}</span>
-                          {!notification.read && (
-                            <button
-                              onClick={() =>
-                                markNotificationRead(notification.id)
-                              }
-                              className="text-pink-600 hover:text-pink-700"
-                            >
-                              Mark read
-                            </button>
-                          )}
+
+                      {notifications.length === 0 ? (
+                        <div className="px-4 py-3 text-sm text-center text-zinc-500 dark:text-zinc-400">
+                          No new notifications
                         </div>
-                      ))}
+                      ) : (
+                        notifications.map((notification) => (
+                          <div
+                            key={notification.id}
+                            className={`px-4 py-3 text-sm flex items-center justify-between ${
+                              !notification.read
+                                ? "bg-pink-50 dark:bg-zinc-700"
+                                : "hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            }`}
+                          >
+                            <span className="text-sm text-zinc-700 dark:text-zinc-200">
+                              {notification.text}
+                            </span>
+                            {!notification.read && (
+                              <button
+                                onClick={() => markNotificationRead(notification.id)}
+                                className="ml-2 px-3 py-1 text-xs font-medium rounded bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-white text-zinc-800 transition"
+                              >
+                                Mark read
+                              </button>
+                            )}
+                          </div>
+                        ))
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -878,12 +889,12 @@ export function Forum() {
               <div className="relative">
                 <button
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
-                  className="flex items-center space-x-2 p-0.5 rounded-full bg-white-100 dark:bg-gray-600"
+                  className="flex items-center p-0.5 rounded-full border-2 border-pink-400 bg-white dark:bg-zinc-800 hover:border-pink-500 transition-all"
                 >
                   <img
                     src="/images/women.jpeg"
                     alt="Profile"
-                    className="h-10 w-10 rounded-full"
+                    className="h-10 w-10 rounded-full object-cover"
                   />
                 </button>
                 <AnimatePresence>
@@ -894,45 +905,45 @@ export function Forum() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center flex-wrap gap-3">
               <button
                 onClick={() => setActiveTab("forums")}
-                className={`px-6 py-2 rounded-md ${
+                className={`px-5 py-2 rounded-md text-sm font-medium border transition-colors ${
                   activeTab === "forums"
-                    ? "bg-pink-600 text-white"
-                    : "bg-gray-200 text-gray-800"
-                } dark:bg-gray-800 dark:text-gray-100  border border-pink-200
-                 hover:bg-pink-500 `}
+                    ? "bg-pink-600 text-white border-pink-600"
+                    : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 border-pink-300 dark:border-pink-700 hover:bg-pink-100 dark:hover:bg-pink-800"
+                }`}
               >
                 Forums
               </button>
+
               <button
                 onClick={() => setActiveTab("posts")}
-                className={`px-4 py-2 rounded-md ${
+                className={`px-5 py-2 rounded-md text-sm font-medium border transition-colors ${
                   activeTab === "posts"
-                    ? "bg-pink-600 text-white"
-                    : "bg-gray-200 text-gray-700"
-                } dark:bg-gray-800 dark:text-gray-100 border border-pink-300
-                hover:bg-gray-300`}>
+                    ? "bg-pink-600 text-white border-pink-600"
+                    : "bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 border-pink-300 dark:border-pink-700 hover:bg-pink-100 dark:hover:bg-pink-800"
+                }`}
+              >
                 Recent Posts
               </button>
+
               <div className="relative">
                 <button
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center px-4 py-2 rounded-md bg-gray-200 
-                   text-gray-800 dark:bg-gray-800 dark:text-gray-100 
-                    hover:bg-gray-300 border border-pink-300
-">
+                  className="flex items-center px-4 py-2 rounded-md text-sm font-medium bg-pink-100 dark:bg-pink-900 text-pink-700 dark:text-pink-200 border border-pink-300 dark:border-pink-700 hover:bg-pink-200 dark:hover:bg-pink-800 transition-colors"
+                >
                   <Filter className="mr-2 h-4 w-4" />
                   Filters
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </button>
+
                 {showFilters && (
-                  <div className=" border border-pink-300 pl-10 pr-4 py-2 w-64 border absolute z-10 mt-2 w-48 bg-gray-200 dark:bg-gray-600 rounded-md shadow-lg p-2  hover:bg-gray-300">
+                  <div className="absolute z-10 mt-2 w-64 bg-white dark:bg-zinc-800 border border-pink-300 dark:border-pink-700 rounded-md shadow-lg p-4 space-y-2">
                     <select
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className="w-full bg-transparent p-2 text-sm"
+                      className="w-full bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white border border-zinc-300 dark:border-zinc-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
                     >
                       <option value="newest">Newest First</option>
                       <option value="likes">Most Likes</option>
@@ -941,7 +952,7 @@ export function Forum() {
                     <select
                       value={filterBy}
                       onChange={(e) => setFilterBy(e.target.value)}
-                      className="w-full bg-transparent p-2 text-sm mt-2"
+                      className="w-full bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white border border-zinc-300 dark:border-zinc-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400"
                     >
                       <option value="all">All Forums</option>
                       <option value="large">Large Communities</option>
@@ -950,34 +961,30 @@ export function Forum() {
                   </div>
                 )}
               </div>
-              <div className=" flex items-center space-x-2">
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className=" border border-pink-300
-                 bg-gray-200 dark:bg-gray-800  hover:bg-gray-300 text-gray-700 dark:text-gray-100 px-1 py-2 rounded-md"
-                >
-                  <option value="all">All Categories</option>
-                  {forumCategories.map((category) => (
-                    <option key={category.id} value={category.name}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-3 py-2 rounded-md border border-pink-400 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-400 transition-colors text-sm"
+              >
+                <option value="all">All Categories</option>
+                {forumCategories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="flex items-center space-x-2 pl-10">
-              <div className="relative">
-                <Search
-                  size={20}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 "
-                />
+
+            <div className="flex items-center">
+              <div className="relative w-80">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
                 <input
                   type="text"
                   placeholder="Search Forums"
-                  className="pl-10 pr-4 py-2 w-80 border bg-white text-black border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-600 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                   value={searchTerm}
                   onChange={handleSearch}
+                  className="pl-10 pr-4 py-2 w-full rounded-full bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all"
                 />
               </div>
             </div>

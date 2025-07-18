@@ -44,7 +44,7 @@ export default function FAQSection() {
   ];
 
   return (
-    <div className="hover:!bg-transparent hover:!shadow-none hover:!scale-100 transition-none transform-none focus:outline-none focus:ring focus:ring-pink-300">
+    <div className="!bg-pink-200 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:!shadow-none hover:!scale-100 transform-none transition-none focus:outline-none focus:ring focus:ring-pink-300 rounded-xl p-6">
       <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
         Frequently Asked Questions
       </h3>

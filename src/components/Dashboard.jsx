@@ -56,8 +56,9 @@ const local_url = "http://localhost:3000/";
 export function Dashboard() {
 
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  
-    const { width } = useScreenSize();
+  const { width } = useScreenSize();
+  const navigate = useNavigate()
+
   
     useEffect(() => {
       const handleResize = () => {
@@ -74,7 +75,6 @@ export function Dashboard() {
     }, []);
   
 
-  const navigate = useNavigate();
   
   const { isSignedIn } = useAuth();
   const { user } = useUser();
@@ -876,7 +876,7 @@ export function Dashboard() {
                     <p className="font-medium mb-2">{myth.myth}</p>
                     <button
                       onClick={() => openMythModal(myth)}
-                      className="text-[rgb(var(--primary))] hover:underline"
+                      className="px-4 py-2 rounded-md font-medium text-[rgb(var(--primary))] bg-[rgba(var(--primary),0.1)] hover:bg-[rgba(var(--primary),0.15)] underline-offset-4 hover:underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--primary))]/40 dark:text-[rgb(var(--primary))] dark:bg-[rgba(var(--primary),0.1)] dark:hover:bg-[rgba(var(--primary),0.2)]"
                     >
                       Reveal the truth
                     </button>
@@ -1022,18 +1022,18 @@ const TabButton = ({ children, active, onClick }) => {
 
 const DataToggle = ({ label, isSelected, onToggle }) => {
   return (
-    <div className="flex items-center justify-between">
-      <span>{label}</span>
+    <div className="flex items-center justify-between py-2 px-4 border border-gray-300 dark:border-zinc-700 rounded-md mb-2 bg-white dark:bg-zinc-900">
+      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">{label}</span>
       <button
         onClick={onToggle}
-        className="focus:outline-none"
+        className={`relative w-12 h-6 rounded-full transition-colors duration-300 focus:outline-none
+          ${isSelected ? 'bg-pink-500' : 'bg-gray-300 dark:bg-gray-600'}`}
         aria-label={`Toggle ${label}`}
       >
-        {isSelected ? (
-          <ToggleRight className="h-6 w-6 text-[rgb(var(--primary))]" />
-        ) : (
-          <ToggleLeft className="h-6 w-6 text-[rgb(var(--muted-foreground))]" />
-        )}
+        <span
+          className={`absolute left-0 top-0 h-6 w-6 bg-white dark:bg-zinc-200 rounded-full shadow-md transform transition-transform duration-300
+            ${isSelected ? 'translate-x-6' : 'translate-x-0'}`}
+        />
       </button>
     </div>
   );

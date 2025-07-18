@@ -127,12 +127,12 @@ export function SymptomAnalysis() {
   const [showEmergencyAlert, setShowEmergencyAlert] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const toggleCategory = (category) => {
-  setSelectedCategories((prev) =>
-    prev.includes(category)
-      ? prev.filter((c) => c !== category)
-      : [...prev, category]
-  );
-};
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
 
   const [symptomPatterns, setSymptomPatterns] = useState({});
   const [showSeverityGuide, setShowSeverityGuide] = useState(false);
@@ -252,8 +252,13 @@ export function SymptomAnalysis() {
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
-
-                    <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700  dark:text-white"}>
+                    <span
+                      className={
+                        selectedCategories.includes(category)
+                          ? "text-pink-700"
+                          : "text-gray-700  dark:text-white"
+                      }
+                    >
                       {category}
                     </span>
                   </motion.button>
@@ -261,13 +266,14 @@ export function SymptomAnalysis() {
               </div>
             </div>
 
-
             {/* Symptom Selection */}
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Symptoms</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-
-                {(selectedCategories.length > 0? selectedCategories.flatMap((cat) => symptomCategories[cat]): commonSymptoms).map((symptom) => (
+                {(selectedCategories.length > 0
+                  ? selectedCategories.flatMap((cat) => symptomCategories[cat])
+                  : commonSymptoms
+                ).map((symptom) => (
                   <motion.button
                     key={symptom}
                     onClick={() => {
@@ -442,7 +448,9 @@ export function SymptomAnalysis() {
                 >
                   <span
                     className={
-                      duration === period ? "text-pink-700" : "text-gray-700 dark:text-white"
+                      duration === period
+                        ? "text-pink-700"
+                        : "text-gray-700 dark:text-white"
                     }
                   >
                     {period}
@@ -453,26 +461,26 @@ export function SymptomAnalysis() {
             <div className="flex justify-between">
               <motion.button
                 onClick={handleBack}
-                className="py-3 px-6 rounded-lg text-pink-700 font-medium border border-pink-200 hover:bg-pink-50 transition-colors"
+                className="py-3 px-6 rounded-md font-medium text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-700 bg-white dark:bg-zinc-800 hover:bg-pink-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600 transition-all"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <ArrowLeft className="inline mr-2" />
+                <ArrowLeft className="inline mr-2 h-4 w-4" />
                 Back
               </motion.button>
               <motion.button
                 onClick={handleNext}
                 disabled={!duration}
-                className={`py-3 px-6 rounded-lg font-medium transition-colors ${
+                className={`py-3 px-6 rounded-md font-medium flex items-center justify-center transition-all ${
                   duration
-                    ? "bg-pink-200 text-pink-700 hover:bg-pink-300"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    ? "text-white bg-pink-500 hover:bg-pink-600 focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600"
+                    : "bg-gray-100 text-gray-400 dark:bg-zinc-800 dark:text-zinc-600 cursor-not-allowed"
                 }`}
                 whileHover={duration ? { scale: 1.01 } : {}}
                 whileTap={duration ? { scale: 0.99 } : {}}
               >
                 Next
-                <ChevronRight className="inline ml-2" />
+                <ChevronRight className="inline ml-2 h-4 w-4" />
               </motion.button>
             </div>
           </motion.div>
@@ -500,21 +508,26 @@ export function SymptomAnalysis() {
             <div className="flex justify-between">
               <motion.button
                 onClick={handleBack}
-                className="py-3 px-6 rounded-lg text-pink-700 font-medium border border-pink-200 hover:bg-pink-50 transition-colors"
+                className="py-3 px-6 rounded-md font-medium text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-700 bg-white dark:bg-zinc-800 hover:bg-pink-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600 transition-all"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <ArrowLeft className="inline mr-2" />
+                <ArrowLeft className="inline mr-2 h-4 w-4" />
                 Back
               </motion.button>
               <motion.button
                 onClick={handleNext}
-                className="py-3 px-6 rounded-lg font-medium bg-pink-200 text-pink-700 hover:bg-pink-300 transition-colors"
-                whileHover={{ scale: 1.01 }}
-                whileTap={{ scale: 0.99 }}
+                disabled={!duration}
+                className={`py-3 px-6 rounded-md font-medium flex items-center justify-center transition-all ${
+                  duration
+                    ? "text-white bg-pink-500 hover:bg-pink-600 focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600"
+                    : "bg-gray-100 text-gray-400 dark:bg-zinc-800 dark:text-zinc-600 cursor-not-allowed"
+                }`}
+                whileHover={duration ? { scale: 1.01 } : {}}
+                whileTap={duration ? { scale: 0.99 } : {}}
               >
                 Next
-                <ChevronRight className="inline ml-2" />
+                <ChevronRight className="inline ml-2 h-4 w-4" />
               </motion.button>
             </div>
           </motion.div>
@@ -536,7 +549,9 @@ export function SymptomAnalysis() {
               </h3>
               <ul className="list-disc pl-5 mb-4 text-gray-700">
                 {selectedSymptoms.map((symptom, index) => (
-                  <li key={index} className="dark:text-white">{symptom}</li>
+                  <li key={index} className="dark:text-white">
+                    {symptom}
+                  </li>
                 ))}
               </ul>
               <p className="text-gray-700 dark:text-white">
@@ -551,38 +566,43 @@ export function SymptomAnalysis() {
                   <h3 className="font-semibold mt-4 mb-2 text-pink-700">
                     Additional Information:
                   </h3>
-                  <p className="text-gray-700 dark:text-white">{additionalInfo}</p>
+                  <p className="text-gray-700 dark:text-white">
+                    {additionalInfo}
+                  </p>
                 </>
               )}
             </div>
             <div className="flex justify-between">
               <motion.button
                 onClick={handleBack}
-                className="py-3 px-6 rounded-lg text-pink-700 font-medium border border-pink-200 hover:bg-pink-50 transition-colors"
+                className="py-3 px-6 rounded-md font-medium text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-700 bg-white dark:bg-zinc-800 hover:bg-pink-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600 transition-all"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <ArrowLeft className="inline mr-2" />
+                <ArrowLeft className="inline mr-2 h-4 w-4" />
                 Back
               </motion.button>
               <motion.button
                 onClick={handleSubmit}
-                className={`py-3 px-6 rounded-lg font-medium bg-pink-200 text-pink-700 hover:bg-pink-300 transition-colors ${
-                  isAnalyzing ? "opacity-50 cursor-not-allowed" : ""
+                disabled={isAnalyzing}
+                className={`py-3 px-6 rounded-md font-medium flex items-center justify-center transition-all focus:outline-none ${
+                  isAnalyzing
+                    ? "bg-gray-100 text-gray-400 dark:bg-zinc-800 dark:text-zinc-500 cursor-not-allowed"
+                    : "bg-pink-500 text-white hover:bg-pink-600 focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600"
                 }`}
                 whileHover={isAnalyzing ? {} : { scale: 1.01 }}
                 whileTap={isAnalyzing ? {} : { scale: 0.99 }}
               >
                 {isAnalyzing ? (
-                  <span className="flex items-center text-pink-700">
-                    <Loader2 className="animate-spin mr-2" />
+                  <span className="flex items-center gap-2">
+                    <Loader2 className="animate-spin h-4 w-4" />
                     Analyzing...
                   </span>
                 ) : (
-                  <span className="text-pink-700">
+                  <>
                     Submit for Analysis
-                    <ChevronRight className="inline ml-2" />
-                  </span>
+                    <ChevronRight className="inline ml-2 h-4 w-4" />
+                  </>
                 )}
               </motion.button>
             </div>
@@ -762,17 +782,19 @@ export function SymptomAnalysis() {
                   setAdditionalInfo("");
                   setAnalysis(null);
                 }}
-                className="flex-1 py-3 px-6 rounded-lg font-medium bg-pink-200 text-pink-700 hover:bg-pink-300 transition-colors"
+                className="flex-1 py-3 px-6 rounded-md font-medium text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600 transition-all"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
                 Start New Analysis
               </motion.button>
+
+              {/* Save to History */}
               <motion.button
                 onClick={() => {
                   updateSymptomHistory(selectedSymptoms);
                 }}
-                className="flex-1 py-3 px-6 rounded-lg text-pink-700 font-medium border border-pink-200 hover:bg-pink-50 transition-colors"
+                className="flex-1 py-3 px-6 rounded-md font-medium text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-700 bg-white dark:bg-zinc-800 hover:bg-pink-50 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-600 transition-all"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
@@ -979,7 +1001,7 @@ export function SymptomAnalysis() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={8}
+        activeLink={9}
       />
       {width > 816 && (
         <button

@@ -237,6 +237,11 @@ export function Consultations() {
     }
   };
 
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   // UI Components
   const SidebarLink = ({ icon, label, onClick, active = false }) => {
     return (
@@ -361,19 +366,19 @@ export function Consultations() {
 
   const FilterSection = ({ filters, setFilters, showFilters }) => (
     <motion.div
-      initial={{ height: 0, opacity: 0 }}
+      initial={!hasMounted ? { height: 0, opacity: 0 } : false}
       animate={{
         height: showFilters ? "auto" : 0,
         opacity: showFilters ? 1 : 0,
       }}
       transition={{ duration: 0.3 }}
-      className="overflow-hidden bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6"
+      className="overflow-hidden bg-white dark:bg-gray-900 rounded-xl shadow-lg mb-6 transition-all"
     >
       <div className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Specialization */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Specialization
             </label>
             <select
@@ -381,7 +386,7 @@ export function Consultations() {
               onChange={(e) =>
                 setFilters({ ...filters, specialization: e.target.value })
               }
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
               <option value="">All Specializations</option>
               {specializations.map((spec) => (
@@ -394,7 +399,7 @@ export function Consultations() {
 
           {/* Consultation Type */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Consultation Type
             </label>
             <select
@@ -402,7 +407,7 @@ export function Consultations() {
               onChange={(e) =>
                 setFilters({ ...filters, consultationType: e.target.value })
               }
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
               <option value="">All Types</option>
               {consultationTypes.map((type) => (
@@ -415,7 +420,7 @@ export function Consultations() {
 
           {/* Language */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Language
             </label>
             <select
@@ -423,7 +428,7 @@ export function Consultations() {
               onChange={(e) =>
                 setFilters({ ...filters, language: e.target.value })
               }
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
               <option value="">All Languages</option>
               {languageOptions.map((lang) => (
@@ -436,7 +441,7 @@ export function Consultations() {
 
           {/* Experience */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Experience
             </label>
             <select
@@ -444,7 +449,7 @@ export function Consultations() {
               onChange={(e) =>
                 setFilters({ ...filters, experience: e.target.value })
               }
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
               <option value="">Any Experience</option>
               {experienceRanges.map((range) => (
@@ -457,7 +462,7 @@ export function Consultations() {
 
           {/* Price Range */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Price Range
             </label>
             <select
@@ -465,7 +470,7 @@ export function Consultations() {
               onChange={(e) =>
                 setFilters({ ...filters, priceRange: e.target.value })
               }
-              className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              className="w-full p-2.5 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
             >
               <option value="">Any Price</option>
               {priceRanges.map((range) => (
@@ -478,7 +483,7 @@ export function Consultations() {
 
           {/* Rating */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-semibold text-neutral-900 dark:text-neutral-200 mb-2">
               Minimum Rating
             </label>
             <div className="flex items-center space-x-2">
@@ -486,7 +491,7 @@ export function Consultations() {
                 <button
                   key={rating}
                   onClick={() => setFilters({ ...filters, rating })}
-                  className={`p-2 rounded-full ${
+                  className={`p-2 rounded-full transition-colors ${
                     filters.rating >= rating
                       ? "text-yellow-400"
                       : "text-gray-300 dark:text-gray-600"
@@ -825,7 +830,7 @@ export function Consultations() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={6}
+        activeLink={7}
       />
       {width > 816 && (
         <button
@@ -979,7 +984,7 @@ export function Consultations() {
               onClick={() =>
                 setSortBy(sortBy === "rating" ? "distance" : "rating")
               }
-              className="flex items-center space-x-2 bg-[#e73e8f] text-white text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
+              className="flex items-center space-x-2 bg-[#e73e8f] text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
             >
               <ArrowUpDown className="h-5 w-5" />
               <span className="text-white">Sort</span>
