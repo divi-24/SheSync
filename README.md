@@ -8,7 +8,7 @@ SheSync is a comprehensive women's health and wellness platform built with moder
 - **Community Forum**: Connect with other women and share experiences
 - **Educational Resources**: Access curated health and wellness information
 - **Professional Consultation**: Connect with healthcare providers
-- **Period Tracking**: Monitor and understand your menstrual cycle
+- **Health Tracker**: Monitor menstrual cycles, symptoms, and wellness goals
 - **Shop**: Access health and wellness products
 
 ## 🛠️ Technologies Used
@@ -42,209 +42,224 @@ SheSync is a comprehensive women's health and wellness platform built with moder
 ```bash
 git clone https://github.com/yourusername/SheSync.git
 cd SheSync
-````
+Install dependencies:
 
-2. Install dependencies:
-
-```bash
+bash
+Copy
+Edit
 npm install
-```
+Create a .env file in the root directory and add necessary environment variables:
 
-3. Create a `.env` file in the root directory and add necessary environment variables:
-
-```env
+env
+Copy
+Edit
 VITE_SERVER_URL=https://shesync.onrender.com/
 
-VITE_GEMINI_API_KEY=AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro // Use new API key, this one is not working
+VITE_GEMINI_API_KEY=AIzaSyDC_nwnZggf8CYID3qvJfazEE8KBnqd9Ro
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_YW11c2luZy1ob3JuZXQtOS5jbGVyay5hY2NvdW50cy5kZXYk
 
 VITE_GOOGLE_MAPS_API_KEY=AIzaSyB5pTapWtBsb95f5qpxiadprABnynOIZdQ
-```
+Start the development server:
 
-4. Start the development server:
-
-```bash
+bash
+Copy
+Edit
 npm run dev
-```
-5. To use the Dockerfile, you need to have Docker installed on your machine. Follow these steps:
+To use the Dockerfile, you need to have Docker installed on your machine. Follow these steps:
 
-a. Build the Docker image by running the following command from the root directory of the project: <br/>
-**For Frontend**:
-```bash
-    docker build -t shesync-frontend .
-```
-- to run Frontend:
-```bash
-    docker run -it -p 5173:5173 shesync-frontend
-```
+Frontend:
 
-**For Backend** (You have to be in Backend folder) :
-```bash
-    docker build -t shesync-backend .
-```
-- to run Backend:
-```bash
-    docker run -it -p 3000:3000 shesync-backend
-```
-**To build both the docker Images at once**
-```bash
-    docker-compose up --build
-```
-**To run both the docker Images at once**
-```bash
-    docker-compose up
-```
+bash
+Copy
+Edit
+docker build -t shesync-frontend .
+docker run -it -p 5173:5173 shesync-frontend
+Backend (Inside the Backend folder):
 
-## 🏗️ Project Structure
+bash
+Copy
+Edit
+docker build -t shesync-backend .
+docker run -it -p 3000:3000 shesync-backend
+To build both Docker images at once:
 
-```
+bash
+Copy
+Edit
+docker-compose up --build
+To run both containers at once:
+
+bash
+Copy
+Edit
+docker-compose up
+🏗️ Project Structure (Frontend & Backend with Health Tracker)
+php
+Copy
+Edit
 src/
-├── components/                    # Reusable UI components
-│   ├── Landing.jsx              # Main landing page component
-│   ├── Dashboard.jsx            # User dashboard interface
-│   ├── ParentDashboard.jsx      # Parent-specific dashboard
-│   ├── PartnerDashboard.jsx     # Partner-specific dashboard
-│   ├── PeriodTracker.jsx        # Period tracking functionality
-│   ├── SymptomAnalysis.jsx      # Health symptom analysis tool
-│   ├── Chatbot.jsx              # AI-powered health assistant
-│   ├── CommunityChat.jsx        # Community chat interface
-│   ├── Forum.jsx                # Community forum component
-│   ├── Blogs.jsx                # Health blog section
-│   ├── Consultations.jsx        # Healthcare consultation booking
-│   ├── Ecom.jsx                 # E-commerce shop interface
-│   ├── Login.jsx                # User authentication
-│   ├── Signup.jsx               # User registration
-│   ├── Quiz.jsx                 # Health assessment quiz
-│   ├── PrivacyForm.jsx          # Privacy policy form
-│   └── ModernTeamShowcase.jsx   # Team member showcase
+├── components/                    
+│   ├── Landing.jsx                # Main landing page component
+│   ├── Dashboard.jsx              # User dashboard interface
+│   ├── ParentDashboard.jsx        # Parent-specific dashboard
+│   ├── PartnerDashboard.jsx       # Partner-specific dashboard
+│   ├── HealthTracker.jsx          # Health and period tracking functionality
+│   ├── SymptomAnalysis.jsx        # Health symptom analysis tool
+│   ├── Chatbot.jsx                # AI-powered health assistant
+│   ├── CommunityChat.jsx          # Community chat interface
+│   ├── Forum.jsx                  # Community forum component
+│   ├── Blogs.jsx                  # Health blog section
+│   ├── Consultations.jsx          # Healthcare consultation booking
+│   ├── Ecom.jsx                   # E-commerce shop interface
+│   ├── Login.jsx                  # User authentication
+│   ├── Signup.jsx                 # User registration
+│   ├── Quiz.jsx                   # Health assessment quiz
+│   ├── PrivacyForm.jsx            # Privacy policy form
+│   └── ModernTeamShowcase.jsx     # Team member showcase
 │
-├── utils/                       # Utility functions and helpers
-│   └── gemini.js               # Google Gemini AI integration
+├── utils/                         
+│   └── gemini.js                  # Google Gemini AI integration
 │
-├── styles/                      # Global styles and CSS
-│   └── index.css               # Main stylesheet
+├── styles/                        
+│   └── index.css                  # Main stylesheet
 │
-├── App.jsx                      # Main application component
-├── main.jsx                     # Application entry point
-└── index.css                    # Global styles
+├── App.jsx                        # Main application component
+├── main.jsx                       # Application entry point
+└── index.css                      # Global styles
 
-public/                          # Static assets
-├── images/                      # Image assets
-└── icons/                       # Icon assets
+public/                            
+├── images/                        # Image assets
+└── icons/                         # Icon assets
 
-Backend/                         # Backend server code
-├── controllers/                 # Route controllers
-├── models/                      # Database models
-├── routes/                      # API routes
-└── config/                      # Configuration files
-```
+Backend/                           
+├── controllers/                   # Route controllers
+├── models/                        # Database models
+├── routes/                        # API routes
+└── config/                        # Configuration files
+🔍 Key Components Overview
+Core Features
+Landing Page: Main entry point with feature showcase and navigation
 
-### Key Components Overview
+Dashboard: Personalized user interface with health metrics and quick actions
 
-#### Core Features
+Health Tracker: Menstrual cycle, symptom, and wellness tracking
 
-* **Landing Page**: Main entry point with feature showcase and navigation
-* **Dashboard**: Personalized user interface with health metrics and quick actions
-* **Period Tracker**: Menstrual cycle tracking and analysis
-* **Symptom Analysis**: AI-powered health symptom assessment
-* **Chatbot**: AI health assistant powered by Google Gemini
+Symptom Analysis: AI-powered health symptom assessment
 
-#### Community Features
+Chatbot: AI health assistant powered by Google Gemini
 
-* **Forum**: Community discussion platform
-* **Community Chat**: Real-time chat functionality
-* **Blogs**: Health and wellness articles
-* **ModernTeamShowcase**: Healthcare professional profiles
+Community Features
+Forum: Community discussion platform
 
-#### User Management
+Community Chat: Real-time chat functionality
 
-* **Login/Signup**: User authentication and registration with **Clerk** authentication system
-* **PrivacyForm**: Privacy policy and data handling
-* **Quiz**: Initial health assessment
+Blogs: Health and wellness articles
 
-#### Healthcare Services
+ModernTeamShowcase: Healthcare professional profiles
 
-* **Consultations**: Healthcare provider booking system
-* **Ecom**: Health and wellness product marketplace
+User Management
+Login/Signup: User authentication and registration with Clerk authentication system
 
-#### Specialized Dashboards
+PrivacyForm: Privacy policy and data handling
 
-* **ParentDashboard**: Features for parents/guardians
-* **PartnerDashboard**: Features for partners/spouses
+Quiz: Initial health assessment
 
-### Technology Stack Details
+Healthcare Services
+Consultations: Healthcare provider booking system
 
-#### Frontend Architecture
+Ecom: Health and wellness product marketplace
 
-* **React Components**: Modular, reusable UI components
-* **State Management**: React hooks and context
-* **Routing**: React Router for navigation
-* **Styling**: TailwindCSS for responsive design
-* **Animations**: Framer Motion for smooth transitions
+Specialized Dashboards
+ParentDashboard: Features for parents/guardians
 
-#### Backend Integration
+PartnerDashboard: Features for partners/spouses
 
-* **API Integration**: Axios for HTTP requests
-* **Authentication**: Clerk middleware Authentication
-* **Database**: MongoDB for data storage
-* **Real-time Features**: WebSocket integration
+🧱 Technology Stack Details
+Frontend Architecture
+React Components: Modular, reusable UI components
 
-#### Development Tools
+State Management: React hooks and context
 
-* **Build Tool**: Vite for fast development
-* **Code Quality**: ESLint for code linting
-* **Version Control**: Git for source control
-* **Package Management**: npm for dependencies
+Routing: React Router for navigation
 
-## 🤝 Contributing
+Styling: TailwindCSS for responsive design
 
+Animations: Framer Motion for smooth transitions
+
+Backend Integration
+API Integration: Axios for HTTP requests
+
+Authentication: Clerk middleware authentication
+
+Database: MongoDB for data storage
+
+Real-time Features: WebSocket integration
+
+Development Tools
+Build Tool: Vite for fast development
+
+Code Quality: ESLint for code linting
+
+Version Control: Git for source control
+
+Package Management: npm for dependencies
+
+🤝 Contributing
 We welcome contributions from the community! Here's how you can help:
 
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Commit your changes (`git commit -m 'Add some amazing feature'`)
-5. Push to the branch (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
+Fork the repository
 
-### Code Style Guidelines
+Create a new branch (git checkout -b feature/amazing-feature)
 
-* Follow the existing code style
-* Use meaningful variable and function names
-* Add comments for complex logic
-* Write unit tests for new features
-* Ensure all tests pass before submitting a PR
+Make your changes
 
-## 📝 Code of Conduct
+Commit your changes (git commit -m 'Add some amazing feature')
 
-### Our Pledge
+Push to the branch (git push origin feature/amazing-feature)
 
+Open a Pull Request
+
+Code Style Guidelines
+Follow the existing code style
+
+Use meaningful variable and function names
+
+Add comments for complex logic
+
+Write unit tests for new features
+
+Ensure all tests pass before submitting a PR
+
+📝 Code of Conduct
+Our Pledge
 We are committed to making participation in this project a harassment-free experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-### Our Standards
+Our Standards
+Using welcoming and inclusive language
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the community
-* Showing empathy towards other community members
+Being respectful of differing viewpoints and experiences
 
-## 📄 License
+Gracefully accepting constructive criticism
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Focusing on what is best for the community
 
-## 🙏 Acknowledgments
+Showing empathy towards other community members
 
-* All contributors who have helped shape this project
-* The open-source community for their invaluable tools and libraries
-* Healthcare professionals who have provided guidance and expertise
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📞 Support
+🙏 Acknowledgments
+All contributors who have helped shape this project
 
+The open-source community for their invaluable tools and libraries
+
+Healthcare professionals who have provided guidance and expertise
+
+📞 Support
 If you need help or have questions, please:
 
-* Open an issue in the GitHub repository
-* Contact the maintainers
-* Join our community forum
+Open an issue in the GitHub repository
 
----
+Contact the maintainers
+
+Join our community forum
