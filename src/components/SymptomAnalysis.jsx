@@ -41,6 +41,7 @@ import {
   Heart,
 } from "lucide-react";
 
+const [cycleDay, setCycleDay] = useState(1);
 const commonSymptoms = [
   "Abdominal cramps",
   "Fatigue",
