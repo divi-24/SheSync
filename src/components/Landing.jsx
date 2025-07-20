@@ -665,7 +665,8 @@ export function Landing() {
                   <li>
                     <button
                       onClick={() => navigate("/symptomsanalyzer")}
-                      className="text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
+                      className="bg-pink-600 dark:bg-pink-500 text-white-700 dark:text-white dark:border-white
+                       hover:bg-pink-700 hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
 
                     >
                       About Us
@@ -675,7 +676,7 @@ export function Landing() {
                     <button
                       onClick={() => navigate("/parents")}
 
-                      className="text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
+                      className="bg-pink-600 text-white-700 dark:text-white dark:border-white dark:bg-pink-500 hover:text-white hover:bg-pink-700 transform hover:scale-105 transition duration-200 ease-in-out"
 
                     >
                       Careers
