@@ -1172,7 +1172,7 @@ Risk Level: [Low/Moderate/High]
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-bold text-pink-600 dark:text-pink-400">
+            <h2 className={`text-3xl font-bold text-pink-600 dark:text-pink-400 ${sidebarVisible && width > 816 ? "pl-0" : "pl-10"}`}>
               PCOS Diagnosis
             </h2>
           </div>

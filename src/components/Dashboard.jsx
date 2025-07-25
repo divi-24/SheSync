@@ -596,7 +596,7 @@ export function Dashboard() {
             </div>
           )}
           <div className="flex items-center justify-between p-4 bg-[var(--fc-accent)] shadow-md">
-            <h2 className="text-lg text-pink-600 font-bold">Dashboard</h2>
+            <h2 className={`text-lg text-pink-600 font-bold ${sidebarVisible && width > 816 ? "pl-0" : "pl-5"}`}>Dashboard</h2>
             <div className="flex items-center gap-4">
               <Bell className="h-5 w-5 text-[rgb(var(--muted-foreground))]" />
               <button

@@ -370,7 +370,7 @@ export function Blogs() {
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
           <div className="flex justify-between items-center">
-            <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400">
+            <h2 className={`text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-purple-400 ${sidebarVisible && width > 816 ? "pl-0" : "pl-10"}`}>
               Education Hub
             </h2>
           </div>

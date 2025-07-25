@@ -92,8 +92,8 @@ export function Landing() {
           {/* Header */}
           <div className="flex justify-between items-center">
             <h1
-              className="text-3xl font-bold text-pink-600 dark:text-pink-400 
-            "
+              className={`text-3xl font-bold text-pink-600 dark:text-pink-400 ${sidebarVisible && width > 816 ? "pl-0" : "pl-11"}
+            `}
             >
               Welcome to SheSync
             </h1>

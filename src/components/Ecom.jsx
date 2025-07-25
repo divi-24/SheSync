@@ -497,7 +497,7 @@ export function Ecom() {
             animate={{ y: 0, opacity: 1 }}
             className="flex justify-between items-center"
           >
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            <h2 className={`text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent ${sidebarVisible && width > 816 ? "pl-0" : "pl-10"}`}>
               Shop
             </h2>
             <div className="flex items-center space-x-4">
