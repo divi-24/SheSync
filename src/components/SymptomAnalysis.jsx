@@ -54,7 +54,7 @@ const commonSymptoms = [
   "Acne",
   "Insomnia",
 ];
-
+const customSymptom=[]
 const symptomCategories = {
   "Pain & Discomfort": [
     "Abdominal cramps",
@@ -117,6 +117,7 @@ export function SymptomAnalysis() {
   const [step, setStep] = useState(1);
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [customSymptom, setCustomSymptom] = useState("");
+  const [customSymptomsList, setCustomSymptomsList] = useState([]);
   const [intensity, setIntensity] = useState("");
   const [duration, setDuration] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState("");
@@ -127,12 +128,12 @@ export function SymptomAnalysis() {
   const [showEmergencyAlert, setShowEmergencyAlert] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const toggleCategory = (category) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
-  };
+  setSelectedCategories((prev) =>
+    prev.includes(category)
+      ? prev.filter((c) => c !== category)
+      : [...prev, category]
+  );
+};
 
   const [symptomPatterns, setSymptomPatterns] = useState({});
   const [showSeverityGuide, setShowSeverityGuide] = useState(false);
@@ -167,8 +168,10 @@ export function SymptomAnalysis() {
   };
 
   const handleAddCustomSymptom = () => {
-    if (customSymptom && !selectedSymptoms.includes(customSymptom)) {
-      setSelectedSymptoms((prev) => [...prev, customSymptom]);
+    if (!customSymptom.trim()) return;
+    const formattedSymptom = customSymptom.trim();
+    if (!customSymptomsList.includes(formattedSymptom)) {
+      setCustomSymptomsList([...customSymptomsList, formattedSymptom]);
       setCustomSymptom("");
     }
   };
@@ -238,7 +241,7 @@ export function SymptomAnalysis() {
 
             {/* Category Selection */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-4">Select Category</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-white">Select Category</h3>
               <div className="grid grid-cols-1 gap-3 ">
                 {Object.keys(symptomCategories).map((category) => (
                   <motion.button
@@ -252,13 +255,8 @@ export function SymptomAnalysis() {
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                   >
-                    <span
-                      className={
-                        selectedCategories.includes(category)
-                          ? "text-pink-700"
-                          : "text-gray-700  dark:text-white"
-                      }
-                    >
+
+                    <span className={selectedCategories.includes(category) ? "text-pink-700" : "text-gray-700  dark:text-white"}>
                       {category}
                     </span>
                   </motion.button>
@@ -266,9 +264,10 @@ export function SymptomAnalysis() {
               </div>
             </div>
 
+
             {/* Symptom Selection */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-4">Select Symptoms</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-white">Select Symptoms</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {(selectedCategories.length > 0
                   ? selectedCategories.flatMap((cat) => symptomCategories[cat])
@@ -317,17 +316,23 @@ export function SymptomAnalysis() {
             </div>
 
             {/* Custom Symptom Input */}
-            <div className="flex space-x-2">
+            <div className="rounded-md ">
+              <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-white">Add Custom Symptoms</h3>
+              {/* Input container */}
+              <div className="flex gap-3 mb-4">
               <input
                 type="text"
                 value={customSymptom}
                 onChange={(e) => setCustomSymptom(e.target.value)}
-                placeholder="Add custom symptom"
-                className="flex-grow p-2 border border-pink-100 dark:bg-[#111827] rounded-md bg-pink-50 placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-200 focus:border-transparent"
+                  onKeyDown={(e) => e.key === 'Enter' && handleAddCustomSymptom()}
+                  placeholder="Type your symptom..."
+                  className="flex-1 p-3 rounded-md border border-pink-200 dark:border-gray-600 dark:bg-[#1b212e] bg-pink-50 placeholder-gray-400 dark:placeholder-gray-500 text-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-colors"
               />
+
               <motion.button
                 onClick={handleAddCustomSymptom}
-                className="p-2 bg-pink-200 text-pink-700 rounded-md hover:bg-pink-300"
+                  disabled={!customSymptom.trim()}
+                  className="p-2 bg-pink-200 dark:bg-pink-700 text-pink-700 dark:text-pink-100 rounded-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -335,6 +340,40 @@ export function SymptomAnalysis() {
               </motion.button>
             </div>
 
+{/* Custom symptoms grid - only show if there are custom symptoms */}
+              {customSymptomsList.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {customSymptomsList.map((symptom) => (
+                    <motion.div
+                      key={`custom-${symptom}`}
+                      className="relative group"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <motion.button
+                        onClick={() => handleSymptomToggle(symptom)}
+                        className={`w-full p-3  rounded-md text-sm transition-colors  relative group ${selectedSymptoms.includes(symptom)
+                          ? "bg-pink-200 dark:bg-[#111827] text-pink-700 font-medium shadow-sm border-pink-100"
+                          : "bg-pink-50 dark:bg-[#1b212e] text-gray-700 hover:bg-pink-100 border border-pink-100"
+                          }`}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span
+                          className={
+                            selectedSymptoms.includes(symptom)
+                              ? "text-pink-700"
+                              : "text-gray-700 dark:text-white"
+                          }
+                        >
+                          {symptom}
+                        </span>
+
+                      </motion.button>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
             {showEmergencyAlert && <EmergencyAlert />}
             {showSeverityGuide && currentSymptomGuide && (
               <SeverityGuideModal
@@ -1001,7 +1040,7 @@ export function SymptomAnalysis() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={9}
+        activeLink={8}
       />
       {width > 816 && (
         <button
