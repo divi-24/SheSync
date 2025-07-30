@@ -35,6 +35,10 @@ import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { motion } from "framer-motion";
 
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+
+
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
 
@@ -138,6 +142,30 @@ export function PeriodTracker() {
       alert("Error updating water intake. Please try again.");
     }
   };
+ const [selectedDate, setSelectedDate] = useState(new Date());
+
+// Example: Replace with real data logic
+const logsByDate = {
+  "2025-07-28": { period: true, mood: "Happy 😊", symptom: "Cramps" },
+};
+
+const getLogForDate = (date) => {
+  const key = date.toISOString().split("T")[0];
+  return logsByDate[key] || {};
+};
+
+const modifiers = {
+  periodDay: (date) => getLogForDate(date).period,
+  moodDay: (date) => getLogForDate(date).mood,
+  symptomDay: (date) => getLogForDate(date).symptom,
+};
+
+const modifiersClassNames = {
+  periodDay: 'bg-pink-200 text-pink-900',
+  moodDay: 'bg-yellow-100',
+  symptomDay: 'bg-orange-100',
+};
+
 
   useEffect(() => {
     if (darkMode) {
@@ -530,6 +558,7 @@ export function PeriodTracker() {
           {moodOptions.map((mood) => {
             const MoodIcon = mood.icon;
             const isSelected = moodTypes.includes(mood.name);
+           
             return (
               <button
                 key={mood.name}
@@ -781,6 +810,37 @@ export function PeriodTracker() {
               insights into your reproductive health.
             </p>
           </div>
+          {/* Calendar View */}
+          <div className="mb-10">
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+             Cycle Calendar
+            </h2>
+            <DayPicker
+              selected={selectedDate}
+              onDayClick={setSelectedDate}
+              modifiers={modifiers}
+              modifiersClassNames={modifiersClassNames}
+              footer={
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                  {getLogForDate(selectedDate)?.mood
+                    ? `Mood: ${getLogForDate(selectedDate).mood}`
+                    : "No mood log for this date"}
+                </p>
+            }
+           />
+          {selectedDate && (
+            <div className="mt-4 p-4 border rounded shadow-sm bg-white dark:bg-zinc-900 text-sm">
+             <h3 className="font-medium text-pink-600">
+               {selectedDate.toDateString()}
+             </h3>
+             <p>Period: {getLogForDate(selectedDate).period ? "Yes" : "No"}</p>
+             <p>Mood: {getLogForDate(selectedDate).mood || "Not logged"}</p>
+             <p>Symptom: {getLogForDate(selectedDate).symptom || "None"}</p>
+            </div>
+    )}
+
+          </div>
+
 
           {/* Sections */}
           {renderSection("Cycle Information", cycleInfoContent, "cycleInfo")}
