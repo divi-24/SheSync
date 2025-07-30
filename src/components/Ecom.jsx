@@ -388,13 +388,13 @@ export function Ecom() {
   };
 
   const sendMailWithCartItems = async () => {
-    const formspreeEndpoint = "https://formspree.io/f/mqaagdkg"; // Replace with your actual Formspree endpoint
+    const formspreeEndpoint = "https://formspree.io/f/mjkooylp";
 
     const emailBody = {
       subject: "SheSync Order Form - New Order",
       message: `
         New order details:
-        
+
         ${cartItems
           .map(
             (item) =>
@@ -403,7 +403,7 @@ export function Ecom() {
               ).toFixed(2)}`
           )
           .join("\n")}
-        
+
         Total: $${total.toFixed(2)}
       `,
     };
@@ -560,7 +560,7 @@ export function Ecom() {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="hover:bg-pink-100 dark:hover:bg-[#111827] hover:border-pink-400
-            px-4 py-2 text-black rounded-md border bg-white border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-whitehover:bg-pink-100 
+            px-4 py-2 text-black rounded-md border bg-white border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:bg-[#111827] dark:text-whitehover:bg-pink-100
              dark:text-white"
             >
               <option disabled value="">
