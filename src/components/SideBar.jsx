@@ -17,6 +17,7 @@ import {
   Sun,
   Moon,
   X,
+  Leaf,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -254,6 +255,14 @@ export default function SideBar({
             label="Contributors"
             onClick={() =>
               navigate("/contributors")
+            }
+            active={active[16]}
+          />
+              <SidebarLink
+            icon={<Leaf size={20} />}
+            label="Diet-plan"
+            onClick={() =>
+              navigate("/diet-plan")
             }
             active={active[16]}
           />

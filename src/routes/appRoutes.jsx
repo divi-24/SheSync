@@ -23,6 +23,7 @@ import QuoteJoke from "../components/Bliss/games/QuoteJoke";
 import MoodMap from "../components/Bliss/games/Moodmap";
 import SimonGame from "../components/Bliss/games/SimonGame";
 import Contributors from "../components/Contributors";
+import DietPlan from "../components/Diet-plan";
 
 export const appRoutes = [
   {
@@ -120,5 +121,9 @@ export const appRoutes = [
   {
     path: "/contributors",
     element: <Contributors />,
+  },
+    {
+    path: "/diet-plan",
+    element: <ProtectedRouteWrapper Component={DietPlan} />,
   },
 ];
