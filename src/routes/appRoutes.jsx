@@ -119,6 +119,6 @@ export const appRoutes = [
   },
   {
     path: "/contributors",
-    element: <ProtectedRouteWrapper Component={Contributors} />,
+    element: <Contributors />,
   },
 ];

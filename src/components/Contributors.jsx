@@ -89,19 +89,22 @@ const Contributors = () => {
                     </div>
                 ) : (
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-6 text-center text-pink-600">
-                            🚀 Contributors - SheSync
+                        <h2 className="text-4xl font-extrabold mb-10 text-center">
+                            <span className="inline-block mr-2 text-black dark:text-white">🚀</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-pink-400 to-pink-600">
+                                Meet the Contributors
+                            </span>
                         </h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
                             {contributors.map((contributor) => (
                                 <a
                                     key={contributor.id}
                                     href={contributor.html_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="relative group bg-pink-50 dark:bg-pink-900/10 border-2 border-pink-200 dark:border-pink-800 rounded-2xl p-4 shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:border-pink-600 hover:scale-[1.03]"
+                                    className="relative group rounded-xl bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-pink-900/30 dark:via-pink-950/20 dark:to-zinc-900 border border-pink-200 dark:border-pink-800 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03] hover:border-pink-600"
                                 >
-                                    <div className="flex flex-col items-center">
+                                    <div className="flex flex-col items-center p-4 space-y-3">
                                         <div className="w-20 h-20 rounded-full border-4 border-pink-500 group-hover:border-white transition-all duration-300 overflow-hidden shadow-lg">
                                             <img
                                                 src={contributor.avatar_url}
@@ -109,19 +112,17 @@ const Contributors = () => {
                                                 className="w-full h-full object-cover"
                                             />
                                         </div>
-
-                                        <p className="mt-3 text-center font-semibold text-pink-700 dark:text-pink-300">
-                                            {contributor.login}
-                                        </p>
-
-                                        <p className="mt-1 text-sm text-center text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-800/30 px-2 py-1 rounded-full shadow-inner">
-                                            🌟 Contributions: {contributor.contributions}
-                                        </p>
+                                        <div className="text-center">
+                                            <p className="text-lg font-semibold text-pink-700 dark:text-pink-300">
+                                                {contributor.login}
+                                            </p>
+                                            <p className="text-sm text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-800/30 px-3 py-1 mt-1 rounded-full shadow-inner">
+                                                🌟 {contributor.contributions} contributions
+                                            </p>
+                                        </div>
                                     </div>
-
-                                    <div className="absolute inset-0 rounded-2xl ring-pink-500 ring-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
+                                    <div className="absolute inset-0 rounded-xl ring-pink-500 ring-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
                                 </a>
-
                             ))}
                         </div>
                     </div>
