@@ -72,12 +72,12 @@ const blogPosts = [
     content:
       "Your menstrual cycle takes around 28 days to complete, but this is a good time to point out that EVERYONE is different! Just like your fingerprints are unique, so is your bloody brilliant body and how you experience periods. So, while we say 28 days it might be a little longer, it might be a little shorter, there really aren’t any set rules here. Of those 28 days, you could expect to bleed for anywhere between 3-8 days. Again, everyone is different, and your periods are likely to change. Your body can take some time to get into its own flow, so cut it a bit of slack - it’s learning what to do while you’re getting used to things too!",
     video:(
-      <iframe 
-        width="560" 
-        height="315" 
-        src="https://www.youtube.com/embed/kQyByK9XaQg?si=Xnu21W1iMabfH68Z" 
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
+      <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/kQyByK9XaQg?si=Xnu21W1iMabfH68Z"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
         allowfullscreen></iframe>
     )
     },
@@ -421,7 +421,7 @@ export function Blogs() {
                 <input
                   type="text"
                   placeholder="Search articles..."
-                  className="w-full h-11 px-4 pr-10 text-gray-800 dark:text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg"
+                  className="w-full h-11 px-4 pr-10 text-white rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all duration-300 focus:shadow-lg"
                 />
                 <Search className="absolute  right-3  h-5 w-5 text-white pointer-events-none" />
               </div>
