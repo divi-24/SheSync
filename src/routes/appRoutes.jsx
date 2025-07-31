@@ -25,6 +25,7 @@ import SimonGame from "../components/Bliss/games/SimonGame";
 import Contributors from "../components/Contributors";
 import DietPlan from "../components/Diet-plan";
 import Hangman from "../components/Bliss/games/Hangman";
+import Globalchat from "../components/Globalchat";
 
 export const appRoutes = [
   {
@@ -34,6 +35,10 @@ export const appRoutes = [
   {
     path: "/forums",
     element: <ProtectedRouteWrapper Component={Forum} />,
+  },
+  {
+    path: "/forums/globalchat",
+    element: <ProtectedRouteWrapper Component={Globalchat} />,
   },
   {
     path: "/blogs",
