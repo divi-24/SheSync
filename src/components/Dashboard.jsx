@@ -59,23 +59,23 @@ export function Dashboard() {
   const { width } = useScreenSize();
   const navigate = useNavigate()
 
-  
+
     useEffect(() => {
       const handleResize = () => {
         if (window.innerWidth < 768) {
           setSidebarVisible(false);
         }
       };
-  
+
       handleResize();
-  
+
       window.addEventListener("resize", handleResize);
-  
+
       return () => window.removeEventListener("resize", handleResize);
     }, []);
-  
 
-  
+
+
   const { isSignedIn } = useAuth();
   const { user } = useUser();
 
@@ -144,14 +144,14 @@ export function Dashboard() {
         const token = await user.getToken();
         console.log("Using auth token for request to", url);
         console.log(`Timeout set to ${timeout}ms`);
-        
+
         const response = await axios.get(
           `${url}api/period/periodtracking/${userId}`,
           {
             signal: controller.signal,
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, 
+              Authorization: `Bearer ${token}`,
             },
             timeout: timeout,
           }
@@ -160,29 +160,29 @@ export function Dashboard() {
         console.log(`Request to ${url} completed successfully in less than ${timeout}ms`);
         return response.data;
       } catch (error) {
-        clearTimeout(id); 
-        
+        clearTimeout(id);
+
         if (error.name === "AbortError" || error.code === "ECONNABORTED") {
           console.error(`Request to ${url} timed out after ${timeout}ms`);
           throw new Error(`Request to ${url} timed out after ${timeout}ms`);
         }
-        
+
         if (error.response && error.response.status === 401) {
           console.log(`Authentication error - 401 Unauthorized for ${url}`);
           throw new Error("Authentication failed. Please sign in again.");
         }
-        
+
         if (error.code === "ERR_BAD_REQUEST") {
           console.log(`Bad request error for ${url}`, error.response?.status);
           navigate("/tracker");
           throw new Error("Period Data not found");
         }
-        
+
         if (error.code === "ERR_NETWORK") {
           console.error(`Network error connecting to ${url}: ${error.message}`);
           throw new Error(`Network error connecting to ${url}. Please check your internet connection.`);
         }
-        
+
         console.error(`Request error for ${url}:`, error.code, error.message, error.response?.status);
         throw error;
       }
@@ -198,11 +198,11 @@ export function Dashboard() {
     } catch (serverError) {
       console.error("Error fetching from server:", serverError);
       console.log("Server error details:", serverError.message, serverError.code);
-      
+
       if (server_url !== render_url) {
         try {
         console.log("Attempting to fetch data from render URL:", render_url);
-        const data = await fetchWithTimeout(render_url, 30000); 
+        const data = await fetchWithTimeout(render_url, 30000);
         console.log("Render data received:", data);
         setPeriodData(data.periodTrackingData);
         setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
@@ -213,10 +213,10 @@ export function Dashboard() {
           console.log("Render error details:", renderError.message, renderError.code);
         }
       }
-      
+
       try {
         console.log("Attempting to fetch data from local URL:", local_url);
-        const data = await fetchWithTimeout(local_url, 5000); 
+        const data = await fetchWithTimeout(local_url, 5000);
         console.log("Local data received:", data);
         setPeriodData(data.periodTrackingData);
         setWaterIntake(data.periodTrackingData.waterIntakeCount || 0);
@@ -226,20 +226,20 @@ export function Dashboard() {
         console.log("Local error details:", localError.message, localError.code);
         console.log("Using fallback data");
         setPeriodData(fallbackData);
-        
-        if (serverError.message.includes("Authentication failed") || 
-            (renderError && renderError.message.includes("Authentication failed")) || 
+
+        if (serverError.message.includes("Authentication failed") ||
+            (renderError && renderError.message.includes("Authentication failed")) ||
             localError.message.includes("Authentication failed")) {
           setError("Authentication failed. Please sign in again.");
-        } else if (serverError.message.includes("timeout") || 
-                  (renderError && renderError.message.includes("timeout")) || 
+        } else if (serverError.message.includes("timeout") ||
+                  (renderError && renderError.message.includes("timeout")) ||
                   localError.message.includes("timeout")) {
           setError(`Unable to connect to the server (${server_url}, ${render_url} or ${local_url}). Connection timed out. Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
         } else {
           setError(`Unable to connect to the server (${server_url}, ${render_url} or ${local_url}). Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
         }
         setWaterIntake(0);
-        
+
         setError(`Unable to connect to the server (${server_url} or ${local_url}). Using sample data for demonstration purposes. Please check your internet connection and try again later.`);
       }
     } finally {
@@ -273,7 +273,7 @@ export function Dashboard() {
 
   const handleWaterIntake = async () => {
     if (!isSignedIn || !user) return;
-    
+
     if (waterIntake < 8) {
       setWaterIntake((prev) => Math.min(prev + 1, 8));
       try {
@@ -285,7 +285,7 @@ export function Dashboard() {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            timeout: 5000, 
+            timeout: 5000,
           }
         );
         console.log("Water intake logged:", response);
@@ -308,15 +308,15 @@ export function Dashboard() {
 
   const handleSavePrivacySettings = (settings) => {
     console.log("Privacy settings saved:", settings);
-    
+
     setShowPrivacyForm(false);
   };
 
   const sendSOSEmails = async () => {
     const formspreeEndpoints = [
-      "https://formspree.io/f/mqaagdkg",
-      "https://formspree.io/f/xyzzbdzo",
-      "https://formspree.io/f/mbllpado",
+      "https://formspree.io/f/mjkooylp",
+      "https://formspree.io/f/mzzvveon",
+      "https://formspree.io/f/meozzadj",
     ];
 
     const emailBody = {
@@ -513,9 +513,9 @@ export function Dashboard() {
           {error && (
             <div
               className={`border-l-4 p-4 mb-4 rounded shadow-md ${
-                error.includes("Authentication failed") 
-                  ? "bg-red-100 border-red-500 text-red-700" 
-                  : error.includes("local data") 
+                error.includes("Authentication failed")
+                  ? "bg-red-100 border-red-500 text-red-700"
+                  : error.includes("local data")
                     ? "bg-blue-100 border-blue-500 text-blue-700"
                     : error.includes("timed out")
                       ? "bg-orange-100 border-orange-500 text-orange-700"
@@ -547,7 +547,7 @@ export function Dashboard() {
                     </>
                   )}
                 </div>
-                <button 
+                <button
                   onClick={() => {
                     setLoading(true);
                     setError(null);
