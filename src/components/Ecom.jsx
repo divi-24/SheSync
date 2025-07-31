@@ -198,7 +198,13 @@ const products = [
     brand: "SpaFlow",
     price: 16.99,
     oldPrice: 21.99,
-    icon: <Bath className="h-12 w-12 text-teal-500" />,
+    icon: (
+      <img
+      src="/images/products/Bath.png"
+      alt="Bath tub"
+      className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 4.9,
     category: "Wellness",
     featured: true,
@@ -243,7 +249,14 @@ const products = [
     brand: "flowDays",
     price: 5.99,
     oldPrice: 8.99,
-    icon: <HandHeart className="h-12 w-12 text-pink-500" />,
+    icon:(
+
+      <img
+      src="/images/products/Hand_Heart.png"
+      alt="Periods Underwear"
+      className="h-12 w-12 object-contain"
+      />
+    ),
     rating: 3.9,
     category: "Tampons",
     isNew: true,
