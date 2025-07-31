@@ -138,3 +138,229 @@ button:focus-visible {
 .card-back {
   transform: rotateY(180deg);
 }
+.doctor-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .doctor-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .doctor-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.doctor-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(50, 50, 93, 0.09);
+  display: flex;
+  flex-direction: column;
+  height: 360px; /* Fixed height for consistent card sizing */
+  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.doctor-card:hover {
+  box-shadow: 0 5px 20px rgba(50, 50, 93, 0.15);
+  transform: scale(1.03);
+}
+
+/* Inner card flex containers */
+.doctor-card-inner,
+.doctor-card-content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto; /* <-- enables vertical scroll */
+}
+
+/* Doctor Image */
+.doctor-img-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #e73986;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doctor-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Rating */
+.doctor-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fbbf24;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.doctor-rating svg {
+  margin-right: 4px;
+}
+
+.doctor-rating span:last-child {
+  color: #6b7280;
+  margin-left: 6px;
+  font-weight: 400;
+  font-size: 0.9rem;
+}
+
+/* Name and Specialization */
+.doctor-name {
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #111827;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-specialization {
+  width: 100%;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #e73986;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Info Section */
+.doctor-info {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-info > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doctor-info svg {
+  flex-shrink: 0;
+  color: #9ca3af;
+}
+
+/* Next Available Section */
+.doctor-next-available {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 12px 0 16px 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* Price and Buttons */
+.doctor-actions {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.doctor-price {
+  font-weight: 700;
+  font-size: 1.22rem;
+  color: #222;
+  flex: 0 0 auto;
+}
+
+.doctor-buttons {
+  flex: 1;
+  display: flex;
+  gap: 10px;
+}
+
+.doctor-buttons .doctor-btn {
+  flex: 1;
+  padding: 14px 0;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 115px;
+}
+
+.doctor-btn svg {
+  margin-right: 8px;
+}
+
+.doctor-btn-primary {
+  background-color: #e73986;
+  border: none;
+  color: #fff;
+}
+
+.doctor-btn-primary:hover {
+  background-color: #b62265;
+}
+
+.doctor-btn-outline {
+  background-color: #fceff7;
+  border: 1.5px solid #e73986;
+  color: #e73986;
+}
+
+.doctor-btn-outline:hover {
+  background-color: #fff;
+  border-color: #b62265;
+  color: #b62265;
+}

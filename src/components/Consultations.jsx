@@ -258,92 +258,115 @@ export function Consultations() {
       </button>
     );
   };
-  const DoctorCard = ({ doctor }) => (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ scale: 1.03 }}
-      className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
-    >
-      <div className="p-6">
-        <div className="flex items-start space-x-4">
-          <img
-            src={doctor.image}
-            alt={doctor.name}
-            className="w-24 h-24 rounded-lg object-cover"
-          />
-          <div className="flex-1">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-lg font-semibold dark:text-white">
-                  {doctor.name}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {doctor.specialization}
-                </p>
-              </div>
-              <div className="flex items-center space-x-1">
-                <Star className="h-5 w-5 fill-current text-yellow-400" />
-                <span className="font-medium">{doctor.rating}</span>
-                <span className="text-sm text-gray-500">
-                  ({doctor.reviewCount})
-                </span>
+ const DoctorCard = ({ doctor }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.3 }}
+    whileHover={{ scale: 1.03 }}
+    className="doctor-card-inner"
+  >
+    <div className="doctor-card-content" style={{ padding: "24px", height: "100%" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "18px", marginBottom: 10 }}>
+        <img
+          src={doctor.image}
+          alt={doctor.name}
+          style={{
+            width: "70px",
+            height: "70px",
+            borderRadius: "16px",
+            objectFit: "cover",
+            flexShrink: 0,
+            border: "3px solid #e73986"
+          }}
+        />
+        <div style={{ flex: 1 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div>
+              <h3 style={{ fontWeight: 700, fontSize: "1.1rem", margin: 0, color: "#1e293b" }}>{doctor.name}</h3>
+              <div style={{ color: "#e73986", fontWeight: 600, fontSize: "1rem", marginBottom: 2 }}>
+                {doctor.specialization}
               </div>
             </div>
-
-            <div className="mt-4 space-y-2">
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <GraduationCap className="h-4 w-4 mr-2" />
-                <span>{doctor.experience || "10+ years experience"}</span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <Languages className="h-4 w-4 mr-2" />
-                <span>{doctor.languages?.join(", ") || "English, Hindi"}</span>
-              </div>
-              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                <MapPin className="h-4 w-4 mr-2" />
-                <span>{doctor.address || "2.5 km away"}</span>
-              </div>
-            </div>
-
-            <div className="mt-4 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="flex items-center text-green-600 dark:text-green-400">
-                  <Clock className="h-4 w-4 mr-1" />
-                  <span className="text-sm">Next: Today</span>
-                </span>
-                <div className="flex items-center space-x-1">
-                  <Video className="h-4 w-4 text-blue-500" />
-                  <Phone className="h-4 w-4 text-blue-500" />
-                </div>
-              </div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                ₹{doctor.price}
-              </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+              <Star className="h-5 w-5 fill-current text-yellow-400" />
+              <span style={{ fontWeight: 600 }}>{doctor.rating}</span>
+              <span style={{ color: "#6b7280", fontSize: "0.92rem", marginLeft: 2 }}>({doctor.reviewCount})</span>
             </div>
           </div>
+          <div style={{ fontSize: "0.97rem", color: "#6b7280", margin: "10px 0 2px 0" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <GraduationCap className="h-4 w-4" />{doctor.experience || "10+ years experience"}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <Languages className="h-4 w-4" />{doctor.languages?.join(", ") || "English, Hindi"}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <MapPin className="h-4 w-4" />{doctor.address || "2.5 km away"}
+            </div>
+          </div>
+          <div style={{
+            display: "flex", alignItems: "center", color: "#16a34a", fontWeight: 600, fontSize: "0.98rem", margin: "7px 0 3px 0"
+          }}>
+            <Clock className="h-4 w-4" style={{ marginRight: 4 }} />
+            <span>Next: Today</span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: 4 }}>
+            <Video className="h-4 w-4" style={{ color: "#4287ef" }} />
+            <Phone className="h-4 w-4" style={{ color: "#4287ef" }} />
+          </div>
         </div>
-
-        <div className="mt-6 grid grid-cols-2 gap-3">
+      </div>
+      {/* CENTRED PRICE AND BUTTONS BELOW */}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: 18
+        }}
+      >
+        <div className="doctor-price" style={{
+          fontSize: "1.19rem",
+          fontWeight: 700,
+          color: "#22223b",
+          marginBottom: 12,
+          textAlign: "center"
+        }}>
+          ₹{doctor.price}
+        </div>
+        <div
+          className="doctor-buttons"
+          style={{
+            display: "flex",
+            gap: "12px",
+            width: "100%",
+            justifyContent: "center"
+          }}
+        >
           <button
             onClick={() => handleBooking(doctor, "video")}
-            className="w-full bg-pink-500 text-white py-2 px-4 rounded-md hover:bg-pink-600 transition-colors duration-300 flex items-center justify-center"
+            className="doctor-btn doctor-btn-primary"
+            style={{ padding: "14px 0", minWidth: "115px" }}
           >
             <Video className="h-4 w-4 mr-2" />
             Video Consult
           </button>
           <button
             onClick={() => handleBooking(doctor, "clinic")}
-            className="w-full bg-pink-100 text-pink-600 py-2 px-4 rounded-md hover:bg-pink-200 transition-colors duration-300 flex items-center justify-center"
+            className="doctor-btn doctor-btn-outline"
+            style={{ padding: "14px 0", minWidth: "115px" }}
           >
             <Calendar className="h-4 w-4 mr-2" />
             Book Visit
           </button>
         </div>
       </div>
-    </motion.div>
-  );
+    </div>
+  </motion.div>
+);
+
 
   const DoctorCardSkeleton = () => (
     <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
@@ -999,21 +1022,28 @@ export function Consultations() {
           <SortingControls sortBy={sortBy} setSortBy={setSortBy} />
 
           {/* Doctors List (keep the same as before) */}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {isSearching ? (
-              Array(6)
-                .fill()
-                .map((_, i) => <DoctorCardSkeleton key={i} />)
-            ) : apiDoctors.length > 0 ? (
-              apiDoctors.map((doctor) => (
-                <DoctorCard key={doctor.id} doctor={doctor} />
-              ))
-            ) : (
-              <div className="text-center text-gray-500 dark:text-gray-400 col-span-full py-8">
-                No doctors found. Try adjusting your search criteria.
-              </div>
-            )}
-          </div>
+        <div className="doctor-cards-grid">
+  {isSearching ? (
+    Array(6).fill().map((_, i) => (
+      <div className="doctor-card" key={i}>
+        <DoctorCardSkeleton />
+      </div>
+    ))
+  ) : apiDoctors.length > 0 ? (
+    apiDoctors.map((doctor) => (
+      <div className="doctor-card" key={doctor.id}>
+        <DoctorCard doctor={doctor} />
+      </div>
+    ))
+  ) : (
+    <div className="doctor-card w-full flex items-center justify-center" style={{ minHeight: 200 }}>
+      <span className="text-center text-gray-500 dark:text-gray-400 w-full">
+        No doctors found. Try adjusting your search criteria.
+      </span>
+    </div>
+  )}
+</div>
+
         </div>
       </main>
 
