@@ -126,10 +126,10 @@ export function Quiz({ onQuizComplete }) {
             )}
           </div>
           <p className="text-gray-600 dark:text-gray-400">
-            {score === questions.length 
-              ? "Congratulations! You're a women's health expert!" 
-              : score >= questions.length / 2 
-                ? "Great effort! You have a good understanding of women's health." 
+            {score === questions.length
+              ? "Congratulations! You're a women's health expert!"
+              : score >= questions.length / 2
+                ? "Great effort! You have a good understanding of women's health."
                 : "Don't worry! Learning about women's health is a journey. Keep exploring and learning!"}
           </p>
         </div>
@@ -185,4 +185,3 @@ export function Quiz({ onQuizComplete }) {
     </div>
   );
 }
-

@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
 import OvulationImg from '../../public/ovulationsecimg.png';
 import useScreenSize from "../hooks/useScreenSize";
+import { useTheme } from "../context/ThemeContext"; // Import the useTheme hook
 
 const OvulationCalculator = () => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
@@ -11,25 +12,15 @@ const OvulationCalculator = () => {
   const [gestationInfo, setGestationInfo] = useState(null);
   const [cycleLength, setCycleLength] = useState(28);
   const [results, setResults] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+
+  // Use the global theme context instead
+  const { theme, toggleTheme } = useTheme();
 
   const { width } = useScreenSize();
 
   const toggleSidebar = () => {
     setSidebarVisible((prev) => !prev);
   };
-
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   const calculateOvulation = () => {
     if (!startDate || isNaN(new Date(startDate))) {
@@ -68,7 +59,7 @@ const OvulationCalculator = () => {
     const gestationalAgeInDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
     const gestationalWeeks = Math.floor(gestationalAgeInDays / 7);
     const gestationalDays = gestationalAgeInDays % 7;
-    const dueDate = addDays(start, 280); 
+    const dueDate = addDays(start, 280);
 
     const firstTrimesterEnd = addDays(start, 13 * 7);
     const secondTrimesterEnd = addDays(start, 27 * 7);
@@ -91,13 +82,13 @@ const OvulationCalculator = () => {
   };
 
   return (
-    <div className={`flex min-h-screen ${darkMode ? "dark" : ""}`}>
+    <div className="flex min-h-screen">
       <div className="fixed top-0 left-0 z-50">
         <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
         activeLink={5}
-        toggleDarkMode={toggleDarkMode}
+        toggleDarkMode={toggleTheme} // Use the global toggleTheme
       />
       </div>
 
@@ -126,9 +117,9 @@ const OvulationCalculator = () => {
         }`}
       >
         <div className="text-center mb-10 max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold mb-7 text-purple-900 mt-5">
+          <h2 className="text-5xl font-bold mb-7 text-purple-900 dark:text-purple-300 mt-5">
             Determine Your{" "}
-            <span className="text-pink-700">Ovulation Cycle</span>
+            <span className="text-pink-700 dark:text-pink-400">Ovulation Cycle</span>
           </h2>
           <p className="text-m text-gray-700 dark:text-gray-300 pl-4 pr-4">
             Use this calculator to pinpoint your most fertile days by identifying when you're likely ovulating. Menstrual cycles can vary from person to person and even from month to month, so this tool helps you better understand your unique cycle. <br/> If conception occurs, the calculator will also provide estimated pregnancy milestones such as your gestational age, trimester dates, and expected due date, so you can track your pregnancy journey right from the start.
@@ -193,9 +184,9 @@ const OvulationCalculator = () => {
               Ovulation Dates
             </h2>
             <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold mb-2">Fertile Window</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2">
                   {results.fertileWindow}
                 </p>
                 <p className="text-sm">
@@ -204,9 +195,9 @@ const OvulationCalculator = () => {
                 </p>
               </div>
 
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold mb-2">Ovulation Date</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2">
                   {results.ovulationDate}
                 </p>
                 <p className="text-sm">
@@ -214,9 +205,9 @@ const OvulationCalculator = () => {
                 </p>
               </div>
 
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold mb-2">Next Period Date</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2">
                   {results.nextPeriod}
                 </p>
                 <p className="text-sm">
@@ -236,7 +227,7 @@ const OvulationCalculator = () => {
             </h2>
             <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-10 ">
               {/* Gestational Age */}
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-bold mb-2">
                   Your Gestational Age is {gestationInfo.gestationalAge}. You are expected to meet your baby around {gestationInfo.dueDate}.
                 </h2>
@@ -246,9 +237,9 @@ const OvulationCalculator = () => {
               </div>
 
               {/* First Trimester */}
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-bold mb-2">First Trimester</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2 font-semibold">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2 font-semibold">
                   {gestationInfo.firstTrimester}
                 </p>
                 <p className="text-sm">
@@ -257,9 +248,9 @@ const OvulationCalculator = () => {
               </div>
 
               {/* Second Trimester */}
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-bold mb-2">Second Trimester Ends On</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2 font-semibold">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2 font-semibold">
                   {gestationInfo.secondTrimesterEnd}
                 </p>
                 <p className="text-sm">
@@ -268,9 +259,9 @@ const OvulationCalculator = () => {
               </div>
 
               {/* Third Trimester */}
-              <div className="bg-pink-100 text-black p-6 rounded-lg shadow-md">
+              <div className="bg-pink-100 dark:bg-gray-700 text-black dark:text-white p-6 rounded-lg shadow-md">
                 <h2 className="text-lg font-bold mb-2">Third Trimester Ends On</h2>
-                <p className="bg-pink-300 inline-block px-3 py-1 rounded mb-2 font-semibold">
+                <p className="bg-pink-300 dark:bg-pink-600 inline-block px-3 py-1 rounded mb-2 font-semibold">
                   {gestationInfo.thirdTrimesterEnd}
                 </p>
                 <p className="text-sm">

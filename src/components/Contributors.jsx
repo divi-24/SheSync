@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar from "./SideBar";
 import { ChevronRight } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
+import useScreenSize from "../hooks/useScreenSize";
+
 
 const Contributors = () => {
     const [contributors, setContributors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [sidebarVisible, setSidebarVisible] = useState(true);
-    const [width, setWidth] = useState(window.innerWidth);
+    const { width } = useScreenSize();
+    const { theme, toggleTheme } = useTheme();
 
     const toggleSidebar = () => {
         setSidebarVisible(!sidebarVisible);
@@ -55,37 +59,40 @@ const Contributors = () => {
     }, []);
 
     return (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900 transition-colors duration-300">
             <SideBar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
                 activeLink={16}
+                toggleDarkMode={toggleTheme}
             />
 
             {width > 816 && (
                 <button
                     onClick={toggleSidebar}
-                    className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none"
+                    className="fixed top-4 z-50 w-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
                     style={{
-                        transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+                        left: sidebarVisible ? "256px" : "0px",
                     }}
                     aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
                 >
                     <ChevronRight
                         size={14}
-                        className={`transition-transform duration-300 block m-auto ${sidebarVisible ? "rotate-180" : "rotate-0"
-                            }`}
+                        className={`transition-transform duration-300 block m-auto ${
+                            sidebarVisible ? "rotate-180" : "rotate-0"
+                        }`}
                     />
                 </button>
             )}
 
             <div
-                className={`flex-1 overflow-y-auto px-4 py-10 transition-all duration-300 ${sidebarVisible ? "ml-64" : "ml-0"
-                    }`}
+                className={`flex-1 p-4 sm:p-8 bg-white dark:bg-gray-900 text-black dark:text-gray-100 transition-all duration-300 overflow-y-auto ${
+                    width > 816 && sidebarVisible ? "ml-64" : "ml-0"
+                }`}
             >
                 {loading ? (
                     <div className="text-center py-10">
-                        <p className="text-zinc-500">Loading contributors...</p>
+                        <p className="text-gray-500 dark:text-gray-400">Loading contributors...</p>
                     </div>
                 ) : (
                     <div className="max-w-6xl mx-auto">
@@ -102,10 +109,10 @@ const Contributors = () => {
                                     href={contributor.html_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="relative group rounded-xl bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-pink-900/30 dark:via-pink-950/20 dark:to-zinc-900 border border-pink-200 dark:border-pink-800 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03] hover:border-pink-600"
+                                    className="rounded-xl bg-white dark:bg-gray-800 border border-pink-200 dark:border-pink-700 shadow-md hover:shadow-xl transition-all duration-300 ease-in-out hover:scale-[1.03]"
                                 >
                                     <div className="flex flex-col items-center p-4 space-y-3">
-                                        <div className="w-20 h-20 rounded-full border-4 border-pink-500 group-hover:border-white transition-all duration-300 overflow-hidden shadow-lg">
+                                        <div className="w-20 h-20 rounded-full overflow-hidden bg-white">
                                             <img
                                                 src={contributor.avatar_url}
                                                 alt={contributor.login}
@@ -116,12 +123,11 @@ const Contributors = () => {
                                             <p className="text-lg font-semibold text-pink-700 dark:text-pink-300">
                                                 {contributor.login}
                                             </p>
-                                            <p className="text-sm text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-800/30 px-3 py-1 mt-1 rounded-full shadow-inner">
+                                            <p className="text-sm text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-800/30 px-3 py-1 mt-1 rounded-full">
                                                 🌟 {contributor.contributions} contributions
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="absolute inset-0 rounded-xl ring-pink-500 ring-2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
                                 </a>
                             ))}
                         </div>

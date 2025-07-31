@@ -3,20 +3,11 @@ import { Link } from "react-router-dom";
 import { Home, Moon, Sun } from "react-feather";
 import { SignUp } from "@clerk/clerk-react";
 import { useUser } from "@clerk/clerk-react";
+import { useTheme } from "../context/ThemeContext";
 
 export function Signup() {
   const { isSignedIn, user } = useUser(); // Call hook at the top level
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
@@ -29,16 +20,10 @@ export function Signup() {
           <span className="sr-only">Back to Home</span>
         </Link>
         <button
-          onClick={() => {
-            setDarkMode((prevMode) => {
-              const newMode = !prevMode;
-              localStorage.setItem("darkMode", newMode);
-              return newMode;
-            });
-          }}
+          onClick={toggleTheme}
           className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
         >
-          {darkMode ? (
+          {theme === "dark" ? (
             <Sun className="w-6 h-6" />
           ) : (
             <Moon className="w-6 h-6" />
