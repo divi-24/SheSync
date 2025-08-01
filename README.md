@@ -1,15 +1,40 @@
-# SheSync
+# SheSync 🌸
 
 SheSync is a comprehensive women's health and wellness platform built with modern web technologies. The platform aims to provide a supportive environment for women to access health resources, connect with healthcare professionals, and engage with a community of like-minded individuals.
 
+**Latest Updates (2025):**
+- ✨ Enhanced Parent Dashboard 
+- 🔒 Advanced Privacy Settings and Data Protection
+- 📊 Real-time Health Analytics and Insights
+- 🎯 Quick Actions Panel for Easy Navigation
+- 🔍 Search and Filter Functionality
+- 📱 Improved Mobile Responsiveness
+
 ## 🚀 Features
 
+### Core Health Features
 - **AI-Powered Health Assistant**: Get instant answers to your health-related questions
+- **Period Tracking**: Monitor and understand your menstrual cycle with advanced analytics
+- **Symptom Analysis**: AI-powered health symptom assessment and tracking
+- **Health Alerts**: Real-time notifications for irregular patterns and health insights
+
+### Community & Support
 - **Community Forum**: Connect with other women and share experiences
+- **Community Chat**: Real-time chat functionality for peer support
 - **Educational Resources**: Access curated health and wellness information
 - **Professional Consultation**: Connect with healthcare providers
-- **Period Tracking**: Monitor and understand your menstrual cycle
+
+### Enhanced Parent Dashboard
+- **Multi-Child Management**: Track multiple children's health data
+- **Privacy Controls**: Advanced data sharing and access controls
+- **Communication Log**: Track doctor consultations and school meetings
+- **Health Analytics**: Mood trends, sleep patterns, and wellness metrics
+- **Quick Actions**: Easy access to common functions and settings
+- **Search & Filter**: Find specific information quickly
+
+### E-commerce & Services
 - **Shop**: Access health and wellness products
+- **Consultations**: Healthcare provider booking system
 
 ## 🛠️ Technologies Used
 
@@ -53,12 +78,21 @@ npm install
 3. Create a `.env` file in the root directory and add necessary environment variables:
 
 ```env
+# Frontend Environment Variables
 VITE_SERVER_URL=https://shesync.onrender.com/
+VITE_GEMINI_API_KEY=your_google_gemini_api_key_here
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+VITE_API_NINJAS_KEY=your_api_ninjas_key_here
+VITE_NODE_ENV=development
 
-VITE_GEMINI_API_KEY= // Use new API key, this one is not working
-VITE_CLERK_PUBLISHABLE_KEY=
-
-VITE_GOOGLE_MAPS_API_KEY=
+# Backend Environment Variables
+MONGO_URL=
+APP_NAME=shesync
+FRONTEND_URL=
+SPOTIFY_CLIENT_ID=your_spotify_client_id_here
+SPOTIFY_CLIENT_SECRET=your_spotify_client_secret_here
+PORT=3000
 ```
 
 4. Start the development server:
@@ -102,7 +136,7 @@ src/
 ├── components/                    # Reusable UI components
 │   ├── Landing.jsx              # Main landing page component
 │   ├── Dashboard.jsx            # User dashboard interface
-│   ├── ParentDashboard.jsx      # Parent-specific dashboard
+│   ├── ParentDashboard.jsx      # Enhanced parent dashboard 
 │   ├── PartnerDashboard.jsx     # Partner-specific dashboard
 │   ├── PeriodTracker.jsx        # Period tracking functionality
 │   ├── SymptomAnalysis.jsx      # Health symptom analysis tool
@@ -116,6 +150,16 @@ src/
 │   ├── Signup.jsx               # User registration
 │   ├── Quiz.jsx                 # Health assessment quiz
 │   ├── PrivacyForm.jsx          # Privacy policy form
+│   ├── Bliss/                   # Wellness games and activities
+│   │   ├── Bliss.jsx           # Main wellness hub
+│   │   └── games/              # Interactive games
+│   │       ├── Quiz.jsx        # Health quiz game
+│   │       ├── Sudoku.jsx      # Brain training game
+│   │       ├── MemoryGame.jsx  # Memory enhancement game
+│   │       ├── Moodmap.jsx     # Mood tracking game
+│   │       ├── SimonGame.jsx   # Pattern recognition game
+│   │       ├── Hangman.jsx     # Word game
+│   │       └── QuoteJoke.jsx   # Entertainment content
 
 │
 ├── utils/                       # Utility functions and helpers
@@ -169,7 +213,11 @@ Backend/                         # Backend server code
 
 #### Specialized Dashboards
 
-* **ParentDashboard**: Features for parents/guardians
+* **ParentDashboard**: Enhanced features for parents/guardians 
+  - Multi-child health tracking
+  - Privacy controls and data protection
+  - Communication logs and analytics
+  - Quick actions and search functionality
 * **PartnerDashboard**: Features for partners/spouses
 
 ### Technology Stack Details
@@ -186,8 +234,10 @@ Backend/                         # Backend server code
 
 * **API Integration**: Axios for HTTP requests
 * **Authentication**: Clerk middleware Authentication
-* **Database**: MongoDB for data storage
+* **Database**: MongoDB for data storage with Mongoose ODM
 * **Real-time Features**: WebSocket integration
+* **Health Analytics**: Advanced data processing and insights
+* **Privacy Management**: Secure data handling and access controls
 
 #### Development Tools
 
@@ -214,6 +264,7 @@ We welcome contributions from the community! Here's how you can help:
 * Add comments for complex logic
 * Write unit tests for new features
 * Ensure all tests pass before submitting a PR
+* Follow accessibility guidelines for inclusive design
 
 ## 📝 Code of Conduct
 
@@ -239,6 +290,34 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 * The open-source community for their invaluable tools and libraries
 * Healthcare professionals who have provided guidance and expertise
 
+## 🚀 Quick Start
+
+### Running the Application
+
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Set up Environment Variables:**
+   Create a `.env` file with all required API keys (see Installation section above)
+
+3. **Start Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Access the Application:**
+   Open `http://localhost:5173` in your browser
+
+### Key Features to Explore
+
+- **Enhanced Parent Dashboard**: Navigate to see Indian cultural integration
+- **Health Analytics**: View mood trends and wellness metrics
+- **Privacy Settings**: Configure data sharing and access controls
+- **Quick Actions**: Easy access to common functions
+- **Search & Filter**: Find information quickly
+
 ## 📞 Support
 
 If you need help or have questions, please:
@@ -246,5 +325,6 @@ If you need help or have questions, please:
 * Open an issue in the GitHub repository
 * Contact the maintainers
 * Join our community forum
+* Check the [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines
 
 ---
