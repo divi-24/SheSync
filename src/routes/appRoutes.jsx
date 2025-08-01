@@ -11,7 +11,6 @@ import {Signup} from "../components/Signup";
 import {Login} from "../components/Login";
 import {Chatbot} from "../components/Chatbot";
 import {Dashboard} from "../components/Dashboard";
-import {ModernTeamShowcase} from "../components/ModernTeamShowcase";
 import {SymptomAnalysis} from "../components/SymptomAnalysis";
 import {ParentDashboard} from "../components/ParentDashboard";
 import {Diagnosis} from "../components/PartnerDashboard";
@@ -76,10 +75,7 @@ export const appRoutes = [
     path: "/Dashboard",
     element: <ProtectedRouteWrapper Component={Dashboard} />,
   },
-  {
-    path: "/team",
-    element: <ModernTeamShowcase />,
-  },
+
   {
     path: "/symptomsanalyzer",
     element: <ProtectedRouteWrapper Component={SymptomAnalysis} />,

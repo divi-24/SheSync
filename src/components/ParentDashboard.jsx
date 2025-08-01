@@ -31,6 +31,33 @@ import {
   RefreshCw,
   Apple,
   GraduationCap,
+  AlertTriangle,
+  Shield,
+  BookOpen,
+  Video,
+  Music,
+  Camera,
+  MapPin,
+  Star,
+  Settings,
+  Download,
+  Share2,
+  Lock,
+  Unlock,
+  Eye,
+  EyeOff,
+  Edit,
+  Trash2,
+  Filter,
+  Search,
+  MoreHorizontal,
+  ArrowUpRight,
+  TrendingDown,
+  Zap,
+  Smile,
+  Frown,
+  Meh,
+  Info,
 } from "lucide-react";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
@@ -99,7 +126,7 @@ const listItemVariants = {
 const mockChildrenData = [
   {
     id: 1,
-    name: "Sarah",
+    name: "Priya",
     age: 13,
     lastPeriod: "2024-01-01",
     nextPeriod: "2025-01-30",
@@ -178,7 +205,7 @@ const mockChildrenData = [
         },
       ],
       supportResources: [
-        { type: "Counselor", name: "Dr. Emily Brown", contact: "+1-555-0123" },
+        { type: "Counselor", name: "Dr. Anjali Sharma", contact: "+91-98765-43210" },
         {
           type: "Support Group",
           name: "Teen Wellness Circle",
@@ -209,7 +236,7 @@ const mockChildrenData = [
   },
   {
     id: 2,
-    name: "Emily",
+    name: "Aisha",
     age: 15,
     lastPeriod: "2023-12-25",
     nextPeriod: "2024-01-22",
@@ -295,8 +322,8 @@ const mockChildrenData = [
       supportResources: [
         {
           type: "School Counselor",
-          name: "Ms. Sarah Wilson",
-          contact: "+1-555-0456",
+          name: "Ms. Kavita Patel",
+          contact: "+91-98765-43211",
         },
         {
           type: "Support Group",
@@ -348,23 +375,23 @@ const resources = [
 
 const contacts = [
   {
-    name: "Dr. Sarah Johnson",
+    name: "Dr. Priya Desai",
     role: "Primary Gynecologist",
-    phone: "+1 (555) 123-4567",
-    email: "dr.johnson@example.com",
+    phone: "+91 (98765) 43210",
+    email: "dr.desai@example.com",
     available: "24/7",
   },
   {
-    name: "City Women's Hospital",
+    name: "Apollo Women's Hospital",
     role: "Emergency Room",
-    phone: "+1 (555) 987-6543",
-    email: "emergency@cityhospital.com",
+    phone: "+91 (98765) 43211",
+    email: "emergency@apollohospital.com",
     available: "24/7",
   },
   {
     name: "Teen Health Clinic",
     role: "Urgent Care",
-    phone: "+1 (555) 456-7890",
+    phone: "+91 (98765) 43212",
     email: "clinic@example.com",
     available: "8AM - 8PM",
   },
@@ -420,6 +447,116 @@ const activities = [
     completed: true,
   },
 ];
+
+// New data structures for enhanced functionality
+const communicationLog = [
+  {
+    id: 1,
+    date: "2024-01-03",
+    type: "Doctor Consultation",
+    doctor: "Dr. Priya Desai",
+    topic: "Period irregularity discussion",
+    notes: "Discussed cycle tracking and symptoms",
+    followUp: "2024-01-15",
+  },
+  {
+    id: 2,
+    date: "2024-01-02",
+    type: "School Meeting",
+    teacher: "Ms. Kavita Patel",
+    topic: "Health education program",
+    notes: "Discussed menstrual health awareness",
+    followUp: "2024-01-20",
+  },
+  {
+    id: 3,
+    date: "2024-01-01",
+    type: "Parent-Child Talk",
+    topic: "Menstrual health discussion",
+    notes: "Open conversation about body changes",
+    followUp: "Ongoing",
+  },
+];
+
+const educationalResources = [
+  {
+    id: 1,
+    title: "Understanding Menstrual Health",
+    type: "Video",
+    duration: "15 mins",
+    level: "Beginner",
+    description: "Comprehensive guide to menstrual health basics",
+    tags: ["Health", "Education", "Basics"],
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Nutrition for Teen Girls",
+    type: "Article",
+    duration: "10 mins",
+    level: "Intermediate",
+    description: "Essential nutrition tips for growing teens",
+    tags: ["Nutrition", "Health", "Teen"],
+    completed: true,
+  },
+  {
+    id: 3,
+    title: "Mental Health & Wellness",
+    type: "Interactive",
+    duration: "20 mins",
+    level: "Advanced",
+    description: "Managing emotional health during puberty",
+    tags: ["Mental Health", "Wellness", "Emotional"],
+    completed: false,
+  },
+];
+
+const healthAlerts = [
+  {
+    id: 1,
+    type: "warning",
+    title: "Irregular Cycle Detected",
+    message: "Priya's cycle has been irregular for the past 2 months",
+    date: "2024-01-03",
+    priority: "medium",
+  },
+  {
+    id: 2,
+    type: "info",
+    title: "Upcoming Health Check",
+    message: "Aisha's annual health check is due next week",
+    date: "2024-01-02",
+    priority: "low",
+  },
+  {
+    id: 3,
+    type: "success",
+    title: "Health Goal Achieved",
+    message: "Priya completed her exercise goal for the week",
+    date: "2024-01-01",
+    priority: "low",
+  },
+];
+
+const privacySettings = {
+  dataSharing: {
+    healthData: true,
+    educationalProgress: true,
+    mentalHealth: false,
+    location: false,
+  },
+  notifications: {
+    healthAlerts: true,
+    educationalUpdates: true,
+    appointmentReminders: true,
+    marketing: false,
+  },
+  accessControl: {
+    doctorAccess: true,
+    schoolAccess: false,
+    familyAccess: true,
+  },
+};
 
 const goals = [
   {
@@ -833,17 +970,291 @@ const EducationProgressModal = ({ child, onClose }) => {
   );
 };
 
+// New Modal Components
+const PrivacySettingsModal = ({ onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+  >
+    <motion.div
+      initial={{ scale: 0.95 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.95 }}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div className="p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            Privacy Settings
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          {/* Data Sharing */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Data Sharing</h3>
+            <div className="space-y-3">
+              {Object.entries(privacySettings.dataSharing).map(([key, value]) => (
+                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                  <button
+                    className={`w-12 h-6 rounded-full transition-colors ${
+                      value ? 'bg-pink-500' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
+                      value ? 'translate-x-6' : 'translate-x-1'
+                    }`} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Notifications */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Notifications</h3>
+            <div className="space-y-3">
+              {Object.entries(privacySettings.notifications).map(([key, value]) => (
+                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                  <button
+                    className={`w-12 h-6 rounded-full transition-colors ${
+                      value ? 'bg-pink-500' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
+                      value ? 'translate-x-6' : 'translate-x-1'
+                    }`} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Access Control */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Access Control</h3>
+            <div className="space-y-3">
+              {Object.entries(privacySettings.accessControl).map(([key, value]) => (
+                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                  <button
+                    className={`w-12 h-6 rounded-full transition-colors ${
+                      value ? 'bg-pink-500' : 'bg-gray-300'
+                    }`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
+                      value ? 'translate-x-6' : 'translate-x-1'
+                    }`} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
+const CommunicationLogModal = ({ onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+  >
+    <motion.div
+      initial={{ scale: 0.95 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.95 }}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div className="p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            Communication Log
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          {communicationLog.map((log) => (
+            <div key={log.id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{log.type}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{log.date}</p>
+                </div>
+                <span className="px-2 py-1 bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 rounded-full text-xs">
+                  {log.followUp}
+                </span>
+              </div>
+              <div className="space-y-2">
+                <p className="font-medium">{log.topic}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-300">{log.notes}</p>
+                {log.doctor && (
+                  <p className="text-sm text-gray-500">With: {log.doctor}</p>
+                )}
+                {log.teacher && (
+                  <p className="text-sm text-gray-500">With: {log.teacher}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
+const HealthAlertsModal = ({ onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+  >
+    <motion.div
+      initial={{ scale: 0.95 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.95 }}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div className="p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            Health Alerts
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          {healthAlerts.map((alert) => (
+            <div key={alert.id} className={`p-4 rounded-lg border ${
+              alert.type === 'warning' ? 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800' :
+              alert.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800' :
+              'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
+            }`}>
+              <div className="flex items-start space-x-3">
+                {alert.type === 'warning' && <AlertTriangle className="h-5 w-5 text-yellow-600" />}
+                {alert.type === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                {alert.type === 'info' && <Info className="h-5 w-5 text-blue-600" />}
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{alert.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{alert.message}</p>
+                  <p className="text-xs text-gray-500 mt-2">{alert.date}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
+const EducationalResourcesModal = ({ onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+  >
+    <motion.div
+      initial={{ scale: 0.95 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.95 }}
+      className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+    >
+      <div className="p-6 space-y-6">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+            Educational Resources
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <div className="grid gap-4">
+          {educationalResources.map((resource) => (
+            <div key={resource.id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2 mb-2">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{resource.title}</h3>
+                    {resource.completed && <CheckCircle className="h-4 w-4 text-green-500" />}
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{resource.description}</p>
+                  <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <span>{resource.type}</span>
+                    <span>{resource.duration}</span>
+                    <span className="px-2 py-1 bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 rounded">
+                      {resource.level}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {resource.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-1 bg-gray-200 dark:bg-gray-600 text-xs rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <button className="p-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors">
+                  <Play className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
 export function ParentDashboard() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  // const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedChild, setSelectedChild] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notificationCount, setNotificationCount] = useState(0);
+  const [notificationCount, setNotificationCount] = useState(3);
   const [showMentalHealthModal, setShowMentalHealthModal] = useState(false);
   const [showEducationModal, setShowEducationModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showNutritionModal, setShowNutritionModal] = useState(false);
+  const [showPrivacySettings, setShowPrivacySettings] = useState(false);
+  const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
+  const [showHealthReport, setShowHealthReport] = useState(false);
+  const [showCommunicationLog, setShowCommunicationLog] = useState(false);
+  const [showEducationalResources, setShowEducationalResources] = useState(false);
+  const [privacyMode, setPrivacyMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("all");
+  const [showQuickActions, setShowQuickActions] = useState(false);
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
   };
@@ -1695,6 +2106,177 @@ export function ParentDashboard() {
     </motion.div>
   );
 
+  // New render functions for enhanced functionality
+  const renderQuickActions = () => (
+    <motion.div
+      variants={pageTransition}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="grid gap-6"
+    >
+      <motion.div
+        variants={cardVariants}
+        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+      >
+        <div className="p-6">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+            Quick Actions
+          </h3>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { icon: Shield, label: "Privacy Settings", action: () => setShowPrivacySettings(true) },
+              { icon: MessageCircle, label: "Communication Log", action: () => setShowCommunicationLog(true) },
+              { icon: AlertTriangle, label: "Health Alerts", action: () => setShowHealthReport(true) },
+              { icon: BookOpen, label: "Educational Resources", action: () => setShowEducationalResources(true) },
+              { icon: Download, label: "Export Data", action: () => console.log("Export data") },
+              { icon: Share2, label: "Share Report", action: () => console.log("Share report") },
+              { icon: Settings, label: "Settings", action: () => console.log("Settings") },
+              { icon: Eye, label: "Privacy Mode", action: () => setPrivacyMode(!privacyMode) },
+            ].map((action, index) => (
+              <motion.button
+                key={index}
+                onClick={action.action}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-4 bg-white dark:bg-zinc-900 rounded-lg border border-gray-200 dark:border-zinc-700 hover:bg-pink-50 dark:hover:bg-zinc-800 transition-colors"
+              >
+                <div className="flex flex-col items-center space-y-2">
+                  <action.icon className="h-6 w-6 text-pink-500" />
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100 text-center">
+                    {action.label}
+                  </span>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+
+  const renderHealthAlerts = () => (
+    <motion.div
+      variants={pageTransition}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="grid gap-6"
+    >
+      <motion.div
+        variants={cardVariants}
+        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+      >
+        <div className="p-6">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+            Health Alerts & Insights
+          </h3>
+
+          <div className="space-y-4">
+            {healthAlerts.map((alert, index) => (
+              <motion.div
+                key={alert.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`p-4 rounded-lg border ${
+                  alert.type === 'warning' ? 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800' :
+                  alert.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800' :
+                  'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
+                }`}
+              >
+                <div className="flex items-start space-x-3">
+                  {alert.type === 'warning' && <AlertTriangle className="h-5 w-5 text-yellow-600" />}
+                  {alert.type === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                  {alert.type === 'info' && <Info className="h-5 w-5 text-blue-600" />}
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{alert.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{alert.message}</p>
+                    <p className="text-xs text-gray-500 mt-2">{alert.date}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+
+  const renderAnalytics = () => (
+    <motion.div
+      variants={pageTransition}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="grid gap-6"
+    >
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Mood Trends */}
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+              Mood Trends
+            </h3>
+            <div className="flex items-center justify-center space-x-4">
+              <div className="text-center">
+                <Smile className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 dark:text-gray-300">Happy</p>
+                <p className="text-lg font-semibold">60%</p>
+              </div>
+              <div className="text-center">
+                <Meh className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 dark:text-gray-300">Neutral</p>
+                <p className="text-lg font-semibold">25%</p>
+              </div>
+              <div className="text-center">
+                <Frown className="h-8 w-8 text-red-500 mx-auto mb-2" />
+                <p className="text-sm text-gray-600 dark:text-gray-300">Sad</p>
+                <p className="text-lg font-semibold">15%</p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Health Metrics */}
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+              Health Metrics
+            </h3>
+            <div className="space-y-4">
+              {[
+                { label: "Sleep Quality", value: 85, trend: "up" },
+                { label: "Exercise Consistency", value: 70, trend: "down" },
+                { label: "Nutrition Score", value: 90, trend: "up" },
+                { label: "Mental Wellness", value: 80, trend: "stable" },
+              ].map((metric, index) => (
+                <div key={index} className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                    {metric.label}
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-semibold">{metric.value}%</span>
+                    {metric.trend === "up" && <TrendingUp className="h-4 w-4 text-green-500" />}
+                    {metric.trend === "down" && <TrendingDown className="h-4 w-4 text-red-500" />}
+                    {metric.trend === "stable" && <BarChart2 className="h-4 w-4 text-blue-500" />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+
   const renderHeader = () => (
     <header className="sticky top-0 z-10 backdrop-blur-xl bg-white/90 dark:bg-gray-900/80 border-b border-pink-100/30">
       <div className="container mx-auto px-4 py-4">
@@ -1713,6 +2295,33 @@ export function ParentDashboard() {
             </h2>
           </motion.div>
           <div className="flex items-center space-x-4">
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+              />
+            </div>
+
+            {/* Filter Dropdown */}
+            <div className="relative">
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+              >
+                <option value="all">All</option>
+                <option value="health">Health</option>
+                <option value="education">Education</option>
+                <option value="mental">Mental Health</option>
+                <option value="nutrition">Nutrition</option>
+              </select>
+            </div>
+
             <div className="relative">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -1796,6 +2405,9 @@ export function ParentDashboard() {
                   "goals",
                   "education",
                   "emergency",
+                  "alerts",
+                  "analytics",
+                  "quick-actions",
                 ].map((tab) => (
                   <motion.button
                     key={tab}
@@ -1808,7 +2420,7 @@ export function ParentDashboard() {
                         : "text-gray- bg-white text-black dark:bg-[#111827] dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-pink-900/20"
                     }`}
                   >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
                   </motion.button>
                 ))}
               </motion.div>
@@ -1829,6 +2441,9 @@ export function ParentDashboard() {
                   {activeTab === "goals" && renderGoals()}
                   {activeTab === "education" && renderEducationResources()}
                   {activeTab === "emergency" && renderEmergencyContacts()}
+                  {activeTab === "alerts" && renderHealthAlerts()}
+                  {activeTab === "analytics" && renderAnalytics()}
+                  {activeTab === "quick-actions" && renderQuickActions()}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -1850,6 +2465,26 @@ export function ParentDashboard() {
               <EducationProgressModal
                 child={selectedChild}
                 onClose={() => setShowEducationModal(false)}
+              />
+            )}
+            {showPrivacySettings && (
+              <PrivacySettingsModal
+                onClose={() => setShowPrivacySettings(false)}
+              />
+            )}
+            {showCommunicationLog && (
+              <CommunicationLogModal
+                onClose={() => setShowCommunicationLog(false)}
+              />
+            )}
+            {showHealthReport && (
+              <HealthAlertsModal
+                onClose={() => setShowHealthReport(false)}
+              />
+            )}
+            {showEducationalResources && (
+              <EducationalResourcesModal
+                onClose={() => setShowEducationalResources(false)}
               />
             )}
           </AnimatePresence>

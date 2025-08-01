@@ -18,6 +18,7 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/express": "^1.7.2",
+    "@google/generative-ai": "^0.24.1",
     "axios": "^1.6.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

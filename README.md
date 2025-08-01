@@ -116,7 +116,7 @@ src/
 │   ├── Signup.jsx               # User registration
 │   ├── Quiz.jsx                 # Health assessment quiz
 │   ├── PrivacyForm.jsx          # Privacy policy form
-│   └── ModernTeamShowcase.jsx   # Team member showcase
+
 │
 ├── utils/                       # Utility functions and helpers
 │   └── gemini.js               # Google Gemini AI integration
@@ -154,7 +154,7 @@ Backend/                         # Backend server code
 * **Forum**: Community discussion platform
 * **Community Chat**: Real-time chat functionality
 * **Blogs**: Health and wellness articles
-* **ModernTeamShowcase**: Healthcare professional profiles
+
 
 #### User Management
 
