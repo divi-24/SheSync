@@ -34,6 +34,7 @@ import axios from "axios";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { motion } from "framer-motion";
+import { useTheme } from "../context/ThemeContext";
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
@@ -73,6 +74,7 @@ export function PeriodTracker() {
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
   const { width } = useScreenSize();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
@@ -103,9 +105,6 @@ export function PeriodTracker() {
     healthTips: true,
   });
   const [showHealthTips, setShowHealthTips] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
   const [waterIntakeCount, setWaterIntakeCount] = useState(0);
 
   // Redirect if not authenticated
@@ -139,21 +138,6 @@ export function PeriodTracker() {
     }
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -733,6 +717,7 @@ export function PeriodTracker() {
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSideBarVisible}
         activeLink={4}
+        toggleDarkMode={toggleTheme}
       />
 
       {width > 816 && (

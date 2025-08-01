@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Home, Moon, Sun } from "react-feather";
 import { SignIn } from "@clerk/clerk-react";
+import { useTheme } from "../context/ThemeContext";
 
 export function Login() {
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
@@ -28,16 +19,10 @@ export function Login() {
           <span className="sr-only">Back to Home</span>
         </Link>
         <button
-          onClick={() => {
-            setDarkMode((prevMode) => {
-              const newMode = !prevMode;
-              localStorage.setItem("darkMode", newMode);
-              return newMode;
-            });
-          }}
+          onClick={toggleTheme}
           className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
         >
-          {darkMode ? (
+          {theme === "dark" ? (
             <Sun className="w-6 h-6" />
           ) : (
             <Moon className="w-6 h-6" />
@@ -63,7 +48,7 @@ export function Login() {
               headerTitle: "text-gray-900 dark:text-white",
               headerSubtitle: "text-gray-600 dark:text-gray-400",
               formFieldLabel: "text-gray-700 dark:text-gray-300",
-              formFieldInput: "bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
+              formFieldInput: "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600",
               footerActionLink: "text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300",
             },
           }}
