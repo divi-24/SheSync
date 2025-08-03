@@ -1,0 +1,38 @@
+version: "3.9"
+
+volumes:
+  backend-node-modules:
+  frontend-node-modules:
+
+services:
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: shesync-backend
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend:/app
+      - backend-node-modules:/app/node_modules
+    env_file:
+      - ./Backend/.env
+
+  frontend:
+    depends_on:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shesync-frontend
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./styles:/app/styles
+      - frontend-node-modules:/app/node_modules
+    env_file:
+      - .env
