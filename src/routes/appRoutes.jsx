@@ -57,7 +57,8 @@ export const appRoutes = [
   },
   {
     path: "/Ecom",
-    element: <ProtectedRouteWrapper Component={Ecom} />,
+    // element: <ProtectedRouteWrapper Component={Ecom} />,
+    element: <Ecom/>,
   },
   {
     path: "/Signup",
