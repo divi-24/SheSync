@@ -81,7 +81,7 @@ const categories = [
 ];
 
 export function Ecom() {
-    // const router = useRouter()
+   
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [cartItems, setCartItems] = useState([]);
