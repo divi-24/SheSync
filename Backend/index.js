@@ -13,6 +13,17 @@ import userRoutes from './routes/user.route.js';
 
 dotenv.config();
 
+// Verify Clerk environment variables are set
+if (!process.env.CLERK_SECRET_KEY) {
+  console.error('CLERK_SECRET_KEY is not set in environment variables');
+  process.exit(1);
+}
+
+if (!process.env.CLERK_PUBLISHABLE_KEY) {
+  console.error('CLERK_PUBLISHABLE_KEY is not set in environment variables');
+  process.exit(1);
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -64,7 +75,10 @@ connectDb()
 
 // Server Health Check
 app.get('/health', (req, res) => {
-  res.json({ message: 'Server is running' });
+  res.json({ 
+    message: 'Server is running',
+    clerkConfigured: !!(process.env.CLERK_SECRET_KEY && process.env.CLERK_PUBLISHABLE_KEY)
+  });
 });
 
 // Include auth routes for Clerk webhooks
