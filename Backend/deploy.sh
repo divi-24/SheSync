@@ -12,7 +12,7 @@ fi
 
 # Check if all required files exist
 echo "📋 Checking required files..."
-required_files=("index.js" "config/db.js" "render.yaml" "Dockerfile.prod")
+required_files=("index.js" "config/db.js" "../render.yaml" "Dockerfile.prod")
 for file in "${required_files[@]}"; do
     if [ -f "$file" ]; then
         echo "✅ $file found"

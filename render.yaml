@@ -3,9 +3,8 @@ services:
     name: shesync-backend
     env: node
     plan: free
-    rootDir: Backend
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: cd Backend && npm install
+    startCommand: cd Backend && npm start
     envVars:
       - key: NODE_ENV
         value: production

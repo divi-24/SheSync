@@ -41,9 +41,9 @@ Set these environment variables in your Render dashboard:
 2. **Configure Service**
    - **Name**: `shesync-backend`
    - **Environment**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-   - **Root Directory**: `Backend` (if deploying from root repository)
+   - **Build Command**: `cd Backend && npm install`
+   - **Start Command**: `cd Backend && npm start`
+   - **Root Directory**: Root (render.yaml is in root directory)
 
 3. **Set Environment Variables**
    - Add all the environment variables listed above
