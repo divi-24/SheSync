@@ -95,16 +95,18 @@ export function Ecom() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         const fetchPeriodProducts = async () => {
             try {
                 const res = await axios.get(
-                    `${import.meta.env.VITE_API_BASE_URL}/api/products`,
+                    `https://shesync-backend.onrender.com/api/products`,
                     {
                         params: { q: "products for help in periods" },
                     }
                 );
                 const normalized = normalizeProducts(res.data.products || []);
                 setProducts(normalized);
+                setLoading(false);
                 console.log("Normalized products:", normalized);
             } catch (error) {
                 console.error("Error fetching period products:", error);
@@ -309,7 +311,15 @@ export function Ecom() {
                             transition={{ staggerChildren: 0.1 }}
                             className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6"
                         >
-                            {filteredProducts.length === 0 ? (
+                      {loading ? (
+                            <div className="col-span-1 md:col-span-3 lg:col-span-4 flex items-center justify-center h-64">
+                                <p className="text-gray-500 dark:text-gray-400">
+                                    Loading featured products...
+                                    </p>
+                                    </div>
+                                    ) : 
+                            (
+                            filteredProducts.length === 0 ? (
                                 <div className="text-center text-red-500 font-semibold my-8">
                                     No products found. Please check your API key
                                     or try again later.
@@ -369,7 +379,11 @@ export function Ecom() {
                                         </div>
                                     </motion.div>
                                 ))
-                            )}
+                            )
+                            
+                            ) }
+                        
+
                         </motion.div>
                     </section>
 
