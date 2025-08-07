@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: shesync-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: MONGO_URL
+        sync: false
+      - key: APP_NAME
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: VITE_SERPAPI_KEY
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+    healthCheckPath: /health
+    autoDeploy: true
