@@ -7,7 +7,7 @@ import { appRoutes } from "./routes/appRoutes";
 import { ThemeProvider } from "./context/ThemeContext";
 import SheSyncLoader from "./components/loader";
 
-const local_url = "http://localhost:5174/";
+const local_url = "http://localhost:3000/";
 const render_url = "https://shesync.onrender.com/";
 const server_url = import.meta.env.VITE_SERVER_URL || render_url;
 
