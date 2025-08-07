@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { getJson } from 'serpapi';
 import { connectDb } from './config/db.js';
 import periodTrackingRoutes from './routes/periodTracking.route.js';
 import postRoutes from './routes/post.route.js';
@@ -18,7 +19,13 @@ const PORT = process.env.PORT || 3000;
 // Configure CORS to allow Clerk webhook requests
 app.use(
   cors({
-    origin: ['https://api.clerk.dev', process.env.FRONTEND_URL || 'http://localhost:5173'],
+    origin: [
+      'https://api.clerk.dev',
+      process.env.FRONTEND_URL,
+      'http://localhost:5173',
+      'http://localhost:5174'
+    ].filter(Boolean),
+    credentials: true, 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
       'Content-Type',
@@ -29,6 +36,7 @@ app.use(
     ],
   })
 );
+
 
 // For Clerk webhooks, we need the raw body
 app.use(
@@ -64,3 +72,24 @@ app.use('/api/auth', userRoutes);
 app.use('/api/period', periodTrackingRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/spotify', spotifyRoutes);
+
+// Products Fetching
+app.get('/api/products', async (req, res) => {
+  const query = req.query.q || 'period products';
+
+  try {
+    const response = await getJson({
+      engine: "google_shopping",
+      q: query,
+      location: "India",
+      hl: "en",
+      gl: "in",
+      api_key: process.env.VITE_SERPAPI_KEY,
+    });
+
+    res.json({ products: response.shopping_results || [] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch' });
+  }
+});
