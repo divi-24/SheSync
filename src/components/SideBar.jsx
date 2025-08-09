@@ -5,6 +5,7 @@ import {
   Gamepad2,
   AppWindowMac,
   Home,
+  Mic,
   GraduationCap,
   ShoppingBag,
   ActivitySquare,
@@ -65,7 +66,7 @@ export default function SideBar({
     }
   }, [width, setSidebarVisible]);
 
-  let active = new Array(16).fill(false);
+  let active = new Array(19).fill(false);
   if (activeLink !== undefined) active[activeLink] = true;
 
   return (
@@ -200,6 +201,12 @@ export default function SideBar({
             label="Eve"
             onClick={() => navigate("/ChatBot")}
             active={active[8]}
+          />
+          <SidebarLink
+            icon={<Mic size={20} />}
+            label="Voice Agent"
+            onClick={() => navigate("/voice-agent")}
+            active={active[18]} // Use the next available index
           />
           <SidebarLink
             icon={<HeartPulse size={20} />}

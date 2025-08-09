@@ -25,6 +25,7 @@ import Contributors from "../components/Contributors";
 import DietPlan from "../components/Diet-plan";
 import Hangman from "../components/Bliss/games/Hangman";
 import Globalchat from "../components/Globalchat";
+import VoiceAgent from "../components/VoiceAgent";
 
 export const appRoutes = [
   {
@@ -71,6 +72,10 @@ export const appRoutes = [
   {
     path: "/ChatBot",
     element: <ProtectedRouteWrapper Component={Chatbot} />,
+  },
+  {
+    path: "/voice-agent",
+    element: <ProtectedRouteWrapper Component={VoiceAgent} />,
   },
   {
     path: "/Dashboard",
