@@ -104,7 +104,7 @@ Keep the response short, friendly, and personalized.
             <SideBar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={7}
+                activeLink={17}
                 toggleDarkMode={toggleTheme}
             />
 
