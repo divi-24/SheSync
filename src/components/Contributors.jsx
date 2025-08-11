@@ -1,4 +1,4 @@
-//contributor.jsx
+// Contributors.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SideBar from "./SideBar";
@@ -6,57 +6,79 @@ import { ChevronRight } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 import useScreenSize from "../hooks/useScreenSize";
 
+const REPO_OWNER = "divi-24";
+const REPO_NAME = "SheSync";
+const PER_PAGE = 100;
 
 const Contributors = () => {
     const [contributors, setContributors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [sidebarVisible, setSidebarVisible] = useState(true);
     const { width } = useScreenSize();
-    const { theme, toggleTheme } = useTheme();
+    const { toggleTheme } = useTheme();
 
-    const toggleSidebar = () => {
-        setSidebarVisible(!sidebarVisible);
-    };
+    const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
 
     useEffect(() => {
-        const fetchAllContributors = async () => {
-            let allContributors = [];
+        const fetchMergedPRContributors = async () => {
             let page = 1;
-            const perPage = 100;
+            let prCounts = {};
+            let userMap = {}; // store user details from PR response
 
             try {
                 while (true) {
                     const res = await axios.get(
-                        `https://api.github.com/repos/divi-24/SheSync/contributors`,
+                        `https://api.github.com/search/issues?q=repo:${REPO_OWNER}/${REPO_NAME}+is:pr+is:merged&per_page=${PER_PAGE}&page=${page}`,
                         {
-                            params: {
-                                per_page: perPage,
-                                page: page,
-                            },
                             headers: {
                                 Accept: "application/vnd.github+json",
+                                // Optional: Add token for higher rate limit
+                                // Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`
                             },
                         }
                     );
 
-                    if (res.data.length === 0) break;
-                    allContributors = [...allContributors, ...res.data];
+                    const items = res.data.items;
+                    if (!items || items.length === 0) break;
+
+                    items.forEach((pr) => {
+                        const username = pr.user?.login;
+                        if (username) {
+                            prCounts[username] = (prCounts[username] || 0) + 1;
+                            if (!userMap[username]) {
+                                userMap[username] = {
+                                    id: pr.user.id,
+                                    avatar_url: pr.user.avatar_url,
+                                    html_url: pr.user.html_url,
+                                };
+                            }
+                        }
+                    });
+
                     page++;
                 }
 
-                setContributors(allContributors);
+                // Merge PR counts with user data
+                const contributorDetails = Object.entries(prCounts).map(([login, count]) => ({
+                    id: userMap[login].id,
+                    login,
+                    avatar_url: userMap[login].avatar_url,
+                    html_url: userMap[login].html_url,
+                    contributions: count,
+                }));
+
+                // Sort by contribution count
+                contributorDetails.sort((a, b) => b.contributions - a.contributions);
+
+                setContributors(contributorDetails);
             } catch (err) {
-                console.error("Error fetching contributors:", err);
+                console.error("Error fetching merged PR contributors:", err);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchAllContributors();
-
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        fetchMergedPRContributors();
     }, []);
 
     return (
@@ -125,7 +147,7 @@ const Contributors = () => {
                                                 {contributor.login}
                                             </p>
                                             <p className="text-sm text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-800/30 px-3 py-1 mt-1 rounded-full">
-                                                🌟 {contributor.contributions} contributions
+                                                🌟 {contributor.contributions} merged PRs
                                             </p>
                                         </div>
                                     </div>
