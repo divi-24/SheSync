@@ -375,7 +375,7 @@ function PrivacyPolicy() {
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="/cookie-policy"
                       className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
                     >
                       Cookie Policy

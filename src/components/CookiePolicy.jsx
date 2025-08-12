@@ -21,7 +21,7 @@ const Card = ({ children, className, ...props }) => {
   );
 };
 
-export function TermsOfService() {
+export function CookiePolicy() {
   const navigate = useNavigate();
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
@@ -63,101 +63,63 @@ export function TermsOfService() {
         <div className="max-w-6xl mx-auto space-y-12">
           <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
             <h1 className={`text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent ${sidebarVisible && width > 816 ? "pl-0" : "pl-11"}`}>
-              SheSync Terms of Service
+              SheSync Cookie Policy
             </h1>
           </motion.div>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              1. Acceptance of Terms
+              1. What are Cookies?
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              By accessing and using SheSync, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all the terms and conditions of this agreement, you are not authorized to use our services.
+              Cookies are small data files stored on your computer or mobile device. They help us remember your preferences and provide a better, more personalized experience on SheSync.
             </p>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              2. User Accounts and Responsibilities
+              2. How SheSync Uses Cookies
             </h2>
             <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              You are responsible for maintaining the confidentiality of your account and password. You must be at least 13 years old to use our services. Users under 18 must be linked to a parent's dashboard to ensure proper supervision.
+              We use cookies to ensure a smooth and personalized experience across all our features:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
               <li>
-                You agree to provide accurate and complete information during registration.
+                Essential Cookies: These are vital for your account to work. They enable secure logins, manage your session, and allow features like your shopping cart to function properly.
               </li>
               <li>
-                You will not share your password with anyone else.
+                Analytics & Performance Cookies: We use these to understand how our community interacts with the site. This helps us improve our dashboards, AI tools like Eve, and our educational content.
               </li>
               <li>
-                You are responsible for all activity that occurs under your account.
+                Functionality Cookies: These remember your preferences, like your dark mode setting and a collapsed sidebar, so you don't have to set them each time you visit.
               </li>
             </ul>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              3. Use of the Service
-            </h2>
-            <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              You agree not to use the service for any unlawful or prohibited activities.
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>
-                You will not post inappropriate or harmful content on our forums.
-              </li>
-              <li>
-                You will respect other users and maintain a positive, supportive community environment.
-              </li>
-              <li>
-                You acknowledge that content on our Education Hub is for informational purposes only and is not a substitute for professional medical advice.
-              </li>
-            </ul>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              4. Disclaimer of Medical Advice
+              3. Your Choices
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              The content provided on SheSync, including information from our AI tools, blogs, and expert consultations, is for informational and educational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified health professional with any questions you may have regarding a medical condition.
+              You are in control of your cookie settings. You can manage your preferences at any time through your browser settings. Please be aware that disabling certain cookies, especially the essential ones, may affect the functionality of our service.
             </p>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              5. Limitation of Liability
+              4. Changes to This Policy
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              SheSync will not be liable for any damages, whether direct, indirect, incidental, or consequential, resulting from your use of the service. We do not guarantee the accuracy, completeness, or usefulness of any information on the platform.
+              We may update this policy from time to time to reflect changes in our practices or for legal reasons. We will notify you of any significant changes by posting the new policy on our website.
             </p>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              6. Intellectual Property
+              5. Contact Us
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              All content on SheSync, including text, graphics, logos, and software, is the property of SheSync or its content suppliers and is protected by international copyright laws.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              7. Changes to Terms
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on our website. Your continued use of the service after such changes constitutes your acceptance of the new Terms.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              8. Contact Information
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              If you have any questions about these Terms, please contact us at:
+              If you have any questions about this Cookie Policy, please contact us at:
             </p>
             <p className="font-semibold text-lg text-pink-600 dark:text-pink-400">
               support@shesync.com

@@ -28,13 +28,13 @@ import Globalchat from "../components/Globalchat";
 import VoiceAgent from "../components/VoiceAgent";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import { TermsOfService } from "../components/TermsOfService";
+import { CookiePolicy } from "../components/CookiePolicy";
 
 export const appRoutes = [
   {
     path: "/",
     element: <Landing />,
   },
-  // Added the new route for the Privacy Policy page
   {
     path: "/privacy-policy",
     element: <PrivacyPolicy />,
@@ -42,6 +42,10 @@ export const appRoutes = [
   {
     path: "/terms-of-service",
     element: <TermsOfService />,
+  },
+  {
+    path: "/cookie-policy",
+    element: <CookiePolicy />,
   },
   {
     path: "/forums",
