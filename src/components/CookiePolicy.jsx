@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaLinkedin } from "react-icons/fa";
 import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
@@ -126,34 +127,31 @@ export function CookiePolicy() {
             </p>
           </Card>
 
-          <footer className="mt-12 pt-8 border-t-2 border-pink-600 rounded dark:border-pink-500">
-            <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-10">
+          <footer className="bg-white dark:bg-gray-900 mt-12 pt-8 rounded border-t-2 border-pink-600 dark:border-pink-500 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-8">
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   Company
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <button
+                    <a
                       onClick={() => navigate("/symptomsanalyzer")}
-                      className="bg-pink-600 dark:bg-pink-500 text-white-700 dark:text-white dark:border-white hover:bg-pink-700 hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
+                      className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
                     >
                       About Us
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => navigate("/parents")}
-                      className="bg-pink-600 text-white-700 dark:text-white dark:border-white dark:bg-pink-500 hover:text-white hover:bg-pink-700 transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
-                      Careers
-                    </button>
+                    </a>
                   </li>
                   <li>
                     <a
-                      href="#"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
+                      onClick={() => navigate("/parents")}
+                      className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
                     >
+                      Careers
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Press
                     </a>
                   </li>
@@ -165,26 +163,17 @@ export function CookiePolicy() {
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="#"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Blog
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Help Center
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Community
                     </a>
                   </li>
@@ -196,26 +185,17 @@ export function CookiePolicy() {
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <a
-                      href="/privacy-policy"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="/privacy-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Privacy Policy
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="/terms-of-service"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="/terms-of-service" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Terms of Service
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="/cookie-policy"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
+                    <a href="/cookie-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Cookie Policy
                     </a>
                   </li>
@@ -225,35 +205,18 @@ export function CookiePolicy() {
                 <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   Connect
                 </h4>
-                <ul className="space-y-2">
-                  <li>
-                    <a
-                      href="https://x.com"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
-                      Twitter
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://facebook.com"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
-                      Facebook
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://instagram.com"
-                      className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
-                    >
-                      Instagram
-                    </a>
-                  </li>
-                </ul>
+                <a
+                  href="https://www.linkedin.com/company/shesync/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="flex items-center justify-center w-12 h-12 bg-pink-600 rounded-full text-white transition-all duration-300 transform hover:scale-110 shadow-md hover:bg-pink-700"
+                >
+                  <FaLinkedin size={24} className="text-white" />
+                </a>
               </div>
             </div>
-            <div className="w-full mt-8 p-4 border-t-2 border-pink-800 dark:border-pink-500">
+            <div className="w-full mt-8 p-4 border-t border-pink-800 dark:border-pink-500">
               <div className="max-w-7xl mx-auto px-4 text-center">
                 <p className="text-gray-700 dark:text-gray-100 font-semibold">
                   TEAM: WEB PIONEERS
