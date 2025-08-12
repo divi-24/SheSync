@@ -740,7 +740,7 @@ export function Landing() {
                   </li>
                   <li>
                     <a
-                      href="#"
+                      href="/terms-of-service"
                       className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
                     >
                       Terms of Service
