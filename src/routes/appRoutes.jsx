@@ -27,6 +27,7 @@ import Hangman from "../components/Bliss/games/Hangman";
 import Globalchat from "../components/Globalchat";
 import VoiceAgent from "../components/VoiceAgent";
 import PrivacyPolicy from "../components/PrivacyPolicy";
+import { TermsOfService } from "../components/TermsOfService";
 
 export const appRoutes = [
   {
@@ -37,6 +38,10 @@ export const appRoutes = [
   {
     path: "/privacy-policy",
     element: <PrivacyPolicy />,
+  },
+  {
+    path: "/terms-of-service",
+    element: <TermsOfService />,
   },
   {
     path: "/forums",
