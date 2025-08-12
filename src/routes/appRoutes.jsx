@@ -1,4 +1,4 @@
-import  {ProtectedRouteWrapper}  from "../App";
+import {ProtectedRouteWrapper} from "../App";
 import {Landing} from "../components/Landing";
 import {Forum} from "../components/Forum";
 import {Blogs} from "../components/Blogs";
@@ -26,11 +26,17 @@ import DietPlan from "../components/Diet-plan";
 import Hangman from "../components/Bliss/games/Hangman";
 import Globalchat from "../components/Globalchat";
 import VoiceAgent from "../components/VoiceAgent";
+import PrivacyPolicy from "../components/PrivacyPolicy";
 
 export const appRoutes = [
   {
     path: "/",
     element: <Landing />,
+  },
+  // Added the new route for the Privacy Policy page
+  {
+    path: "/privacy-policy",
+    element: <PrivacyPolicy />,
   },
   {
     path: "/forums",
@@ -58,7 +64,6 @@ export const appRoutes = [
   },
   {
     path: "/Ecom",
-    // element: <ProtectedRouteWrapper Component={Ecom} />,
     element: <Ecom/>,
   },
   {
@@ -81,7 +86,6 @@ export const appRoutes = [
     path: "/Dashboard",
     element: <ProtectedRouteWrapper Component={Dashboard} />,
   },
-
   {
     path: "/symptomsanalyzer",
     element: <ProtectedRouteWrapper Component={SymptomAnalysis} />,

@@ -732,7 +732,7 @@ export function Landing() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="#"
+                      href="/privacy-policy"
                       className="inline-block text-gray-700 dark:text-white hover:text-white transform hover:scale-105 transition duration-200 ease-in-out"
                     >
                       Privacy Policy
