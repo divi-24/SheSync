@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaLinkedin } from "react-icons/fa";
 import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import { FaLinkedin } from "react-icons/fa";
 
 // Reusable Card component for consistent styling
 const Card = ({ children, className, ...props }) => {
@@ -22,7 +22,7 @@ const Card = ({ children, className, ...props }) => {
   );
 };
 
-export function CookiePolicy() {
+export function AboutUs() {
   const navigate = useNavigate();
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
@@ -64,66 +64,70 @@ export function CookiePolicy() {
         <div className="max-w-6xl mx-auto space-y-12">
           <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
             <h1 className={`text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent ${sidebarVisible && width > 816 ? "pl-0" : "pl-11"}`}>
-              SheSync Cookie Policy
+              About Us
             </h1>
           </motion.div>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              1. What are Cookies?
+              Our Story
+            </h2>
+            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
+              SheSync was born from a simple belief: menstrual health should never be a taboo, an afterthought, or a source of confusion. We realized that countless women and menstruators face avoidable challenges every month — from tracking their cycles and understanding their bodies to accessing expert advice without judgment. So, we decided to create a space where technology meets empathy.
+            </p>
+          </Card>
+          
+          <Card className="border border-pink-600">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+              Our Mission
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              Cookies are small data files stored on your computer or mobile device. They help us remember your preferences and provide a better, more personalized experience on SheSync.
+              To empower menstruators with the knowledge, tools, and community they deserve — so every cycle feels supported, informed, and in sync.
             </p>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              2. How SheSync Uses Cookies
+              What We Do
             </h2>
             <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              We use cookies to ensure a smooth and personalized experience across all our features:
+              SheSync is more than just a period tracker. We’re building an intelligent platform that helps you:
             </p>
             <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>
-                Essential Cookies: These are vital for your account to work. They enable secure logins, manage your session, and allow features like your shopping cart to function properly.
-              </li>
-              <li>
-                Analytics & Performance Cookies: We use these to understand how our community interacts with the site. This helps us improve our dashboards, AI tools like Eve, and our educational content.
-              </li>
-              <li>
-                Functionality Cookies: These remember your preferences, like your dark mode setting and a collapsed sidebar, so you don't have to set them each time you visit.
-              </li>
+              <li>Track your cycle effortlessly with AI-powered predictions.</li>
+              <li>Book appointments with nearby clinics in just a few clicks.</li>
+              <li>Connect with menstrual health experts for personalized guidance.</li>
+              <li>Learn & grow through credible, stigma-free resources.</li>
             </ul>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              3. Your Choices
+              Why SheSync?
+            </h2>
+            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
+              <li>Personalized Experience: Every body is unique — so is your cycle.</li>
+              <li>Expert-Backed: We work closely with healthcare professionals to ensure accuracy.</li>
+              <li>Privacy First: Your health data stays yours. Always.</li>
+              <li>Breaking Taboos: We’re here to normalize conversations about menstrual health.</li>
+            </ul>
+          </Card>
+
+          <Card className="border border-pink-600">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+              Our Vision
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              You are in control of your cookie settings. You can manage your preferences at any time through your browser settings. Please be aware that disabling certain cookies, especially the essential ones, may affect the functionality of our service.
+              A world where menstrual health is understood, respected, and supported — without whispers, shame, or misinformation.
             </p>
           </Card>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              4. Changes to This Policy
+              Join the Movement
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              We may update this policy from time to time to reflect changes in our practices or for legal reasons. We will notify you of any significant changes by posting the new policy on our website.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              5. Contact Us
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              If you have any questions about this Cookie Policy, please contact us at:
-            </p>
-            <p className="font-semibold text-lg text-pink-600 dark:text-pink-400">
-              support@shesync.com
+              At SheSync, we’re not just creating an app — we’re creating a change. Together, we can make menstrual health easy to manage, openly discussed, and universally respected.
             </p>
           </Card>
 
