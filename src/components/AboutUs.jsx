@@ -106,10 +106,10 @@ export function AboutUs() {
               Why SheSync?
             </h2>
             <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>**Personalized Experience:** Every body is unique — so is your cycle.</li>
-              <li>**Expert-Backed:** We work closely with healthcare professionals to ensure accuracy.</li>
-              <li>**Privacy First:** Your health data stays yours. Always.</li>
-              <li>**Breaking Taboos:** We’re here to normalize conversations about menstrual health.</li>
+              <li>Personalized Experience: Every body is unique — so is your cycle.</li>
+              <li>Expert-Backed: We work closely with healthcare professionals to ensure accuracy.</li>
+              <li>Privacy First: Your health data stays yours. Always.</li>
+              <li>Breaking Taboos: We’re here to normalize conversations about menstrual health.</li>
             </ul>
           </Card>
 
