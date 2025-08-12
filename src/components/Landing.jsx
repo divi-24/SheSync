@@ -662,7 +662,7 @@ export function Landing() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      onClick={() => navigate("/symptomsanalyzer")}
+                      onClick={() => navigate("/about-us")}
                       className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
                     >
                       About Us
@@ -670,15 +670,12 @@ export function Landing() {
                   </li>
                   <li>
                     <a
-                      onClick={() => navigate("/parents")}
+                      href="https://www.linkedin.com/company/shesync/"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
                     >
                       Careers
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Press
                     </a>
                   </li>
                 </ul>

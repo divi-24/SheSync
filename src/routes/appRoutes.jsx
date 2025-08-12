@@ -29,11 +29,16 @@ import VoiceAgent from "../components/VoiceAgent";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import { TermsOfService } from "../components/TermsOfService";
 import { CookiePolicy } from "../components/CookiePolicy";
+import { AboutUs } from "../components/AboutUs";
 
 export const appRoutes = [
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/about-us",
+    element: <AboutUs />,
   },
   {
     path: "/privacy-policy",
