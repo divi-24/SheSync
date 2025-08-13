@@ -321,13 +321,13 @@ export function Consultations() {
         <div className="flex items-start space-x-4">
           <img
             src={doctor.image}
-            alt={doctor.name}
+            alt={`Dr. ${doctor.name}`}
             className="w-24 h-24 rounded-lg object-cover"
           />
           <div className="flex-1">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-semibold dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {doctor.name}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
