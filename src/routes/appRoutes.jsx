@@ -30,11 +30,16 @@ import PrivacyPolicy from "../components/PrivacyPolicy";
 import { TermsOfService } from "../components/TermsOfService";
 import { CookiePolicy } from "../components/CookiePolicy";
 import { AboutUs } from "../components/AboutUs";
+import { HelpCenter } from "../components/HelpCenter";
 
 export const appRoutes = [
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/help-center",
+    element: <HelpCenter />,
   },
   {
     path: "/about-us",
