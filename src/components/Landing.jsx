@@ -696,7 +696,7 @@ export function Landing() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
+                    <a href="/community" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Community
                     </a>
                   </li>
