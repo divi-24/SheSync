@@ -651,8 +651,8 @@ export function Landing() {
               </button>
             </div>
           </Card>
-          {/* Footer */}
 
+          {/* Footer */}
           <footer className="bg-white dark:bg-gray-900 mt-12 pt-8 rounded border-t-2 border-pink-600 dark:border-pink-500 transition-colors">
             <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-8">
               <div>
@@ -691,7 +691,7 @@ export function Landing() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
+                    <a href="/help-center" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Help Center
                     </a>
                   </li>

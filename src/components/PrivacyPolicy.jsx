@@ -325,7 +325,7 @@ function PrivacyPolicy() {
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
+                    <a href="/help-center" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Help Center
                     </a>
                   </li>

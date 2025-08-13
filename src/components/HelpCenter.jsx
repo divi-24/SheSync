@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { FaLinkedin } from "react-icons/fa";
-import { ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import FAQItem from "./FAQItem";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import { FaLinkedin } from "react-icons/fa";
+import { ChevronRight } from "lucide-react";
 
 // Reusable Card component for consistent styling
 const Card = ({ children, className, ...props }) => {
@@ -22,12 +23,68 @@ const Card = ({ children, className, ...props }) => {
   );
 };
 
-export function TermsOfService() {
+// FAQ data for the Help Center page
+const helpCenterData = [
+  {
+    title: "Getting Started",
+    faqs: [
+      {
+        question: "How do I create an account?",
+        answer: "Click on the 'Sign Up' button on the top right corner and follow the on-screen instructions to create your profile.",
+      },
+      {
+        question: "How do I log my cycle?",
+        answer: "Navigate to the 'Health Tracker' page and log the start date of your period. The AI will learn your patterns over time.",
+      },
+      {
+        question: "Can I use the app without a parent's dashboard?",
+        answer: "Yes, you can use the app independently. The parent dashboard is an optional feature for users under 18.",
+      },
+    ],
+  },
+  {
+    title: "Using Your Dashboard",
+    faqs: [
+      {
+        question: "What information is on the dashboard?",
+        answer: "Your dashboard provides a summary of your cycle predictions, symptom logs, and personalized health insights.",
+      },
+      {
+        question: "How do I track symptoms and mood?",
+        answer: "On the Health Tracker page, you can select from a list of common symptoms and moods to log them for each day of your cycle.",
+      },
+      {
+        question: "What is Health Lens?",
+        answer: "Health Lens is an AI-powered tool that analyzes your logged symptoms to provide personalized health advice and suggest possible next steps.",
+      },
+    ],
+  },
+  {
+    title: "Connecting with Experts & Community",
+    faqs: [
+      {
+        question: "How do I book an expert consultation?",
+        answer: "Visit the 'Expert Consultations' page to browse certified professionals and book a virtual appointment at your convenience.",
+      },
+      {
+        question: "How do the forums work?",
+        answer: "The forums are a safe and anonymous space where you can ask questions, share experiences, and connect with other members of the SheSync community.",
+      },
+    ],
+  },
+];
+
+export function HelpCenter() {
   const navigate = useNavigate();
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [openFAQIndex, setOpenFAQIndex] = useState(null);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
+  };
+  
+  const toggleFAQ = (index) => {
+    setOpenFAQIndex(openFAQIndex === index ? null : index);
   };
   
   const { width } = useScreenSize();
@@ -64,104 +121,46 @@ export function TermsOfService() {
         <div className="max-w-6xl mx-auto space-y-12">
           <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
             <h1 className={`text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent ${sidebarVisible && width > 816 ? "pl-0" : "pl-11"}`}>
-              SheSync Terms of Service
+              Help Center
             </h1>
           </motion.div>
 
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              1. Acceptance of Terms
+              Welcome to SheSync's Help Center
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              By accessing and using SheSync, you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all the terms and conditions of this agreement, you are not authorized to use our services.
+              Find answers to your questions, learn how to use our features, and get the support you need to make the most of your SheSync journey.
             </p>
           </Card>
-
+          
+          {helpCenterData.map((section, sectionIndex) => (
+            <Card key={sectionIndex} className="border border-pink-600">
+              <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
+                {section.title}
+              </h3>
+              <div className="space-y-4">
+                <AnimatePresence>
+                  {section.faqs.map((faq, faqIndex) => (
+                    <FAQItem
+                      key={faqIndex}
+                      question={faq.question}
+                      answer={faq.answer}
+                      isOpen={openFAQIndex === `${sectionIndex}-${faqIndex}`}
+                      onClick={() => toggleFAQ(openFAQIndex === `${sectionIndex}-${faqIndex}` ? null : `${sectionIndex}-${faqIndex}`)}
+                    />
+                  ))}
+                </AnimatePresence>
+              </div>
+            </Card>
+          ))}
+          
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              2. User Accounts and Responsibilities
-            </h2>
-            <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              You are responsible for maintaining the confidentiality of your account and password. You must be at least 13 years old to use our services. Users under 18 must be linked to a parent's dashboard to ensure proper supervision.
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>
-                You agree to provide accurate and complete information during registration.
-              </li>
-              <li>
-                You will not share your password with anyone else.
-              </li>
-              <li>
-                You are responsible for all activity that occurs under your account.
-              </li>
-            </ul>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              3. Use of the Service
-            </h2>
-            <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              You agree not to use the service for any unlawful or prohibited activities.
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>
-                You will not post inappropriate or harmful content on our forums.
-              </li>
-              <li>
-                You will respect other users and maintain a positive, supportive community environment.
-              </li>
-              <li>
-                You acknowledge that content on our Education Hub is for informational purposes only and is not a substitute for professional medical advice.
-              </li>
-            </ul>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              4. Disclaimer of Medical Advice
+              Didn't Find What You're Looking For?
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              The content provided on SheSync, including information from our AI tools, blogs, and expert consultations, is for informational and educational purposes only. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of a qualified health professional with any questions you may have regarding a medical condition.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              5. Limitation of Liability
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              SheSync will not be liable for any damages, whether direct, indirect, incidental, or consequential, resulting from your use of the service. We do not guarantee the accuracy, completeness, or usefulness of any information on the platform.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              6. Intellectual Property
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              All content on SheSync, including text, graphics, logos, and software, is the property of SheSync or its content suppliers and is protected by international copyright laws.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              7. Changes to Terms
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on our website. Your continued use of the service after such changes constitutes your acceptance of the new Terms.
-            </p>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              8. Contact Information
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              If you have any questions about these Terms, please contact us at:
-            </p>
-            <p className="font-semibold text-lg text-pink-600 dark:text-pink-400">
-              support@shesync.com
+              If you need more help, please visit our <a href="#" className="text-pink-600 hover:underline">Community Forums</a> or contact our support team.
             </p>
           </Card>
 
