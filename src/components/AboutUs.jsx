@@ -219,9 +219,6 @@ export function AboutUs() {
             </div>
             <div className="w-full mt-8 p-4 border-t border-pink-800 dark:border-pink-500">
               <div className="max-w-7xl mx-auto px-4 text-center">
-                <p className="text-gray-700 dark:text-gray-100 font-semibold">
-                  TEAM: WEB PIONEERS
-                </p>
                 <p className="text-gray-700 dark:text-gray-100 text-sm">
                   &copy; 2025 SheSync. All rights reserved.
                 </p>
