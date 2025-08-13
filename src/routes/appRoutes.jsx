@@ -31,11 +31,16 @@ import { TermsOfService } from "../components/TermsOfService";
 import { CookiePolicy } from "../components/CookiePolicy";
 import { AboutUs } from "../components/AboutUs";
 import { HelpCenter } from "../components/HelpCenter";
+import { Community } from "../components/Community";
 
 export const appRoutes = [
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/community",
+    element: <Community />,
   },
   {
     path: "/help-center",
