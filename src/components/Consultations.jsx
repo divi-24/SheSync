@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, Fragment } from "react";
+import { useState, useCallback, useEffect, Fragment, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -43,9 +43,9 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import { Dialog, Transition } from "@headlessui/react";
-import { format, addDays, parse, isBefore, isAfter } from "date-fns";
-import SideBar from "./SideBar";
-import useScreenSize from "../hooks/useScreenSize";
+import { format, addDays } from "date-fns";
+import SideBar from "./SideBar"; // Assuming this file exists and contains the Sidebar component
+import useScreenSize from "../hooks/useScreenSize"; // Assuming this file exists and contains the useScreenSize hook
 
 const libraries = ["places"];
 
@@ -78,6 +78,15 @@ const experienceRanges = [
   "15+ years",
 ];
 const priceRanges = ["₹500-1000", "₹1000-2000", "₹2000-3000", "₹3000+"];
+
+// Dummy data for doctor images to make it look more realistic
+const dummyDoctorImages = [
+  "https://placehold.co/100x100/e9d5ff/7e22ce?text=Dr.",
+  "https://placehold.co/100x100/dbeafe/1e40af?text=Dr.",
+  "https://placehold.co/100x100/fecaca/991b1b?text=Dr.",
+  "https://placehold.co/100x100/a5f3fc/0e7490?text=Dr.",
+  "https://placehold.co/100x100/d1fae5/065f46?text=Dr.",
+];
 
 export function Consultations() {
   const navigate = useNavigate();
@@ -189,21 +198,28 @@ export function Consultations() {
 
           setMarkers(newMarkers);
           setApiDoctors(
-            results.map((place) => ({
+            results.map((place, index) => ({
               id: place.place_id,
               name: place.name,
-              specialization: place.types.includes("doctor")
-                ? "Gynecologist"
-                : "Women's Health Specialist",
-              rating: place.rating || 4.5,
-              reviewCount: place.user_ratings_total || 0,
+              specialization:
+                specializations[Math.floor(Math.random() * specializations.length)],
+              rating: place.rating || (Math.random() * (5 - 3) + 3).toFixed(1),
+              reviewCount: place.user_ratings_total || Math.floor(Math.random() * 500),
               availableDate: new Date().toISOString().split("T")[0],
-              price: Math.floor(Math.random() * 100) + 100,
-              image: "/images/women.jpeg",
+              price: Math.floor(Math.random() * (3500 - 500 + 1) + 500),
+              image: dummyDoctorImages[index % dummyDoctorImages.length],
+              languages: languageOptions
+                .sort(() => 0.5 - Math.random())
+                .slice(0, Math.floor(Math.random() * 3) + 1),
+              experience: experienceRanges[Math.floor(Math.random() * experienceRanges.length)],
+              consultationType:
+                consultationTypes[Math.floor(Math.random() * consultationTypes.length)],
+              address: place.vicinity,
             }))
           );
         } else {
           setSearchError("No doctors found in this area");
+          setApiDoctors([]);
         }
         setIsSearching(false);
       });
@@ -242,22 +258,57 @@ export function Consultations() {
     setHasMounted(true);
   }, []);
 
+  // Use useMemo to filter and sort doctors
+  const filteredAndSortedDoctors = useMemo(() => {
+    let result = [...apiDoctors];
+
+    // Filter logic
+    if (filters.specialization) {
+      result = result.filter(doc => doc.specialization === filters.specialization);
+    }
+
+    if (filters.consultationType) {
+      result = result.filter(doc => doc.consultationType === filters.consultationType);
+    }
+
+    if (filters.language) {
+      result = result.filter(doc => doc.languages && doc.languages.includes(filters.language));
+    }
+    
+    if (filters.experience) {
+      const [min, max] = filters.experience.split('-').map(s => parseInt(s.replace('+', ''), 10));
+      result = result.filter(doc => {
+        const exp = parseInt(doc.experience.replace('+', ''), 10);
+        return exp >= min && (!max || exp <= max);
+      });
+    }
+
+    if (filters.priceRange) {
+      const [minPrice, maxPrice] = filters.priceRange.split('-').map(s => parseInt(s.replace('₹', '').replace('+', ''), 10));
+      result = result.filter(doc => {
+        const price = doc.price;
+        return price >= minPrice && (!maxPrice || price <= maxPrice);
+      });
+    }
+
+    if (filters.rating > 0) {
+      result = result.filter(doc => doc.rating >= filters.rating);
+    }
+
+    // Sort logic
+    if (sortBy === "rating") {
+      result.sort((a, b) => b.rating - a.rating);
+    } else if (sortBy === "price") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "distance") {
+      // Dummy distance sort, as real distance requires calculating it
+      result.sort((a, b) => a.id.localeCompare(b.id)); // Using ID as a placeholder for distance
+    }
+    
+    return result;
+  }, [apiDoctors, filters, sortBy]);
+
   // UI Components
-  const SidebarLink = ({ icon, label, onClick, active = false }) => {
-    return (
-      <button
-        onClick={onClick}
-        className={`flex items-center space-x-2 w-full px-2 py-2 rounded-lg transition-colors ${
-          active
-            ? "bg-pink-200 dark:bg-pink-900 text-pink-800 dark:text-pink-200"
-            : "text-gray-900 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-gray-700"
-        }`}
-      >
-        {icon}
-        <span>{label}</span>
-      </button>
-    );
-  };
   const DoctorCard = ({ doctor }) => (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -270,13 +321,13 @@ export function Consultations() {
         <div className="flex items-start space-x-4">
           <img
             src={doctor.image}
-            alt={doctor.name}
+            alt={`Dr. ${doctor.name}`}
             className="w-24 h-24 rounded-lg object-cover"
           />
           <div className="flex-1">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-semibold dark:text-white">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {doctor.name}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
@@ -517,7 +568,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "rating"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-gray-300 dark:text-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <Star className="h-4 w-4 mr-1" />
@@ -528,7 +579,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "price"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-gray-300 dark:text-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <IndianRupee className="h-4 w-4 mr-1" />
@@ -539,7 +590,7 @@ export function Consultations() {
         className={`flex items-center px-3 py-1 rounded-full text-sm ${
           sortBy === "distance"
             ? "bg-pink-100 text-pink-600 dark:bg-pink-900 dark:text-pink-300"
-            : "text-gray-600 bg-white border border-black dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+            : "text-gray-600 bg-white border border-gray-300 dark:text-gray-400 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
         }`}
       >
         <MapPin className="h-4 w-4 mr-1" />
@@ -971,24 +1022,16 @@ export function Consultations() {
             </motion.div>
           )}
 
-          {/* Inside the main content section, after the search section */}
           <div className="flex justify-between items-center mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 text-white bg-[#e73e8f] dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
+              className="flex items-center space-x-2 text-white bg-[#e73e8f] dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 px-4 py-2 rounded-md"
             >
               <Filter className="h-5 w-5" />
               <span className="text-white ">{showFilters ? "Hide Filters" : "Show Filters"}</span>
             </button>
-            <button
-              onClick={() =>
-                setSortBy(sortBy === "rating" ? "distance" : "rating")
-              }
-              className="flex items-center space-x-2 bg-[#e73e8f] text-gray-600 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400"
-            >
-              <ArrowUpDown className="h-5 w-5" />
-              <span className="text-white">Sort</span>
-            </button>
+            
+            <SortingControls sortBy={sortBy} setSortBy={setSortBy} />
           </div>
 
           <FilterSection
@@ -996,16 +1039,15 @@ export function Consultations() {
             setFilters={setFilters}
             showFilters={showFilters}
           />
-          <SortingControls sortBy={sortBy} setSortBy={setSortBy} />
 
-          {/* Doctors List (keep the same as before) */}
+          {/* Doctors List (use the filtered and sorted list) */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {isSearching ? (
               Array(6)
                 .fill()
                 .map((_, i) => <DoctorCardSkeleton key={i} />)
-            ) : apiDoctors.length > 0 ? (
-              apiDoctors.map((doctor) => (
+            ) : filteredAndSortedDoctors.length > 0 ? (
+              filteredAndSortedDoctors.map((doctor) => (
                 <DoctorCard key={doctor.id} doctor={doctor} />
               ))
             ) : (
@@ -1035,3 +1077,5 @@ export function Consultations() {
     </div>
   );
 }
+
+export default Consultations;
