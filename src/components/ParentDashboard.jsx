@@ -996,102 +996,6 @@ const EducationProgressModal = ({ child, onClose }) => {
   );
 };
 
-// New Modal Components
-const PrivacySettingsModal = ({ onClose }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
-  >
-    <motion.div
-      initial={{ scale: 0.95 }}
-      animate={{ scale: 1 }}
-      exit={{ scale: 0.95 }}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-    >
-      <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
-            Privacy Settings
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <div className="space-y-6">
-          {/* Data Sharing */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Data Sharing</h3>
-            <div className="space-y-3">
-              {Object.entries(privacySettings.dataSharing).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                  <button
-                    className={`w-12 h-6 rounded-full transition-colors ${
-                      value ? 'bg-pink-500' : 'bg-gray-300'
-                    }`}
-                  >
-                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
-                      value ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Notifications */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Notifications</h3>
-            <div className="space-y-3">
-              {Object.entries(privacySettings.notifications).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                  <button
-                    className={`w-12 h-6 rounded-full transition-colors ${
-                      value ? 'bg-pink-500' : 'bg-gray-300'
-                    }`}
-                  >
-                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
-                      value ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Access Control */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Access Control</h3>
-            <div className="space-y-3">
-              {Object.entries(privacySettings.accessControl).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                  <button
-                    className={`w-12 h-6 rounded-full transition-colors ${
-                      value ? 'bg-pink-500' : 'bg-gray-300'
-                    }`}
-                  >
-                    <div className={`w-4 h-4 bg-white rounded-full transition-transform ${
-                      value ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  </motion.div>
-);
-
 const CommunicationLogModal = ({ onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -1275,6 +1179,23 @@ export function ParentDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [showQuickActions, setShowQuickActions] = useState(false);
+
+  // State for Privacy Settings with functional toggles
+  const [currentPrivacySettings, setCurrentPrivacySettings] = useState({
+    dataSharing: { ...privacySettings.dataSharing },
+    notifications: { ...privacySettings.notifications },
+    accessControl: { ...privacySettings.accessControl },
+  });
+
+  const handleToggle = (category, key) => {
+    setCurrentPrivacySettings((prevSettings) => ({
+      ...prevSettings,
+      [category]: {
+        ...prevSettings[category],
+        [key]: !prevSettings[category][key],
+      },
+    }));
+  };
   
   const handleDismissNotification = (id) => {
     setNotifications(notifications.filter((n) => n.id !== id));
@@ -2627,9 +2548,113 @@ const renderCycleTracking = () => (
               />
             )}
             {showPrivacySettings && (
-              <PrivacySettingsModal
-                onClose={() => setShowPrivacySettings(false)}
-              />
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+              >
+                <motion.div
+                  initial={{ scale: 0.95 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.95 }}
+                  className="bg-white/80 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto text-zinc-800 dark:text-zinc-100 border border-pink-100/30 dark:border-gray-700/50"
+                >
+                  <div className="p-6 space-y-6">
+                    {/* Header */}
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                        Privacy Settings
+                      </h2>
+                      <button
+                        onClick={() => setShowPrivacySettings(false)}
+                        className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none"
+                        aria-label="Close"
+                      >
+                        <X className="h-5 w-5 text-gray-800 dark:text-gray-200" />
+                      </button>
+                    </div>
+
+                    {/* Settings Sections */}
+                    <div className="space-y-6">
+                      {/* Data Sharing */}
+                      <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-pink-100 dark:border-gray-700">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2 text-zinc-800 dark:text-zinc-100">
+                          <Shield className="h-5 w-5 text-pink-500" />
+                          <span>Data Sharing</span>
+                        </h3>
+                        <div className="space-y-3">
+                          {Object.entries(currentPrivacySettings.dataSharing).map(([key, value]) => (
+                            <div key={key} className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-gray-700/50 rounded-lg">
+                              <span className="capitalize text-sm md:text-base">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                              <button
+                                onClick={() => handleToggle('dataSharing', key)}
+                                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                                  value ? 'bg-pink-500' : 'bg-gray-300 dark:bg-gray-600'
+                                }`}
+                              >
+                                <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                                  value ? 'translate-x-6' : 'translate-x-0'
+                                }`} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Notifications */}
+                      <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-pink-100 dark:border-gray-700">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2 text-zinc-800 dark:text-zinc-100">
+                          <Bell className="h-5 w-5 text-purple-500" />
+                          <span>Notifications</span>
+                        </h3>
+                        <div className="space-y-3">
+                          {Object.entries(currentPrivacySettings.notifications).map(([key, value]) => (
+                            <div key={key} className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-gray-700/50 rounded-lg">
+                              <span className="capitalize text-sm md:text-base">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                              <button
+                                onClick={() => handleToggle('notifications', key)}
+                                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                                  value ? 'bg-pink-500' : 'bg-gray-300 dark:bg-gray-600'
+                                }`}
+                              >
+                                <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                                  value ? 'translate-x-6' : 'translate-x-0'
+                                }`} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Access Control */}
+                      <div className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm border border-pink-100 dark:border-gray-700">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2 text-zinc-800 dark:text-zinc-100">
+                          <Lock className="h-5 w-5 text-pink-500" />
+                          <span>Access Control</span>
+                        </h3>
+                        <div className="space-y-3">
+                          {Object.entries(currentPrivacySettings.accessControl).map(([key, value]) => (
+                            <div key={key} className="flex items-center justify-between p-3 bg-gray-50/50 dark:bg-gray-700/50 rounded-lg">
+                              <span className="capitalize text-sm md:text-base">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                              <button
+                                onClick={() => handleToggle('accessControl', key)}
+                                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                                  value ? 'bg-pink-500' : 'bg-gray-300 dark:bg-gray-600'
+                                }`}
+                              >
+                                <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                                  value ? 'translate-x-6' : 'translate-x-0'
+                                }`} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
             )}
             {showCommunicationLog && (
               <CommunicationLogModal
