@@ -1288,370 +1288,442 @@ export function ParentDashboard() {
     setSidebarVisible(!sidebarVisible);
   };
   
-  const renderOverviewCards = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {mockChildrenData.map((child) => (
-        <motion.div
-          key={child.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileHover={{ y: -5 }}
-          transition={{ duration: 0.3 }}
-          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-        >
-          <div className="absolute inset-0 bg-grid-pink/5 pointer-events-none" />
+  const renderOverviewCards = () => {
+    const filteredChildren = mockChildrenData.filter((child) => {
+      const matchesSearch = child.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || 
+                           (filterType === "health" && child.healthScore) ||
+                           (filterType === "education" && child.educationProgress) ||
+                           (filterType === "mental" && child.mentalHealth);
+      return matchesSearch && matchesFilter;
+    });
 
-          <div className="relative p-6 space-y-6 text-zinc-800 dark:text-zinc-100">
-            {/* Header with Avatar, Name, Health */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
-                  <span className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-300 to-pink-400 text-white font-semibold text-xl">
-                    {child.name[0]}
-                  </span>
+    if (filteredChildren.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No children match your search criteria.
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {filteredChildren.map((child) => (
+          <motion.div
+            key={child.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -5 }}
+            transition={{ duration: 0.3 }}
+            className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+          >
+            <div className="absolute inset-0 bg-grid-pink/5 pointer-events-none" />
+
+            <div className="relative p-6 space-y-6 text-zinc-800 dark:text-zinc-100">
+              {/* Header with Avatar, Name, Health */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
+                    <span className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-300 to-pink-400 text-white font-semibold text-xl">
+                      {child.name[0]}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                      {child.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-zinc-400">
+                      Age: {child.age}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-                    {child.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-zinc-400">
-                    Age: {child.age}
-                  </p>
-                </div>
+                <span className="px-3 py-1 text-sm font-semibold rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300">
+                  {child.healthScore}% Health
+                </span>
               </div>
-              <span className="px-3 py-1 text-sm font-semibold rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300">
-                {child.healthScore}% Health
-              </span>
-            </div>
 
-            {/* Phase Info */}
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                ["Current Phase", child.currentPhase],
-                ["Next Period", child.nextPeriod],
-              ].map(([label, value], i) => (
-                <div
-                  key={i}
-                  className="p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
-                >
-                  <p className="text-sm text-gray-500 dark:text-zinc-400">
-                    {label}
-                  </p>
-                  <p className="text-base font-semibold text-zinc-800 dark:text-zinc-100">
-                    {value}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Recent Updates */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                  Recent Updates
-                </h4>
-                <TrendingUp className="h-4 w-4 text-pink-500" />
-              </div>
-              <div className="space-y-3">
-                {child.recentUpdates.map((update, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-start justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
+              {/* Phase Info */}
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  ["Current Phase", child.currentPhase],
+                  ["Next Period", child.nextPeriod],
+                ].map(([label, value], i) => (
+                  <div
+                    key={i}
+                    className="p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
-                        <Activity className="h-5 w-5 text-pink-500" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                          {update.text}
-                        </p>
-                        <p className="text-xs text-gray-500 dark:text-zinc-400">
-                          {update.date}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
+                    <p className="text-sm text-gray-500 dark:text-zinc-400">
+                      {label}
+                    </p>
+                    <p className="text-base font-semibold text-zinc-800 dark:text-zinc-100">
+                      {value}
+                    </p>
+                  </div>
                 ))}
               </div>
+
+              {/* Recent Updates */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                    Recent Updates
+                  </h4>
+                  <TrendingUp className="h-4 w-4 text-pink-500" />
+                </div>
+                <div className="space-y-3">
+                  {child.recentUpdates.map((update, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
+                          <Activity className="h-5 w-5 text-pink-500" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                            {update.text}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-zinc-400">
+                            {update.date}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-between pt-2">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition"
+                >
+                  <FileText className="h-4 w-4" />
+                  View Details
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-white hover:bg-pink-100 text-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 border border-gray-200 dark:border-zinc-600 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                >
+                  <MessageCircle className="h-4 w-4 text-pink-600" />
+                  Contact Doctor
+                </motion.button>
+              </div>
             </div>
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
 
-            {/* Buttons */}
-            <div className="flex justify-between pt-2">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition"
-              >
-                <FileText className="h-4 w-4" />
-                View Details
-              </motion.button>
+  const renderHealthCards = () => {
+    const filteredChildren = mockChildrenData.filter((child) => {
+      const matchesSearch = child.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            child.mood.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            child.symptoms.some(symptom => symptom.toLowerCase().includes(searchTerm.toLowerCase()));
+      const matchesFilter = filterType === "all" || filterType === "health";
+      return matchesSearch && matchesFilter;
+    });
 
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md bg-white hover:bg-pink-100 text-zinc-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-200 border border-gray-200 dark:border-zinc-600 focus:outline-none focus:ring-2 focus:ring-pink-400"
-              >
-                <MessageCircle className="h-4 w-4 text-pink-600" />
-                Contact Doctor
-              </motion.button>
+    if (filteredChildren.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No health data matches your search criteria.
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {filteredChildren.map((child) => (
+          <motion.div
+            key={child.id}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+          >
+            <div className="p-6">
+              <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2 text-zinc-900 dark:text-white">
+                <User className="h-5 w-5 text-pink-500" />
+                <span>{child.name}'s Health</span>
+              </h3>
+
+              <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
+                {/* Mood & Sleep */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">Mood</p>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200">
+                      {child.mood}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">Sleep</p>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200">
+                      {child.sleep}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Symptoms */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Current Symptoms</p>
+                  <div className="flex flex-wrap gap-2">
+                    {child.symptoms.map((symptom, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800"
+                      >
+                        {symptom}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Medications */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Medications</p>
+                  <div className="space-y-2">
+                    {child.medications.map((medication, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <Pill className="h-4 w-4 text-pink-500" />
+                        <span className="text-sm">{medication}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Insights */}
+                <motion.div
+                  className="p-4 bg-pink-50/70 dark:bg-pink-900/20 rounded-lg border border-pink-100/30 dark:border-pink-900/30"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex items-start space-x-2">
+                    <Brain className="h-5 w-5 text-pink-500 mt-1" />
+                    <div>
+                      <p className="font-medium">Cycle Insights</p>
+                      <p className="text-sm text-gray-600 dark:text-zinc-300">
+                        {child.name} is in her {child.currentPhase} phase. Next
+                        period expected on {child.nextPeriod}.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <button
+                    onClick={() => {
+                      setSelectedChild(child);
+                      setShowMentalHealthModal(true);
+                    }}
+                    className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
+                  >
+                    <Brain className="h-4 w-4 text-pink-500" />
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                      Mental Health
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSelectedChild(child);
+                      setShowNutritionModal(true);
+                    }}
+                    className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
+                  >
+                    <Apple className="h-4 w-4 text-pink-500" />
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                      Nutrition
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setSelectedChild(child);
+                      setShowEducationModal(true);
+                    }}
+                    className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
+                  >
+                    <GraduationCap className="h-4 w-4 text-pink-500" />
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                      Education
+                    </span>
+                  </button>
+
+                  <button className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors">
+                    <Calendar className="h-4 w-4 text-pink-500" />
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
+                      Schedule
+                    </span>
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
+          </motion.div>
+        ))}
+      </div>
+    );
+  };
 
-  const renderHealthCards = () => (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {mockChildrenData.map((child) => (
+  const renderEducationResources = () => {
+    const filteredResources = resources.filter((resource) => {
+      const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            resource.type.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || filterType === "education";
+      return matchesSearch && matchesFilter;
+    });
+
+    if (filteredResources.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No educational resources match your search criteria.
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid gap-6">
         <motion.div
-          key={child.id}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
         >
           <div className="p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center space-x-2 text-zinc-900 dark:text-white">
-              <User className="h-5 w-5 text-pink-500" />
-              <span>{child.name}'s Health</span>
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
+              Educational Resources
             </h3>
-
-            <div className="space-y-6 text-zinc-800 dark:text-zinc-100">
-              {/* Mood & Sleep */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Mood</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200">
-                    {child.mood}
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  <p className="text-sm font-medium">Sleep</p>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-zinc-700 border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200">
-                    {child.sleep}
-                  </span>
-                </div>
-              </div>
-
-              {/* Symptoms */}
-              <div>
-                <p className="text-sm font-medium mb-2">Current Symptoms</p>
-                <div className="flex flex-wrap gap-2">
-                  {child.symptoms.map((symptom, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border border-gray-200 dark:border-zinc-600 text-zinc-700 dark:text-zinc-200 bg-white dark:bg-zinc-800"
-                    >
-                      {symptom}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Medications */}
-              <div>
-                <p className="text-sm font-medium mb-2">Medications</p>
-                <div className="space-y-2">
-                  {child.medications.map((medication, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <Pill className="h-4 w-4 text-pink-500" />
-                      <span className="text-sm">{medication}</span>
+            <div className="grid gap-4">
+              {filteredResources.map((resource, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-start justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 transition-colors"
+                >
+                  {/* Left Side */}
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg">
+                      <resource.icon className="h-5 w-5 text-pink-500" />
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Insights */}
-              <motion.div
-                className="p-4 bg-pink-50/70 dark:bg-pink-900/20 rounded-lg border border-pink-100/30 dark:border-pink-900/30"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="flex items-start space-x-2">
-                  <Brain className="h-5 w-5 text-pink-500 mt-1" />
-                  <div>
-                    <p className="font-medium">Cycle Insights</p>
-                    <p className="text-sm text-gray-600 dark:text-zinc-300">
-                      {child.name} is in her {child.currentPhase} phase. Next
-                      period expected on {child.nextPeriod}.
-                    </p>
+                    <div>
+                      <h4 className="font-medium text-zinc-800 dark:text-zinc-100 mb-1">
+                        {resource.title}
+                      </h4>
+                      <div className="flex items-center flex-wrap gap-x-2 text-sm text-gray-500 dark:text-zinc-400">
+                        <span>{resource.type}</span>
+                        <span>•</span>
+                        <span>{resource.duration}</span>
+                        <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 border border-gray-200 dark:bg-zinc-700 dark:border-zinc-600 text-gray-600 dark:text-zinc-300">
+                          {resource.level}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
 
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <button
-                  onClick={() => {
-                    setSelectedChild(child);
-                    setShowMentalHealthModal(true);
-                  }}
-                  className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
-                >
-                  <Brain className="h-4 w-4 text-pink-500" />
-                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                    Mental Health
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setSelectedChild(child);
-                    setShowNutritionModal(true);
-                  }}
-                  className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
-                >
-                  <Apple className="h-4 w-4 text-pink-500" />
-                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                    Nutrition
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    setSelectedChild(child);
-                    setShowEducationModal(true);
-                  }}
-                  className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors"
-                >
-                  <GraduationCap className="h-4 w-4 text-pink-500" />
-                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                    Education
-                  </span>
-                </button>
-
-                <button className="flex items-center justify-center space-x-2 p-2 bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 rounded-lg border border-gray-200 dark:border-zinc-600 transition-colors">
-                  <Calendar className="h-4 w-4 text-pink-500" />
-                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-100">
-                    Schedule
-                  </span>
-                </button>
-              </div>
+                  {/* Chevron Button */}
+                  <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
+                    <ChevronRight className="h-4 w-4 text-zinc-700 dark:text-zinc-200" />
+                  </button>
+                </motion.div>
+              ))}
             </div>
           </div>
         </motion.div>
-      ))}
-    </div>
-  );
+      </div>
+    );
+  };
 
-  const renderEducationResources = () => (
-    <div className="grid gap-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-      >
-        <div className="p-6">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white mb-4">
-            Educational Resources
-          </h3>
-          <div className="grid gap-4">
-            {resources.map((resource, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-start justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700 transition-colors"
-              >
-                {/* Left Side */}
-                <div className="flex items-start gap-4">
-                  <div className="p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg">
-                    <resource.icon className="h-5 w-5 text-pink-500" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-zinc-800 dark:text-zinc-100 mb-1">
-                      {resource.title}
-                    </h4>
-                    <div className="flex items-center flex-wrap gap-x-2 text-sm text-gray-500 dark:text-zinc-400">
-                      <span>{resource.type}</span>
-                      <span>•</span>
-                      <span>{resource.duration}</span>
-                      <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 border border-gray-200 dark:bg-zinc-700 dark:border-zinc-600 text-gray-600 dark:text-zinc-300">
-                        {resource.level}
-                      </span>
+  const renderEmergencyContacts = () => {
+    const filteredContacts = contacts.filter((contact) => {
+      const matchesSearch = contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            contact.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            contact.phone.includes(searchTerm);
+      const matchesFilter = filterType === "all" || filterType === "emergency";
+      return matchesSearch && matchesFilter;
+    });
+
+    if (filteredContacts.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No emergency contacts match your search criteria.
+        </div>
+      );
+    }
+    
+    return (
+      <div className="grid gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                Emergency Contacts
+              </h3>
+              <button className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition">
+                <Plus className="w-4 h-4" />
+                Add Contact
+              </button>
+            </div>
+            <div className="space-y-4">
+              {filteredContacts.map((contact, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="flex items-center justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
+                >
+                  {/* Contact Info */}
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
+                      <User className="h-5 w-5 text-pink-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
+                        {contact.name}
+                      </h4>
+                      <p className="text-sm text-gray-500 dark:text-zinc-400">
+                        {contact.role}
+                      </p>
                     </div>
                   </div>
-                </div>
 
-                {/* Chevron Button */}
-                <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
-                  <ChevronRight className="h-4 w-4 text-zinc-700 dark:text-zinc-200" />
-                </button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-
-  const renderEmergencyContacts = () => (
-    <div className="grid gap-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-      >
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-              Emergency Contacts
-            </h3>
-            <button className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md text-white bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition">
-              <Plus className="w-4 h-4" />
-              Add Contact
-            </button>
-          </div>
-          <div className="space-y-4">
-            {contacts.map((contact, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
-              >
-                {/* Contact Info */}
-                <div className="flex items-center gap-4">
-                  <div className="p-2 rounded-full bg-pink-100 dark:bg-pink-900/30">
-                    <User className="h-5 w-5 text-pink-500" />
+                  {/* Actions */}
+                  <div className="flex items-center gap-3">
+                    <span className="px-2 py-0.5 text-xs font-semibold rounded-full text-gray-600 bg-gray-100 border border-gray-200 dark:text-zinc-300 dark:bg-zinc-700 dark:border-zinc-600">
+                      {contact.available}
+                    </span>
+                    <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
+                      <Phone className="w-4 h-4 text-zinc-700 dark:text-zinc-200" />
+                    </button>
+                    <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
+                      <Mail className="w-4 h-4 text-zinc-700 dark:text-zinc-200" />
+                    </button>
                   </div>
-                  <div>
-                    <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
-                      {contact.name}
-                    </h4>
-                    <p className="text-sm text-gray-500 dark:text-zinc-400">
-                      {contact.role}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-3">
-                  <span className="px-2 py-0.5 text-xs font-semibold rounded-full text-gray-600 bg-gray-100 border border-gray-200 dark:text-zinc-300 dark:bg-zinc-700 dark:border-zinc-600">
-                    {contact.available}
-                  </span>
-                  <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
-                    <Phone className="w-4 h-4 text-zinc-700 dark:text-zinc-200" />
-                  </button>
-                  <button className="p-2 rounded-full bg-white hover:bg-pink-100 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-gray-200 dark:border-zinc-600 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400">
-                    <Mail className="w-4 h-4 text-zinc-700 dark:text-zinc-200" />
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </div>
-  );
+        </motion.div>
+      </div>
+    );
+  };
 
 const renderCycleTracking = () => (
   <div className="grid gap-6">
@@ -1920,210 +1992,259 @@ const renderCycleTracking = () => (
   </div>
 );
 
-  const renderMedications = () => (
-    <motion.div
-      variants={pageTransition}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="grid gap-6"
-    >
-      <motion.div
-        variants={cardVariants}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-      >
-        <div className="p-6">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
-              Medication Schedule
-            </h3>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition"
-            >
-              <Plus className="h-4 w-4" />
-            </motion.button>
-          </div>
+  const renderMedications = () => {
+    const filteredMedications = medications.filter((med) => {
+      const matchesSearch = med.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            med.schedule.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || filterType === "medication" || filterType === "health";
+      return matchesSearch && matchesFilter;
+    });
 
-          {/* Medication List */}
-          <div className="space-y-4">
-            <LayoutGroup>
-              {medications.map((med, index) => (
+    if (filteredMedications.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No medications match your search criteria.
+        </div>
+      );
+    }
+    
+    return (
+      <motion.div
+        variants={pageTransition}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="grid gap-6"
+      >
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                Medication Schedule
+              </h3>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-2 rounded-lg bg-pink-500 text-white hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-500 transition"
+              >
+                <Plus className="h-4 w-4" />
+              </motion.button>
+            </div>
+
+            {/* Medication List */}
+            <div className="space-y-4">
+              <LayoutGroup>
+                {filteredMedications.map((med, index) => (
+                  <motion.div
+                    layout
+                    key={index}
+                    variants={listItemVariants}
+                    className="p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
+                  >
+                    <div className="flex items-center justify-between">
+                      {/* Left: Icon + Info */}
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg">
+                          <Pill className="h-5 w-5 text-pink-500" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
+                            {med.name}
+                          </h4>
+                          <p className="text-sm text-gray-500 dark:text-zinc-400">
+                            {med.schedule}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Right: Time + Taken Button */}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-gray-600 dark:text-zinc-300">
+                          {med.time}
+                        </span>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`h-6 w-6 rounded-full border transition-all duration-200 ${
+                            med.taken
+                              ? "bg-green-500 border-green-500"
+                              : "bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600"
+                          }`}
+                          aria-label={med.taken ? "Taken" : "Mark as taken"}
+                        />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </LayoutGroup>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    );
+  };
+
+  const renderActivities = () => {
+    const filteredActivities = activities.filter((activity) => {
+      const matchesSearch = activity.type.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || filterType === "activities" || filterType === "health";
+      return matchesSearch && matchesFilter;
+    });
+
+    if (filteredActivities.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No activities match your search criteria.
+        </div>
+      );
+    }
+
+    return (
+      <motion.div
+        variants={pageTransition}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="grid gap-6"
+      >
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+              Daily Activities
+            </h3>
+
+            <div className="space-y-4">
+              {filteredActivities.map((activity, index) => (
                 <motion.div
-                  layout
                   key={index}
                   variants={listItemVariants}
                   className="p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
                 >
                   <div className="flex items-center justify-between">
-                    {/* Left: Icon + Info */}
+                    {/* Left Side: Icon + Info */}
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-pink-100 dark:bg-pink-900/30 rounded-lg">
-                        <Pill className="h-5 w-5 text-pink-500" />
+                      <div className="p-2 rounded-lg bg-pink-100 dark:bg-pink-900/30">
+                        <Activity className="h-5 w-5 text-pink-500" />
                       </div>
                       <div>
                         <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
-                          {med.name}
+                          {activity.type}
                         </h4>
                         <p className="text-sm text-gray-500 dark:text-zinc-400">
-                          {med.schedule}
+                          {activity.duration}
                         </p>
                       </div>
                     </div>
 
-                    {/* Right: Time + Taken Button */}
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm text-gray-600 dark:text-zinc-300">
-                        {med.time}
-                      </span>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`h-6 w-6 rounded-full border transition-all duration-200 ${
-                          med.taken
-                            ? "bg-green-500 border-green-500"
-                            : "bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600"
-                        }`}
-                        aria-label={med.taken ? "Taken" : "Mark as taken"}
-                      />
-                    </div>
+                    {/* Completion Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`h-6 w-6 rounded-full border transition-all duration-200 ${
+                        activity.completed
+                          ? "bg-green-500 border-green-500"
+                          : "bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600"
+                      }`}
+                      aria-label={
+                        activity.completed ? "Completed" : "Mark as complete"
+                      }
+                    />
                   </div>
                 </motion.div>
               ))}
-            </LayoutGroup>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  );
+    );
+  };
 
-  const renderActivities = () => (
-    <motion.div
-      variants={pageTransition}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="grid gap-6"
-    >
+  const renderGoals = () => {
+    const filteredGoals = goals.filter((goal) => {
+      const matchesSearch = goal.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || filterType === "goals" || filterType === "health";
+      return matchesSearch && matchesFilter;
+    });
+
+    if (filteredGoals.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No goals match your search criteria.
+        </div>
+      );
+    }
+
+    return (
       <motion.div
-        variants={cardVariants}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        variants={pageTransition}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="grid gap-6"
       >
-        <div className="p-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
-            Daily Activities
-          </h3>
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+              Wellness Goals
+            </h3>
 
-          <div className="space-y-4">
-            {activities.map((activity, index) => (
-              <motion.div
-                key={index}
-                variants={listItemVariants}
-                className="p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
-              >
-                <div className="flex items-center justify-between">
-                  {/* Left Side: Icon + Info */}
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-pink-100 dark:bg-pink-900/30">
-                      <Activity className="h-5 w-5 text-pink-500" />
-                    </div>
+            <div className="grid gap-4">
+              {filteredGoals.map((goal, index) => (
+                <motion.div
+                  key={index}
+                  variants={listItemVariants}
+                  className="flex flex-col gap-2 p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
+                >
+                  <div className="flex items-center justify-between">
+                    {/* Goal Info */}
                     <div>
                       <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
-                        {activity.type}
+                        {goal.title}
                       </h4>
                       <p className="text-sm text-gray-500 dark:text-zinc-400">
-                        {activity.duration}
+                        {goal.target}
                       </p>
+                    </div>
+
+                    {/* Streak Info */}
+                    <div className="flex items-center gap-2">
+                      <Award className="h-4 w-4 text-pink-500" />
+                      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                        {goal.streak} days
+                      </span>
                     </div>
                   </div>
 
-                  {/* Completion Button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`h-6 w-6 rounded-full border transition-all duration-200 ${
-                      activity.completed
-                        ? "bg-green-500 border-green-500"
-                        : "bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600"
-                    }`}
-                    aria-label={
-                      activity.completed ? "Completed" : "Mark as complete"
-                    }
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
-    </motion.div>
-  );
-
-  const renderGoals = () => (
-    <motion.div
-      variants={pageTransition}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="grid gap-6"
-    >
-      <motion.div
-        variants={cardVariants}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-      >
-        <div className="p-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
-            Wellness Goals
-          </h3>
-
-          <div className="grid gap-4">
-            {goals.map((goal, index) => (
-              <motion.div
-                key={index}
-                variants={listItemVariants}
-                className="flex flex-col gap-2 p-4 rounded-lg shadow-sm border bg-white dark:bg-zinc-900 border-gray-200 dark:border-zinc-700"
-              >
-                <div className="flex items-center justify-between">
-                  {/* Goal Info */}
-                  <div>
-                    <h4 className="font-medium text-zinc-800 dark:text-zinc-100">
-                      {goal.title}
-                    </h4>
-                    <p className="text-sm text-gray-500 dark:text-zinc-400">
-                      {goal.target}
-                    </p>
+                  {/* Progress Bar */}
+                  <div className="h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${goal.progress}%` }}
+                      transition={{
+                        duration: 1,
+                        ease: [0.645, 0.045, 0.355, 1],
+                      }}
+                      className="h-full bg-gradient-to-r from-pink-400 to-pink-600"
+                    />
                   </div>
-
-                  {/* Streak Info */}
-                  <div className="flex items-center gap-2">
-                    <Award className="h-4 w-4 text-pink-500" />
-                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                      {goal.streak} days
-                    </span>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="h-2 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${goal.progress}%` }}
-                    transition={{
-                      duration: 1,
-                      ease: [0.645, 0.045, 0.355, 1],
-                    }}
-                    className="h-full bg-gradient-to-r from-pink-400 to-pink-600"
-                  />
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  );
+    );
+  };
 
   // New render functions for enhanced functionality
   const renderQuickActions = () => (
@@ -2175,53 +2296,70 @@ const renderCycleTracking = () => (
     </motion.div>
   );
 
-  const renderHealthAlerts = () => (
-    <motion.div
-      variants={pageTransition}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="grid gap-6"
-    >
-      <motion.div
-        variants={cardVariants}
-        className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
-      >
-        <div className="p-6">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
-            Health Alerts & Insights
-          </h3>
+  const renderHealthAlerts = () => {
+    const filteredAlerts = healthAlerts.filter((alert) => {
+      const matchesSearch = alert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            alert.message.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesFilter = filterType === "all" || filterType === "alerts";
+      return matchesSearch && matchesFilter;
+    });
 
-          <div className="space-y-4">
-            {healthAlerts.map((alert, index) => (
-              <motion.div
-                key={alert.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className={`p-4 rounded-lg border ${
-                  alert.type === 'warning' ? 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800' :
-                  alert.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800' :
-                  'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
-                }`}
-              >
-                <div className="flex items-start space-x-3">
-                  {alert.type === 'warning' && <AlertTriangle className="h-5 w-5 text-yellow-600" />}
-                  {alert.type === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
-                  {alert.type === 'info' && <Info className="h-5 w-5 text-blue-600" />}
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{alert.title}</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{alert.message}</p>
-                    <p className="text-xs text-gray-500 mt-2">{alert.date}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+    if (filteredAlerts.length === 0) {
+      return (
+        <div className="text-center text-gray-500 dark:text-gray-400 p-8">
+          No health alerts match your search criteria.
         </div>
+      );
+    }
+    
+    return (
+      <motion.div
+        variants={pageTransition}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        className="grid gap-6"
+      >
+        <motion.div
+          variants={cardVariants}
+          className="relative overflow-hidden bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-pink-100/20"
+        >
+          <div className="p-6">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent mb-6">
+              Health Alerts & Insights
+            </h3>
+
+            <div className="space-y-4">
+              {filteredAlerts.map((alert, index) => (
+                <motion.div
+                  key={alert.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`p-4 rounded-lg border ${
+                    alert.type === 'warning' ? 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800' :
+                    alert.type === 'success' ? 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800' :
+                    'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800'
+                  }`}
+                >
+                  <div className="flex items-start space-x-3">
+                    {alert.type === 'warning' && <AlertTriangle className="h-5 w-5 text-yellow-600" />}
+                    {alert.type === 'success' && <CheckCircle className="h-5 w-5 text-green-600" />}
+                    {alert.type === 'info' && <Info className="h-5 w-5 text-blue-600" />}
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{alert.title}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{alert.message}</p>
+                      <p className="text-xs text-gray-500 mt-2">{alert.date}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
-  );
+    );
+  };
 
   const renderAnalytics = () => (
     <motion.div
