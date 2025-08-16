@@ -1,7 +1,8 @@
 import {ProtectedRouteWrapper} from "../App";
 import {Landing} from "../components/Landing";
 import {Forum} from "../components/Forum";
-import {Blogs} from "../components/Blogs";
+import {Blogs} from "../components/Education";
+import Blog from "../components/Blog";
 import OvulationCalculator from "../components/OvulationCalculator";
 import {Consultations} from "../components/Consultations";
 import {PeriodTracker} from "../components/PeriodTracker";
@@ -71,8 +72,12 @@ export const appRoutes = [
     element: <ProtectedRouteWrapper Component={Globalchat} />,
   },
   {
-    path: "/blogs",
+    path: "/education",
     element: <Blogs />,
+  },
+  {
+    path: "/blogs",
+    element: <Blog />,
   },
   {
     path: "/ovulationcalculator",

@@ -686,7 +686,7 @@ export function Landing() {
                 </h4>
                 <ul className="space-y-2">
                   <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
+                    <a href="/blogs" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
                       Blog
                     </a>
                   </li>
