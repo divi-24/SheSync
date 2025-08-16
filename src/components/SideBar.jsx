@@ -19,6 +19,7 @@ import {
   Moon,
   X,
   Leaf,
+  Users,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -163,80 +164,86 @@ export default function SideBar({
           <SidebarLink
             icon={<GraduationCap size={20} />}
             label="Education"
-            onClick={() => navigate("/blogs")}
+            onClick={() => navigate("/education")}
             active={active[2]}
+          />
+          <SidebarLink
+            icon={<Users  size={20} />}
+            label="Blogs"
+            onClick={() => navigate("/blogs")}
+            active={active[3]}
           />
           <SidebarLink
             icon={<ShoppingBag size={20} />}
             label="Shop"
             onClick={() => navigate("/Ecom")}
-            active={active[3]}
+            active={active[4]}
           />
           <SidebarLink
             icon={<ActivitySquare size={20} />}
             label="Track Your Health"
             onClick={() => navigate("/tracker")}
-            active={active[4]}
+            active={active[5]}
           />
           <SidebarLink
             icon={<HeartPulse size={20} />}
             label="Ovulation Calculator"
             onClick={() => navigate("/ovulationcalculator")}
-            active={active[5]}
+            active={active[6]}
           />
           <SidebarLink
             icon={<ClipboardList size={20} />}
             label="PCOS Diagnosis"
             onClick={() => navigate("/partner")}
-            active={active[6]}
+            active={active[7]}
           />
           <SidebarLink
             icon={<Stethoscope size={20} />}
             label="Expert Consultation"
             onClick={() => navigate("/consultations")}
-            active={active[7]}
+            active={active[8]}
           />
           <SidebarLink
             icon={<Bot size={20} />}
             label="Eve"
             onClick={() => navigate("/ChatBot")}
-            active={active[8]}
+            active={active[9]}
           />
           <SidebarLink
             icon={<Mic size={20} />}
             label="Voice Agent"
             onClick={() => navigate("/voice-agent")}
-            active={active[18]} // Use the next available index
+            active={active[10]} // Use the next available index
           />
           <SidebarLink
             icon={<HeartPulse size={20} />}
             label="HealthLens"
             onClick={() => navigate("/symptomsanalyzer")}
-            active={active[9]}
+            active={active[11]}
           />
           <SidebarLink
             icon={<ShoppingBag size={20} />}
             label="Period Products"
             onClick={() => navigate("/periodproducts")}
-            active={active[10]}
+            active={active[12]}
           />
           <SidebarLink
             icon={<AppWindowMac size={20} />}
             label="Parent's Dashboard"
             onClick={() => navigate("/parents")}
-            active={active[11]}
+            active={active[13]}
           />
           <SidebarLink
             icon={<MessageSquare size={20} />}
             label="Forums"
             onClick={() => navigate("/forums")}
-            active={active[12]}
+            active={active[14]}
           />
           <SidebarLink
             icon={<HeartHandshake size={20} />}
             label="ShareJoy"
             onClick={() => window.open("https://thepadproject.org/donate/")}
-            active={active[13]}
+            active={active[15]}
           />
           <SidebarLink
             icon={<Gamepad2 size={20} />}
@@ -244,7 +251,7 @@ export default function SideBar({
             onClick={() =>
               navigate("/bliss")
             }
-            active={active[14]}
+            active={active[16]}
           />
           <SidebarLink
             icon={<Handshake size={20} />}
@@ -255,7 +262,7 @@ export default function SideBar({
                 "_blank"
               )
             }
-            active={active[15]}
+            active={active[17]}
           />
             <SidebarLink
             icon={<GitHub size={20} />}
@@ -263,7 +270,7 @@ export default function SideBar({
             onClick={() =>
               navigate("/contributors")
             }
-            active={active[16]}
+            active={active[18]}
           />
               <SidebarLink
             icon={<Leaf size={20} />}
@@ -271,7 +278,7 @@ export default function SideBar({
             onClick={() =>
               navigate("/diet-plan")
             }
-            active={active[17]}
+            active={active[19]}
           />
         </div>
       </aside>
