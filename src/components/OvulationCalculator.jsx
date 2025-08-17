@@ -96,7 +96,7 @@ const OvulationCalculator = () => {
         <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={5}
+        activeLink={6}
         toggleDarkMode={toggleDarkMode}
       />
       </div>

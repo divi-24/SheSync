@@ -41,7 +41,7 @@ const GlobalChat = () => {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={16}
+        // activeLink={}
       />
 
       {width > 816 && (

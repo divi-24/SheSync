@@ -48,7 +48,7 @@ export default function QuoteJoke() {
             <Sidebar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13}
+                activeLink={16}
             />
 
             {/* Sidebar Toggle */}
