@@ -19,12 +19,12 @@ export function Login() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
-      <div className="absolute top-4 left-4 flex space-x-4">
+      <div className="absolute top-4 left-4 flex items-center justify-between space-x-4">
         <Link
           to="/"
-          className="text-white-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+          className="p-2 rounded-full bg-[#DB2777] hover:bg-[#BE185D] transition-all duration-200 transform hover:scale-105 shadow-md"
         >
-          <Home className="w-6 h-6" />
+          <Home className="w-6 h-6" color="white" />
           <span className="sr-only">Back to Home</span>
         </Link>
         <button
@@ -35,21 +35,24 @@ export function Login() {
               return newMode;
             });
           }}
-          className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+          className="p-2 rounded-full bg-[#DB2777] hover:bg-[#BE185D] transition-all duration-200 transform hover:scale-105 shadow-md"
         >
           {darkMode ? (
-            <Sun className="w-6 h-6" />
+            <Sun className="w-6 h-6" color="white" />
           ) : (
-            <Moon className="w-6 h-6" />
+            <Moon className="w-6 h-6" color="white" />
           )}
           <span className="sr-only">Toggle dark mode</span>
         </button>
       </div>
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Log in to your account
-          </h2>
+      <div className="max-w-md w-full flex flex-col items-center space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg ">
+        <div >
+          <h1
+            className={`text-3xl font-bold text-pink-600 dark:text-pink-400 
+            `}
+          >
+            Welcome to SheSync
+          </h1>
         </div>
         <SignIn
           routing="path"
@@ -57,15 +60,29 @@ export function Login() {
           signUpUrl="/signup"
           redirectUrl="/dashboard"
           appearance={{
+            variables: {
+              colorPrimary: '#DB2777',
+              colorTextOnPrimaryBackground: '#ffffff',
+              borderRadius: '10px',
+              },
             elements: {
-              formButtonPrimary: "bg-indigo-600 hover:bg-indigo-700 text-sm",
-              card: "bg-white dark:bg-gray-800",
-              headerTitle: "text-gray-900 dark:text-white",
+              // Ensure white text: base element + any nested span
+              formButtonPrimary: "bg-[#DB2777] hover:bg-[#BE185D] text-white [&>span]:text-white font-medium py-3 text-sm transition-colors border-0",
+              card: "bg-white dark:bg-[#1b2230] shadow-black-100 ",
+              headerTitle: "text-gray-900 dark:text-white text-xl font-semibold",
               headerSubtitle: "text-gray-600 dark:text-gray-400",
               formFieldLabel: "text-gray-700 dark:text-gray-300",
-              formFieldInput: "bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
-              footerActionLink: "text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300",
+              formFieldInput: "bg-white  text-gray-900 dark:bg-[#1f2533] dark:text-white placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#DB2777] focus:border-[#DB2777]",
+              footerActionLink: "text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D",
+              dividerLine: 'bg-[#e5e7eb] dark:bg-[#374151]',
+              dividerText: 'text-gray-500 dark:text-gray-400 text-xs',
+              // Google social button styling
+              socialButtonsBlockButton: 'border border-[#DB2777] bg-white hover:bg-pink-50 dark:bg-[#252f3d] dark:hover:bg-[#2e3949] rounded-lg transition-colors flex items-center gap-2 [&>span]:text-gray-900 dark:[&>span]:text-white [&>span]:font-medium',
+              socialButtonsBlockButton__google: 'border border-[#DB2777] bg-white hover:bg-pink-50 dark:bg-[#252f3d] dark:hover:bg-[#2e3949]',
+              socialButtonsProviderIcon: 'w-5 h-5 bg-white dark:bg-white rounded-sm p-0.5 filter-none !opacity-100 shadow-sm [&>img]:filter-none [&>img]:opacity-100',
+              
             },
+            
           }}
         />
       </div>
@@ -73,14 +90,14 @@ export function Login() {
         By logging in, you agree to our{" "}
         <a
           href="#"
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          className="font-medium text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D"
         >
           Terms of Service
         </a>{" "}
         and{" "}
         <a
           href="#"
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          className="font-medium text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D"
         >
           Privacy Policy
         </a>
