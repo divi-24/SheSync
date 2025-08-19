@@ -66,7 +66,7 @@ export function Login() {
               borderRadius: '10px',
               },
             elements: {
-              // Ensure white text: base element + any nested span
+
               formButtonPrimary: "bg-[#DB2777] hover:bg-[#BE185D] text-white [&>span]:text-white font-medium py-3 text-sm transition-colors border-0",
               card: "bg-white dark:bg-[#1b2230] shadow-black-100 ",
               headerTitle: "text-gray-900 dark:text-white text-xl font-semibold",
@@ -76,10 +76,7 @@ export function Login() {
               footerActionLink: "text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D",
               dividerLine: 'bg-[#e5e7eb] dark:bg-[#374151]',
               dividerText: 'text-gray-500 dark:text-gray-400 text-xs',
-              // Google social button styling
-              socialButtonsBlockButton: 'border border-[#DB2777] bg-white hover:bg-pink-50 dark:bg-[#252f3d] dark:hover:bg-[#2e3949] rounded-lg transition-colors flex items-center gap-2 [&>span]:text-gray-900 dark:[&>span]:text-white [&>span]:font-medium',
-              socialButtonsBlockButton__google: 'border border-[#DB2777] bg-white hover:bg-pink-50 dark:bg-[#252f3d] dark:hover:bg-[#2e3949]',
-              socialButtonsProviderIcon: 'w-5 h-5 bg-white dark:bg-white rounded-sm p-0.5 filter-none !opacity-100 shadow-sm [&>img]:filter-none [&>img]:opacity-100',
+              socialButtonsBlockButton: 'border border-[#DB2777] rounded-lg transition-colors [&>span]:text-gray-900 dark:[&>span]:text-white [&>span]:font-medium',
               
             },
             
