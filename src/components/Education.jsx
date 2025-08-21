@@ -23,6 +23,7 @@ import {
 import { Quiz } from "./Quiz";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from "./BackToTop";
 const blogPosts = [
   {
     id: 1,
@@ -657,6 +658,7 @@ export function Blogs() {
             </div>
           )}
         </div>
+        <BackToTop />
       </main>
       {/* Modal for selected post */}
       {selectedPost && (

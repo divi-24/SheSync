@@ -34,6 +34,7 @@ import axios from "axios";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { motion } from "framer-motion";
+import BackToTop from "./BackToTop";
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
@@ -807,6 +808,7 @@ export function PeriodTracker() {
             </button>
           </div>
         </div>
+        <BackToTop />
       </div>
     </div>
   );

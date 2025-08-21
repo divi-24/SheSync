@@ -21,6 +21,7 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from "./BackToTop";
 const blogposts = [
   {
     id: 1,
@@ -510,6 +511,7 @@ export function Blogs() {
             ))}
           </div>
         </div>
+        <BackToTop />
       </main>
       {/* Modal for selected post */}
       {selectedPost && (
