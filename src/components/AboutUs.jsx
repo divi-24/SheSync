@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin, FaTwitter, FaInstagram, FaFacebookF } from "react-icons/fa";
 
 // Reusable Card component for consistent styling
 const Card = ({ children, className, ...props }) => {
@@ -133,25 +133,25 @@ export function AboutUs() {
               — giving you tools that go beyond cycle tracking to support your overall health journey.
             </p>
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
                 <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Symptom Tracking</h3>
                 <p className="text-gray-700 dark:text-gray-300 text-sm">
                   Log daily symptoms, moods, and lifestyle patterns to see how they connect with your cycle.
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
                 <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Nutrition & Wellness</h3>
                 <p className="text-gray-700 dark:text-gray-300 text-sm">
                   Personalized tips on diet, hydration, and lifestyle choices to feel balanced every day.
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
                 <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Mental Well-being</h3>
                 <p className="text-gray-700 dark:text-gray-300 text-sm">
                   Guided practices, stress relief resources, and community support to nurture your mind.
                 </p>
               </div>
-              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
                 <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Smart Health Insights</h3>
                 <p className="text-gray-700 dark:text-gray-300 text-sm">
                   AI-powered insights to connect patterns and offer proactive guidance for better health.
@@ -169,98 +169,61 @@ export function AboutUs() {
             </p>
           </Card>
 
-          <footer className="bg-white dark:bg-gray-900 mt-12 pt-8 rounded border-t-2 border-pink-600 dark:border-pink-500 transition-colors">
-            <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between gap-8">
+          {/* Improved Footer */}
+          <footer className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 mt-12 pt-12 rounded border-t-2 border-pink-600 dark:border-pink-500 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Company
-                </h4>
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Company</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <a
-                      onClick={() => navigate("/about-us")}
-                      className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
-                    >
-                      About Us
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.linkedin.com/company/shesync/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors cursor-pointer"
-                    >
-                      Careers
-                    </a>
-                  </li>
+                  <li><a onClick={() => navigate("/about-us")} className="text-gray-700 dark:text-gray-300 hover:text-pink-600 cursor-pointer">About Us</a></li>
+                  <li><a href="/careers" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Careers</a></li>
+                  <li><a href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Contact</a></li>
+                  <li><a href="/press" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Press</a></li>
                 </ul>
               </div>
+
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Resources
-                </h4>
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Resources</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/help-center" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Help Center
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/community" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Community
-                    </a>
-                  </li>
+                  <li><a href="/blog" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Blog</a></li>
+                  <li><a href="/help-center" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Help Center</a></li>
+                  <li><a href="/community" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Community</a></li>
+                  <li><a href="/events" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Events</a></li>
                 </ul>
               </div>
+
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Legal
-                </h4>
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Legal</h4>
                 <ul className="space-y-2">
-                  <li>
-                    <a href="/privacy-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/terms-of-service" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/cookie-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600 dark:hover:text-pink-400 transition-colors">
-                      Cookie Policy
-                    </a>
-                  </li>
+                  <li><a href="/privacy-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Privacy Policy</a></li>
+                  <li><a href="/terms-of-service" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Terms of Service</a></li>
+                  <li><a href="/cookie-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Cookie Policy</a></li>
+                  <li><a href="/disclaimer" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Disclaimer</a></li>
                 </ul>
               </div>
+
               <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                  Connect
-                </h4>
-                <a
-                  href="https://www.linkedin.com/company/shesync/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="flex items-center justify-center w-12 h-12 bg-pink-600 rounded-full text-white transition-all duration-300 transform hover:scale-110 shadow-md hover:bg-pink-700"
-                >
-                  <FaLinkedin size={24} className="text-white" />
-                </a>
+                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect</h4>
+                <div className="flex space-x-4">
+                  <a href="https://www.linkedin.com/company/shesync/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
+                    <FaLinkedin size={18} />
+                  </a>
+                  <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
+                    <FaTwitter size={18} />
+                  </a>
+                  <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
+                    <FaInstagram size={18} />
+                  </a>
+                  <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
+                    <FaFacebookF size={18} />
+                  </a>
+                </div>
               </div>
             </div>
-            <div className="w-full mt-8 p-4 border-t border-pink-800 dark:border-pink-500">
-              <div className="max-w-7xl mx-auto px-4 text-center">
-                <p className="text-gray-700 dark:text-gray-100 text-sm">
-                  &copy; 2025 SheSync. All rights reserved.
-                </p>
-              </div>
+
+            <div className="w-full mt-8 p-6 border-t border-pink-800 dark:border-pink-500 text-center">
+              <p className="text-gray-700 dark:text-gray-300 text-sm">&copy; 2025 SheSync. All rights reserved.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">Empowering menstrual and holistic health worldwide 🌸</p>
             </div>
           </footer>
         </div>
