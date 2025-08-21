@@ -130,12 +130,10 @@ export default function AboutUs() {
                 key={index}
                 className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
               >
-                {/* Avatar Circle with Initials */}
                 <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold glow-animate mb-4">
                   {user.name[0]}
                 </div>
                 <p className="text-gray-700 dark:text-gray-200 mb-4 italic">“{user.feedback}”</p>
-                {/* Star Ratings */}
                 <div className="flex justify-center mb-2">
                   {Array(user.rating)
                     .fill("⭐")
@@ -144,6 +142,29 @@ export default function AboutUs() {
                     ))}
                 </div>
                 <h4 className="font-semibold text-lg">{user.name}</h4>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Community Highlights */}
+        <section className="mb-16 fade-in">
+          <h2 className="text-2xl font-bold mb-6 text-center">Community Highlights</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "10k+ Active Members", desc: "Our growing family shares tips, motivation, and success stories daily." },
+              { title: "Global Challenges", desc: "Join exciting fitness & wellness challenges with people worldwide." },
+              { title: "Supportive Groups", desc: "Engage with like-minded people in safe and supportive communities." },
+            ].map((highlight, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
+              >
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-lg font-bold glow-animate mb-4">
+                  {highlight.title[0]}
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{highlight.title}</h3>
+                <p className="text-gray-700 dark:text-gray-200">{highlight.desc}</p>
               </div>
             ))}
           </div>
