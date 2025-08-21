@@ -61,6 +61,7 @@ import {
 } from "lucide-react";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from './BackToTop';
 
 // Animation variants defined inline
 const pageTransition = {
@@ -2459,9 +2460,7 @@ const renderCycleTracking = () => (
       )}
 
       <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
+        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible ? "md:ml-[240px]" : "ml-0"}`}
       >
         <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
           {renderHeader()}
@@ -2673,6 +2672,7 @@ const renderCycleTracking = () => (
             )}
           </AnimatePresence>
         </div>
+        <BackToTop />
       </main>
     </div>
   );

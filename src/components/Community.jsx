@@ -6,6 +6,7 @@ import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { FaLinkedin } from "react-icons/fa";
 import { ChevronRight, MessageSquare, HeartHandshake, UsersRound } from "lucide-react";
+import BackToTop from './BackToTop';
 
 // Reusable Card component for consistent styling
 const Card = ({ children, className, ...props }) => {
@@ -228,6 +229,7 @@ export function Community() {
             </div>
           </footer>
         </div>
+        <BackToTop />
       </main>
     </div>
   );

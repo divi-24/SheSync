@@ -65,6 +65,7 @@ import CommunityChat from "./CommunityChat";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { use } from "react";
+import BackToTop from './BackToTop';
 
 // Add post tags for categorization
 const postTags = [
@@ -813,8 +814,7 @@ export function Forum() {
                 </button>
             )}
             <main
-                className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible ? "ml-64" : "ml-0"
-                    }`}
+                className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible ? "ml-64" : "ml-0"}`}
             >
                 <div className="max-w-6xl mx-auto space-y-8">
                     <div className="flex justify-between items-center">
@@ -1117,6 +1117,7 @@ export function Forum() {
                     />
                 )}
             </AnimatePresence>
+            <BackToTop />
         </div>
     );
 }

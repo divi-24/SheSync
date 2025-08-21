@@ -23,6 +23,7 @@ import {
 import { Quiz } from "./Quiz";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from './BackToTop';
 const blogPosts = [
   {
     id: 1,
@@ -382,8 +383,7 @@ export function Blogs() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible && width > 816 ? "ml-64" : "ml-0"
-          } w-full max-w-full`}
+        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible && width > 816 ? "ml-64" : "ml-0"} w-full max-w-full`}
       >
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
@@ -657,6 +657,7 @@ export function Blogs() {
             </div>
           )}
         </div>
+        <BackToTop />
       </main>
       {/* Modal for selected post */}
       {selectedPost && (

@@ -46,6 +46,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { format, addDays } from "date-fns";
 import SideBar from "./SideBar"; // Assuming this file exists and contains the Sidebar component
 import useScreenSize from "../hooks/useScreenSize"; // Assuming this file exists and contains the useScreenSize hook
+import BackToTop from './BackToTop';
 
 const libraries = ["places"];
 
@@ -1057,6 +1058,7 @@ export function Consultations() {
             )}
           </div>
         </div>
+        <BackToTop />
       </main>
 
       {selectedDoctor && (

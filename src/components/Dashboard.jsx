@@ -47,6 +47,7 @@ import { PrivacyForm } from "./PrivacyForm";
 import { useAuth, useUser } from '@clerk/clerk-react';
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from './BackToTop';
 
 // Try multiple server URLs in case one is down
 const render_url = "https://shesync.onrender.com/";
@@ -886,6 +887,7 @@ export function Dashboard() {
             </Card>
           )}
         </div>
+        <BackToTop />
       </main>
 
       {showNotification && (

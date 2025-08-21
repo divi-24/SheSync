@@ -40,6 +40,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion, AnimatePresence } from "framer-motion";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
+import BackToTop from './BackToTop';
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 const local_url = "http://localhost:3000/";
@@ -1165,9 +1166,7 @@ Risk Level: [Low/Moderate/High]
 
       {/* Main Content */}
       <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "ml-64" : "ml-0"
-        }`}
+        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${sidebarVisible ? "md:ml-[240px]" : "ml-0"}`}
       >
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Header */}
@@ -1388,6 +1387,7 @@ Risk Level: [Low/Moderate/High]
             </div>
           </div>
         </div>
+        <BackToTop />
       </main>
     </div>
   );

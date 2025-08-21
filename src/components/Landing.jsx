@@ -20,6 +20,7 @@ import { FaLinkedin } from "react-icons/fa";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import FAQSection from './FAQSection';
+import BackToTop from './BackToTop';
 
 export function Landing() {
   const navigate = useNavigate();
@@ -748,6 +749,7 @@ export function Landing() {
             </div>
           </footer>
         </div>
+        <BackToTop />
       </main>
     </div>
   );
