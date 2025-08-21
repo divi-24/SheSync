@@ -1,233 +1,192 @@
-"use client";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
-import SideBar from "./SideBar";
-import useScreenSize from "../hooks/useScreenSize";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Home, Moon, Sun } from "react-feather";
 import { FaLinkedin, FaTwitter, FaInstagram, FaFacebookF } from "react-icons/fa";
 
-// Reusable Card component for consistent styling
-const Card = ({ children, className, ...props }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={`bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm transition-all duration-300 ease-in-out hover:shadow-lg hover:scale-[1.02] ${className}`}
-      {...props}
-    >
-      {children}
-    </motion.div>
+export default function AboutUs() {
+  const [darkMode, setDarkMode] = useState(
+    () => localStorage.getItem("darkMode") === "true"
   );
-};
 
-export function AboutUs() {
-  const navigate = useNavigate();
-  const [sidebarVisible, setSidebarVisible] = useState(true);
-
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
-  
-  const { width } = useScreenSize();
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
-    <div className="flex h-screen">
-      <SideBar
-        sidebarVisible={sidebarVisible}
-        setSidebarVisible={setSidebarVisible}
-        activeLink={-1}
-      />
-      {width > 816 && (
+    <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col justify-between">
+      {/* Glow animation keyframes */}
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(139, 92, 246, 0.4), 0 0 30px rgba(79, 70, 229, 0.3); }
+          50% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 30px rgba(139, 92, 246, 0.6), 0 0 40px rgba(79, 70, 229, 0.5); }
+        }
+        .glow-animate {
+          animation: pulse-glow 2s infinite;
+        }
+        .hover-bounce:hover {
+          transform: translateY(-4px);
+          transition: transform 0.3s ease;
+        }
+        .fade-in {
+          animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      {/* Header */}
+      <header className="p-6 flex justify-between items-center bg-white dark:bg-gray-800 shadow">
+        <Link to="/" className="flex items-center space-x-2 text-xl font-bold">
+          <Home className="w-6 h-6" /> <span>HealthMate</span>
+        </Link>
         <button
-          onClick={toggleSidebar}
-          className="fixed left-0 top-0 w-10 z-10 p-2 bg-pink-600 text-white rounded-r-md transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-          style={{
-            transform: sidebarVisible ? "translateX(256px)" : "translateX(0)",
+          onClick={() => {
+            setDarkMode((prevMode) => {
+              const newMode = !prevMode;
+              localStorage.setItem("darkMode", newMode);
+              return newMode;
+            });
           }}
-          aria-label={sidebarVisible ? "Hide sidebar" : "Show sidebar"}
+          className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white p-2 rounded-lg shadow-md hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-300 glow-animate"
         >
-          <ChevronRight
-            size={14}
-            className={`transition-transform duration-300 block m-auto ${
-              sidebarVisible ? "rotate-180" : "rotate-0"
-            }`}
-          />
+          {darkMode ? <Sun className="w-6 h-6" /> : <Moon className="w-6 h-6" />}
+          <span className="sr-only">Toggle dark mode</span>
         </button>
-      )}
-      <main
-        className={`flex-1 p-6 overflow-auto bg-white dark:bg-gray-900 transition-all duration-300 ease-in-out ${
-          sidebarVisible ? "md:ml-[240px]" : "ml-0"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto space-y-12">
-          <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-            <h1 className={`text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent ${sidebarVisible && width > 816 ? "pl-0" : "pl-11"}`}>
-              About Us
-            </h1>
-          </motion.div>
+      </header>
 
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Our Story
-            </h2>
-            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              SheSync was born from a simple belief: menstrual health should never be a taboo, an afterthought, or a source of confusion. We realized that countless women and menstruators face avoidable challenges every month — from tracking their cycles and understanding their bodies to accessing expert advice without judgment. So, we decided to create a space where technology meets empathy.
-            </p>
-          </Card>
-          
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+      {/* Main Content */}
+      <main className="flex-1 container mx-auto px-6 py-12">
+        <h1 className="text-4xl font-extrabold mb-8 text-center">About Us</h1>
+
+        {/* Mission Section */}
+        <section className="mb-16 fade-in">
+          <div className="max-w-3xl mx-auto p-8 rounded-2xl shadow-lg bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-center hover:shadow-2xl transition duration-300">
+            <h2 className="text-3xl font-bold mb-4 relative inline-block">
               Our Mission
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 w-24 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
             </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              To empower menstruators with the knowledge, tools, and community they deserve — so every cycle feels supported, informed, and in sync.
+            <p className="mt-6 text-lg leading-relaxed text-gray-700 dark:text-gray-200">
+              At <span className="font-semibold text-pink-600 dark:text-pink-300">HealthMate</span>, 
+              our mission is to empower individuals to take charge of their health 
+              with <span className="font-semibold">cutting-edge tools</span>, 
+              <span className="font-semibold"> personalized insights</span>, and 
+              <span className="font-semibold"> comprehensive support</span>. 
+              We believe in building a healthier tomorrow, one step at a time.
             </p>
-          </Card>
+          </div>
+        </section>
 
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              What We Do
-            </h2>
-            <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-              SheSync is more than just a period tracker. We’re building an intelligent platform that helps you:
-            </p>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>Track your cycle effortlessly with AI-powered predictions.</li>
-              <li>Book appointments with nearby clinics in just a few clicks.</li>
-              <li>Connect with menstrual health experts for personalized guidance.</li>
-              <li>Learn & grow through credible, stigma-free resources.</li>
-            </ul>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Why SheSync?
-            </h2>
-            <ul className="list-disc pl-5 space-y-2 text-gray-700 dark:text-gray-300">
-              <li>Personalized Experience: Every body is unique — so is your cycle.</li>
-              <li>Expert-Backed: We work closely with healthcare professionals to ensure accuracy.</li>
-              <li>Privacy First: Your health data stays yours. Always.</li>
-              <li>Breaking Taboos: We’re here to normalize conversations about menstrual health.</li>
-            </ul>
-          </Card>
-
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Our Vision
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              A world where menstrual health is understood, respected, and supported — without whispers, shame, or misinformation.
-            </p>
-          </Card>
-
-          {/* New Comprehensive Health Management Section */}
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Comprehensive Health Management
-            </h2>
-            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
-              Menstrual health is only one piece of the puzzle. At SheSync, we believe in 
-              <span className="text-pink-600 font-semibold"> whole-body wellness </span> 
-              — giving you tools that go beyond cycle tracking to support your overall health journey.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
-                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Symptom Tracking</h3>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
-                  Log daily symptoms, moods, and lifestyle patterns to see how they connect with your cycle.
-                </p>
+        {/* Comprehensive Health Management */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6 text-center">Comprehensive Health Management</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "Fitness Tracking", desc: "Monitor your workouts, calories, and progress effortlessly." },
+              { title: "Diet & Nutrition", desc: "Get personalized diet plans and track your daily nutrition." },
+              { title: "Mental Wellness", desc: "Access mindfulness tools and resources for stress management." },
+              { title: "Sleep Analysis", desc: "Improve your rest with detailed sleep tracking and tips." },
+              { title: "Medical Records", desc: "Securely store and access your health records anywhere." },
+              { title: "Doctor Consultations", desc: "Book online appointments and connect with healthcare providers." },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="gradient-card-light dark:gradient-card-dark p-6 rounded-2xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                <p className="text-gray-700 dark:text-gray-200">{item.desc}</p>
               </div>
-              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
-                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Nutrition & Wellness</h3>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
-                  Personalized tips on diet, hydration, and lifestyle choices to feel balanced every day.
-                </p>
-              </div>
-              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
-                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Mental Well-being</h3>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
-                  Guided practices, stress relief resources, and community support to nurture your mind.
-                </p>
-              </div>
-              <div className="p-4 rounded-lg gradient-card-light dark:gradient-card-dark shadow-md hover:shadow-lg">
-                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Smart Health Insights</h3>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
-                  AI-powered insights to connect patterns and offer proactive guidance for better health.
-                </p>
-              </div>
-            </div>
-          </Card>
+            ))}
+          </div>
+        </section>
 
-          <Card className="border border-pink-600">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
-              Join the Movement
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              At SheSync, we’re not just creating an app — we’re creating a change. Together, we can make menstrual health easy to manage, openly discussed, and universally respected.
-            </p>
-          </Card>
-
-          {/* Improved Footer */}
-          <footer className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 mt-12 pt-12 rounded border-t-2 border-pink-600 dark:border-pink-500 transition-colors">
-            <div className="max-w-7xl mx-auto px-4 grid sm:grid-cols-2 md:grid-cols-4 gap-10">
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Company</h4>
-                <ul className="space-y-2">
-                  <li><a onClick={() => navigate("/about-us")} className="text-gray-700 dark:text-gray-300 hover:text-pink-600 cursor-pointer">About Us</a></li>
-                  <li><a href="/careers" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Careers</a></li>
-                  <li><a href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Contact</a></li>
-                  <li><a href="/press" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Press</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Resources</h4>
-                <ul className="space-y-2">
-                  <li><a href="/blog" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Blog</a></li>
-                  <li><a href="/help-center" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Help Center</a></li>
-                  <li><a href="/community" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Community</a></li>
-                  <li><a href="/events" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Events</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Legal</h4>
-                <ul className="space-y-2">
-                  <li><a href="/privacy-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Privacy Policy</a></li>
-                  <li><a href="/terms-of-service" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Terms of Service</a></li>
-                  <li><a href="/cookie-policy" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Cookie Policy</a></li>
-                  <li><a href="/disclaimer" className="text-gray-700 dark:text-gray-300 hover:text-pink-600">Disclaimer</a></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect</h4>
-                <div className="flex space-x-4">
-                  <a href="https://www.linkedin.com/company/shesync/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
-                    <FaLinkedin size={18} />
-                  </a>
-                  <a href="https://twitter.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
-                    <FaTwitter size={18} />
-                  </a>
-                  <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
-                    <FaInstagram size={18} />
-                  </a>
-                  <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-10 h-10 bg-pink-600 rounded-full text-white hover:scale-110 hover:bg-pink-700 transition-all">
-                    <FaFacebookF size={18} />
-                  </a>
+        {/* What Users Say */}
+        <section className="mb-16 fade-in">
+          <h2 className="text-2xl font-bold mb-6 text-center">What Users Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Sophia", feedback: "HealthMate completely changed how I track my fitness. The insights are spot on!", rating: 5 },
+              { name: "Aarav", feedback: "I love the nutrition tracking feature. It's simple and effective!", rating: 4 },
+              { name: "Emily", feedback: "The sleep analysis helped me improve my bedtime routine. Feeling more energetic now!", rating: 5 },
+            ].map((user, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
+              >
+                {/* Avatar Circle with Initials */}
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold glow-animate mb-4">
+                  {user.name[0]}
                 </div>
+                <p className="text-gray-700 dark:text-gray-200 mb-4 italic">“{user.feedback}”</p>
+                {/* Star Ratings */}
+                <div className="flex justify-center mb-2">
+                  {Array(user.rating)
+                    .fill("⭐")
+                    .map((star, i) => (
+                      <span key={i} className="text-yellow-400">{star}</span>
+                    ))}
+                </div>
+                <h4 className="font-semibold text-lg">{user.name}</h4>
               </div>
-            </div>
-
-            <div className="w-full mt-8 p-6 border-t border-pink-800 dark:border-pink-500 text-center">
-              <p className="text-gray-700 dark:text-gray-300 text-sm">&copy; 2025 SheSync. All rights reserved.</p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">Empowering menstrual and holistic health worldwide 🌸</p>
-            </div>
-          </footer>
-        </div>
+            ))}
+          </div>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-r from-pink-100 to-purple-100 dark:from-gray-800 dark:to-gray-900 text-gray-700 dark:text-gray-300 py-10">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h4 className="font-bold text-lg mb-4">Company</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="hover:text-indigo-500">About Us</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Careers</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Press</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Blog</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg mb-4">Resources</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="hover:text-indigo-500">Help Center</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Community</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Events</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Guides</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg mb-4">Legal</h4>
+            <ul className="space-y-2">
+              <li><a href="#" className="hover:text-indigo-500">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Disclaimer</a></li>
+              <li><a href="#" className="hover:text-indigo-500">Security</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-lg mb-4">Connect</h4>
+            <div className="flex space-x-4">
+              <a href="https://linkedin.com" className="w-10 h-10 flex items-center justify-center rounded-full text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 glow-animate hover-bounce transition-all"><FaLinkedin /></a>
+              <a href="https://twitter.com" className="w-10 h-10 flex items-center justify-center rounded-full text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 glow-animate hover-bounce transition-all"><FaTwitter /></a>
+              <a href="https://instagram.com" className="w-10 h-10 flex items-center justify-center rounded-full text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 glow-animate hover-bounce transition-all"><FaInstagram /></a>
+              <a href="https://facebook.com" className="w-10 h-10 flex items-center justify-center rounded-full text-white bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 glow-animate hover-bounce transition-all"><FaFacebookF /></a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+          © {new Date().getFullYear()} HealthMate. All rights reserved. <br />
+          Empowering healthier lives every day.
+        </div>
+      </footer>
     </div>
   );
 }
