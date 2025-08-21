@@ -52,7 +52,7 @@ export const appRoutes = [
     element: <AboutUs />,
   },
   {
-    path: "/privacy-policy",
+    path: "/privacy",
     element: <PrivacyPolicy />,
   },
   {
@@ -60,7 +60,7 @@ export const appRoutes = [
     element: <TermsOfService />,
   },
   {
-    path: "/cookie-policy",
+    path: "/cookie",
     element: <CookiePolicy />,
   },
   {
@@ -85,7 +85,8 @@ export const appRoutes = [
   },
   {
     path: "/consultations",
-    element: <ProtectedRouteWrapper Component={Consultations} />,
+    // element: <ProtectedRouteWrapper Component={Consultations} />,
+    element: <Consultations/>,
   },
   {
     path: "/tracker",
@@ -163,10 +164,10 @@ export const appRoutes = [
     path: "/bliss/simon",
     element: <ProtectedRouteWrapper Component={SimonGame} />,
   },
-  {
-    path: "/contributors",
-    element: <Contributors />
-  },
+  // {
+  //   path: "/contributors",
+  //   element: <Contributors />
+  // },
   {
     path: "/diet-plan",
     element: <DietPlan />
