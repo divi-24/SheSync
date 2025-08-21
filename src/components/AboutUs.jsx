@@ -104,6 +104,38 @@ export default function AboutUs() {
             ))}
           </div>
         </section>
+
+        {/* What Users Say */}
+        <section className="mb-16 fade-in">
+          <h2 className="text-2xl font-bold mb-6 text-center">What Users Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Sophia", feedback: "HealthMate completely changed how I track my fitness. The insights are spot on!", rating: 5 },
+              { name: "Aarav", feedback: "I love the nutrition tracking feature. It's simple and effective!", rating: 4 },
+              { name: "Emily", feedback: "The sleep analysis helped me improve my bedtime routine. Feeling more energetic now!", rating: 5 },
+            ].map((user, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
+              >
+                {/* Avatar Circle with Initials */}
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold glow-animate mb-4">
+                  {user.name[0]}
+                </div>
+                <p className="text-gray-700 dark:text-gray-200 mb-4 italic">“{user.feedback}”</p>
+                {/* Star Ratings */}
+                <div className="flex justify-center mb-2">
+                  {Array(user.rating)
+                    .fill("⭐")
+                    .map((star, i) => (
+                      <span key={i} className="text-yellow-400">{star}</span>
+                    ))}
+                </div>
+                <h4 className="font-semibold text-lg">{user.name}</h4>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
