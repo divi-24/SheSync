@@ -18,22 +18,15 @@ export default function AboutUs() {
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col justify-between">
-      {/* Glow animation keyframes */}
+      {/* Glow + animations */}
       <style>{`
         @keyframes pulse-glow {
           0%, 100% { box-shadow: 0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(139, 92, 246, 0.4), 0 0 30px rgba(79, 70, 229, 0.3); }
           50% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 30px rgba(139, 92, 246, 0.6), 0 0 40px rgba(79, 70, 229, 0.5); }
         }
-        .glow-animate {
-          animation: pulse-glow 2s infinite;
-        }
-        .hover-bounce:hover {
-          transform: translateY(-4px);
-          transition: transform 0.3s ease;
-        }
-        .fade-in {
-          animation: fadeIn 1s ease-in-out;
-        }
+        .glow-animate { animation: pulse-glow 2s infinite; }
+        .hover-bounce:hover { transform: translateY(-4px); transition: transform 0.3s ease; }
+        .fade-in { animation: fadeIn 1s ease-in-out; }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
@@ -60,11 +53,11 @@ export default function AboutUs() {
         </button>
       </header>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="flex-1 container mx-auto px-6 py-12">
         <h1 className="text-4xl font-extrabold mb-8 text-center">About Us</h1>
 
-        {/* Mission Section */}
+        {/* Mission */}
         <section className="mb-16 fade-in">
           <div className="max-w-3xl mx-auto p-8 rounded-2xl shadow-lg bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 text-center hover:shadow-2xl transition duration-300">
             <h2 className="text-3xl font-bold mb-4 relative inline-block">
@@ -94,10 +87,7 @@ export default function AboutUs() {
               { title: "Medical Records", desc: "Securely store and access your health records anywhere." },
               { title: "Doctor Consultations", desc: "Book online appointments and connect with healthcare providers." },
             ].map((item, index) => (
-              <div
-                key={index}
-                className="gradient-card-light dark:gradient-card-dark p-6 rounded-2xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl"
-              >
+              <div key={index} className="gradient-card-light dark:gradient-card-dark p-6 rounded-2xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl">
                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
                 <p className="text-gray-700 dark:text-gray-200">{item.desc}</p>
               </div>
@@ -114,20 +104,15 @@ export default function AboutUs() {
               { name: "Aarav", feedback: "I love the nutrition tracking feature. It's simple and effective!", rating: 4 },
               { name: "Emily", feedback: "The sleep analysis helped me improve my bedtime routine. Feeling more energetic now!", rating: 5 },
             ].map((user, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
-              >
+              <div key={index} className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold glow-animate mb-4">
                   {user.name[0]}
                 </div>
                 <p className="text-gray-700 dark:text-gray-200 mb-4 italic">“{user.feedback}”</p>
                 <div className="flex justify-center mb-2">
-                  {Array(user.rating)
-                    .fill("⭐")
-                    .map((star, i) => (
-                      <span key={i} className="text-yellow-400">{star}</span>
-                    ))}
+                  {Array(user.rating).fill("⭐").map((star, i) => (
+                    <span key={i} className="text-yellow-400">{star}</span>
+                  ))}
                 </div>
                 <h4 className="font-semibold text-lg">{user.name}</h4>
               </div>
@@ -144,15 +129,36 @@ export default function AboutUs() {
               { title: "Global Challenges", desc: "Join exciting fitness & wellness challenges with people worldwide." },
               { title: "Supportive Groups", desc: "Engage with like-minded people in safe and supportive communities." },
             ].map((highlight, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
-              >
+              <div key={index} className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-lg font-bold glow-animate mb-4">
                   {highlight.title[0]}
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{highlight.title}</h3>
                 <p className="text-gray-700 dark:text-gray-200">{highlight.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Expert Insights */}
+        <section className="mb-16 fade-in">
+          <h2 className="text-2xl font-bold mb-6 text-center relative inline-block">
+            Expert Insights
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 w-24 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: "Dr. Meera Kapoor", field: "Nutritionist", insight: "Balanced nutrition is the foundation of long-term wellness." },
+              { name: "Dr. James Smith", field: "Sleep Specialist", insight: "Quality sleep improves focus, mood, and overall health." },
+              { name: "Dr. Aisha Khan", field: "Mental Health Expert", insight: "Mindfulness and stress management are key to resilience." },
+            ].map((expert, index) => (
+              <div key={index} className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
+                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-lg font-bold glow-animate mb-4">
+                  {expert.name.split(" ")[1][0]}
+                </div>
+                <h3 className="text-xl font-semibold">{expert.name}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{expert.field}</p>
+                <p className="text-gray-700 dark:text-gray-200 italic">“{expert.insight}”</p>
               </div>
             ))}
           </div>
