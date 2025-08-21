@@ -122,6 +122,44 @@ export function AboutUs() {
             </p>
           </Card>
 
+          {/* New Comprehensive Health Management Section */}
+          <Card className="border border-pink-600">
+            <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+              Comprehensive Health Management
+            </h2>
+            <p className="text-lg mb-4 text-gray-700 dark:text-gray-300">
+              Menstrual health is only one piece of the puzzle. At SheSync, we believe in 
+              <span className="text-pink-600 font-semibold"> whole-body wellness </span> 
+              — giving you tools that go beyond cycle tracking to support your overall health journey.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Symptom Tracking</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                  Log daily symptoms, moods, and lifestyle patterns to see how they connect with your cycle.
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Nutrition & Wellness</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                  Personalized tips on diet, hydration, and lifestyle choices to feel balanced every day.
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Mental Well-being</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                  Guided practices, stress relief resources, and community support to nurture your mind.
+                </p>
+              </div>
+              <div className="p-4 rounded-lg bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900 dark:to-purple-900 shadow-md hover:shadow-lg transition-transform hover:scale-[1.02]">
+                <h3 className="text-lg font-semibold text-pink-700 dark:text-pink-300">Smart Health Insights</h3>
+                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                  AI-powered insights to connect patterns and offer proactive guidance for better health.
+                </p>
+              </div>
+            </div>
+          </Card>
+
           <Card className="border border-pink-600">
             <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
               Join the Movement

@@ -16,6 +16,31 @@
 }
 
 
+/* Add these new gradient variables for consistency */
+:root {
+  --gradient-light-start: #fbcfe8; /* Tailwind pink-100 */
+  --gradient-light-end: #ede9fe;   /* Tailwind purple-100 */
+  --gradient-dark-start: #831843;  /* Tailwind pink-900 */
+  --gradient-dark-end: #4c1d95;    /* Tailwind purple-900 */
+}
+
+/* Gradient card utility */
+.gradient-card-light {
+  background: linear-gradient(to right, var(--gradient-light-start), var(--gradient-light-end));
+}
+.gradient-card-dark {
+  background: linear-gradient(to right, var(--gradient-dark-start), var(--gradient-dark-end));
+}
+
+/* Ensure smooth hover scaling for gradient cards */
+.gradient-card-light, .gradient-card-dark {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gradient-card-light:hover, .gradient-card-dark:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
 body {
   margin: 0;
   padding: 0;
