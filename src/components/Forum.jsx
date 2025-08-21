@@ -65,6 +65,7 @@ import CommunityChat from "./CommunityChat";
 import SideBar from "./SideBar";
 import useScreenSize from "../hooks/useScreenSize";
 import { use } from "react";
+import BackToTop from "./BackToTop";
 
 // Add post tags for categorization
 const postTags = [
@@ -1094,6 +1095,7 @@ export function Forum() {
                         </ul>
                     </motion.div>
                 </div>
+                <BackToTop />
             </main>
 
             <AnimatePresence>
