@@ -158,7 +158,7 @@ export default function Sudoku() {
             <Sidebar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13} // Bliss
+                activeLink={16} // Bliss
             />
             <button
                 onClick={toggleSidebar}

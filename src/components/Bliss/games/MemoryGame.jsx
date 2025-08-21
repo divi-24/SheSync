@@ -82,7 +82,7 @@ export default function MemoryGamePage() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={13} // or the index you'd like to highlight
+        activeLink={16} // or the index you'd like to highlight
       />
       <button
         onClick={toggleSidebar}

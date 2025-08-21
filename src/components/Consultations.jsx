@@ -881,7 +881,7 @@ export function Consultations() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={7}
+        activeLink={8}
       />
       {width > 816 && (
         <button

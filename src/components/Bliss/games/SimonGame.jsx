@@ -101,7 +101,7 @@ export default function SimonGame() {
             <Sidebar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13}
+                activeLink={16}
             />
 
             {/* Sidebar Toggle */}

@@ -95,7 +95,7 @@ export default function Hangman() {
             <SideBar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13}
+                activeLink={16}
             />
 
             {/* Toggle Button */}
