@@ -1,6 +1,4 @@
-
 import FAQItem from './FAQItem';
-
 import React, { useState } from 'react';
 
 export default function FAQSection() {
@@ -34,7 +32,7 @@ export default function FAQSection() {
     {
       question: "Can I use SheSync if I'm not menstruating?",
       answer:
-        'SheSync offers features for all aspects of women\'s health, including general wellness tracking, nutritional guidance, and mental health support.',
+        "SheSync offers features for all aspects of women's health, including general wellness tracking, nutritional guidance, and mental health support.",
     },
     {
       question: 'Are the health articles on SheSync written by professionals?',
@@ -44,19 +42,23 @@ export default function FAQSection() {
   ];
 
   return (
-    <div className="!bg-pink-200 dark:!bg-pink-500 hover:!bg-pink-200 dark:hover:!bg-pink-500 hover:!shadow-none hover:!scale-100 transform-none transition-none focus:outline-none focus:ring focus:ring-pink-300 rounded-xl p-6">
-      <h3 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">
+    <div className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-pink-600 dark:via-purple-700 dark:to-indigo-800 rounded-2xl p-8 shadow-lg">
+      <h3 className="text-3xl font-extrabold mb-8 text-center text-gray-900 dark:text-white tracking-tight">
         Frequently Asked Questions
       </h3>
       <div className="space-y-4">
         {faqs.map((faq, index) => (
-          <FAQItem
+          <div
             key={index}
-            question={faq.question}
-            answer={faq.answer}
-            isOpen={openIndex === index}
-            onClick={() => toggleIndex(index)}
-          />
+            className="transition-transform transform hover:scale-105 hover:shadow-xl rounded-xl overflow-hidden"
+          >
+            <FAQItem
+              question={faq.question}
+              answer={faq.answer}
+              isOpen={openIndex === index}
+              onClick={() => toggleIndex(index)}
+            />
+          </div>
         ))}
       </div>
     </div>
