@@ -76,29 +76,39 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* ✅ Enhanced Key Section */}
-        <section className="mb-20 fade-in">
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-center relative inline-block">
-            Key Benefits
+        {/* ✨ Key Benefits */}
+        <section className="mb-16 fade-in">
+          <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
+            ✨ Comprehensive Health Management
             <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Fitness Tracking", desc: "Monitor workouts, calories, and progress with smart insights.", icon: "💪" },
-              { title: "Diet & Nutrition", desc: "Personalized diet plans with easy daily tracking.", icon: "🥗" },
-              { title: "Mental Wellness", desc: "Mindfulness tools and stress relief resources.", icon: "🧘" },
-              { title: "Sleep Analysis", desc: "Improve rest with AI-powered sleep patterns and tips.", icon: "😴" },
-              { title: "Medical Records", desc: "Secure cloud storage for your health history.", icon: "📑" },
-              { title: "Doctor Consultations", desc: "Instant online appointments with trusted experts.", icon: "👩‍⚕️" },
+              { title: "Fitness Tracking", desc: "Monitor your workouts, calories, and progress effortlessly.", icon: "🏃‍♀️" },
+              { title: "Diet & Nutrition", desc: "Get personalized diet plans and track your daily nutrition.", icon: "🥗" },
+              { title: "Mental Wellness", desc: "Access mindfulness tools and resources for stress management.", icon: "🧘‍♂️" },
+              { title: "Sleep Analysis", desc: "Improve your rest with detailed sleep tracking and tips.", icon: "😴" },
+              { title: "Medical Records", desc: "Securely store and access your health records anywhere.", icon: "📂" },
+              { title: "Doctor Consultations", desc: "Book online appointments and connect with healthcare providers.", icon: "👩‍⚕️" },
             ].map((item, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="gradient-card-light dark:gradient-card-dark p-6 rounded-2xl shadow-md transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                viewport={{ once: true }}
+                className="relative group bg-gradient-to-tr from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-md hover:shadow-2xl transform transition-all duration-300 hover:scale-105 text-center overflow-hidden"
               >
-                <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                <p className="text-gray-700 dark:text-gray-200">{item.desc}</p>
-              </div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 blur-2xl transition duration-500"></div>
+                <div className="relative z-10">
+                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">{item.title}</h3>
+                  <p className="text-gray-700 dark:text-gray-300">{item.desc}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -112,7 +122,14 @@ export default function AboutUs() {
               { name: "Aarav", feedback: "I love the nutrition tracking feature. It's simple and effective!", rating: 4 },
               { name: "Emily", feedback: "The sleep analysis helped me improve my bedtime routine. Feeling more energetic now!", rating: 5 },
             ].map((user, index) => (
-              <div key={index} className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center"
+              >
                 <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-xl font-bold glow-animate mb-4">
                   {user.name[0]}
                 </div>
@@ -123,7 +140,7 @@ export default function AboutUs() {
                   ))}
                 </div>
                 <h4 className="font-semibold text-lg">{user.name}</h4>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -137,21 +154,9 @@ export default function AboutUs() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              {
-                title: "10k+ Active Members",
-                desc: "A thriving community where members share tips, motivation, and daily success stories.",
-                icon: "👥",
-              },
-              {
-                title: "Global Challenges",
-                desc: "Take part in exciting wellness & fitness challenges with people from around the world.",
-                icon: "🌍",
-              },
-              {
-                title: "Supportive Groups",
-                desc: "Join safe, uplifting spaces where like-minded people support each other’s journeys.",
-                icon: "💬",
-              },
+              { title: "10k+ Active Members", desc: "A thriving community where members share tips, motivation, and daily success stories.", icon: "👥" },
+              { title: "Global Challenges", desc: "Take part in exciting wellness & fitness challenges with people from around the world.", icon: "🌍" },
+              { title: "Supportive Groups", desc: "Join safe, uplifting spaces where like-minded people support each other’s journeys.", icon: "💬" },
             ].map((highlight, index) => (
               <motion.div
                 key={index}
@@ -161,26 +166,20 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="relative group bg-gradient-to-tr from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-md hover:shadow-2xl transform transition-all duration-300 hover:scale-105 overflow-hidden"
               >
-                {/* Glow background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 blur-2xl transition duration-500"></div>
-
                 <div className="relative text-center z-10">
                   <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                     {highlight.icon}
                   </div>
-                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">
-                    {highlight.title}
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
-                    {highlight.desc}
-                  </p>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">{highlight.title}</h3>
+                  <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">{highlight.desc}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </section>
 
-        {/* 💡 Expert Insights - Enhanced */}
+        {/* 💡 Expert Insights */}
         <section className="mb-16 fade-in">
           <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
             💡 Expert Insights
