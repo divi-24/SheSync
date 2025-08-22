@@ -128,7 +128,7 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* 🌟 Community Highlights - Updated */}
+        {/* 🌟 Community Highlights */}
         <section className="mb-16 fade-in">
           <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
             🌟 Community Highlights
@@ -161,10 +161,9 @@ export default function AboutUs() {
                 viewport={{ once: true }}
                 className="relative group bg-gradient-to-tr from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-md hover:shadow-2xl transform transition-all duration-300 hover:scale-105 overflow-hidden"
               >
-                {/* Animated background glow */}
+                {/* Glow background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 blur-2xl transition duration-500"></div>
 
-                {/* Content */}
                 <div className="relative text-center z-10">
                   <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
                     {highlight.icon}
@@ -181,26 +180,38 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* Expert Insights */}
+        {/* 💡 Expert Insights - Enhanced */}
         <section className="mb-16 fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-center relative inline-block">
-            Expert Insights
-            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-1 w-24 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
+            💡 Expert Insights
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
           </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { name: "Dr. Meera Kapoor", field: "Nutritionist", insight: "Balanced nutrition is the foundation of long-term wellness." },
               { name: "Dr. James Smith", field: "Sleep Specialist", insight: "Quality sleep improves focus, mood, and overall health." },
               { name: "Dr. Aisha Khan", field: "Mental Health Expert", insight: "Mindfulness and stress management are key to resilience." },
             ].map((expert, index) => (
-              <div key={index} className="bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
-                <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-lg font-bold glow-animate mb-4">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.25 }}
+                viewport={{ once: true }}
+                className="relative bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-md hover:shadow-2xl transform transition-all duration-300 hover:scale-105 text-center"
+              >
+                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-2xl font-bold glow-animate mb-4 shadow-lg">
                   {expert.name.split(" ")[1][0]}
                 </div>
                 <h3 className="text-xl font-semibold">{expert.name}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{expert.field}</p>
-                <p className="text-gray-700 dark:text-gray-200 italic">“{expert.insight}”</p>
-              </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{expert.field}</p>
+                <blockquote className="italic text-gray-700 dark:text-gray-200 relative">
+                  <span className="text-3xl text-pink-500 absolute -top-4 left-4">“</span>
+                  {expert.insight}
+                  <span className="text-3xl text-pink-500 absolute -bottom-6 right-4">”</span>
+                </blockquote>
+              </motion.div>
             ))}
           </div>
         </section>
