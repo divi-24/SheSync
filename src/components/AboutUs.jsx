@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Home, Moon, Sun } from "react-feather";
 import { FaLinkedin, FaTwitter, FaInstagram, FaFacebookF } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function AboutUs() {
   const [darkMode, setDarkMode] = useState(
@@ -120,22 +121,55 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* Community Highlights */}
+        {/* 🌟 Community Highlights - Updated */}
         <section className="mb-16 fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-center">Community Highlights</h2>
+          <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
+            🌟 Community Highlights
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          </h2>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "10k+ Active Members", desc: "Our growing family shares tips, motivation, and success stories daily." },
-              { title: "Global Challenges", desc: "Join exciting fitness & wellness challenges with people worldwide." },
-              { title: "Supportive Groups", desc: "Engage with like-minded people in safe and supportive communities." },
+              {
+                title: "10k+ Active Members",
+                desc: "A thriving community where members share tips, motivation, and daily success stories.",
+                icon: "👥",
+              },
+              {
+                title: "Global Challenges",
+                desc: "Take part in exciting wellness & fitness challenges with people from around the world.",
+                icon: "🌍",
+              },
+              {
+                title: "Supportive Groups",
+                desc: "Join safe, uplifting spaces where like-minded people support each other’s journeys.",
+                icon: "💬",
+              },
             ].map((highlight, index) => (
-              <div key={index} className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-6 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:scale-105 text-center">
-                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 flex items-center justify-center text-white text-lg font-bold glow-animate mb-4">
-                  {highlight.title[0]}
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+                className="relative group bg-gradient-to-tr from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-md hover:shadow-2xl transform transition-all duration-300 hover:scale-105 overflow-hidden"
+              >
+                {/* Animated background glow */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-500 blur-2xl transition duration-500"></div>
+
+                {/* Content */}
+                <div className="relative text-center z-10">
+                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {highlight.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">
+                    {highlight.title}
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                    {highlight.desc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{highlight.title}</h3>
-                <p className="text-gray-700 dark:text-gray-200">{highlight.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
