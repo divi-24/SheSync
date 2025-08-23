@@ -114,7 +114,7 @@ export default function MoodMap() {
             <Sidebar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13}
+                activeLink={16}
             />
             <button
                 onClick={toggleSidebar}

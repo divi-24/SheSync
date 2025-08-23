@@ -732,7 +732,7 @@ export function PeriodTracker() {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSideBarVisible}
-        activeLink={4}
+        activeLink={5}
       />
 
       {width > 816 && (

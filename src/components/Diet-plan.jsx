@@ -148,7 +148,7 @@ const DietPlan = () => {
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={17}
+        activeLink={19}
         toggleDarkMode={toggleTheme}
       />
 

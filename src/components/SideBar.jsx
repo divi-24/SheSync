@@ -264,14 +264,14 @@ export default function SideBar({
             }
             active={active[17]}
           />
-            <SidebarLink
+            {/* <SidebarLink
             icon={<GitHub size={20} />}
             label="Contributors"
             onClick={() =>
               navigate("/contributors")
             }
             active={active[18]}
-          />
+          /> */}
               <SidebarLink
             icon={<Leaf size={20} />}
             label="Diet-plan"
