@@ -103,18 +103,10 @@ export function PeriodTracker() {
     healthTips: true,
   });
   const [showHealthTips, setShowHealthTips] = useState(false);
-  const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("darkMode") === "true"
-  );
+  
   const [waterIntakeCount, setWaterIntakeCount] = useState(0);
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      navigate("/login");
-    }
-  }, [isLoaded, isSignedIn, navigate]);
-
+  
   const handleWaterIntakeUpdate = async () => {
     if (!isSignedIn || !user) {
       alert("You must be logged in to update water intake");
@@ -139,22 +131,9 @@ export function PeriodTracker() {
     }
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  
 
-  const toggleDarkMode = () => {
-    setDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem("darkMode", newMode.toString());
-      return newMode;
-    });
-  };
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
