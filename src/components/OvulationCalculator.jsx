@@ -23,13 +23,7 @@ const OvulationCalculator = () => {
     setDarkMode((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  
 
   const calculateOvulation = () => {
     if (!startDate || isNaN(new Date(startDate))) {
