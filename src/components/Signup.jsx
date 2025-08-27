@@ -17,27 +17,15 @@ export function Signup() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
-
+      {/* Top left buttons */}
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
-      {/* Glow animation keyframes */}
-      <style>{`
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 10px rgba(236, 72, 153, 0.6), 0 0 20px rgba(139, 92, 246, 0.4), 0 0 30px rgba(79, 70, 229, 0.3); }
-          50% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.8), 0 0 30px rgba(139, 92, 246, 0.6), 0 0 40px rgba(79, 70, 229, 0.5); }
-        }
-        .glow-animate {
-          animation: pulse-glow 2s infinite;
-        }
-      `}</style>
-
-      {/* Top left buttons */}
-      <div className="absolute top-4 left-4 flex space-x-4">
+      <div className="absolute top-4 left-4 flex items-center justify-between space-x-4">
         <Link
           to="/"
-          className="text-white-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+          className="p-2 rounded-full bg-[#DB2777] hover:bg-[#BE185D] transition-all duration-200 transform hover:scale-105 shadow-md"
         >
-          <Home className="w-6 h-6" />
+          <Home className="w-6 h-6" color="white" />
           <span className="sr-only">Back to Home</span>
         </Link>
         <button
@@ -48,23 +36,24 @@ export function Signup() {
               return newMode;
             });
           }}
-          className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white p-2 rounded-lg shadow-md hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-300 glow-animate"
+          className="p-2 rounded-full bg-[#DB2777] hover:bg-[#BE185D] transition-all duration-200 transform hover:scale-105 shadow-md"
         >
           {darkMode ? (
-            <Sun className="w-6 h-6" />
+            <Sun className="w-6 h-6" color="white" />
           ) : (
-            <Moon className="w-6 h-6" />
+            <Moon className="w-6 h-6" color="white" />
           )}
           <span className="sr-only">Toggle dark mode</span>
         </button>
       </div>
-
-      {/* Signup Card */}
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+      <div className="max-w-md w-full flex flex-col items-center space-y-8 bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Create your account
-          </h2>
+          <h1
+            className={`text-3xl font-bold text-pink-600 dark:text-pink-400 
+            `}
+          >
+            Welcome to SheSync
+          </h1>
         </div>
         <SignUp
           routing="path"
@@ -72,18 +61,26 @@ export function Signup() {
           signInUrl="/login"
           redirectUrl="/dashboard"
           appearance={{
+            variables: {
+              colorPrimary: '#DB2777',
+              colorTextOnPrimaryBackground: '#ffffff',
+              borderRadius: '10px',
+            },
             elements: {
-              formButtonPrimary:
-                "bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 glow-animate",
-              card: "bg-white dark:bg-gray-800",
-              headerTitle: "text-gray-900 dark:text-white",
+
+              formButtonPrimary: "bg-[#DB2777] hover:bg-[#BE185D] text-white [&>span]:text-white font-medium py-3 text-sm transition-colors border-0",
+              card: "bg-white dark:bg-[#1b2230] shadow-black-100 ",
+              headerTitle: "text-gray-900 dark:text-white text-xl font-semibold",
               headerSubtitle: "text-gray-600 dark:text-gray-400",
               formFieldLabel: "text-gray-700 dark:text-gray-300",
-              formFieldInput:
-                "bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
-              footerActionLink:
-                "text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300",
+              formFieldInput: "bg-white  text-gray-900 dark:bg-[#1f2533] dark:text-white placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#DB2777] focus:border-[#DB2777]",
+              footerActionLink: "text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D",
+              dividerLine: 'bg-[#e5e7eb] dark:bg-[#374151]',
+              dividerText: 'text-gray-500 dark:text-gray-400 text-xs',
+              socialButtonsBlockButton: 'border border-[#DB2777] rounded-lg transition-colors [&>span]:text-gray-900 dark:[&>span]:text-white [&>span]:font-medium',
+
             },
+
           }}
         />
       </div>
@@ -93,14 +90,14 @@ export function Signup() {
         By signing up, you agree to our{" "}
         <a
           href="#"
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          className="font-medium text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D"
         >
           Terms of Service
         </a>{" "}
         and{" "}
         <a
           href="#"
-          className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+          className="font-medium text-[#DB2777] hover:text-[#BE185D] dark:text-[#DB2777] dark:hover:text-[#BE185D"
         >
           Privacy Policy
         </a>
