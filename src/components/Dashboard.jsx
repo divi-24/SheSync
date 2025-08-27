@@ -1,4 +1,23 @@
 import React, { useState, useEffect } from "react";
+  const [cyclePlan, setCyclePlan] = useState(null);
+  const [cyclePlanLoading, setCyclePlanLoading] = useState(false);
+  const [cyclePlanError, setCyclePlanError] = useState(null);
+  // Fetch cycle syncing plan for current phase
+  useEffect(() => {
+    if (!periodData || !periodData.currentPhase) return;
+    setCyclePlanLoading(true);
+    setCyclePlanError(null);
+    axios
+      .get(`${server_url}api/period/cycleplan?phase=${encodeURIComponent(periodData.currentPhase)}`)
+      .then((res) => {
+        setCyclePlan(res.data);
+        setCyclePlanLoading(false);
+      })
+      .catch((err) => {
+        setCyclePlanError("Could not load cycle syncing plan.");
+        setCyclePlanLoading(false);
+      });
+  }, [periodData, server_url]);
 import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -644,6 +663,47 @@ export function Dashboard() {
           {activeTab === "overview" && (
             <>
               <Card className="overflow-hidden">
+              {/* Cycle Syncing Fitness & Nutrition Plan */}
+              <Card>
+                <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <Dumbbell className="h-5 w-5 text-pink-500" />
+                  Cycle Syncing Fitness & Nutrition Plan
+                </h3>
+                {cyclePlanLoading ? (
+                  <div>Loading personalized plan...</div>
+                ) : cyclePlanError ? (
+                  <div className="text-red-500">{cyclePlanError}</div>
+                ) : cyclePlan ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <h4 className="font-medium mb-2 flex items-center gap-1"><Dumbbell className="h-4 w-4 text-pink-400" /> Fitness</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {cyclePlan.fitness.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2 flex items-center gap-1"><Utensils className="h-4 w-4 text-pink-400" /> Nutrition</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {cyclePlan.nutrition.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2 flex items-center gap-1"><HeartPulse className="h-4 w-4 text-pink-400" /> Tips</h4>
+                      <ul className="list-disc pl-5 space-y-1">
+                        {cyclePlan.tips.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : (
+                  <div>No plan available for this phase.</div>
+                )}
+              </Card>
                 <div className="relative h-32 bg-gradient-to-r from-pink-300 to-purple-400 dark:from-pink-600 dark:to-purple-700">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <h3 className="text-3xl font-bold text-white">
