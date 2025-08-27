@@ -84,6 +84,8 @@ export function Signup() {
           }}
         />
       </div>
+
+      {/* Footer text */}
       <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
         By signing up, you agree to our{" "}
         <a

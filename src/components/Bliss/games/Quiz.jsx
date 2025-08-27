@@ -74,7 +74,7 @@ export default function Quiz() {
             <Sidebar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={13}
+                activeLink={16}
             />
 
             {/* Sidebar toggle arrow */}

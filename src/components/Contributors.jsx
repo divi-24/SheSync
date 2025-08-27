@@ -86,7 +86,7 @@ const Contributors = () => {
             <SideBar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={16}
+                activeLink={18}
                 toggleDarkMode={toggleTheme}
             />
 

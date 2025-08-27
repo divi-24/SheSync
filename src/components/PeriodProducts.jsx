@@ -55,7 +55,7 @@ const PeriodProducts = () => {
         <SideBar
           sidebarVisible={sidebarVisible}
           setSidebarVisible={setSidebarVisible}
-          activeLink={10}
+          activeLink={12}
           toggleDarkMode={toggleDarkMode}
         />
       </div>

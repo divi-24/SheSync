@@ -2438,7 +2438,7 @@ const renderCycleTracking = () => (
       <SideBar
         sidebarVisible={sidebarVisible}
         setSidebarVisible={setSidebarVisible}
-        activeLink={11}
+        activeLink={13}
       />
       {width > 816 && (
         <button

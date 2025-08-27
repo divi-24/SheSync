@@ -205,7 +205,7 @@ export function Ecom() {
             <SideBar
                 sidebarVisible={sidebarVisible}
                 setSidebarVisible={setSidebarVisible}
-                activeLink={3}
+                activeLink={4}
             />
             {width > 816 && (
                 <button
