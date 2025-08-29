@@ -40,14 +40,7 @@ const PeriodProducts = () => {
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev);
   };
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+ 
 
   return (
     <div className={`flex min-h-screen ${darkMode ? "dark" : ""}`}>

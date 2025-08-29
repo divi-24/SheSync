@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.32.0",
+    "@clerk/nextjs": "^6.31.4",
     "@google/generative-ai": "^0.24.0",
     "@headlessui/react": "^2.2.1",
     "@radix-ui/react-checkbox": "^1.1.3",
