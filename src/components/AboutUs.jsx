@@ -76,6 +76,7 @@ export default function AboutUs() {
           </div>
         </section>
 
+
         {/* ✨ Key Benefits */}
         <section className="mb-16 fade-in">
           <h2 className="text-3xl font-extrabold mb-10 text-center relative inline-block">
@@ -91,9 +92,27 @@ export default function AboutUs() {
               { title: "Sleep Analysis", desc: "Improve your rest with detailed sleep tracking and tips.", icon: "😴" },
               { title: "Medical Records", desc: "Securely store and access your health records anywhere.", icon: "📂" },
               { title: "Doctor Consultations", desc: "Book online appointments and connect with healthcare providers.", icon: "👩‍⚕️" },
+
+        {/* ✅ Enhanced Key Section */}
+        <section className="mb-20 fade-in">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-center relative inline-block">
+            Key Benefits
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              { title: "Fitness Tracking", desc: "Monitor workouts, calories, and progress with smart insights.", icon: "💪" },
+              { title: "Diet & Nutrition", desc: "Personalized diet plans with easy daily tracking.", icon: "🥗" },
+              { title: "Mental Wellness", desc: "Mindfulness tools and stress relief resources.", icon: "🧘" },
+              { title: "Sleep Analysis", desc: "Improve rest with AI-powered sleep patterns and tips.", icon: "😴" },
+              { title: "Medical Records", desc: "Secure cloud storage for your health history.", icon: "📑" },
+              { title: "Doctor Consultations", desc: "Instant online appointments with trusted experts.", icon: "👩‍⚕️" },
+
             ].map((item, index) => (
               <motion.div
                 key={index}
+
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
@@ -109,6 +128,21 @@ export default function AboutUs() {
                   <p className="text-gray-700 dark:text-gray-300">{item.desc}</p>
                 </div>
               </motion.div>
+
+                className="relative group bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:-translate-y-2 overflow-hidden"
+              >
+                {/* Glow overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                {/* Icon */}
+                <div className="w-14 h-14 flex items-center justify-center mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl font-bold shadow-lg mb-6 glow-animate">
+                  {item.icon}
+                </div>
+
+                <h3 className="text-xl font-semibold mb-3 relative z-10">{item.title}</h3>
+                <p className="text-gray-700 dark:text-gray-200 relative z-10">{item.desc}</p>
+              </div>
+
             ))}
           </div>
         </section>
