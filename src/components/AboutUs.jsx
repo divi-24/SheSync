@@ -90,7 +90,21 @@ export default function AboutUs() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {/* Key Benefits Section */}
+        <section className="mb-20 fade-in">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-center relative inline-block">
+            Key Benefits
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {[
+              { title: "Fitness Tracking", desc: "Monitor workouts, calories, and progress with smart insights.", icon: "💪" },
+              { title: "Diet & Nutrition", desc: "Personalized diet plans with easy daily tracking.", icon: "🥗" },
+              { title: "Mental Wellness", desc: "Mindfulness tools and stress relief resources.", icon: "🧘" },
+              { title: "Sleep Analysis", desc: "Improve rest with AI-powered sleep patterns and tips.", icon: "😴" },
+              { title: "Medical Records", desc: "Secure cloud storage for your health history.", icon: "📑" },
+              { title: "Doctor Consultations", desc: "Instant online appointments with trusted experts.", icon: "👩‍⚕️" },
               { title: "Fitness Tracking", desc: "Monitor workouts, calories, and progress with smart insights.", icon: "💪" },
               { title: "Diet & Nutrition", desc: "Personalized diet plans with easy daily tracking.", icon: "🥗" },
               { title: "Mental Wellness", desc: "Mindfulness tools and stress relief resources.", icon: "🧘" },
@@ -106,6 +120,42 @@ export default function AboutUs() {
             ].map((item, index) => (
               <div
                 key={index}
+                className="relative group bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:-translate-y-2 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="w-14 h-14 flex items-center justify-center mx-auto rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-2xl font-bold shadow-lg mb-6 glow-animate">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-3 relative z-10">{item.title}</h3>
+                <p className="text-gray-700 dark:text-gray-200 relative z-10">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ⭐ Expert Insights Section */}
+        <section className="mb-20 fade-in">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-10 text-center relative inline-block">
+            Expert Insights
+            <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-28 h-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full"></span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              { name: "Dr. Aisha Khan", role: "Nutritionist", insight: "Balanced nutrition is not about restriction, but mindful choices every day.", avatar: "🥗" },
+              { name: "Dr. Raj Malhotra", role: "Cardiologist", insight: "Consistent physical activity is the best gift you can give your heart.", avatar: "❤️" },
+              { name: "Dr. Emily Chen", role: "Sleep Specialist", insight: "Quality sleep is the foundation for mental and physical well-being.", avatar: "😴" },
+            ].map((expert, index) => (
+              <div
+                key={index}
+                className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md p-8 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:-translate-y-2 relative"
+              >
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center text-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-md glow-animate">
+                  {expert.avatar}
+                </div>
+                <h3 className="text-xl font-bold text-center mb-2">{expert.name}</h3>
+                <p className="text-sm text-indigo-500 dark:text-indigo-300 text-center mb-4">{expert.role}</p>
+                <p className="text-gray-700 dark:text-gray-200 italic text-center">“{expert.insight}”</p>
                 className="relative group bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-8 rounded-2xl shadow-lg hover:shadow-2xl transform transition duration-300 hover:-translate-y-2 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
